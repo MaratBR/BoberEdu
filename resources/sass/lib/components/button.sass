@@ -1,0 +1,58 @@
+@mixin button-style-ex($bg, $bgH, $fg, $fgH)
+    background: $bg
+    color: $fg
+
+    &:hover
+        background: $bgH
+        color: $fgH
+    &:focus
+        outline: 2px dotted gray
+    &:active
+        outline: 2px dotted black
+
+    &.btn--inverted
+        color: $bg
+        background: $fg
+
+        &:hover
+            background: $fgH
+            color: $bgH
+
+@mixin button-style($bg, $fg)
+  @include button-style-ex($bg, darken($bg, 10%), $fg, lighten($fg, 10%))
+
+$ss-button-primary-bg: darken(cyan, 10%)
+$ss-button-primary-fg: white
+
+$ss-button-danger-bg: red
+$ss-button-danger-fg: white
+
+$ss-button-primary-bg: darken(cyan, 10%)
+$ss-button-primary-fg: white
+
+
+.btn
+    border: none
+    padding: 10px
+    border-radius: 4px
+    cursor: pointer
+    text-decoration: none
+
+    &:disabled
+        cursor: not-allowed
+        background: lightgray
+        color: gray
+        &:hover
+            color: gray
+            background: lightgray
+
+    @include button-style(whitesmoke, black)
+
+    &--primary
+        @include button-style($ss-button-primary-bg, $ss-button-primary-fg)
+
+    &--danger
+        @include button-style($ss-button-danger-bg, $ss-button-danger-fg)
+
+
+

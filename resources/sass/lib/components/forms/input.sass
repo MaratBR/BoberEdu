@@ -1,0 +1,64 @@
+.form
+  &__control
+    padding-bottom: 15px
+    margin-bottom: 10px
+
+  &__label
+    display: block
+    margin-bottom: 2px
+    font-size: 1.1em
+
+$ss-outline-size: 1px
+
+@mixin input-style()
+    padding: 8px
+    border: 1px solid whitesmoke
+    border-radius: 3px
+    outline-offset: 1px
+
+    &:focus
+        outline: $ss-outline-size dotted black
+
+    &[aria-invalid]:not([aria-invalid=false])
+        outline: $ss-outline-size dotted red
+
+.input
+    @include input-style
+
+    &[type="checkbox"]
+        height: 0
+        width: 0
+        cursor: pointer
+        outline: none !important
+        margin: 0 30px 0 0
+        padding: 10px
+
+    &::after
+        line-height: 1.5em
+        content: ''
+        display: inherit
+        width: 20px
+        height: 20px
+        position: relative
+        top: -16px
+        box-shadow: 0 0 2px 4px whitesmoke, inset 0 0 0 3px white
+
+    &:checked::after
+        background: rebeccapurple
+
+    & + label
+        display: inline-block
+        cursor: pointer
+
+    &:disabled
+        cursor: not-allowed
+
+
+textarea.input
+    width: 100%
+    min-height: 100px
+
+select
+    border: 2px solid whitesmoke
+    background: white
+    padding: 4px

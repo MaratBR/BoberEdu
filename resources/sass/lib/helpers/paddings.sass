@@ -1,0 +1,13 @@
+$ss-padding-spacer: 2px
+
+@for $i from 1 through 10
+  .pt--#{$i}
+    padding-top: $i * $ss-padding-spacer
+  .pb--#{$i}
+    padding-bottom: $i * $ss-padding-spacer
+  .pl--#{$i}
+    padding-left: $i * $ss-padding-spacer
+  .pr--#{$i}
+    padding-right: $i * $ss-padding-spacer
+  .p--#{$i}
+    padding: $i * $ss-padding-spacer

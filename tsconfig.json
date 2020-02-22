@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "strict": false,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "resolveJsonModule": true
+    },
+    "include": [
+        "resources/js/**/*"
+    ]
+}
