@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
- * @method static create(array $credentials)
+ * @method static User create(array $credentials)
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -79,4 +79,5 @@ class User extends Authenticatable implements JWTSubject
 
         return false;
     }
+
 }

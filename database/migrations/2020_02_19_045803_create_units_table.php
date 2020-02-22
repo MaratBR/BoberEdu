@@ -18,7 +18,7 @@ class CreateUnitsTable extends Migration
             $table->timestamps();
             $table->string('name')->nullable(false);
             $table->boolean('is_preview')->nullable(false)->default(false);
-            $table->text('about')->nullable(false)->default('');
+            $table->text('about');
             $table->unsignedInteger('course_id')->nullable(false);
             $table->foreign('course_id')->on('courses')->references('id');
             $table->smallInteger('order_num')->nullable(false)->default(0);

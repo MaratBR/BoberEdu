@@ -18,7 +18,7 @@ class CreateCoursesTable extends Migration
             $table->timestamps();
             $table->string('name')->index()->nullable(false);
             $table->decimal('price', 19, 2)->nullable(false)->default(0);
-            $table->text('about')->nullable(false)->default('');
+            $table->text('about');
             $table->date('sign_up_beg');
             $table->date('sign_up_end');
             $table->boolean('available')->nullable(false)->default(false);
