@@ -15,12 +15,15 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+
         $credentials = $request->validate([
             'name' => 'required|unique:users|max:255',
             'email' => 'required|unique:users|email',
             'password' => 'required|min:8'
         ]);
         $credentials['password'] = Hash::make($credentials['password']);
+
+
 
         $user = User::create($credentials);
 
@@ -29,7 +32,7 @@ class AuthController extends Controller
         return response()->json([
             'user' => $user,
             'login' => $this->tokenBody($token)
-        ]);
+        ], 201);
     }
 
     public function login(Request $request)

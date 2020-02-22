@@ -41,7 +41,7 @@ class Unit extends Model
             ->where('id', '=', $unitId)
             ->where('course_id', '=', $courseId)
             ->whereHas('course', function (Builder $q) {
-                $q->where('available', '');
+                $q->where('available', '=', true);
             });
     }
 }

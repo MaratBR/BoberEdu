@@ -20,6 +20,9 @@ class CreateLessonsTable extends Migration
             $table->string('title')->nullable(false)->unique();
             $table->text('content');
             $table->softDeletes();
+
+            $table->unsignedInteger('unit_id');
+            $table->foreign('unit_id')->on('units')->references('id');
         });
     }
 

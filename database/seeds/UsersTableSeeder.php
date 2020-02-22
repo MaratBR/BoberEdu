@@ -2,11 +2,12 @@
 
 
 use App\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class UsersTableSeeder
+class UsersTableSeeder extends Seeder
 {
-    public function __call()
+    public function run()
     {
         User::create([
             'name' => 'Admin',

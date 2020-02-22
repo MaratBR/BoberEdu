@@ -14,7 +14,7 @@ class CreateCoursesTable extends Migration
     public function up()
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->integerIncrements('id');
             $table->timestamps();
             $table->string('name')->index()->nullable(false);
             $table->decimal('price', 19, 2)->nullable(false)->default(0);
@@ -25,13 +25,15 @@ class CreateCoursesTable extends Migration
             $table->softDeletes();
         });
 
-        \Illuminate\Support\Facades\DB::statement('
-        ALTER TABLE courses
-            ADD CONSTRAINT chk_signup_period CHECK (
-                (sign_up_beg IS NULL AND sign_up_end IS NULL) OR
-                (sign_up_beg IS NOT NULL AND sign_up_end IS NOT NULL AND sign_up_beg < sign_up_end)
-            )
-        ');
+        if (config('database.default') !== 'sqlite') {
+            \Illuminate\Support\Facades\DB::statement('
+            ALTER TABLE courses
+                ADD CONSTRAINT chk_signup_period CHECK (
+                    (sign_up_beg IS NULL AND sign_up_end IS NULL) OR
+                    (sign_up_beg IS NOT NULL AND sign_up_end IS NOT NULL AND sign_up_beg < sign_up_end)
+            );
+            ');
+        }
     }
 
     /**
