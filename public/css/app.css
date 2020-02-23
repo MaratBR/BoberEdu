@@ -58,18 +58,19 @@ hr {
 }
 
 .input {
-  padding: 8px;
-  border: 1px solid whitesmoke;
+  padding: 8px !important;
+  border: 1px solid whitesmoke !important;
   border-radius: 3px;
   outline-offset: 1px;
 }
 
-.input:focus {
-  outline: 1px dotted black;
+.input:focus,
+.input--focus {
+  outline: 1px dotted black !important;
 }
 
 .input[aria-invalid]:not([aria-invalid=false]) {
-  outline: 1px dotted red;
+  outline: 1px dotted red !important;
 }
 
 .input[type=checkbox] {
@@ -77,7 +78,7 @@ hr {
   width: 0;
   cursor: pointer;
   outline: none !important;
-  margin: 0 30px 0 0;
+  margin: 0 30px 12px 0;
   padding: 10px;
 }
 
@@ -175,6 +176,7 @@ select {
 }
 
 .nav {
+  z-index: 1000;
   display: flex;
   align-items: center;
   overflow-x: auto;
@@ -400,6 +402,10 @@ select {
   border: 1px solid whitesmoke;
   padding: 4px;
   border-radius: 3px;
+}
+
+.page {
+  padding: 0 10px;
 }
 
 .d--block {
@@ -906,18 +912,21 @@ select {
   padding: 20px;
 }
 
-.vdpWithInput.input--vdp > input[type=text] {
-  padding: 8px;
-  border: 1px solid whitesmoke;
+.vhd-input {
+  padding: 8px !important;
+  border: 1px solid whitesmoke !important;
   border-radius: 3px;
   outline-offset: 1px;
+  line-height: initial !important;
+  font-size: 13px !important;
 }
 
-.vdpWithInput.input--vdp > input[type=text]:focus {
-  outline: 1px dotted black;
+.vhd-input:focus,
+.vhd-input--focus {
+  outline: 1px dotted black !important;
 }
 
-.vdpWithInput.input--vdp > input[type=text][aria-invalid]:not([aria-invalid=false]) {
-  outline: 1px dotted red;
+.vhd-input[aria-invalid]:not([aria-invalid=false]) {
+  outline: 1px dotted red !important;
 }
 

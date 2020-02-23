@@ -59,7 +59,6 @@ class Course extends Model
             return $query;
         }
         return $query
-            ->where('available', '=', true)
-            ->;
+            ->where('available', '=', true);
     }
 }

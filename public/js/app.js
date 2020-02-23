@@ -2078,106 +2078,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Page */ "./resources/js/components/pages/Page.vue");
-/* harmony import */ var tui_editor_dist_tui_editor_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tui-editor/dist/tui-editor.css */ "./node_modules/tui-editor/dist/tui-editor.css");
-/* harmony import */ var tui_editor_dist_tui_editor_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(tui_editor_dist_tui_editor_css__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var tui_editor_dist_tui_editor_contents_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tui-editor/dist/tui-editor-contents.css */ "./node_modules/tui-editor/dist/tui-editor-contents.css");
-/* harmony import */ var tui_editor_dist_tui_editor_contents_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(tui_editor_dist_tui_editor_contents_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var codemirror_lib_codemirror_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! codemirror/lib/codemirror.css */ "./node_modules/codemirror/lib/codemirror.css");
-/* harmony import */ var codemirror_lib_codemirror_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(codemirror_lib_codemirror_css__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _toast_ui_vue_editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @toast-ui/vue-editor */ "./node_modules/@toast-ui/vue-editor/dist/vue-editor.js");
-/* harmony import */ var _toast_ui_vue_editor__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_toast_ui_vue_editor__WEBPACK_IMPORTED_MODULE_4__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-console.log(_toast_ui_vue_editor__WEBPACK_IMPORTED_MODULE_4__["Editor"]);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "NewCourseForm",
-  components: {
-    Page: _Page__WEBPACK_IMPORTED_MODULE_0__["default"],
-    editor: _toast_ui_vue_editor__WEBPACK_IMPORTED_MODULE_4__["Editor"]
-  },
-  data: function data() {
-    return {
-      data: {
-        name: '',
-        summary: '',
-        price: 0,
-        sign_up_beg: null,
-        sign_up_end: null
-      },
-      hasSignUpPeriod: true
-    };
-  },
-  methods: {
-    onSubmit: function onSubmit() {}
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/Page.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pages/Page.vue?vue&type=script&lang=js& ***!
@@ -2216,110 +2116,1528 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/codemirror/lib/codemirror.css":
-/*!****************************************************!*\
-  !*** ./node_modules/codemirror/lib/codemirror.css ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./node_modules/cleave.js/dist/cleave-esm.js":
+/*!***************************************************!*\
+  !*** ./node_modules/cleave.js/dist/cleave-esm.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+var NumeralFormatter = function (numeralDecimalMark,
+                                 numeralIntegerScale,
+                                 numeralDecimalScale,
+                                 numeralThousandsGroupStyle,
+                                 numeralPositiveOnly,
+                                 stripLeadingZeroes,
+                                 prefix,
+                                 signBeforePrefix,
+                                 delimiter) {
+    var owner = this;
+
+    owner.numeralDecimalMark = numeralDecimalMark || '.';
+    owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
+    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
+    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+    owner.numeralPositiveOnly = !!numeralPositiveOnly;
+    owner.stripLeadingZeroes = stripLeadingZeroes !== false;
+    owner.prefix = (prefix || prefix === '') ? prefix : '';
+    owner.signBeforePrefix = !!signBeforePrefix;
+    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
+    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+};
+
+NumeralFormatter.groupStyle = {
+    thousand: 'thousand',
+    lakh:     'lakh',
+    wan:      'wan',
+    none:     'none'    
+};
+
+NumeralFormatter.prototype = {
+    getRawValue: function (value) {
+        return value.replace(this.delimiterRE, '').replace(this.numeralDecimalMark, '.');
+    },
+
+    format: function (value) {
+        var owner = this, parts, partSign, partSignAndPrefix, partInteger, partDecimal = '';
+
+        // strip alphabet letters
+        value = value.replace(/[A-Za-z]/g, '')
+            // replace the first decimal mark with reserved placeholder
+            .replace(owner.numeralDecimalMark, 'M')
+
+            // strip non numeric letters except minus and "M"
+            // this is to ensure prefix has been stripped
+            .replace(/[^\dM-]/g, '')
+
+            // replace the leading minus with reserved placeholder
+            .replace(/^\-/, 'N')
+
+            // strip the other minus sign (if present)
+            .replace(/\-/g, '')
+
+            // replace the minus sign (if present)
+            .replace('N', owner.numeralPositiveOnly ? '' : '-')
+
+            // replace decimal mark
+            .replace('M', owner.numeralDecimalMark);
+
+        // strip any leading zeros
+        if (owner.stripLeadingZeroes) {
+            value = value.replace(/^(-)?0+(?=\d)/, '$1');
+        }
+
+        partSign = value.slice(0, 1) === '-' ? '-' : '';
+        if (typeof owner.prefix != 'undefined') {
+            if (owner.signBeforePrefix) {
+                partSignAndPrefix = partSign + owner.prefix;
+            } else {
+                partSignAndPrefix = owner.prefix + partSign;
+            }
+        } else {
+            partSignAndPrefix = partSign;
+        }
+        
+        partInteger = value;
+
+        if (value.indexOf(owner.numeralDecimalMark) >= 0) {
+            parts = value.split(owner.numeralDecimalMark);
+            partInteger = parts[0];
+            partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
+        }
+
+        if(partSign === '-') {
+            partInteger = partInteger.slice(1);
+        }
+
+        if (owner.numeralIntegerScale > 0) {
+          partInteger = partInteger.slice(0, owner.numeralIntegerScale);
+        }
+
+        switch (owner.numeralThousandsGroupStyle) {
+        case NumeralFormatter.groupStyle.lakh:
+            partInteger = partInteger.replace(/(\d)(?=(\d\d)+\d$)/g, '$1' + owner.delimiter);
+
+            break;
+
+        case NumeralFormatter.groupStyle.wan:
+            partInteger = partInteger.replace(/(\d)(?=(\d{4})+$)/g, '$1' + owner.delimiter);
+
+            break;
+
+        case NumeralFormatter.groupStyle.thousand:
+            partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
+
+            break;
+        }
+
+        return partSignAndPrefix + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
+    }
+};
+
+var NumeralFormatter_1 = NumeralFormatter;
+
+var DateFormatter = function (datePattern, dateMin, dateMax) {
+    var owner = this;
+
+    owner.date = [];
+    owner.blocks = [];
+    owner.datePattern = datePattern;
+    owner.dateMin = dateMin
+      .split('-')
+      .reverse()
+      .map(function(x) {
+        return parseInt(x, 10);
+      });
+    if (owner.dateMin.length === 2) owner.dateMin.unshift(0);
+
+    owner.dateMax = dateMax
+      .split('-')
+      .reverse()
+      .map(function(x) {
+        return parseInt(x, 10);
+      });
+    if (owner.dateMax.length === 2) owner.dateMax.unshift(0);
+    
+    owner.initBlocks();
+};
+
+DateFormatter.prototype = {
+    initBlocks: function () {
+        var owner = this;
+        owner.datePattern.forEach(function (value) {
+            if (value === 'Y') {
+                owner.blocks.push(4);
+            } else {
+                owner.blocks.push(2);
+            }
+        });
+    },
+
+    getISOFormatDate: function () {
+        var owner = this,
+            date = owner.date;
+
+        return date[2] ? (
+            date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0])
+        ) : '';
+    },
+
+    getBlocks: function () {
+        return this.blocks;
+    },
+
+    getValidatedDate: function (value) {
+        var owner = this, result = '';
+
+        value = value.replace(/[^\d]/g, '');
+
+        owner.blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+                var sub = value.slice(0, length),
+                    sub0 = sub.slice(0, 1),
+                    rest = value.slice(length);
+
+                switch (owner.datePattern[index]) {
+                case 'd':
+                    if (sub === '00') {
+                        sub = '01';
+                    } else if (parseInt(sub0, 10) > 3) {
+                        sub = '0' + sub0;
+                    } else if (parseInt(sub, 10) > 31) {
+                        sub = '31';
+                    }
+
+                    break;
+
+                case 'm':
+                    if (sub === '00') {
+                        sub = '01';
+                    } else if (parseInt(sub0, 10) > 1) {
+                        sub = '0' + sub0;
+                    } else if (parseInt(sub, 10) > 12) {
+                        sub = '12';
+                    }
+
+                    break;
+                }
+
+                result += sub;
+
+                // update remaining string
+                value = rest;
+            }
+        });
+
+        return this.getFixedDateString(result);
+    },
+
+    getFixedDateString: function (value) {
+        var owner = this, datePattern = owner.datePattern, date = [],
+            dayIndex = 0, monthIndex = 0, yearIndex = 0,
+            dayStartIndex = 0, monthStartIndex = 0, yearStartIndex = 0,
+            day, month, year, fullYearDone = false;
+
+        // mm-dd || dd-mm
+        if (value.length === 4 && datePattern[0].toLowerCase() !== 'y' && datePattern[1].toLowerCase() !== 'y') {
+            dayStartIndex = datePattern[0] === 'd' ? 0 : 2;
+            monthStartIndex = 2 - dayStartIndex;
+            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+
+            date = this.getFixedDate(day, month, 0);
+        }
+
+        // yyyy-mm-dd || yyyy-dd-mm || mm-dd-yyyy || dd-mm-yyyy || dd-yyyy-mm || mm-yyyy-dd
+        if (value.length === 8) {
+            datePattern.forEach(function (type, index) {
+                switch (type) {
+                case 'd':
+                    dayIndex = index;
+                    break;
+                case 'm':
+                    monthIndex = index;
+                    break;
+                default:
+                    yearIndex = index;
+                    break;
+                }
+            });
+
+            yearStartIndex = yearIndex * 2;
+            dayStartIndex = (dayIndex <= yearIndex) ? dayIndex * 2 : (dayIndex * 2 + 2);
+            monthStartIndex = (monthIndex <= yearIndex) ? monthIndex * 2 : (monthIndex * 2 + 2);
+
+            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
+
+            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
+
+            date = this.getFixedDate(day, month, year);
+        }
+
+        // mm-yy || yy-mm
+        if (value.length === 4 && (datePattern[0] === 'y' || datePattern[1] === 'y')) {
+            monthStartIndex = datePattern[0] === 'm' ? 0 : 2;
+            yearStartIndex = 2 - monthStartIndex;
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 2), 10);
+
+            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 2).length === 2;
+
+            date = [0, month, year];
+        }
+
+        // mm-yyyy || yyyy-mm
+        if (value.length === 6 && (datePattern[0] === 'Y' || datePattern[1] === 'Y')) {
+            monthStartIndex = datePattern[0] === 'm' ? 0 : 4;
+            yearStartIndex = 2 - 0.5 * monthStartIndex;
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
+
+            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
+
+            date = [0, month, year];
+        }
+
+        date = owner.getRangeFixedDate(date);
+        owner.date = date;
+
+        var result = date.length === 0 ? value : datePattern.reduce(function (previous, current) {
+            switch (current) {
+            case 'd':
+                return previous + (date[0] === 0 ? '' : owner.addLeadingZero(date[0]));
+            case 'm':
+                return previous + (date[1] === 0 ? '' : owner.addLeadingZero(date[1]));
+            case 'y':
+                return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], false) : '');
+            case 'Y':
+                return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], true) : '');
+            }
+        }, '');
+
+        return result;
+    },
+
+    getRangeFixedDate: function (date) {
+        var owner = this,
+            datePattern = owner.datePattern,
+            dateMin = owner.dateMin || [],
+            dateMax = owner.dateMax || [];
+
+        if (!date.length || (dateMin.length < 3 && dateMax.length < 3)) return date;
+
+        if (
+          datePattern.find(function(x) {
+            return x.toLowerCase() === 'y';
+          }) &&
+          date[2] === 0
+        ) return date;
+
+        if (dateMax.length && (dateMax[2] < date[2] || (
+          dateMax[2] === date[2] && (dateMax[1] < date[1] || (
+            dateMax[1] === date[1] && dateMax[0] < date[0]
+          ))
+        ))) return dateMax;
+
+        if (dateMin.length && (dateMin[2] > date[2] || (
+          dateMin[2] === date[2] && (dateMin[1] > date[1] || (
+            dateMin[1] === date[1] && dateMin[0] > date[0]
+          ))
+        ))) return dateMin;
+
+        return date;
+    },
+
+    getFixedDate: function (day, month, year) {
+        day = Math.min(day, 31);
+        month = Math.min(month, 12);
+        year = parseInt((year || 0), 10);
+
+        if ((month < 7 && month % 2 === 0) || (month > 8 && month % 2 === 1)) {
+            day = Math.min(day, month === 2 ? (this.isLeapYear(year) ? 29 : 28) : 30);
+        }
+
+        return [day, month, year];
+    },
+
+    isLeapYear: function (year) {
+        return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
+    },
+
+    addLeadingZero: function (number) {
+        return (number < 10 ? '0' : '') + number;
+    },
+
+    addLeadingZeroForYear: function (number, fullYearMode) {
+        if (fullYearMode) {
+            return (number < 10 ? '000' : (number < 100 ? '00' : (number < 1000 ? '0' : ''))) + number;
+        }
+
+        return (number < 10 ? '0' : '') + number;
+    }
+};
+
+var DateFormatter_1 = DateFormatter;
+
+var TimeFormatter = function (timePattern, timeFormat) {
+    var owner = this;
+
+    owner.time = [];
+    owner.blocks = [];
+    owner.timePattern = timePattern;
+    owner.timeFormat = timeFormat;
+    owner.initBlocks();
+};
+
+TimeFormatter.prototype = {
+    initBlocks: function () {
+        var owner = this;
+        owner.timePattern.forEach(function () {
+            owner.blocks.push(2);
+        });
+    },
+
+    getISOFormatTime: function () {
+        var owner = this,
+            time = owner.time;
+
+        return time[2] ? (
+            owner.addLeadingZero(time[0]) + ':' + owner.addLeadingZero(time[1]) + ':' + owner.addLeadingZero(time[2])
+        ) : '';
+    },
+
+    getBlocks: function () {
+        return this.blocks;
+    },
+
+    getTimeFormatOptions: function () {
+        var owner = this;
+        if (String(owner.timeFormat) === '12') {
+            return {
+                maxHourFirstDigit: 1,
+                maxHours: 12,
+                maxMinutesFirstDigit: 5,
+                maxMinutes: 60
+            };
+        }
+
+        return {
+            maxHourFirstDigit: 2,
+            maxHours: 23,
+            maxMinutesFirstDigit: 5,
+            maxMinutes: 60
+        };
+    },
+
+    getValidatedTime: function (value) {
+        var owner = this, result = '';
+
+        value = value.replace(/[^\d]/g, '');
+
+        var timeFormatOptions = owner.getTimeFormatOptions();
+
+        owner.blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+                var sub = value.slice(0, length),
+                    sub0 = sub.slice(0, 1),
+                    rest = value.slice(length);
+
+                switch (owner.timePattern[index]) {
+
+                case 'h':
+                    if (parseInt(sub0, 10) > timeFormatOptions.maxHourFirstDigit) {
+                        sub = '0' + sub0;
+                    } else if (parseInt(sub, 10) > timeFormatOptions.maxHours) {
+                        sub = timeFormatOptions.maxHours + '';
+                    }
+
+                    break;
+
+                case 'm':
+                case 's':
+                    if (parseInt(sub0, 10) > timeFormatOptions.maxMinutesFirstDigit) {
+                        sub = '0' + sub0;
+                    } else if (parseInt(sub, 10) > timeFormatOptions.maxMinutes) {
+                        sub = timeFormatOptions.maxMinutes + '';
+                    }
+                    break;
+                }
+
+                result += sub;
+
+                // update remaining string
+                value = rest;
+            }
+        });
+
+        return this.getFixedTimeString(result);
+    },
+
+    getFixedTimeString: function (value) {
+        var owner = this, timePattern = owner.timePattern, time = [],
+            secondIndex = 0, minuteIndex = 0, hourIndex = 0,
+            secondStartIndex = 0, minuteStartIndex = 0, hourStartIndex = 0,
+            second, minute, hour;
+
+        if (value.length === 6) {
+            timePattern.forEach(function (type, index) {
+                switch (type) {
+                case 's':
+                    secondIndex = index * 2;
+                    break;
+                case 'm':
+                    minuteIndex = index * 2;
+                    break;
+                case 'h':
+                    hourIndex = index * 2;
+                    break;
+                }
+            });
+
+            hourStartIndex = hourIndex;
+            minuteStartIndex = minuteIndex;
+            secondStartIndex = secondIndex;
+
+            second = parseInt(value.slice(secondStartIndex, secondStartIndex + 2), 10);
+            minute = parseInt(value.slice(minuteStartIndex, minuteStartIndex + 2), 10);
+            hour = parseInt(value.slice(hourStartIndex, hourStartIndex + 2), 10);
+
+            time = this.getFixedTime(hour, minute, second);
+        }
+
+        if (value.length === 4 && owner.timePattern.indexOf('s') < 0) {
+            timePattern.forEach(function (type, index) {
+                switch (type) {
+                case 'm':
+                    minuteIndex = index * 2;
+                    break;
+                case 'h':
+                    hourIndex = index * 2;
+                    break;
+                }
+            });
+
+            hourStartIndex = hourIndex;
+            minuteStartIndex = minuteIndex;
+
+            second = 0;
+            minute = parseInt(value.slice(minuteStartIndex, minuteStartIndex + 2), 10);
+            hour = parseInt(value.slice(hourStartIndex, hourStartIndex + 2), 10);
+
+            time = this.getFixedTime(hour, minute, second);
+        }
+
+        owner.time = time;
+
+        return time.length === 0 ? value : timePattern.reduce(function (previous, current) {
+            switch (current) {
+            case 's':
+                return previous + owner.addLeadingZero(time[2]);
+            case 'm':
+                return previous + owner.addLeadingZero(time[1]);
+            case 'h':
+                return previous + owner.addLeadingZero(time[0]);
+            }
+        }, '');
+    },
+
+    getFixedTime: function (hour, minute, second) {
+        second = Math.min(parseInt(second || 0, 10), 60);
+        minute = Math.min(minute, 60);
+        hour = Math.min(hour, 60);
+
+        return [hour, minute, second];
+    },
+
+    addLeadingZero: function (number) {
+        return (number < 10 ? '0' : '') + number;
+    }
+};
+
+var TimeFormatter_1 = TimeFormatter;
+
+var PhoneFormatter = function (formatter, delimiter) {
+    var owner = this;
+
+    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ' ';
+    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+
+    owner.formatter = formatter;
+};
+
+PhoneFormatter.prototype = {
+    setFormatter: function (formatter) {
+        this.formatter = formatter;
+    },
+
+    format: function (phoneNumber) {
+        var owner = this;
+
+        owner.formatter.clear();
+
+        // only keep number and +
+        phoneNumber = phoneNumber.replace(/[^\d+]/g, '');
+
+        // strip non-leading +
+        phoneNumber = phoneNumber.replace(/^\+/, 'B').replace(/\+/g, '').replace('B', '+');
+
+        // strip delimiter
+        phoneNumber = phoneNumber.replace(owner.delimiterRE, '');
+
+        var result = '', current, validated = false;
+
+        for (var i = 0, iMax = phoneNumber.length; i < iMax; i++) {
+            current = owner.formatter.inputDigit(phoneNumber.charAt(i));
+
+            // has ()- or space inside
+            if (/[\s()-]/g.test(current)) {
+                result = current;
+
+                validated = true;
+            } else {
+                if (!validated) {
+                    result = current;
+                }
+                // else: over length input
+                // it turns to invalid number again
+            }
+        }
+
+        // strip ()
+        // e.g. US: 7161234567 returns (716) 123-4567
+        result = result.replace(/[()]/g, '');
+        // replace library delimiter with user customized delimiter
+        result = result.replace(/[\s-]/g, owner.delimiter);
+
+        return result;
+    }
+};
+
+var PhoneFormatter_1 = PhoneFormatter;
+
+var CreditCardDetector = {
+    blocks: {
+        uatp:          [4, 5, 6],
+        amex:          [4, 6, 5],
+        diners:        [4, 6, 4],
+        discover:      [4, 4, 4, 4],
+        mastercard:    [4, 4, 4, 4],
+        dankort:       [4, 4, 4, 4],
+        instapayment:  [4, 4, 4, 4],
+        jcb15:         [4, 6, 5],
+        jcb:           [4, 4, 4, 4],
+        maestro:       [4, 4, 4, 4],
+        visa:          [4, 4, 4, 4],
+        mir:           [4, 4, 4, 4],
+        unionPay:      [4, 4, 4, 4],
+        general:       [4, 4, 4, 4]
+    },
+
+    re: {
+        // starts with 1; 15 digits, not starts with 1800 (jcb card)
+        uatp: /^(?!1800)1\d{0,14}/,
+
+        // starts with 34/37; 15 digits
+        amex: /^3[47]\d{0,13}/,
+
+        // starts with 6011/65/644-649; 16 digits
+        discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+
+        // starts with 300-305/309 or 36/38/39; 14 digits
+        diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
+
+        // starts with 51-55/2221–2720; 16 digits
+        mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
+
+        // starts with 5019/4175/4571; 16 digits
+        dankort: /^(5019|4175|4571)\d{0,12}/,
+
+        // starts with 637-639; 16 digits
+        instapayment: /^63[7-9]\d{0,13}/,
+
+        // starts with 2131/1800; 15 digits
+        jcb15: /^(?:2131|1800)\d{0,11}/,
+
+        // starts with 2131/1800/35; 16 digits
+        jcb: /^(?:35\d{0,2})\d{0,12}/,
+
+        // starts with 50/56-58/6304/67; 16 digits
+        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
+
+        // starts with 22; 16 digits
+        mir: /^220[0-4]\d{0,12}/,
+
+        // starts with 4; 16 digits
+        visa: /^4\d{0,15}/,
+
+        // starts with 62; 16 digits
+        unionPay: /^62\d{0,14}/
+    },
+
+    getStrictBlocks: function (block) {
+      var total = block.reduce(function (prev, current) {
+        return prev + current;
+      }, 0);
+
+      return block.concat(19 - total);
+    },
+
+    getInfo: function (value, strictMode) {
+        var blocks = CreditCardDetector.blocks,
+            re = CreditCardDetector.re;
+
+        // Some credit card can have up to 19 digits number.
+        // Set strictMode to true will remove the 16 max-length restrain,
+        // however, I never found any website validate card number like
+        // this, hence probably you don't want to enable this option.
+        strictMode = !!strictMode;
+
+        for (var key in re) {
+            if (re[key].test(value)) {
+                var matchedBlocks = blocks[key];
+                return {
+                    type: key,
+                    blocks: strictMode ? this.getStrictBlocks(matchedBlocks) : matchedBlocks
+                };
+            }
+        }
+
+        return {
+            type: 'unknown',
+            blocks: strictMode ? this.getStrictBlocks(blocks.general) : blocks.general
+        };
+    }
+};
+
+var CreditCardDetector_1 = CreditCardDetector;
+
+var Util = {
+    noop: function () {
+    },
+
+    strip: function (value, re) {
+        return value.replace(re, '');
+    },
+
+    getPostDelimiter: function (value, delimiter, delimiters) {
+        // single delimiter
+        if (delimiters.length === 0) {
+            return value.slice(-delimiter.length) === delimiter ? delimiter : '';
+        }
+
+        // multiple delimiters
+        var matchedDelimiter = '';
+        delimiters.forEach(function (current) {
+            if (value.slice(-current.length) === current) {
+                matchedDelimiter = current;
+            }
+        });
+
+        return matchedDelimiter;
+    },
+
+    getDelimiterREByDelimiter: function (delimiter) {
+        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
+    },
+
+    getNextCursorPosition: function (prevPos, oldValue, newValue, delimiter, delimiters) {
+      // If cursor was at the end of value, just place it back.
+      // Because new value could contain additional chars.
+      if (oldValue.length === prevPos) {
+          return newValue.length;
+      }
+
+      return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, delimiter ,delimiters);
+    },
+
+    getPositionOffset: function (prevPos, oldValue, newValue, delimiter, delimiters) {
+        var oldRawValue, newRawValue, lengthOffset;
+
+        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), delimiter, delimiters);
+        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), delimiter, delimiters);
+        lengthOffset = oldRawValue.length - newRawValue.length;
+
+        return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+    },
+
+    stripDelimiters: function (value, delimiter, delimiters) {
+        var owner = this;
+
+        // single delimiter
+        if (delimiters.length === 0) {
+            var delimiterRE = delimiter ? owner.getDelimiterREByDelimiter(delimiter) : '';
+
+            return value.replace(delimiterRE, '');
+        }
+
+        // multiple delimiters
+        delimiters.forEach(function (current) {
+            current.split('').forEach(function (letter) {
+                value = value.replace(owner.getDelimiterREByDelimiter(letter), '');
+            });
+        });
+
+        return value;
+    },
+
+    headStr: function (str, length) {
+        return str.slice(0, length);
+    },
+
+    getMaxLength: function (blocks) {
+        return blocks.reduce(function (previous, current) {
+            return previous + current;
+        }, 0);
+    },
+
+    // strip prefix
+    // Before type  |   After type    |     Return value
+    // PEFIX-...    |   PEFIX-...     |     ''
+    // PREFIX-123   |   PEFIX-123     |     123
+    // PREFIX-123   |   PREFIX-23     |     23
+    // PREFIX-123   |   PREFIX-1234   |     1234
+    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix) {
+        // No prefix
+        if (prefixLength === 0) {
+          return value;
+        }
+
+        // Pre result prefix string does not match pre-defined prefix
+        if (prevResult.slice(0, prefixLength) !== prefix) {
+          // Check if the first time user entered something
+          if (noImmediatePrefix && !prevResult && value) return value;
+
+          return '';
+        }
+
+        var prevValue = this.stripDelimiters(prevResult, delimiter, delimiters);
+
+        // New value has issue, someone typed in between prefix letters
+        // Revert to pre value
+        if (value.slice(0, prefixLength) !== prefix) {
+          return prevValue.slice(prefixLength);
+        }
+
+        // No issue, strip prefix for new value
+        return value.slice(prefixLength);
+    },
+
+    getFirstDiffIndex: function (prev, current) {
+        var index = 0;
+
+        while (prev.charAt(index) === current.charAt(index)) {
+            if (prev.charAt(index++) === '') {
+                return -1;
+            }
+        }
+
+        return index;
+    },
+
+    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
+        var result = '',
+            multipleDelimiters = delimiters.length > 0,
+            currentDelimiter;
+
+        // no options, normal input
+        if (blocksLength === 0) {
+            return value;
+        }
+
+        blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+                var sub = value.slice(0, length),
+                    rest = value.slice(length);
+
+                if (multipleDelimiters) {
+                    currentDelimiter = delimiters[delimiterLazyShow ? (index - 1) : index] || currentDelimiter;
+                } else {
+                    currentDelimiter = delimiter;
+                }
+
+                if (delimiterLazyShow) {
+                    if (index > 0) {
+                        result += currentDelimiter;
+                    }
+
+                    result += sub;
+                } else {
+                    result += sub;
+
+                    if (sub.length === length && index < blocksLength - 1) {
+                        result += currentDelimiter;
+                    }
+                }
+
+                // update remaining string
+                value = rest;
+            }
+        });
+
+        return result;
+    },
+
+    // move cursor to the end
+    // the first time user focuses on an input with prefix
+    fixPrefixCursor: function (el, prefix, delimiter, delimiters) {
+        if (!el) {
+            return;
+        }
+
+        var val = el.value,
+            appendix = delimiter || (delimiters[0] || ' ');
+
+        if (!el.setSelectionRange || !prefix || (prefix.length + appendix.length) < val.length) {
+            return;
+        }
+
+        var len = val.length * 2;
+
+        // set timeout to avoid blink
+        setTimeout(function () {
+            el.setSelectionRange(len, len);
+        }, 1);
+    },
+
+    // Check if input field is fully selected
+    checkFullSelection: function(value) {
+      try {
+        var selection = window.getSelection() || document.getSelection() || {};
+        return selection.toString().length === value.length;
+      } catch (ex) {
+        // Ignore
+      }
+
+      return false;
+    },
+
+    setSelection: function (element, position, doc) {
+        if (element !== this.getActiveElement(doc)) {
+            return;
+        }
+
+        // cursor is already in the end
+        if (element && element.value.length <= position) {
+          return;
+        }
+
+        if (element.createTextRange) {
+            var range = element.createTextRange();
+
+            range.move('character', position);
+            range.select();
+        } else {
+            try {
+                element.setSelectionRange(position, position);
+            } catch (e) {
+                // eslint-disable-next-line
+                console.warn('The input element type does not support selection');
+            }
+        }
+    },
+
+    getActiveElement: function(parent) {
+        var activeElement = parent.activeElement;
+        if (activeElement && activeElement.shadowRoot) {
+            return this.getActiveElement(activeElement.shadowRoot);
+        }
+        return activeElement;
+    },
+
+    isAndroid: function () {
+        return navigator && /android/i.test(navigator.userAgent);
+    },
+
+    // On Android chrome, the keyup and keydown events
+    // always return key code 229 as a composition that
+    // buffers the user’s keystrokes
+    // see https://github.com/nosir/cleave.js/issues/147
+    isAndroidBackspaceKeydown: function (lastInputValue, currentInputValue) {
+        if (!this.isAndroid() || !lastInputValue || !currentInputValue) {
+            return false;
+        }
+
+        return currentInputValue === lastInputValue.slice(0, -1);
+    }
+};
+
+var Util_1 = Util;
+
+/**
+ * Props Assignment
+ *
+ * Separate this, so react module can share the usage
+ */
+var DefaultProperties = {
+    // Maybe change to object-assign
+    // for now just keep it as simple
+    assign: function (target, opts) {
+        target = target || {};
+        opts = opts || {};
+
+        // credit card
+        target.creditCard = !!opts.creditCard;
+        target.creditCardStrictMode = !!opts.creditCardStrictMode;
+        target.creditCardType = '';
+        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {});
+
+        // phone
+        target.phone = !!opts.phone;
+        target.phoneRegionCode = opts.phoneRegionCode || 'AU';
+        target.phoneFormatter = {};
+
+        // time
+        target.time = !!opts.time;
+        target.timePattern = opts.timePattern || ['h', 'm', 's'];
+        target.timeFormat = opts.timeFormat || '24';
+        target.timeFormatter = {};
+
+        // date
+        target.date = !!opts.date;
+        target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+        target.dateMin = opts.dateMin || '';
+        target.dateMax = opts.dateMax || '';
+        target.dateFormatter = {};
+
+        // numeral
+        target.numeral = !!opts.numeral;
+        target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
+        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
+        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
+        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+        target.signBeforePrefix = !!opts.signBeforePrefix;
+
+        // others
+        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+
+        target.uppercase = !!opts.uppercase;
+        target.lowercase = !!opts.lowercase;
+
+        target.prefix = (target.creditCard || target.date) ? '' : (opts.prefix || '');
+        target.noImmediatePrefix = !!opts.noImmediatePrefix;
+        target.prefixLength = target.prefix.length;
+        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+        target.copyDelimiter = !!opts.copyDelimiter;
+
+        target.initValue = (opts.initValue !== undefined && opts.initValue !== null) ? opts.initValue.toString() : '';
+
+        target.delimiter =
+            (opts.delimiter || opts.delimiter === '') ? opts.delimiter :
+                (opts.date ? '/' :
+                    (opts.time ? ':' :
+                        (opts.numeral ? ',' :
+                            (opts.phone ? ' ' :
+                                ' '))));
+        target.delimiterLength = target.delimiter.length;
+        target.delimiterLazyShow = !!opts.delimiterLazyShow;
+        target.delimiters = opts.delimiters || [];
+
+        target.blocks = opts.blocks || [];
+        target.blocksLength = target.blocks.length;
+
+        target.root = (typeof commonjsGlobal === 'object' && commonjsGlobal) ? commonjsGlobal : window;
+        target.document = opts.document || target.root.document;
+
+        target.maxLength = 0;
+
+        target.backspace = false;
+        target.result = '';
+
+        target.onValueChanged = opts.onValueChanged || (function () {});
+
+        return target;
+    }
+};
+
+var DefaultProperties_1 = DefaultProperties;
+
+/**
+ * Construct a new Cleave instance by passing the configuration object
+ *
+ * @param {String | HTMLElement} element
+ * @param {Object} opts
+ */
+var Cleave = function (element, opts) {
+    var owner = this;
+    var hasMultipleElements = false;
+
+    if (typeof element === 'string') {
+        owner.element = document.querySelector(element);
+        hasMultipleElements = document.querySelectorAll(element).length > 1;
+    } else {
+      if (typeof element.length !== 'undefined' && element.length > 0) {
+        owner.element = element[0];
+        hasMultipleElements = element.length > 1;
+      } else {
+        owner.element = element;
+      }
+    }
+
+    if (!owner.element) {
+        throw new Error('[cleave.js] Please check the element');
+    }
+
+    if (hasMultipleElements) {
+      try {
+        // eslint-disable-next-line
+        console.warn('[cleave.js] Multiple input fields matched, cleave.js will only take the first one.');
+      } catch (e) {
+        // Old IE
+      }
+    }
+
+    opts.initValue = owner.element.value;
+
+    owner.properties = Cleave.DefaultProperties.assign({}, opts);
+
+    owner.init();
+};
+
+Cleave.prototype = {
+    init: function () {
+        var owner = this, pps = owner.properties;
+
+        // no need to use this lib
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+            owner.onInput(pps.initValue);
+
+            return;
+        }
+
+        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+
+        owner.isAndroid = Cleave.Util.isAndroid();
+        owner.lastInputValue = '';
+
+        owner.onChangeListener = owner.onChange.bind(owner);
+        owner.onKeyDownListener = owner.onKeyDown.bind(owner);
+        owner.onFocusListener = owner.onFocus.bind(owner);
+        owner.onCutListener = owner.onCut.bind(owner);
+        owner.onCopyListener = owner.onCopy.bind(owner);
+
+        owner.element.addEventListener('input', owner.onChangeListener);
+        owner.element.addEventListener('keydown', owner.onKeyDownListener);
+        owner.element.addEventListener('focus', owner.onFocusListener);
+        owner.element.addEventListener('cut', owner.onCutListener);
+        owner.element.addEventListener('copy', owner.onCopyListener);
 
 
-var content = __webpack_require__(/*! !../../css-loader??ref--7-1!../../postcss-loader/src??ref--7-2!./codemirror.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/codemirror/lib/codemirror.css");
+        owner.initPhoneFormatter();
+        owner.initDateFormatter();
+        owner.initTimeFormatter();
+        owner.initNumeralFormatter();
 
-if(typeof content === 'string') content = [[module.i, content, '']];
+        // avoid touch input field if value is null
+        // otherwise Firefox will add red box-shadow for <input required />
+        if (pps.initValue || (pps.prefix && !pps.noImmediatePrefix)) {
+            owner.onInput(pps.initValue);
+        }
+    },
 
-var transform;
-var insertInto;
+    initNumeralFormatter: function () {
+        var owner = this, pps = owner.properties;
 
+        if (!pps.numeral) {
+            return;
+        }
 
+        pps.numeralFormatter = new Cleave.NumeralFormatter(
+            pps.numeralDecimalMark,
+            pps.numeralIntegerScale,
+            pps.numeralDecimalScale,
+            pps.numeralThousandsGroupStyle,
+            pps.numeralPositiveOnly,
+            pps.stripLeadingZeroes,
+            pps.prefix,
+            pps.signBeforePrefix,
+            pps.delimiter
+        );
+    },
 
-var options = {"hmr":true}
+    initTimeFormatter: function() {
+        var owner = this, pps = owner.properties;
 
-options.transform = transform
-options.insertInto = undefined;
+        if (!pps.time) {
+            return;
+        }
 
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+        pps.timeFormatter = new Cleave.TimeFormatter(pps.timePattern, pps.timeFormat);
+        pps.blocks = pps.timeFormatter.getBlocks();
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+    },
 
-if(content.locals) module.exports = content.locals;
+    initDateFormatter: function () {
+        var owner = this, pps = owner.properties;
 
-if(false) {}
+        if (!pps.date) {
+            return;
+        }
 
-/***/ }),
+        pps.dateFormatter = new Cleave.DateFormatter(pps.datePattern, pps.dateMin, pps.dateMax);
+        pps.blocks = pps.dateFormatter.getBlocks();
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+    },
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=style&index=0&lang=scss&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/dist/cjs.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=style&index=0&lang=scss& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+    initPhoneFormatter: function () {
+        var owner = this, pps = owner.properties;
 
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
+        if (!pps.phone) {
+            return;
+        }
 
+        // Cleave.AsYouTypeFormatter should be provided by
+        // external google closure lib
+        try {
+            pps.phoneFormatter = new Cleave.PhoneFormatter(
+                new pps.root.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),
+                pps.delimiter
+            );
+        } catch (ex) {
+            throw new Error('[cleave.js] Please include phone-type-formatter.{country}.js lib');
+        }
+    },
 
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n@-webkit-keyframes vdpSlideFromLeft {\nfrom {\n    opacity: 0;\n    -webkit-transform: translate3d(-0.5em, 0, 0);\n            transform: translate3d(-0.5em, 0, 0);\n}\nto {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n@keyframes vdpSlideFromLeft {\nfrom {\n    opacity: 0;\n    -webkit-transform: translate3d(-0.5em, 0, 0);\n            transform: translate3d(-0.5em, 0, 0);\n}\nto {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n@-webkit-keyframes vdpSlideFromRight {\nfrom {\n    opacity: 0;\n    -webkit-transform: translate3d(0.5em, 0, 0);\n            transform: translate3d(0.5em, 0, 0);\n}\nto {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n@keyframes vdpSlideFromRight {\nfrom {\n    opacity: 0;\n    -webkit-transform: translate3d(0.5em, 0, 0);\n            transform: translate3d(0.5em, 0, 0);\n}\nto {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n@-webkit-keyframes vdpToggleCalendar {\nfrom {\n    opacity: 0;\n    -webkit-transform: scale(0.5);\n            transform: scale(0.5);\n}\nto {\n    opacity: 1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n}\n}\n@keyframes vdpToggleCalendar {\nfrom {\n    opacity: 0;\n    -webkit-transform: scale(0.5);\n            transform: scale(0.5);\n}\nto {\n    opacity: 1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n}\n}\n@-webkit-keyframes vdpFadeCalendar {\nfrom {\n    opacity: 0;\n}\nto {\n    opacity: 1;\n}\n}\n@keyframes vdpFadeCalendar {\nfrom {\n    opacity: 0;\n}\nto {\n    opacity: 1;\n}\n}\n.vdp-toggle-calendar-enter-active.vdpPositionReady {\n  -webkit-transform-origin: top left;\n      -ms-transform-origin: top left;\n          transform-origin: top left;\n  -webkit-animation: vdpToggleCalendar 0.2s;\n          animation: vdpToggleCalendar 0.2s;\n}\n.vdp-toggle-calendar-leave-active {\n  animation: vdpToggleCalendar 0.15s reverse;\n}\n.vdp-toggle-calendar-enter-active.vdpPositionFixed {\n  -webkit-animation: vdpFadeCalendar 0.3s;\n          animation: vdpFadeCalendar 0.3s;\n}\n.vdp-toggle-calendar-leave-active.vdpPositionFixed {\n  animation: vdpFadeCalendar 0.3s reverse;\n}\n.vdpComponent {\n  position: relative;\n  display: inline-block;\n  font-size: 10px;\n  color: #303030;\n  /*font-family: Helvetica, Arial, sans-serif;*/\n}\n.vdpComponent.vdpWithInput > input {\n  padding-right: 30px;\n}\n.vdpClearInput {\n  font-size: 1em;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  width: 3em;\n}\n.vdpClearInput:before {\n  content: \"\\D7\";\n  width: 1.4em;\n  height: 1.4em;\n  line-height: 1.1em;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  margin: -0.7em 0 0 -0.7em;\n  color: rgba(0, 0, 0, 0.3);\n  border: 1px solid rgba(0, 0, 0, 0.15);\n  border-radius: 50%;\n  background-color: #fff;\n}\n.vdpClearInput:hover:before {\n  -webkit-box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.15);\n          box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.15);\n}\n.vdpOuterWrap.vdpFloating {\n  position: absolute;\n  padding: 0.5em 0;\n  z-index: 220;\n}\n.vdpOuterWrap.vdpPositionFixed {\n  position: fixed;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  padding: 2em;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  background-color: rgba(0, 0, 0, 0.3);\n}\n.vdpFloating .vdpInnerWrap {\n  max-width: 30em;\n}\n.vdpPositionFixed .vdpInnerWrap {\n  max-width: 30em;\n  margin: 0 auto;\n  border: 0;\n  -webkit-animation: vdpToggleCalendar 0.3s;\n          animation: vdpToggleCalendar 0.3s;\n}\n.vdpFloating.vdpPositionTop {\n  top: 100%;\n}\n.vdpFloating.vdpPositionBottom {\n  bottom: 100%;\n}\n.vdpFloating.vdpPositionLeft {\n  left: 0;\n}\n.vdpFloating.vdpPositionRight {\n  right: 0;\n}\n.vdpPositionTop.vdpPositionLeft {\n  -webkit-transform-origin: top left;\n      -ms-transform-origin: top left;\n          transform-origin: top left;\n}\n.vdpPositionTop.vdpPositionRight {\n  -webkit-transform-origin: top right;\n      -ms-transform-origin: top right;\n          transform-origin: top right;\n}\n.vdpPositionBottom.vdpPositionLeft {\n  -webkit-transform-origin: bottom left;\n      -ms-transform-origin: bottom left;\n          transform-origin: bottom left;\n}\n.vdpPositionBottom.vdpPositionRight {\n  -webkit-transform-origin: bottom right;\n      -ms-transform-origin: bottom right;\n          transform-origin: bottom right;\n}\n.vdpInnerWrap {\n  overflow: hidden;\n  min-width: 28em;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding: 1em;\n  background: #fff;\n  -webkit-box-shadow: 0 0.2em 1.5em rgba(0, 0, 0, 0.06);\n          box-shadow: 0 0.2em 1.5em rgba(0, 0, 0, 0.06);\n  border-radius: 0.5em;\n  border: 1px solid rgba(0, 0, 0, 0.15);\n}\n.vdpHeader {\n  position: relative;\n  padding: 0 1em 2.5em;\n  margin: -1em -1em -2.5em;\n  text-align: center;\n  background: #f5f5f5;\n}\n.vdpClearInput,\n.vdpArrow,\n.vdpPeriodControl > button {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  cursor: pointer;\n  background: none;\n}\n.vdpArrow::-moz-focus-inner,\n.vdpClearInput::-moz-focus-inner,\n.vdpPeriodControl > button::-moz-focus-inner {\n  padding: 0;\n  border: 0;\n}\n.vdpArrow {\n  font-size: 1em;\n  width: 5em;\n  text-indent: -999em;\n  overflow: hidden;\n  position: absolute;\n  top: 0;\n  bottom: 2.5em;\n  text-align: left;\n}\n.vdpArrow:before {\n  content: \"\";\n  width: 2.2em;\n  height: 2.2em;\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  margin: -1.1em 0 0 -1.1em;\n  border-radius: 100%;\n  -webkit-transition: background-color 0.2s;\n  -o-transition: background-color 0.2s;\n  transition: background-color 0.2s;\n}\n.vdpArrow:hover,\n.vdpArrow:focus,\n.vdpArrow:active {\n  outline: 0;\n}\n.vdpArrow:hover:before,\n.vdpArrow:focus:before {\n  background-color: rgba(0, 0, 0, 0.03);\n}\n.vdpArrow:active:before {\n  background-color: rgba(0, 0, 0, 0.07);\n}\n.vdpArrowNext:before {\n  margin-left: -1.4em;\n}\n.vdpArrow:after {\n  content: \"\";\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  margin-top: -0.5em;\n  width: 0;\n  height: 0;\n  border: 0.5em solid transparent;\n}\n.vdpArrowPrev {\n  left: -0.3em;\n}\n.vdpArrowPrev:after {\n  margin-left: -0.8em;\n  border-right-color: #7485c2;\n}\n.vdpArrowNext {\n  right: -0.6em;\n}\n.vdpArrowNext:after {\n  margin-left: -0.5em;\n  border-left-color: #7485c2;\n}\n.vdpPeriodControl {\n  display: inline-block;\n  position: relative;\n}\n.vdpPeriodControl > button {\n  font-size: 1.5em;\n  padding: 1em 0.4em;\n  display: inline-block;\n}\n.vdpPeriodControl > select {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  cursor: pointer;\n  opacity: 0;\n  font-size: 1.6em;\n}\n.vdpTable {\n  width: 100%;\n  table-layout: fixed;\n  position: relative;\n  z-index: 5;\n}\n.vdpNextDirection {\n  -webkit-animation: vdpSlideFromRight 0.5s;\n          animation: vdpSlideFromRight 0.5s;\n}\n.vdpPrevDirection {\n  -webkit-animation: vdpSlideFromLeft 0.5s;\n          animation: vdpSlideFromLeft 0.5s;\n}\n.vdpCell, .vdpHeadCell {\n  text-align: center;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n}\n.vdpCell {\n  padding: 0.5em 0;\n}\n.vdpHeadCell {\n  padding: 0.3em 0.5em 1.8em;\n}\n.vdpHeadCellContent {\n  font-size: 1.3em;\n  font-weight: normal;\n  color: #848484;\n}\n.vdpCellContent {\n  font-size: 1.4em;\n  display: block;\n  margin: 0 auto;\n  width: 1.857em;\n  height: 1.857em;\n  line-height: 1.857em;\n  text-align: center;\n  border-radius: 100%;\n  -webkit-transition: background 0.1s, color 0.1s;\n  -o-transition: background 0.1s, color 0.1s;\n  transition: background 0.1s, color 0.1s;\n}\n.vdpCell.outOfRange {\n  color: #c7c7c7;\n}\n.vdpCell.today {\n  color: #7485c2;\n}\n.vdpCell.selected .vdpCellContent {\n  color: #fff;\n  background: #7485c2;\n}\n@media (hover: hover) {\n.vdpCell.selectable:hover .vdpCellContent {\n    color: #fff;\n    background: #7485c2;\n}\n}\n.vdpCell.selectable {\n  cursor: pointer;\n}\n.vdpCell.disabled {\n  opacity: 0.5;\n}\n.vdpTimeControls {\n  padding: 1.2em 2em;\n  position: relative;\n  margin: 1em -1em -1em;\n  text-align: center;\n  background: #f5f5f5;\n  /*border-top: 1px solid rgba(0,0,0,0.15);*/\n}\n.vdpTimeUnit {\n  display: inline-block;\n  position: relative;\n  vertical-align: middle;\n}\n.vdpTimeUnit > pre, .vdpTimeUnit > input {\n  font-size: 1.7em;\n  line-height: 1.3;\n  padding: 0.1em 0.1em;\n  word-wrap: break-word;\n  white-space: pre-wrap;\n  resize: none;\n  margin: 0;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  color: #000;\n  border: 0;\n  border-bottom: 1px solid transparent;\n  text-align: center;\n}\n.vdpTimeUnit > pre {\n  visibility: hidden;\n  font-family: inherit;\n}\n.vdpTimeUnit > input {\n  position: absolute;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  height: 100%;\n  width: 100%;\n  outline: none;\n  padding: 0;\n  appearance: none;\n  border-radius: 0;\n  background: transparent;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n}\n.vdpTimeUnit > input:hover,\n.vdpTimeUnit > input:focus {\n  border-bottom-color: #7485c2;\n}\n.vdpTimeUnit > input::-webkit-inner-spin-button,\n.vdpTimeUnit > input::-webkit-outer-spin-button {\n  margin: 0;\n  -webkit-appearance: none;\n}\n.vdpTimeSeparator, .vdpTimeCaption {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 1.3em;\n  color: #848484;\n}\n.vdpTimeCaption {\n  margin-right: 0.5em;\n}", ""]);
+    onKeyDown: function (event) {
+        var owner = this, pps = owner.properties,
+            charCode = event.which || event.keyCode,
+            Util = Cleave.Util,
+            currentValue = owner.element.value;
 
-// exports
+        // if we got any charCode === 8, this means, that this device correctly
+        // sends backspace keys in event, so we do not need to apply any hacks
+        owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
+        if (!owner.hasBackspaceSupport
+          && Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)
+        ) {
+            charCode = 8;
+        }
 
+        owner.lastInputValue = currentValue;
 
-/***/ }),
+        // hit backspace when last character is delimiter
+        var postDelimiter = Util.getPostDelimiter(currentValue, pps.delimiter, pps.delimiters);
+        if (charCode === 8 && postDelimiter) {
+            pps.postDelimiterBackspace = postDelimiter;
+        } else {
+            pps.postDelimiterBackspace = false;
+        }
+    },
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/codemirror/lib/codemirror.css":
-/*!************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--7-1!./node_modules/postcss-loader/src??ref--7-2!./node_modules/codemirror/lib/codemirror.css ***!
-  \************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+    onChange: function () {
+        this.onInput(this.element.value);
+    },
 
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
+    onFocus: function () {
+        var owner = this,
+            pps = owner.properties;
 
+        Cleave.Util.fixPrefixCursor(owner.element, pps.prefix, pps.delimiter, pps.delimiters);
+    },
 
-// module
-exports.push([module.i, "/* BASICS */\n\n.CodeMirror {\n  /* Set height, width, borders, and global font properties here */\n  font-family: monospace;\n  height: 300px;\n  color: black;\n  direction: ltr;\n}\n\n/* PADDING */\n\n.CodeMirror-lines {\n  padding: 4px 0; /* Vertical padding around content */\n}\n.CodeMirror pre.CodeMirror-line,\n.CodeMirror pre.CodeMirror-line-like {\n  padding: 0 4px; /* Horizontal padding of content */\n}\n\n.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {\n  background-color: white; /* The little square between H and V scrollbars */\n}\n\n/* GUTTER */\n\n.CodeMirror-gutters {\n  border-right: 1px solid #ddd;\n  background-color: #f7f7f7;\n  white-space: nowrap;\n}\n.CodeMirror-linenumbers {}\n.CodeMirror-linenumber {\n  padding: 0 3px 0 5px;\n  min-width: 20px;\n  text-align: right;\n  color: #999;\n  white-space: nowrap;\n}\n\n.CodeMirror-guttermarker { color: black; }\n.CodeMirror-guttermarker-subtle { color: #999; }\n\n/* CURSOR */\n\n.CodeMirror-cursor {\n  border-left: 1px solid black;\n  border-right: none;\n  width: 0;\n}\n/* Shown when moving in bi-directional text */\n.CodeMirror div.CodeMirror-secondarycursor {\n  border-left: 1px solid silver;\n}\n.cm-fat-cursor .CodeMirror-cursor {\n  width: auto;\n  border: 0 !important;\n  background: #7e7;\n}\n.cm-fat-cursor div.CodeMirror-cursors {\n  z-index: 1;\n}\n.cm-fat-cursor-mark {\n  background-color: rgba(20, 255, 20, 0.5);\n  -webkit-animation: blink 1.06s steps(1) infinite;\n  animation: blink 1.06s steps(1) infinite;\n}\n.cm-animate-fat-cursor {\n  width: auto;\n  border: 0;\n  -webkit-animation: blink 1.06s steps(1) infinite;\n  animation: blink 1.06s steps(1) infinite;\n  background-color: #7e7;\n}\n@-webkit-keyframes blink {\n  0% {}\n  50% { background-color: transparent; }\n  100% {}\n}\n@keyframes blink {\n  0% {}\n  50% { background-color: transparent; }\n  100% {}\n}\n\n/* Can style cursor different in overwrite (non-insert) mode */\n.CodeMirror-overwrite .CodeMirror-cursor {}\n\n.cm-tab { display: inline-block; text-decoration: inherit; }\n\n.CodeMirror-rulers {\n  position: absolute;\n  left: 0; right: 0; top: -50px; bottom: 0;\n  overflow: hidden;\n}\n.CodeMirror-ruler {\n  border-left: 1px solid #ccc;\n  top: 0; bottom: 0;\n  position: absolute;\n}\n\n/* DEFAULT THEME */\n\n.cm-s-default .cm-header {color: blue;}\n.cm-s-default .cm-quote {color: #090;}\n.cm-negative {color: #d44;}\n.cm-positive {color: #292;}\n.cm-header, .cm-strong {font-weight: bold;}\n.cm-em {font-style: italic;}\n.cm-link {text-decoration: underline;}\n.cm-strikethrough {text-decoration: line-through;}\n\n.cm-s-default .cm-keyword {color: #708;}\n.cm-s-default .cm-atom {color: #219;}\n.cm-s-default .cm-number {color: #164;}\n.cm-s-default .cm-def {color: #00f;}\n.cm-s-default .cm-variable,\n.cm-s-default .cm-punctuation,\n.cm-s-default .cm-property,\n.cm-s-default .cm-operator {}\n.cm-s-default .cm-variable-2 {color: #05a;}\n.cm-s-default .cm-variable-3, .cm-s-default .cm-type {color: #085;}\n.cm-s-default .cm-comment {color: #a50;}\n.cm-s-default .cm-string {color: #a11;}\n.cm-s-default .cm-string-2 {color: #f50;}\n.cm-s-default .cm-meta {color: #555;}\n.cm-s-default .cm-qualifier {color: #555;}\n.cm-s-default .cm-builtin {color: #30a;}\n.cm-s-default .cm-bracket {color: #997;}\n.cm-s-default .cm-tag {color: #170;}\n.cm-s-default .cm-attribute {color: #00c;}\n.cm-s-default .cm-hr {color: #999;}\n.cm-s-default .cm-link {color: #00c;}\n\n.cm-s-default .cm-error {color: #f00;}\n.cm-invalidchar {color: #f00;}\n\n.CodeMirror-composing { border-bottom: 2px solid; }\n\n/* Default styles for common addons */\n\ndiv.CodeMirror span.CodeMirror-matchingbracket {color: #0b0;}\ndiv.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}\n.CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }\n.CodeMirror-activeline-background {background: #e8f2ff;}\n\n/* STOP */\n\n/* The rest of this file contains styles related to the mechanics of\n   the editor. You probably shouldn't touch them. */\n\n.CodeMirror {\n  position: relative;\n  overflow: hidden;\n  background: white;\n}\n\n.CodeMirror-scroll {\n  overflow: scroll !important; /* Things will break if this is overridden */\n  /* 30px is the magic margin used to hide the element's real scrollbars */\n  /* See overflow: hidden in .CodeMirror */\n  margin-bottom: -30px; margin-right: -30px;\n  padding-bottom: 30px;\n  height: 100%;\n  outline: none; /* Prevent dragging from highlighting the element */\n  position: relative;\n}\n.CodeMirror-sizer {\n  position: relative;\n  border-right: 30px solid transparent;\n}\n\n/* The fake, visible scrollbars. Used to force redraw during scrolling\n   before actual scrolling happens, thus preventing shaking and\n   flickering artifacts. */\n.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {\n  position: absolute;\n  z-index: 6;\n  display: none;\n}\n.CodeMirror-vscrollbar {\n  right: 0; top: 0;\n  overflow-x: hidden;\n  overflow-y: scroll;\n}\n.CodeMirror-hscrollbar {\n  bottom: 0; left: 0;\n  overflow-y: hidden;\n  overflow-x: scroll;\n}\n.CodeMirror-scrollbar-filler {\n  right: 0; bottom: 0;\n}\n.CodeMirror-gutter-filler {\n  left: 0; bottom: 0;\n}\n\n.CodeMirror-gutters {\n  position: absolute; left: 0; top: 0;\n  min-height: 100%;\n  z-index: 3;\n}\n.CodeMirror-gutter {\n  white-space: normal;\n  height: 100%;\n  display: inline-block;\n  vertical-align: top;\n  margin-bottom: -30px;\n}\n.CodeMirror-gutter-wrapper {\n  position: absolute;\n  z-index: 4;\n  background: none !important;\n  border: none !important;\n}\n.CodeMirror-gutter-background {\n  position: absolute;\n  top: 0; bottom: 0;\n  z-index: 4;\n}\n.CodeMirror-gutter-elt {\n  position: absolute;\n  cursor: default;\n  z-index: 4;\n}\n.CodeMirror-gutter-wrapper ::-moz-selection { background-color: transparent }\n.CodeMirror-gutter-wrapper ::selection { background-color: transparent }\n.CodeMirror-gutter-wrapper ::-moz-selection { background-color: transparent }\n\n.CodeMirror-lines {\n  cursor: text;\n  min-height: 1px; /* prevents collapsing before first draw */\n}\n.CodeMirror pre.CodeMirror-line,\n.CodeMirror pre.CodeMirror-line-like {\n  /* Reset some styles that the rest of the page might have set */ border-radius: 0;\n  border-width: 0;\n  background: transparent;\n  font-family: inherit;\n  font-size: inherit;\n  margin: 0;\n  white-space: pre;\n  word-wrap: normal;\n  line-height: inherit;\n  color: inherit;\n  z-index: 2;\n  position: relative;\n  overflow: visible;\n  -webkit-tap-highlight-color: transparent;\n  font-variant-ligatures: contextual;\n}\n.CodeMirror-wrap pre.CodeMirror-line,\n.CodeMirror-wrap pre.CodeMirror-line-like {\n  word-wrap: break-word;\n  white-space: pre-wrap;\n  word-break: normal;\n}\n\n.CodeMirror-linebackground {\n  position: absolute;\n  left: 0; right: 0; top: 0; bottom: 0;\n  z-index: 0;\n}\n\n.CodeMirror-linewidget {\n  position: relative;\n  z-index: 2;\n  padding: 0.1px; /* Force widget margins to stay inside of the container */\n}\n\n.CodeMirror-widget {}\n\n.CodeMirror-rtl pre { direction: rtl; }\n\n.CodeMirror-code {\n  outline: none;\n}\n\n/* Force content-box sizing for the elements where we expect it */\n.CodeMirror-scroll,\n.CodeMirror-sizer,\n.CodeMirror-gutter,\n.CodeMirror-gutters,\n.CodeMirror-linenumber {\n  box-sizing: content-box;\n}\n\n.CodeMirror-measure {\n  position: absolute;\n  width: 100%;\n  height: 0;\n  overflow: hidden;\n  visibility: hidden;\n}\n\n.CodeMirror-cursor {\n  position: absolute;\n  pointer-events: none;\n}\n.CodeMirror-measure pre { position: static; }\n\ndiv.CodeMirror-cursors {\n  visibility: hidden;\n  position: relative;\n  z-index: 3;\n}\ndiv.CodeMirror-dragcursors {\n  visibility: visible;\n}\n\n.CodeMirror-focused div.CodeMirror-cursors {\n  visibility: visible;\n}\n\n.CodeMirror-selected { background: #d9d9d9; }\n.CodeMirror-focused .CodeMirror-selected { background: #d7d4f0; }\n.CodeMirror-crosshair { cursor: crosshair; }\n.CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection { background: #d7d4f0; }\n.CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection { background: #d7d4f0; }\n.CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection { background: #d7d4f0; }\n\n.cm-searching {\n  background-color: #ffa;\n  background-color: rgba(255, 255, 0, .4);\n}\n\n/* Used to force a border model for a node */\n.cm-force-border { padding-right: .1px; }\n\n@media print {\n  /* Hide the cursor when printing */\n  .CodeMirror div.CodeMirror-cursors {\n    visibility: hidden;\n  }\n}\n\n/* See issue #2901 */\n.cm-tab-wrap-hack:after { content: ''; }\n\n/* Help users use markselection to safely style text background */\nspan.CodeMirror-selectedtext { background: none; }\n", ""]);
+    onCut: function (e) {
+        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
+        this.copyClipboardData(e);
+        this.onInput('');
+    },
 
-// exports
+    onCopy: function (e) {
+        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
+        this.copyClipboardData(e);
+    },
 
+    copyClipboardData: function (e) {
+        var owner = this,
+            pps = owner.properties,
+            Util = Cleave.Util,
+            inputValue = owner.element.value,
+            textToCopy = '';
 
-/***/ }),
+        if (!pps.copyDelimiter) {
+            textToCopy = Util.stripDelimiters(inputValue, pps.delimiter, pps.delimiters);
+        } else {
+            textToCopy = inputValue;
+        }
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/tui-editor/dist/tui-editor-contents.css":
-/*!**********************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--7-1!./node_modules/postcss-loader/src??ref--7-2!./node_modules/tui-editor/dist/tui-editor-contents.css ***!
-  \**********************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+        try {
+            if (e.clipboardData) {
+                e.clipboardData.setData('Text', textToCopy);
+            } else {
+                window.clipboardData.setData('Text', textToCopy);
+            }
 
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
+            e.preventDefault();
+        } catch (ex) {
+            //  empty
+        }
+    },
 
+    onInput: function (value) {
+        var owner = this, pps = owner.properties,
+            Util = Cleave.Util;
 
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/**\n* @fileoverview style for content\n* @author NHN FE Development Lab <dl_javascript@nhn.com>\n*/\n\n.CodeMirror {\n    font-family: \"Open Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n}\n\n.tui-editor-contents *:not(table) {\n    line-height: 160%;\n    box-sizing: content-box;\n}\n\n.tui-editor-contents i,\n.tui-editor-contents cite,\n.tui-editor-contents em,\n.tui-editor-contents var,\n.tui-editor-contents address,\n.tui-editor-contents dfn {\n    font-style: italic;\n}\n\n.tui-editor-contents strong {\n    font-weight: bold;\n}\n\n.tui-editor-contents p {\n    margin: 10px 0;\n    color: #555;\n}\n\n.tui-editor-contents > h1:first-of-type,\n.tui-editor-contents > div > div:first-of-type h1 {\n      margin-top: 14px;\n}\n\n.tui-editor-contents h1,\n.tui-editor-contents h2,\n.tui-editor-contents h3,\n.tui-editor-contents h5 {\n    font-weight: bold;\n}\n\n.tui-editor-contents h1 {\n    font-size: 1.6rem;\n    line-height: 28px;\n    border-bottom: 3px double #999;\n    margin: 52px 0 15px 0;\n    padding-bottom: 7px;\n    color: #000;\n}\n\n.tui-editor-contents h2 {\n    font-size: 1.3rem;\n    line-height: 23px;\n    border-bottom: 1px solid #dbdbdb;\n    margin: 30px 0 13px 0;\n    padding-bottom: 7px;\n    color: #333;\n}\n\n.tui-editor-contents h3,\n.tui-editor-contents h4 {\n    font-size: 1.2rem;\n    line-height: 18px;\n    margin: 20px 0 2px;\n    color: #333;\n}\n\n.tui-editor-contents h5,\n.tui-editor-contents h6 {\n    font-size: 1rem;\n    line-height: 17px;\n    margin: 10px 0 -4px;\n    color: #333;\n}\n\n.tui-editor-contents blockquote {\n    margin: 15px 0;\n}\n\n.tui-editor-contents blockquote {\n    border-left: 4px solid #dddddd;\n    padding: 0 15px;\n    color: #777777;\n}\n\n.tui-editor-contents blockquote > :first-child {\n    margin-top: 0;\n}\n\n.tui-editor-contents  blockquote > :last-child {\n    margin-bottom: 0;\n}\n\n.tui-editor-contents pre,\n.tui-editor-contents code {\n    font-family: Consolas, Courier, \"Apple SD \\C0B0\\B3CC\\ACE0\\B515   Neo\", -apple-system, \"Lucida Grande\", \"Apple SD Gothic Neo\", \"\\B9D1\\C740   \\ACE0\\B515\", \"Malgun Gothic\", \"Segoe UI\", \"\\B3CB\\C6C0\", dotum, sans-serif;\n    border: 0;\n    border-radius: 0;\n}\n\n.tui-editor-contents pre {\n    margin: 2px 0 8px;\n    padding: 18px;\n    background-color: #f5f7f8;\n}\n\n.tui-editor-contents code {\n    color: #c1788b;\n    padding: 4px 4px 2px 0;\n    letter-spacing: -0.3px;\n}\n\n.tui-editor-contents pre code {\n    padding: 0;\n    color: inherit;\n    white-space: pre-wrap;\n    background-color: transparent;\n}\n\n.tui-editor-contents pre.addon {\n    border: 1px solid #e8ebed;\n    background-color: #fff;\n}\n\n.tui-editor-contents img {\n    margin: 4px 0 10px;\n    box-sizing: border-box;\n    vertical-align: top;\n    max-width: 100%;\n}\n\n.tui-editor-contents table {\n    margin: 2px 0 14px;\n    color: #555;\n    width: auto;\n    border-collapse: collapse;\n    box-sizing: border-box;\n}\n\n.tui-editor-contents table th, \n.tui-editor-contents table td {\n    height: 32px;\n    padding: 5px 14px 5px 12px;\n}\n\n.tui-editor-contents table td {\n    border: 1px solid #eaeaea;\n}\n\n.tui-editor-contents table th {\n    border: 1px solid #72777b;\n    border-top: 0;\n    background-color: #7b8184;\n    font-weight: 300;\n    color: #fff;\n    padding-top: 6px;\n}\n\n.tui-editor-contents ul,\n.tui-editor-contents menu,\n.tui-editor-contents ol,\n.tui-editor-contents dir {\n    display: block;\n    list-style-type: disc;\n    padding-left: 17px;\n    margin: 6px 0 10px;\n    color: #555;\n}\n\n.tui-editor-contents ol {\n    list-style-type: decimal;\n}\n\n.tui-editor-contents ul ul,\n.tui-editor-contents ul ol,\n.tui-editor-contents ol ol,\n.tui-editor-contents ol ul {\n    margin-top: 0 !important;\n    margin-bottom: 0 !important;\n}\n\n.tui-editor-contents ul li,\n.tui-editor-contents ol li {\n    position: relative;\n}\n\n.tui-editor-contents ul p, ol p {\n    margin: 0;\n}\n\n.tui-editor-contents ul li.task-list-item:before,\n.tui-editor-contents ol li.task-list-item:before,\n.tui-editor-contents pre ul li:before {\n    content: \"\";\n}\n\n.tui-editor-contents hr {\n    border-top: 1px solid #eee;\n    margin: 16px 0;\n}\n\n.tui-editor-contents a {\n    text-decoration: underline;\n    color: #5286bc;\n}\n\n.tui-editor-contents a:hover {\n    color: #007cff;\n}\n\n.tui-editor-contents {\n    font-size: 13px;\n    margin: 0;\n    padding: 0;\n}\n\n.tui-editor-contents .task-list-item {\n    border: 0;\n    list-style: none;\n    padding-left: 22px;\n    margin-left: -22px;\n    min-height: 20px;\n}\n\n.tui-editor-contents .task-list-item:before {\n    background-repeat: no-repeat;\n    background-size: 16px 16px;\n    background-position: center;\n    content: \"\";\n    height: 18px;\n    width: 18px;\n    position: absolute;\n    left: 0;\n    top: 1px;\n    cursor: pointer;\n    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAADdJREFUKBVjvHv37n8GMgALSI+SkhJJWu/du8fARJIOJMWjGpECA505GjjoIYLEB6dVUNojFQAA/1MJUFWet/4AAAAASUVORK5CYII=');\n}\n\n.tui-editor-contents .task-list-item.checked:before {\n    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAMpJREFUKBVjjJ/64D8DGYCJDD1gLbTVyM3OxJDiJMzAxcYIdyALnIWDAdJU7i/OICfCxsDMxMgwc88bwk5F1vTs/W+GFUffwY2H+1FBlI2hLliCQYCbGSyJrqlzwwuGj9//YWoMtRBgUBJnZ6gMEGeQFWaFOw9kE7omkG5GWDyCPF7mJ86gIMbO8P//fwZGRkYGXJpAGuFO/fbrP0PXppcMD179JKgJRSOIA9N8/NZXrM4DqYEBjOgAaYYFOUwRNhruVGyS+MTI1ggAx8NTGcUtFVQAAAAASUVORK5CYII=');\n}\n\n.tui-editor-contents .task-list-item input[type='checkbox'],\n.tui-editor-contents .task-list-item .task-list-item-checkbox {\n    margin-left: -17px;\n    margin-right: 3.8px;\n    margin-top: 3px;\n}\n\n.tui-editor-contents-placeholder:before {\n    content: attr(data-placeholder);\n    color:grey;\n    line-height: 160%;\n    position: absolute;\n}\n", ""]);
+        // case 1: delete one more character "4"
+        // 1234*| -> hit backspace -> 123|
+        // case 2: last character is not delimiter which is:
+        // 12|34* -> hit backspace -> 1|34*
+        // note: no need to apply this for numeral mode
+        var postDelimiterAfter = Util.getPostDelimiter(value, pps.delimiter, pps.delimiters);
+        if (!pps.numeral && pps.postDelimiterBackspace && !postDelimiterAfter) {
+            value = Util.headStr(value, value.length - pps.postDelimiterBackspace.length);
+        }
 
-// exports
+        // phone formatter
+        if (pps.phone) {
+            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+                pps.result = pps.prefix + pps.phoneFormatter.format(value).slice(pps.prefix.length);
+            } else {
+                pps.result = pps.phoneFormatter.format(value);
+            }
+            owner.updateValueState();
 
+            return;
+        }
 
-/***/ }),
+        // numeral formatter
+        if (pps.numeral) {
+            // Do not show prefix when noImmediatePrefix is specified
+            // This mostly because we need to show user the native input placeholder
+            if (pps.prefix && pps.noImmediatePrefix && value.length === 0) {
+                pps.result = '';
+            } else {
+                pps.result = pps.numeralFormatter.format(value);
+            }
+            owner.updateValueState();
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/tui-editor/dist/tui-editor.css":
-/*!*************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--7-1!./node_modules/postcss-loader/src??ref--7-2!./node_modules/tui-editor/dist/tui-editor.css ***!
-  \*************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+            return;
+        }
 
-var escape = __webpack_require__(/*! ../../css-loader/lib/url/escape.js */ "./node_modules/css-loader/lib/url/escape.js");
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
+        // date
+        if (pps.date) {
+            value = pps.dateFormatter.getValidatedDate(value);
+        }
 
+        // time
+        if (pps.time) {
+            value = pps.timeFormatter.getValidatedTime(value);
+        }
 
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/**\n* @fileoverview style for editor ui\n* @author NHN FE Development Lab <dl_javascript@nhn.com>\n*/\n\n/* height */\n.auto-height,\n.auto-height .tui-editor-defaultUI {\n    height: auto;\n}\n\n.auto-height .tui-editor {\n    position: relative;\n}\n\n:not(.auto-height) > .tui-editor-defaultUI,\n:not(.auto-height) > .tui-editor-defaultUI > .te-editor-section {\n    display: flex;\n    flex-direction: column;\n}\n\n:not(.auto-height) > .tui-editor-defaultUI > .te-editor-section {\n    flex: 1\n}\n\n/* tui editor */\n.tui-editor:after,\n.tui-editor-defaultUI-toolbar:after {\n    content: \"\";\n    display: block;\n    height: 0;\n    clear: both;\n}\n\n.tui-editor {\n    position: absolute;\n    line-height: 1;\n    color: #181818;\n    width: 100%;\n    height: inherit;\n}\n\n.te-editor-section {\n    min-height: 0px;\n    position: relative;\n    height: inherit;\n}\n\n.te-md-container {\n    display: none;\n    overflow: hidden;\n    height: 100%;\n}\n\n.te-md-container .te-editor {\n    line-height: 1.5;\n}\n\n.te-md-container .te-editor,\n.te-md-container .te-preview {\n    box-sizing: border-box;\n    padding: 0;\n    height: inherit;\n}\n\n.te-md-container .CodeMirror {\n    font-size: 13px;\n    height: inherit;\n}\n\n.te-md-container .te-preview {\n    overflow: auto;\n    padding: 0 25px;\n    height: 100%;\n}\n\n.te-md-container .te-preview > p:first-child {\n    margin-top: 0 !important;\n}\n\n.te-md-container .te-preview .tui-editor-contents {\n    padding-top: 8px;\n}\n\n.tui-editor .te-preview-style-tab>.te-editor,\n.tui-editor .te-preview-style-tab>.te-preview {\n    float: left;\n    width: 100%;\n    display: none;\n}\n\n.tui-editor .te-preview-style-tab>.te-tab-active {\n    display: block;\n}\n\n.tui-editor .te-preview-style-vertical>.te-tab-section {\n    display: none;\n}\n\n.tui-editor .te-preview-style-tab>.te-tab-section {\n    display: block;\n}\n\n.tui-editor .te-preview-style-vertical .te-editor {\n    float: left;\n    width: 50%;\n}\n\n.tui-editor .te-preview-style-vertical .te-preview {\n    float: left;\n    width: 50%;\n}\n\n.tui-editor .te-md-splitter {\n    display: none;\n    position: absolute;\n    left: 50%;\n    top: 0;\n    height: 100%;\n    width: 1px;\n    border-left: 1px solid #e5e5e5;\n}\n\n.tui-editor .te-preview-style-vertical .te-md-splitter {\n    display: block;\n}\n\n.te-ww-container {\n    display: none;\n    overflow: hidden;\n    z-index: 10;\n    height: inherit;\n    background-color: #fff;\n}\n\n.te-ww-container > .te-editor {\n    overflow: auto;\n    height: inherit;\n}\n\n.te-ww-container .tui-editor-contents:focus {\n    outline: none;\n}\n\n.te-ww-container .tui-editor-contents {\n    padding: 0 25px;\n}\n\n.te-ww-container .tui-editor-contents:first-child {\n    box-sizing: border-box;\n    margin: 0px;\n    padding: 16px 25px 0px 25px;\n    height: inherit;\n}\n\n.te-ww-container .tui-editor-contents:last-child {\n    margin-bottom: 16px;\n}\n\n.te-md-mode .te-md-container {\n    display: block;\n    z-index: 100;\n}\n\n.te-ww-mode .te-ww-container {\n    display: block;\n    z-index: 100;\n}\n\n.tui-editor.te-hide,\n.tui-editor-defaultUI.te-hide {\n    display: none\n}\n\n.tui-editor-defaultUI .CodeMirror-lines {\n    padding-top: 18px;\n    padding-bottom: 18px;\n}\n\n.tui-editor-defaultUI pre.CodeMirror-line {\n    padding-left: 25px;\n    padding-right: 25px;\n}\n\n.tui-editor-defaultUI .CodeMirror pre.CodeMirror-placeholder {\n    margin: 0;\n    padding-left: 25px;\n    color: grey;\n}\n\n.tui-editor-defaultUI .CodeMirror-scroll {\n  cursor: text;\n}\n\n/* Essential element style */\n.tui-editor-contents td.te-cell-selected {\n    background-color: #d8dfec;\n}\n.tui-editor-contents td.te-cell-selected::-moz-selection {\n    background-color: #d8dfec;\n}\n.tui-editor-contents td.te-cell-selected::selection {\n    background-color: #d8dfec;\n}\n.tui-editor-contents th.te-cell-selected {\n    background-color: #908f8f;\n}\n.tui-editor-contents th.te-cell-selected::-moz-selection {\n    background-color: #908f8f;\n}\n.tui-editor-contents th.te-cell-selected::selection {\n    background-color: #908f8f;\n}\n\n/* default UI Styles */\n.tui-editor-defaultUI {\n    position: relative;\n    border: 1px solid #e5e5e5;\n    height: 100%;\n    font-family: \"Open Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n}\n\n.tui-editor-defaultUI button {\n    color: #fff;\n    padding: 0px 14px 0px 15px;\n    height: 28px;\n    font-size: 12px;\n    border: none;\n    cursor: pointer;\n    outline: none;\n}\n.tui-editor-defaultUI button.te-ok-button {\n    background-color: #4b96e6;\n}\n.tui-editor-defaultUI button.te-close-button {\n    background-color: #777;\n}\n\n.tui-editor-defaultUI-toolbar {\n    padding: 0 25px;\n    height: 31px;\n    background-color: #fff;\n    border: 0;\n    overflow: hidden;\n}\n\n.tui-toolbar-divider {\n    float: left;\n    display: inline-block;\n    width: 1px;\n    height: 14px;\n    background-color: #ddd;\n    margin: 9px 6px;\n}\n\n.tui-toolbar-button-group {\n    height: 28px;\n    border-right: 1px solid #d9d9d9;\n    float: left;\n}\n\n.te-toolbar-section {\n    height: 32px;\n    box-sizing: border-box;\n    border-bottom: 1px solid #e5e5e5;\n}\n\n.tui-editor-defaultUI-toolbar button {\n    float: left;\n    box-sizing: border-box;\n    outline: none;\n    cursor: pointer;\n    background-color: #fff;\n    width: 22px;\n    height: 22px;\n    padding: 3px;\n    border-radius: 0;\n    margin: 5px 3px;\n    border: 1px solid #fff;\n}\n\n.tui-editor-defaultUI-toolbar button:hover,\n.tui-editor-defaultUI-toolbar button:active,\n.tui-editor-defaultUI-toolbar button.active {\n    border: 1px solid #aaa;\n    background-color: #fff;\n}\n\n.tui-editor-defaultUI-toolbar button:first-child {\n    margin-left: 0;\n}\n\n.tui-editor-defaultUI-toolbar button:last-child {\n    margin-right: 0;\n}\n\n.tui-editor-defaultUI-toolbar button.tui-scrollsync {\n    width: auto;\n    color: #777777;\n    border: 0;\n}\n\n.tui-editor-defaultUI button.tui-scrollsync:after {\n    content: \"Scroll off\";\n}\n\n.tui-editor-defaultUI button.tui-scrollsync.active {\n    color: #125de6;\n    font-weight: bold;\n}\n\n.tui-editor-defaultUI button.tui-scrollsync.active:after {\n    content: \"Scroll on\";\n}\n\n.tui-editor-defaultUI .te-mode-switch-section {\n    background-color: #f9f9f9;\n    border-top: 1px solid #e5e5e5;\n    height: 20px;\n    font-size: 12px;\n}\n\n.tui-editor-defaultUI .te-mode-switch {\n    float: right;\n    height: 100%;\n}\n\n.tui-editor-defaultUI .te-switch-button {\n    width: 92px;\n    height: inherit;\n    background: #e5e5e5;\n    outline: 0;\n    color: #a0aabf;\n    cursor: pointer;\n    border: 0;\n    border-left: 1px solid #ddd;\n    border-right: 1px solid #ddd;\n}\n\n.tui-editor-defaultUI .te-switch-button.active {\n    background-color: #fff;\n    color: #000;\n}\n\n\n.tui-editor-defaultUI .te-markdown-tab-section {\n    float: left;\n    height: 31px;\n    background: #fff;\n}\n\n.te-markdown-tab-section .te-tab {\n    margin: 0 -7px 0 24px;\n    background: #fff;\n}\n\n.tui-editor-defaultUI .te-tab button {\n    box-sizing: border-box;\n    line-height: 100%;\n    position: relative;\n    cursor: pointer;\n    z-index: 1;\n    font-size: 13px;\n    background-color: #f9f9f9;\n    border: solid 1px #e5e5e5;\n    border-top: 0;\n    padding: 0 9px;\n    color: #777;\n    border-radius: 0;\n    outline: 0;\n}\n\n.te-markdown-tab-section .te-tab button:last-child {\n    margin-left: -1px;\n}\n\n.te-markdown-tab-section .te-tab button.te-tab-active,\n.te-markdown-tab-section .te-tab button:hover.te-tab-active {\n    background-color: #fff;\n    color: #333;\n    border-bottom: 1px solid #fff;\n    z-index: 2;\n}\n\n.te-markdown-tab-section .te-tab button:hover {\n    background-color: #fff;\n    color: #333;\n}\n\n.tui-popup-modal-background {\n    background-color: rgba(202, 202, 202, 0.6);\n    position: fixed;\n    margin: 0px;\n    left: 0px;\n    top: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 9999;\n}\n\n.tui-popup-wrapper.fit-window,\n.tui-popup-modal-background.fit-window .tui-popup-wrapper {\n    width: 100%;\n    height: 100%;\n}\n\n.tui-popup-wrapper {\n    width: 500px;\n    margin-right: auto;\n    border: 1px solid #cacaca;\n    background: white;\n    z-index: 9999;\n}\n\n.tui-popup-modal-background .tui-popup-wrapper {\n    position: absolute;\n    margin: auto;\n    top: 0px;\n    right: 0px;\n    bottom: 0px;\n    left: 0px;\n}\n\n.tui-popup-header {\n    padding: 10px;\n    height: auto;\n    line-height: normal;\n    position: relative;\n    border-bottom: 1px solid #cacaca;\n}\n\n.tui-popup-header .tui-popup-header-buttons {\n    float: right;\n}\n\n.tui-popup-header .tui-popup-header-buttons button {\n    padding: 0px;\n    background-color: transparent;\n    background-size: cover;\n    float: left;\n}\n\n.tui-popup-header .tui-popup-close-button {\n    margin: 3px;\n    width: 13px;\n    height: 13px;\n    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxMHB4IiBoZWlnaHQ9IjEwcHgiIHZpZXdCb3g9IjAgMCAxMCAxMCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5GMjc2Qzc4MC0zM0JBLTQ3MTItQTM3OC04RkQwQUNDOTFDRTk8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggc2tldGNodG9vbC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IlN5bWJvbHMiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9ImxuYi1mb2xkZXItZGVsIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9IiM3Nzc3NzciPiAgICAgICAgICAgIDxwYXRoIGQ9Ik01LDMuNTg1Nzg2NDQgTDEuNzA3MTA2NzgsMC4yOTI4OTMyMTkgTDAuMjkyODkzMjE5LDEuNzA3MTA2NzggTDMuNTg1Nzg2NDQsNSBMMC4yOTI4OTMyMTksOC4yOTI4OTMyMiBMMS43MDcxMDY3OCw5LjcwNzEwNjc4IEw1LDYuNDE0MjEzNTYgTDguMjkyODkzMjIsOS43MDcxMDY3OCBMOS43MDcxMDY3OCw4LjI5Mjg5MzIyIEw2LjQxNDIxMzU2LDUgTDkuNzA3MTA2NzgsMS43MDcxMDY3OCBMOC4yOTI4OTMyMiwwLjI5Mjg5MzIxOSBMNSwzLjU4NTc4NjQ0IFoiIGlkPSJDb21iaW5lZC1TaGFwZSI+PC9wYXRoPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+);\n}\n\n.tui-popup-header .tui-popup-title {\n    font-size: 13px;\n    font-weight: bold;\n    color: #333;\n    vertical-align: bottom;\n}\n\n.tui-popup-body {\n    padding: 15px;\n    font-size: 12px;\n}\n\n.tui-editor-popup {\n    position: absolute;\n    top: 30px;\n    left: 50%;\n    margin-left: -250px;\n}\n\n.tui-editor-popup.tui-popup-modal-background {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    margin: 0px;\n}\n\n.tui-editor-popup .tui-popup-body label {\n    font-weight: bold;\n    color: #666;\n    display: block;\n    margin: 10px 0 5px;\n}\n\n.tui-editor-popup .tui-popup-body .te-button-section {\n    margin-top: 15px;\n}\n\n.tui-editor-popup .tui-popup-body input[type=text],\n.tui-editor-popup .tui-popup-body input[type=file] {\n    padding: 4px 10px;\n    border: 1px solid #bfbfbf;\n    box-sizing: border-box;\n    width: 100%;\n}\n\n.tui-editor-popup .tui-popup-body input.wrong {\n    border-color: #ff0000;\n}\n\n.te-popup-add-link .tui-popup-wrapper {\n    height: 219px;\n}\n\n.te-popup-add-image .tui-popup-wrapper {\n    height: 243px;\n}\n\n.te-popup-add-image .te-tab {\n    display: block;\n    background: none;\n    border-bottom: 1px solid #ebebeb;\n    margin-bottom: 8px;\n}\n\n.te-popup-add-image .te-url-type {\n    display: none;\n}\n\n.te-popup-add-image .te-file-type {\n    display: none;\n}\n\n.te-popup-add-image div.te-tab-active,\n.te-popup-add-image form.te-tab-active {\n    display: block;\n}\n\n.te-popup-add-image .te-tab button {\n    border: 1px solid #ccc;\n    background: #eee;\n    min-width: 100px;\n    margin-left: -1px;\n    border-bottom: 0px;\n    border-radius: 3px 3px 0px 0px;\n}\n\n.te-popup-add-image .te-tab button.te-tab-active {\n     background: #fff;\n}\n\n.te-popup-add-table .te-table-selection {\n    position: relative;\n}\n\n.te-popup-add-table .te-table-body {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAYAAAAougcOAAAC7mlDQ1BJQ0MgUHJvZmlsZQAAeAGFVM9rE0EU/jZuqdAiCFprDrJ4kCJJWatoRdQ2/RFiawzbH7ZFkGQzSdZuNuvuJrWliOTi0SreRe2hB/+AHnrwZC9KhVpFKN6rKGKhFy3xzW5MtqXqwM5+8943731vdt8ADXLSNPWABOQNx1KiEWlsfEJq/IgAjqIJQTQlVdvsTiQGQYNz+Xvn2HoPgVtWw3v7d7J3rZrStpoHhP1A4Eea2Sqw7xdxClkSAog836Epx3QI3+PY8uyPOU55eMG1Dys9xFkifEA1Lc5/TbhTzSXTQINIOJT1cVI+nNeLlNcdB2luZsbIEL1PkKa7zO6rYqGcTvYOkL2d9H5Os94+wiHCCxmtP0a4jZ71jNU/4mHhpObEhj0cGDX0+GAVtxqp+DXCFF8QTSeiVHHZLg3xmK79VvJKgnCQOMpkYYBzWkhP10xu+LqHBX0m1xOv4ndWUeF5jxNn3tTd70XaAq8wDh0MGgyaDUhQEEUEYZiwUECGPBoxNLJyPyOrBhuTezJ1JGq7dGJEsUF7Ntw9t1Gk3Tz+KCJxlEO1CJL8Qf4qr8lP5Xn5y1yw2Fb3lK2bmrry4DvF5Zm5Gh7X08jjc01efJXUdpNXR5aseXq8muwaP+xXlzHmgjWPxHOw+/EtX5XMlymMFMXjVfPqS4R1WjE3359sfzs94i7PLrXWc62JizdWm5dn/WpI++6qvJPmVflPXvXx/GfNxGPiKTEmdornIYmXxS7xkthLqwviYG3HCJ2VhinSbZH6JNVgYJq89S9dP1t4vUZ/DPVRlBnM0lSJ93/CKmQ0nbkOb/qP28f8F+T3iuefKAIvbODImbptU3HvEKFlpW5zrgIXv9F98LZua6N+OPwEWDyrFq1SNZ8gvAEcdod6HugpmNOWls05Uocsn5O66cpiUsxQ20NSUtcl12VLFrOZVWLpdtiZ0x1uHKE5QvfEp0plk/qv8RGw/bBS+fmsUtl+ThrWgZf6b8C8/UXAeIuJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAOklEQVQ4EWO8e/fuPwYGBkYgphlgAZmspKREMwtABjPR1HSo4aOWkBTKo8E1GlwkhQBJikdT1wgNLgAMSwQgckFvTgAAAABJRU5ErkJggg==\");\n}\n\n.te-popup-add-table .te-table-header {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAYAAAAougcOAAAC7mlDQ1BJQ0MgUHJvZmlsZQAAeAGFVM9rE0EU/jZuqdAiCFprDrJ4kCJJWatoRdQ2/RFiawzbH7ZFkGQzSdZuNuvuJrWliOTi0SreRe2hB/+AHnrwZC9KhVpFKN6rKGKhFy3xzW5MtqXqwM5+8943731vdt8ADXLSNPWABOQNx1KiEWlsfEJq/IgAjqIJQTQlVdvsTiQGQYNz+Xvn2HoPgVtWw3v7d7J3rZrStpoHhP1A4Eea2Sqw7xdxClkSAog836Epx3QI3+PY8uyPOU55eMG1Dys9xFkifEA1Lc5/TbhTzSXTQINIOJT1cVI+nNeLlNcdB2luZsbIEL1PkKa7zO6rYqGcTvYOkL2d9H5Os94+wiHCCxmtP0a4jZ71jNU/4mHhpObEhj0cGDX0+GAVtxqp+DXCFF8QTSeiVHHZLg3xmK79VvJKgnCQOMpkYYBzWkhP10xu+LqHBX0m1xOv4ndWUeF5jxNn3tTd70XaAq8wDh0MGgyaDUhQEEUEYZiwUECGPBoxNLJyPyOrBhuTezJ1JGq7dGJEsUF7Ntw9t1Gk3Tz+KCJxlEO1CJL8Qf4qr8lP5Xn5y1yw2Fb3lK2bmrry4DvF5Zm5Gh7X08jjc01efJXUdpNXR5aseXq8muwaP+xXlzHmgjWPxHOw+/EtX5XMlymMFMXjVfPqS4R1WjE3359sfzs94i7PLrXWc62JizdWm5dn/WpI++6qvJPmVflPXvXx/GfNxGPiKTEmdornIYmXxS7xkthLqwviYG3HCJ2VhinSbZH6JNVgYJq89S9dP1t4vUZ/DPVRlBnM0lSJ93/CKmQ0nbkOb/qP28f8F+T3iuefKAIvbODImbptU3HvEKFlpW5zrgIXv9F98LZua6N+OPwEWDyrFq1SNZ8gvAEcdod6HugpmNOWls05Uocsn5O66cpiUsxQ20NSUtcl12VLFrOZVWLpdtiZ0x1uHKE5QvfEp0plk/qv8RGw/bBS+fmsUtl+ThrWgZf6b8C8/UXAeIuJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAOklEQVQ4EWO8e/fuPwYGBkYgphlgAZksLCxMMwtABjPR1HSo4aOWkBTKo8E1GlwkhQBJikdT1wgNLgDxKwPzTeWPdAAAAABJRU5ErkJggg==\");\n}\n\n.te-popup-add-table .te-selection-area {\n    position: absolute;\n    top: 0;\n    left: 0;\n    background: #80d2ff;\n    opacity: 0.3;\n    z-index: 999;\n}\n\n.te-popup-add-table .te-description {\n    margin: 10px 0 0 0;\n    text-align: center;\n}\n\n.te-popup-table-utils {\n    width: 120px;\n}\n\n.te-popup-table-utils .tui-popup-body {\n    padding: 0px;\n}\n\n.te-popup-table-utils button {\n    width: 100%;\n    background-color: #fff;\n    border: none;\n    outline: 0;\n    padding: 0px 10px 0px 10px;\n    font-size: 12px;\n    line-height: 28px;\n    text-align: left;\n    color: #777;\n}\n\n.te-popup-table-utils button:hover {\n    background-color: #f4f4f4;\n}\n\n.te-popup-table-utils hr {\n    background-color: #cacaca;\n    border-style: none;\n    height: 1px;\n}\n\n.te-popup-table-utils .te-context-menu-disabled {\n    color: #ccc;\n}\n\n.te-popup-table-utils .te-context-menu-disabled:hover {\n    background-color: #fff;\n}\n\n.te-heading-add {\n    width: auto;\n}\n\n.te-heading-add .tui-popup-body {\n    padding: 0;\n}\n\n.te-heading-add h1,\n.te-heading-add h2,\n.te-heading-add h3,\n.te-heading-add h4,\n.te-heading-add h5,\n.te-heading-add h6,\n.te-heading-add ul,\n.te-heading-add p {\n    padding: 0;\n    margin: 0;\n}\n\n.te-heading-add ul {\n    list-style: none;\n}\n\n.te-heading-add ul li {\n    padding: 2px 10px;\n    cursor: pointer;\n}\n\n.te-heading-add ul li:hover {\n    background-color: #eee;\n}\n\n.te-heading-add h1 {\n    font-size: 24px;\n}\n\n.te-heading-add h2 {\n    font-size: 22px;\n}\n\n.te-heading-add h3 {\n    font-size: 20px;\n}\n\n.te-heading-add h4 {\n    font-size: 18px;\n}\n\n.te-heading-add h5 {\n    font-size: 16px;\n}\n\n.te-heading-add h6 {\n    font-size: 14px;\n}\n\n.te-dropdown-toolbar {\n    position: absolute;\n    width: auto;\n}\n\n.te-dropdown-toolbar .tui-popup-body {\n    padding: 0px;\n}\n\n.te-dropdown-toolbar .tui-toolbar-divider {\n    display: none;\n}\n\n.tui-popup-color {\n    padding: 0;\n}\n\n.tui-popup-color .tui-colorpicker-container,\n.tui-popup-color .tui-colorpicker-palette-container {\n    width: 144px;\n}\n\n.tui-popup-color .tui-colorpicker-container ul {\n    width: 144px;\n    margin-bottom: 8px;\n}\n\n.tui-popup-color .tui-colorpicker-container li {\n    padding: 0 1px 1px 0;;\n}\n\n.tui-popup-color .tui-colorpicker-container li .tui-colorpicker-palette-button {\n    border: 0;\n    width: 17px;\n    height: 17px;\n}\n\n.tui-popup-color .tui-popup-body {\n    padding: 10px;\n}\n\n.tui-popup-color .tui-colorpicker-container .tui-colorpicker-palette-toggle-slider {\n    display: none;\n}\n\n.tui-popup-color .te-apply-button,\n.tui-popup-color .tui-colorpicker-palette-hex {\n    float: right;\n}\n\n.tui-popup-color .te-apply-button {\n    height: 21px;\n    width: 35px;\n    background: #fff;\n    border: 1px solid #efefef;\n    position: absolute;\n    bottom: 135px;\n    right: 10px;\n    color: black;\n}\n\n.tui-popup-color .tui-colorpicker-container .tui-colorpicker-palette-hex {\n    border: 1px solid #E1E1E1;\n    padding: 3px 14px;\n    margin-left: -1px;\n}\n\n.tui-popup-color .tui-colorpicker-container div.tui-colorpicker-clearfix {\n    display: inline-block;\n}\n\n.tui-popup-color .tui-colorpicker-container .tui-colorpicker-palette-preview {\n    width: 19px;\n    height: 19px;\n}\n\n.tui-popup-color .tui-colorpicker-slider-container .tui-colorpicker-slider-right {\n    width: 22px;\n}\n\n.tui-popup-color .tui-colorpicker-slider-container .tui-colorpicker-huebar-handle {\n    display: none;\n}\n\n.tui-tooltip {\n    position: absolute;\n    background-color: #222;\n    z-index: 999;\n    opacity: 0.8;\n    color: #fff;\n    padding: 2px 5px;\n    font-size: 10px;\n}\n\n.tui-tooltip .arrow {\n    content: \"\";\n    display: inline-block;\n    width: 10px;\n    height: 10px;\n    background-color: #222;\n    transform: rotate(45deg);\n    position: absolute;\n    top: -3px;\n    left: 6px;\n    z-index: -1;\n}\n\n.tui-toolbar-icons {\n    background: url(" + escape(__webpack_require__(/*! ./tui-editor.png */ "./node_modules/tui-editor/dist/tui-editor.png")) + ");\n    background-size: 218px 188px;\n    display: inline-block;\n}\n\n@media\nonly screen and (-webkit-min-device-pixel-ratio: 2),\nonly screen and (        min-device-pixel-ratio: 2),\nonly screen and (                -webkit-min-device-pixel-ratio: 2),\nonly screen and (                min-resolution: 192dpi),\nonly screen and (                min-resolution: 2dppx) {\n  .tui-toolbar-icons {\n    background: url(" + escape(__webpack_require__(/*! ./tui-editor-2x.png */ "./node_modules/tui-editor/dist/tui-editor-2x.png")) + ");\n    background-size: 218px 188px;\n    display: inline-block;\n  }\n}\n\n.tui-toolbar-icons.tui-heading {\n    background-position: -172px -48px;\n}\n\n.tui-toolbar-icons.tui-heading:disabled {\n    background-position: -193px -48px;\n}\n\n.tui-toolbar-icons.tui-bold {\n    background-position: -4px -4px;\n}\n\n.tui-toolbar-icons.tui-bold:disabled {\n    background-position: -25px -4px;\n}\n\n.tui-toolbar-icons.tui-italic {\n    background-position: -4px -48px;\n}\n\n.tui-toolbar-icons.tui-italic:disabled {\n    background-position: -25px -48px;\n}\n\n.tui-toolbar-icons.tui-color {\n    background-position: -172px -70px;\n}\n\n.tui-toolbar-icons.tui-color:disabled {\n    background-position: -193px -70px;\n}\n\n.tui-toolbar-icons.tui-strike {\n    background-position: -4px -26px;\n}\n\n.tui-toolbar-icons.tui-strike:disabled {\n    background-position: -25px -26px;\n}\n\n.tui-toolbar-icons.tui-hrline {\n    background-position: -46px -92px;\n}\n\n.tui-toolbar-icons.tui-hrline:disabled {\n    background-position: -67px -92px;\n}\n\n.tui-toolbar-icons.tui-quote {\n    background-position: -4px -114px;\n}\n\n.tui-toolbar-icons.tui-quote:disabled {\n    background-position: -25px -114px;\n}\n\n.tui-toolbar-icons.tui-ul {\n    background-position: -46px -4px;;\n}\n\n.tui-toolbar-icons.tui-ul:disabled {\n    background-position: -67px -4px;;\n}\n\n.tui-toolbar-icons.tui-ol {\n    background-position: -46px -26px;\n}\n\n.tui-toolbar-icons.tui-ol:disabled {\n    background-position: -67px -26px;\n}\n\n.tui-toolbar-icons.tui-task {\n    background-position: -130px -48px;\n}\n\n.tui-toolbar-icons.tui-task:disabled {\n    background-position: -151px -48px;\n}\n\n.tui-toolbar-icons.tui-indent {\n    background-position: -46px -48px;\n}\n\n.tui-toolbar-icons.tui-indent:disabled {\n    background-position: -67px -48px;\n}\n\n.tui-toolbar-icons.tui-outdent {\n    background-position: -46px -70px;\n}\n\n.tui-toolbar-icons.tui-outdent:disabled {\n    background-position: -67px -70px;\n}\n\n.tui-toolbar-icons.tui-table {\n    background-position: -88px -92px;\n}\n\n.tui-toolbar-icons.tui-table:disabled {\n    background-position: -109px -92px;\n}\n\n.tui-toolbar-icons.tui-image {\n    background-position: -130px -4px;\n}\n\n.tui-toolbar-icons.tui-image:disabled {\n    background-position: -151px -4px;\n}\n\n.tui-toolbar-icons.tui-link {\n    background-position: -130px -26px;\n}\n\n.tui-toolbar-icons.tui-link:disabled {\n    background-position: -151px -26px;\n}\n\n.tui-toolbar-icons.tui-code {\n    background-position: -130px -92px;\n}\n\n.tui-toolbar-icons.tui-code:disabled {\n    background-position: -151px -92px;\n}\n\n.tui-toolbar-icons.tui-codeblock {\n    background-position: -130px -70px;\n}\n\n.tui-toolbar-icons.tui-codeblock:disabled {\n    background-position: -151px -70px;\n}\n\n.tui-toolbar-icons.tui-more {\n    background-position: -172px -92px;\n}\n\n.tui-toolbar-icons.tui-more:disabled {\n    background-position: -193px -92px;\n}\n.tui-colorpicker-svg-slider {\n    border: 1px solid #ebebeb;\n}\n.tui-colorpicker-vml-slider {\n    border: 1px solid #ebebeb;\n}\n.tui-colorpicker-svg-huebar {\n    border: 1px solid #ebebeb;\n}\n\n.CodeMirror .cm-header {\n    font-weight: bold;\n    color: inherit;\n}\n\n.CodeMirror .cm-header-1 {\n    font-size: 24px;\n}\n\n.CodeMirror .cm-header-2 {\n    font-size: 22px;\n}\n\n.CodeMirror .cm-header-3 {\n    font-size: 20px;\n}\n\n.CodeMirror .cm-header-4 {\n    font-size: 18px;\n}\n\n.CodeMirror .cm-header-5 {\n    font-size: 16px;\n}\n\n.CodeMirror .cm-header-6 {\n    font-size: 14px;\n}\n\n.CodeMirror .cm-variable-2 {\n    color: inherit;\n}\n\n.tui-editor-pseudo-clipboard {\n    position: fixed;\n    left: -1000px;\n    top: -1000px;\n    width: 100px;\n    height: 100px;\n}\n\n.te-ww-block-overlay.code-block-header {\n    text-align: right;\n    font-family: \"Open Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n}\n\n.te-ww-block-overlay.code-block-header span {\n    font-size: 10px;\n    font-weight: 600;\n    padding: 0px 10px;\n    color: #333333;\n    cursor: default;\n}\n\n.te-ww-block-overlay.code-block-header button {\n    margin: 8px;\n    font-size: 10px;\n    color: #333333;\n    background-color: #f9f9f9;\n    border: 1px solid #dddddd;\n    padding: 4px;\n    height: auto;\n}\n\n.te-popup-code-block-languages {\n    position: fixed;\n    box-sizing: border-box;\n    width: 130px;\n}\n\n.te-popup-code-block-languages .tui-popup-body {\n    max-height: 169px;\n    overflow: auto;\n    padding: 0px;\n}\n\n.te-popup-code-block-languages button {\n    width: 100%;\n    background-color: #fff;\n    border: none;\n    outline: 0;\n    padding: 0px 10px 0px 10px;\n    font-size: 12px;\n    line-height: 24px;\n    text-align: left;\n    color: #777;\n}\n\n.te-popup-code-block-languages button.active {\n    background-color: #f4f4f4;\n}\n\n.tui-popup-code-block-editor .tui-popup-wrapper {\n    width: 70%;\n    height: 70%;\n    margin: auto;\n    display: flex;\n    flex-direction: column;\n}\n\n.te-input-language {\n    position: relative;\n    margin-left: 15px;\n    cursor: pointer;\n}\n\n.te-input-language input {\n    font-family: \"Open Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n    font-size: 10px;\n    padding: 3px 5px;\n    border: 1px solid #dddddd;\n    background-color: #f9f9f9;\n    box-sizing: border-box;\n    width: 130px;\n    outline: none;\n}\n\n.te-input-language input::-ms-clear {\n    display: none;\n}\n\n.te-input-language::after {\n    content: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjE0cHgiIHZpZXdCb3g9IjAgMCAxMiAxNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT42Q0NBRDk2QS0yMjYxLTRFNDAtOTk1RC1DRUUyQUREQUQ3NkQ8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggc2tldGNodG9vbC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IlN5bWJvbHMiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9ImNvbS10cmFuZ2xlLWQtc2lkZSIgZmlsbD0iIzU1NTU1NSI+ICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlJlY3RhbmdsZS03IiBwb2ludHM9IjIgNSAxMCA1IDYgMTAiPjwvcG9seWdvbj4gICAgICAgIDwvZz4gICAgPC9nPjwvc3ZnPg==);\n    position: absolute;\n    top: 1px;\n    right: 3px;\n}\n\n.te-input-language.active::after {\n    content: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjE0cHgiIHZpZXdCb3g9IjAgMCAxMiAxNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5BNEZDRkIzMy0zNjdBLTREMjAtOEEyNC1DQ0I2ODFBMDZDODg8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggc2tldGNodG9vbC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IlN5bWJvbHMiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9ImNvbS10cmFuZ2xlLXVwLXNpZGUiIGZpbGw9IiM1NTU1NTUiPiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJSZWN0YW5nbGUtNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNi4wMDAwMDAsIDYuNTAwMDAwKSBzY2FsZSgxLCAtMSkgdHJhbnNsYXRlKC02LjAwMDAwMCwgLTYuNTAwMDAwKSAiIHBvaW50cz0iMiA0IDEwIDQgNiA5Ij48L3BvbHlnb24+ICAgICAgICA8L2c+ICAgIDwvZz48L3N2Zz4=);\n}\n\n.tui-popup-code-block-editor button {\n    margin: -1px 3px;\n}\n\n.tui-popup-code-block-editor .tui-popup-header-buttons {\n    height: 20px;\n}\n\n.tui-popup-code-block-editor .popup-editor-toggle-preview::after {\n    content: 'Preview off';\n    color: #777;\n    margin-right: 22px;\n}\n\n.tui-popup-code-block-editor .popup-editor-toggle-preview.active::after {\n    content: 'Preview on';\n    color: #4b96e6;\n}\n\n.tui-popup-code-block-editor .popup-editor-toggle-scroll::after {\n    content: 'Scroll off';\n    color: #777;\n    margin-right: 16px;\n}\n\n.tui-popup-code-block-editor .popup-editor-toggle-scroll.active::after {\n    content: 'Scroll on';\n    color: #4b96e6;\n}\n\n.tui-popup-code-block-editor .popup-editor-toggle-fit {\n    width: 18px;\n    height: 18px;\n    margin-top: 4px;\n    margin-right: 14px;\n    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT40OUQ4RTYyMy1GRTAyLTQ1RUUtQkQ5Ri0xMjUyQjEzRTU1MkQ8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggc2tldGNodG9vbC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IlN5bWJvbHMiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9ImNvbnRlbnRzLWV4cGFuZCIgZmlsbD0iIzU1NTU1NSI+ICAgICAgICAgICAgPHBhdGggZD0iTTMsMyBMOSwzIEw5LDUgTDUsNSBMNSw5IEwzLDkgTDMsMyBaIE0xNSwxNSBMOSwxNSBMOSwxMyBMMTMsMTMgTDEzLDkgTDE1LDkgTDE1LDE1IFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOS4wMDAwMDAsIDkuMDAwMDAwKSBzY2FsZSgtMSwgMSkgdHJhbnNsYXRlKC05LjAwMDAwMCwgLTkuMDAwMDAwKSAiPjwvcGF0aD4gICAgICAgICAgICA8cG9seWdvbiBpZD0iTGluZSIgZmlsbC1ydWxlPSJub256ZXJvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMS41MDAwMDAsIDYuNTAwMDAwKSBzY2FsZSgtMSwgMSkgdHJhbnNsYXRlKC0xMS41MDAwMDAsIC02LjUwMDAwMCkgIiBwb2ludHM9IjkuMDg1Nzg2NDQgNS41IDEyLjUgOC45MTQyMTM1NiAxMy45MTQyMTM2IDcuNSAxMC41IDQuMDg1Nzg2NDQiPjwvcG9seWdvbj4gICAgICAgICAgICA8cG9seWdvbiBpZD0iTGluZS1Db3B5IiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYuNTAwMDAwLCAxMS41MDAwMDApIHNjYWxlKC0xLCAxKSB0cmFuc2xhdGUoLTYuNTAwMDAwLCAtMTEuNTAwMDAwKSAiIHBvaW50cz0iNC4wODU3ODY0NCAxMC41IDcuNSAxMy45MTQyMTM2IDguOTE0MjEzNTYgMTIuNSA1LjUgOS4wODU3ODY0NCI+PC9wb2x5Z29uPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+);\n}\n\n.tui-popup-code-block-editor .popup-editor-toggle-fit.active {\n    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT4wN0Q1MjlCRi1GNTIzLTREN0EtQTlGNi05NTUzNTU5RDNEMUE8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggc2tldGNodG9vbC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IlN5bWJvbHMiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9ImNvbnRlbnRzLXJlZHVjZSIgZmlsbD0iIzU1NTU1NSI+ICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlBhdGgtMzIiIGZpbGwtcnVsZT0ibm9uemVybyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNS41MDAwMDAsIDEyLjUwMDAwMCkgc2NhbGUoLTEsIDEpIHRyYW5zbGF0ZSgtNS41MDAwMDAsIC0xMi41MDAwMDApICIgcG9pbnRzPSIzLjA4NTc4NjQ0IDExLjUgNi41IDE0LjkxNDIxMzYgNy45MTQyMTM1NiAxMy41IDQuNSAxMC4wODU3ODY0Ij48L3BvbHlnb24+ICAgICAgICAgICAgPHBhdGggZD0iTTksOSBMMTUsOSBMMTUsMTEgTDExLDExIEwxMSwxNSBMOSwxNSBMOSw5IFogTTksOSBMMyw5IEwzLDcgTDcsNyBMNywzIEw5LDMgTDksOSBaIiBpZD0iQ29tYmluZWQtU2hhcGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDkuMDAwMDAwLCA5LjAwMDAwMCkgc2NhbGUoLTEsIDEpIHRyYW5zbGF0ZSgtOS4wMDAwMDAsIC05LjAwMDAwMCkgIj48L3BhdGg+ICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlBhdGgtMzMiIGZpbGwtcnVsZT0ibm9uemVybyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIuNTAwMDAwLCA1LjUwMDAwMCkgc2NhbGUoLTEsIDEpIHRyYW5zbGF0ZSgtMTIuNTAwMDAwLCAtNS41MDAwMDApICIgcG9pbnRzPSIxNC45MTQyMTM2IDYuNSAxMS41IDMuMDg1Nzg2NDQgMTAuMDg1Nzg2NCA0LjUgMTMuNSA3LjkxNDIxMzU2Ij48L3BvbHlnb24+ICAgICAgICA8L2c+ICAgIDwvZz48L3N2Zz4=);\n}\n\n.tui-popup-code-block-editor .tui-popup-close-button {\n    margin-top: 6px;\n}\n\n.tui-popup-code-block-editor .tui-popup-body {\n    z-index: -1;\n    padding: 0px;\n    display: flex;\n    flex-direction: column;\n    flex: 1\n}\n\n.tui-popup-code-block-editor .popup-editor-body {\n    position: relative;\n    flex: 1;\n    border-bottom: 1px solid #cacaca;\n}\n\n.tui-popup-code-block-editor .te-button-section {\n    padding: 15px;\n}\n\n.tui-popup-code-block-editor .te-button-section button {\n    float: left;\n}\n\n.tui-popup-code-block-editor .tui-editor-contents pre {\n    margin: 0px;\n    background-color: transparent;\n}\n\n.tui-popup-code-block-editor .CodeMirror {\n    height: auto;\n}\n\n.tui-popup-code-block-editor .CodeMirror-line {\n    font-family: Consolas, Courier, \"Apple SD \\C0B0\\B3CC\\ACE0\\B515   Neo\", -apple-system, \"Lucida Grande\", \"Apple SD Gothic Neo\", \"\\B9D1\\C740   \\ACE0\\B515\", \"Malgun Gothic\", \"Segoe UI\", \"\\B3CB\\C6C0\", dotum, sans-serif;\n    font-size: 13px;\n    line-height: 160%;\n    letter-spacing: -0.3px;\n}\n\n.tui-popup-code-block-editor .popup-editor-editor-wrapper {\n    min-height: 100%;\n}\n\n.tui-split-scroll-wrapper {\n    position: relative;\n}\n\n.tui-split-scroll {\n    position: absolute;\n}\n\n.tui-split-scroll,\n.tui-split-scroll-wrapper {\n    width: 100%;\n    height: 100%;\n}\n\n.tui-split-scroll .tui-split-content-left,\n.tui-split-scroll .tui-split-content-right {\n    position: absolute;\n    top: 0px;\n    width: 50%;\n    box-sizing: border-box;\n}\n\n.tui-split-scroll .tui-split-content-left {\n    left: 0px;\n}\n\n.tui-split-scroll .tui-split-content-right {\n    left: 50%;\n}\n\n.tui-split-scroll .tui-splitter {\n    position: absolute;\n    left: 50%;\n    top: 0;\n    height: 100%;\n    width: 1px;\n    border-left: 1px solid #cacaca;\n}\n\n.tui-split-scroll .tui-split-scroll-content {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n    position: relative;\n}\n\n.tui-split-scroll .tui-split-content-left,\n.tui-split-scroll .tui-split-content-right {\n    height: 100%;\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n\n.tui-split-scroll button.tui-scrollsync {\n    top: 10px;\n    opacity: 0.2;\n}\n\n.tui-split-scroll button.tui-scrollsync::after {\n    content: \"scroll off\";\n}\n\n.tui-split-scroll.scroll-sync button.tui-scrollsync {\n    opacity: 0.5;\n}\n\n.tui-split-scroll.scroll-sync .tui-split-content-left,\n.tui-split-scroll.scroll-sync .tui-split-content-right {\n    height: auto;\n    overflow: initial;\n}\n\n.tui-split-scroll.scroll-sync button.tui-scrollsync::after {\n    content: \"scroll on\";\n}\n\n.tui-split-scroll.scroll-sync .tui-split-scroll-content {\n    overflow-y: auto;\n}\n\n.tui-split-scroll.single-content .tui-splitter {\n    display: none;\n}\n\n.tui-split-scroll.single-content .tui-split-content-left {\n    width: 100%;\n}\n\n.tui-split-scroll.single-content .tui-split-content-right {\n    display: none;\n}\n\n.tui-split-scroll.single-content button.tui-scrollsync {\n    display: none;\n}\n\n@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {\n     /* IE10+ */\n    .tui-split-scroll-wrapper .tui-splitter {\n        left: calc(50% - 9px);\n    }\n}\n\n@supports (-ms-accelerator:true) {\n    /* IE Edge 12+ CSS styles go here */\n    .tui-split-scroll-wrapper .tui-splitter {\n        left: calc(50% - 9px);\n    }\n}\n\n@media screen and (max-width: 480px) {\n    .tui-popup-wrapper {\n        max-width: 300px;\n    }\n\n    .tui-editor-popup {\n        margin-left: -150px;\n    }\n\n    .te-dropdown-toolbar {\n        max-width: none;\n    }\n}\n", ""]);
+        // strip delimiters
+        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
-// exports
+        // strip prefix
+        value = Util.getPrefixStrippedValue(
+            value, pps.prefix, pps.prefixLength,
+            pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix
+        );
 
+        // strip non-numeric characters
+        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
+
+        // convert case
+        value = pps.uppercase ? value.toUpperCase() : value;
+        value = pps.lowercase ? value.toLowerCase() : value;
+
+        // prevent from showing prefix when no immediate option enabled with empty input value
+        if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+            value = pps.prefix + value;
+
+            // no blocks specified, no need to do formatting
+            if (pps.blocksLength === 0) {
+                pps.result = value;
+                owner.updateValueState();
+
+                return;
+            }
+        }
+
+        // update credit card props
+        if (pps.creditCard) {
+            owner.updateCreditCardPropsByValue(value);
+        }
+
+        // strip over length characters
+        value = Util.headStr(value, pps.maxLength);
+
+        // apply blocks
+        pps.result = Util.getFormattedValue(
+            value,
+            pps.blocks, pps.blocksLength,
+            pps.delimiter, pps.delimiters, pps.delimiterLazyShow
+        );
+
+        owner.updateValueState();
+    },
+
+    updateCreditCardPropsByValue: function (value) {
+        var owner = this, pps = owner.properties,
+            Util = Cleave.Util,
+            creditCardInfo;
+
+        // At least one of the first 4 characters has changed
+        if (Util.headStr(pps.result, 4) === Util.headStr(value, 4)) {
+            return;
+        }
+
+        creditCardInfo = Cleave.CreditCardDetector.getInfo(value, pps.creditCardStrictMode);
+
+        pps.blocks = creditCardInfo.blocks;
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Util.getMaxLength(pps.blocks);
+
+        // credit card type changed
+        if (pps.creditCardType !== creditCardInfo.type) {
+            pps.creditCardType = creditCardInfo.type;
+
+            pps.onCreditCardTypeChanged.call(owner, pps.creditCardType);
+        }
+    },
+
+    updateValueState: function () {
+        var owner = this,
+            Util = Cleave.Util,
+            pps = owner.properties;
+
+        if (!owner.element) {
+            return;
+        }
+
+        var endPos = owner.element.selectionEnd;
+        var oldValue = owner.element.value;
+        var newValue = pps.result;
+
+        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
+
+        // fix Android browser type="text" input field
+        // cursor not jumping issue
+        if (owner.isAndroid) {
+            window.setTimeout(function () {
+                owner.element.value = newValue;
+                Util.setSelection(owner.element, endPos, pps.document, false);
+                owner.callOnValueChanged();
+            }, 1);
+
+            return;
+        }
+
+        owner.element.value = newValue;
+        Util.setSelection(owner.element, endPos, pps.document, false);
+        owner.callOnValueChanged();
+    },
+
+    callOnValueChanged: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        pps.onValueChanged.call(owner, {
+            target: {
+                value: pps.result,
+                rawValue: owner.getRawValue()
+            }
+        });
+    },
+
+    setPhoneRegionCode: function (phoneRegionCode) {
+        var owner = this, pps = owner.properties;
+
+        pps.phoneRegionCode = phoneRegionCode;
+        owner.initPhoneFormatter();
+        owner.onChange();
+    },
+
+    setRawValue: function (value) {
+        var owner = this, pps = owner.properties;
+
+        value = value !== undefined && value !== null ? value.toString() : '';
+
+        if (pps.numeral) {
+            value = value.replace('.', pps.numeralDecimalMark);
+        }
+
+        pps.postDelimiterBackspace = false;
+
+        owner.element.value = value;
+        owner.onInput(value);
+    },
+
+    getRawValue: function () {
+        var owner = this,
+            pps = owner.properties,
+            Util = Cleave.Util,
+            rawValue = owner.element.value;
+
+        if (pps.rawValueTrimPrefix) {
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+        }
+
+        if (pps.numeral) {
+            rawValue = pps.numeralFormatter.getRawValue(rawValue);
+        } else {
+            rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
+        }
+
+        return rawValue;
+    },
+
+    getISOFormatDate: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        return pps.date ? pps.dateFormatter.getISOFormatDate() : '';
+    },
+
+    getISOFormatTime: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        return pps.time ? pps.timeFormatter.getISOFormatTime() : '';
+    },
+
+    getFormattedValue: function () {
+        return this.element.value;
+    },
+
+    destroy: function () {
+        var owner = this;
+
+        owner.element.removeEventListener('input', owner.onChangeListener);
+        owner.element.removeEventListener('keydown', owner.onKeyDownListener);
+        owner.element.removeEventListener('focus', owner.onFocusListener);
+        owner.element.removeEventListener('cut', owner.onCutListener);
+        owner.element.removeEventListener('copy', owner.onCopyListener);
+    },
+
+    toString: function () {
+        return '[Cleave Object]';
+    }
+};
+
+Cleave.NumeralFormatter = NumeralFormatter_1;
+Cleave.DateFormatter = DateFormatter_1;
+Cleave.TimeFormatter = TimeFormatter_1;
+Cleave.PhoneFormatter = PhoneFormatter_1;
+Cleave.CreditCardDetector = CreditCardDetector_1;
+Cleave.Util = Util_1;
+Cleave.DefaultProperties = DefaultProperties_1;
+
+// for angular directive
+((typeof commonjsGlobal === 'object' && commonjsGlobal) ? commonjsGlobal : window)['Cleave'] = Cleave;
+
+// CommonJS
+var Cleave_1 = Cleave;
+
+/* harmony default export */ __webpack_exports__["default"] = (Cleave_1);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -2424,33 +3742,6 @@ function toComment(sourceMap) {
 	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
 
 	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/lib/url/escape.js":
-/*!***************************************************!*\
-  !*** ./node_modules/css-loader/lib/url/escape.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function escape(url) {
-    if (typeof url !== 'string') {
-        return url
-    }
-    // If url is already wrapped in quotes, remove them
-    if (/^['"].*['"]$/.test(url)) {
-        url = url.slice(1, -1);
-    }
-    // Should url be wrapped?
-    // See https://drafts.csswg.org/css-values-3/#urls
-    if (/["'() \t\n]/.test(url)) {
-        return '"' + url.replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"'
-    }
-
-    return url
 }
 
 
@@ -2846,36 +4137,6 @@ process.umask = function() { return 0; };
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=style&index=0&lang=scss&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/dist/cjs.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=style&index=0&lang=scss& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../css-loader!../../vue-loader/lib/loaders/stylePostLoader.js!../../postcss-loader/src??ref--8-2!../../sass-loader/dist/cjs.js??ref--8-3!../../vue-loader/lib??vue-loader-options!./vueDatePick.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=style&index=0&lang=scss&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
 
 /***/ }),
 
@@ -3567,6 +4828,62 @@ exports.default = vue_1.default.extend({
 
 /***/ }),
 
+/***/ "./node_modules/ts-loader/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=ts&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/ts-loader??ref--5!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=ts& ***!
+  \*********************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Page_vue_1 = __webpack_require__(/*! ./Page.vue */ "./resources/js/components/pages/Page.vue");
+var vue_editor_1 = __webpack_require__(/*! @toast-ui/vue-editor */ "./node_modules/@toast-ui/vue-editor/dist/vue-editor.js");
+var api_1 = __webpack_require__(/*! ../../api */ "./resources/js/api.ts");
+console.log(vue_editor_1.Editor);
+exports.default = {
+    name: "NewCourseForm",
+    components: { Page: Page_vue_1.default, editor: vue_editor_1.Editor },
+    data: function () {
+        return {
+            data: {
+                name: '',
+                summary: '',
+                price: 0,
+                sign_up_beg: null,
+                sign_up_end: null
+            },
+            sign_up_beg_raw: '',
+            sign_up_end_raw: '',
+            signUpPeriodErr: '',
+            hasSignUpPeriod: true
+        };
+    },
+    methods: {
+        onSubmit: function () {
+            api_1.api;
+        }
+    },
+    watch: {
+        sign_up_beg_raw: function (newVal) {
+            if (newVal.length !== 6) {
+                newVal += '0'.repeat(6 - newVal.length);
+            }
+            this.data.sign_up_beg = new Date(+newVal.substr(0, 4), +newVal.substr(4, 2), +newVal.substr(6, 2));
+        },
+        sign_up_end_raw: function (newVal) {
+            if (newVal.length !== 6) {
+                newVal += '0'.repeat(6 - newVal.length);
+            }
+            this.data.sign_up_beg = new Date(+newVal.substr(0, 4), +newVal.substr(4, 2), +newVal.substr(6, 2));
+        }
+    }
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/ts-loader/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/ProfilePage.vue?vue&type=script&lang=ts&":
 /*!*******************************************************************************************************************************************************************!*\
   !*** ./node_modules/ts-loader??ref--5!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pages/ProfilePage.vue?vue&type=script&lang=ts& ***!
@@ -3674,88 +4991,6 @@ exports.default = {
     }
 };
 
-
-/***/ }),
-
-/***/ "./node_modules/tui-editor/dist/tui-editor-2x.png":
-/*!********************************************************!*\
-  !*** ./node_modules/tui-editor/dist/tui-editor-2x.png ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/vendor/tui-editor/dist/tui-editor-2x.png?b4361244b610df3a6c728a26a49f782b";
-
-/***/ }),
-
-/***/ "./node_modules/tui-editor/dist/tui-editor-contents.css":
-/*!**************************************************************!*\
-  !*** ./node_modules/tui-editor/dist/tui-editor-contents.css ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../css-loader??ref--7-1!../../postcss-loader/src??ref--7-2!./tui-editor-contents.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/tui-editor/dist/tui-editor-contents.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/tui-editor/dist/tui-editor.css":
-/*!*****************************************************!*\
-  !*** ./node_modules/tui-editor/dist/tui-editor.css ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../css-loader??ref--7-1!../../postcss-loader/src??ref--7-2!./tui-editor.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/tui-editor/dist/tui-editor.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/tui-editor/dist/tui-editor.png":
-/*!*****************************************************!*\
-  !*** ./node_modules/tui-editor/dist/tui-editor.png ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/vendor/tui-editor/dist/tui-editor.png?30dd0f529e5155cab8a1aefa4716de7f";
 
 /***/ }),
 
@@ -6466,1213 +7701,14 @@ var version = '3.2.5';
 
 /***/ }),
 
-/***/ "./node_modules/vue-date-pick/src/vueDatePick.vue":
-/*!********************************************************!*\
-  !*** ./node_modules/vue-date-pick/src/vueDatePick.vue ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _vueDatePick_vue_vue_type_template_id_0069e486___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vueDatePick.vue?vue&type=template&id=0069e486& */ "./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=template&id=0069e486&");
-/* harmony import */ var _vueDatePick_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vueDatePick.vue?vue&type=script&lang=js& */ "./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _vueDatePick_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vueDatePick.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=style&index=0&lang=scss&");
-/* harmony import */ var _vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _vueDatePick_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _vueDatePick_vue_vue_type_template_id_0069e486___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _vueDatePick_vue_vue_type_template_id_0069e486___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "node_modules/vue-date-pick/src/vueDatePick.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../vue-loader/lib??vue-loader-options!./vueDatePick.vue?vue&type=script&lang=js& */ "./node_modules/vue-loader/lib/index.js?!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=style&index=0&lang=scss&":
-/*!******************************************************************************************!*\
-  !*** ./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=style&index=0&lang=scss& ***!
-  \******************************************************************************************/
+/***/ "./node_modules/vue-cleave-component/dist/vue-cleave.min.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/vue-cleave-component/dist/vue-cleave.min.js ***!
+  \******************************************************************/
 /*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _style_loader_index_js_css_loader_index_js_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_8_2_sass_loader_dist_cjs_js_ref_8_3_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../style-loader!../../css-loader!../../vue-loader/lib/loaders/stylePostLoader.js!../../postcss-loader/src??ref--8-2!../../sass-loader/dist/cjs.js??ref--8-3!../../vue-loader/lib??vue-loader-options!./vueDatePick.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=style&index=0&lang=scss&");
-/* harmony import */ var _style_loader_index_js_css_loader_index_js_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_8_2_sass_loader_dist_cjs_js_ref_8_3_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_index_js_css_loader_index_js_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_8_2_sass_loader_dist_cjs_js_ref_8_3_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _style_loader_index_js_css_loader_index_js_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_8_2_sass_loader_dist_cjs_js_ref_8_3_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _style_loader_index_js_css_loader_index_js_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_8_2_sass_loader_dist_cjs_js_ref_8_3_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_style_loader_index_js_css_loader_index_js_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_8_2_sass_loader_dist_cjs_js_ref_8_3_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=template&id=0069e486&":
-/*!***************************************************************************************!*\
-  !*** ./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=template&id=0069e486& ***!
-  \***************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_template_id_0069e486___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../vue-loader/lib??vue-loader-options!./vueDatePick.vue?vue&type=template&id=0069e486& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=template&id=0069e486&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_template_id_0069e486___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_vueDatePick_vue_vue_type_template_id_0069e486___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/index.js?!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-const formatRE = /,|\.|-| |:|\/|\\/;
-const dayRE = /D+/;
-const monthRE = /M+/;
-const yearRE = /Y+/;
-const hoursRE = /h+/i;
-const minutesRE = /m+/;
-const secondsRE = /s+/;
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-
-    props: {
-        value: {type: String, default: ''},
-        format: {type: String, default: 'YYYY-MM-DD'},
-        displayFormat: {type: String},
-        editable: {type: Boolean, default: true},
-        hasInputElement: {type: Boolean, default: true},
-        inputAttributes: {type: Object},
-        selectableYearRange: {type: Number, default: 40},
-        parseDate: {type: Function},
-        formatDate: {type: Function},
-        pickTime: {type: Boolean, default: false},
-        pickMinutes: {type: Boolean, default: true},
-        pickSeconds: {type: Boolean, default: false},
-        isDateDisabled: {type: Function, default: () => false},
-        nextMonthCaption: {type: String, default: 'Next month'},
-        prevMonthCaption: {type: String, default: 'Previous month'},
-        setTimeCaption: {type: String, default: 'Set time:'},
-        mobileBreakpointWidth: {type: Number, default: 500},
-        weekdays: {
-            type: Array,
-            default: () => ([
-                'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
-            ])
-        },
-        months: {
-            type: Array,
-            default: () => ([
-                'January', 'February', 'March', 'April',
-                'May', 'June', 'July', 'August',
-                'September', 'October', 'November', 'December'
-            ])
-        },
-        startWeekOnSunday: {type: Boolean, default: false}
-    },
-
-    data() {
-        return {
-            inputValue: this.valueToInputFormat(this.value),
-            currentPeriod: this.getPeriodFromValue(this.value, this.format),
-            direction: undefined,
-            positionClass: undefined,
-            opened: !this.hasInputElement
-        };
-    },
-
-    computed: {
-
-        valueDate() {
-
-            const value = this.value;
-            const format = this.format;
-
-            return value
-                ? this.parseDateString(value, format)
-                : undefined
-            ;
-
-        },
-
-        isReadOnly() {
-            return !this.editable || (this.inputAttributes && this.inputAttributes.readonly);
-        },
-
-        isValidValue() {
-
-            const valueDate = this.valueDate;
-
-            return this.value ? Boolean(valueDate) : true;
-
-        },
-
-        currentPeriodDates() {
-
-            const {year, month} = this.currentPeriod;
-            const days = [];
-            const date = new Date(year, month, 1);
-            const today = new Date();
-            const offset = this.startWeekOnSunday ? 1 : 0;
-
-            // append prev month dates
-            const startDay = date.getDay() || 7;
-
-            if (startDay > (1 - offset)) {
-                for (let i = startDay - (2 - offset); i >= 0; i--) {
-
-                    const prevDate = new Date(date);
-                    prevDate.setDate(-i);
-                    days.push({outOfRange: true, date: prevDate});
-
-                }
-            }
-
-            while (date.getMonth() === month) {
-                days.push({date: new Date(date)});
-                date.setDate(date.getDate() + 1);
-            }
-
-            // append next month dates
-            const daysLeft = 7 - days.length % 7;
-
-            for (let i = 1; i <= daysLeft; i++) {
-
-                const nextDate = new Date(date);
-                nextDate.setDate(i);
-                days.push({outOfRange: true, date: nextDate});
-
-            }
-
-            // define day states
-            days.forEach(day => {
-                day.disabled = this.isDateDisabled(day.date);
-                day.today = areSameDates(day.date, today);
-                day.dateKey = [
-                    day.date.getFullYear(), day.date.getMonth() + 1, day.date.getDate()
-                ].join('-');
-                day.selected = this.valueDate ? areSameDates(day.date, this.valueDate) : false;
-            });
-
-            return chunkArray(days, 7);
-
-        },
-
-        yearRange() {
-
-            const years = [];
-            const currentYear = this.currentPeriod.year;
-            const startYear = currentYear - this.selectableYearRange;
-            const endYear = currentYear + this.selectableYearRange;
-
-            for (let i = startYear; i <= endYear; i++) {
-                years.push(i);
-            }
-
-            return years;
-
-        },
-
-        currentTime() {
-
-            const currentDate = this.valueDate;
-
-            return currentDate ? {
-                hours: currentDate.getHours(),
-                minutes: currentDate.getMinutes(),
-                seconds: currentDate.getSeconds(),
-                hoursPadded: paddNum(currentDate.getHours(), 1),
-                minutesPadded: paddNum(currentDate.getMinutes(), 2),
-                secondsPadded: paddNum(currentDate.getSeconds(), 2)
-            } : undefined;
-
-        },
-
-        directionClass() {
-
-            return this.direction ? `vdp${this.direction}Direction` : undefined;
-
-        },
-
-        weekdaysSorted() {
-
-            if (this.startWeekOnSunday) {
-                const weekdays = this.weekdays.slice();
-                weekdays.unshift(weekdays.pop());
-                return weekdays;
-            } else {
-                return this.weekdays;
-            }
-
-        }
-
-    },
-
-    watch: {
-
-        value(value) {
-
-            if (this.isValidValue) {
-                this.inputValue = this.valueToInputFormat(value);
-                this.currentPeriod = this.getPeriodFromValue(value, this.format);
-            }
-
-        },
-
-        currentPeriod(currentPeriod, oldPeriod) {
-
-            const currentDate = new Date(currentPeriod.year, currentPeriod.month).getTime();
-            const oldDate = new Date(oldPeriod.year, oldPeriod.month).getTime();
-
-            this.direction = currentDate !== oldDate
-                ? (currentDate > oldDate ? 'Next' : 'Prev')
-                : undefined
-            ;
-
-        }
-
-    },
-
-    beforeDestroy() {
-
-        this.removeCloseEvents();
-        this.teardownPosition();
-
-    },
-
-    methods: {
-
-        valueToInputFormat(value) {
-
-            return !this.displayFormat ? value : this.formatDateToString(
-                this.parseDateString(value, this.format), this.displayFormat
-            ) || value;
-
-        },
-
-        getPeriodFromValue(dateString, format) {
-
-            const date = this.parseDateString(dateString, format) || new Date();
-
-            return {month: date.getMonth(), year: date.getFullYear()};
-
-        },
-
-        parseDateString(dateString, dateFormat) {
-
-            return !dateString
-                ? undefined
-                : this.parseDate
-                    ? this.parseDate(dateString, dateFormat)
-                    : this.parseSimpleDateString(dateString, dateFormat)
-            ;
-
-        },
-
-        formatDateToString(date, dateFormat) {
-
-            return !date
-                ? ''
-                : this.formatDate
-                    ? this.formatDate(date, dateFormat)
-                    : this.formatSimpleDateToString(date, dateFormat)
-            ;
-
-        },
-
-        parseSimpleDateString(dateString, dateFormat) {
-
-            let day, month, year, hours, minutes, seconds;
-
-            const dateParts = dateString.split(formatRE);
-            const formatParts = dateFormat.split(formatRE);
-            const partsSize = formatParts.length;
-
-            for (let i = 0; i < partsSize; i++) {
-
-                if (formatParts[i].match(dayRE)) {
-                    day = parseInt(dateParts[i], 10);
-                } else if (formatParts[i].match(monthRE)) {
-                    month = parseInt(dateParts[i], 10);
-                } else if (formatParts[i].match(yearRE)) {
-                    year = parseInt(dateParts[i], 10);
-                } else if (formatParts[i].match(hoursRE)) {
-                    hours = parseInt(dateParts[i], 10);
-                } else if (formatParts[i].match(minutesRE)) {
-                    minutes = parseInt(dateParts[i], 10);
-                } else if (formatParts[i].match(secondsRE)) {
-                    seconds = parseInt(dateParts[i], 10);
-                }
-
-            };
-
-            const resolvedDate = new Date(
-                [paddNum(year, 4), paddNum(month, 2), paddNum(day, 2)].join('-')
-            );
-
-            if (isNaN(resolvedDate)) {
-                return undefined;
-            } else {
-
-                const date = new Date(year, month - 1, day);
-
-                [
-                    [year, 'setFullYear'],
-                    [hours, 'setHours'],
-                    [minutes, 'setMinutes'],
-                    [seconds, 'setSeconds']
-                ].forEach(([value, method]) => {
-                    typeof value !== 'undefined' && date[method](value);
-                });
-
-                return date;
-            }
-
-        },
-
-        formatSimpleDateToString(date, dateFormat) {
-
-            return dateFormat
-                .replace(yearRE, match => date.getFullYear())
-                .replace(monthRE, match => paddNum(date.getMonth() + 1, match.length))
-                .replace(dayRE, match => paddNum(date.getDate(), match.length))
-                .replace(hoursRE, match => paddNum(date.getHours(), match.length))
-                .replace(minutesRE, match => paddNum(date.getMinutes(), match.length))
-                .replace(secondsRE, match => paddNum(date.getSeconds(), match.length))
-            ;
-
-        },
-
-        incrementMonth(increment = 1) {
-
-            const refDate = new Date(this.currentPeriod.year, this.currentPeriod.month);
-            const incrementDate = new Date(refDate.getFullYear(), refDate.getMonth() + increment);
-
-            this.currentPeriod = {
-                month: incrementDate.getMonth(),
-                year: incrementDate.getFullYear()
-            };
-
-        },
-
-        processUserInput(userText) {
-
-            const userDate = this.parseDateString(
-                userText, this.displayFormat || this.format
-            );
-
-            this.inputValue = userText;
-
-            this.$emit('input', userDate
-                ? this.formatDateToString(userDate, this.format)
-                : userText
-            );
-
-        },
-
-        open() {
-
-            if (!this.opened) {
-                this.opened = true;
-                this.currentPeriod = this.getPeriodFromValue(this.value, this.format);
-                this.addCloseEvents();
-                this.setupPosition();
-            }
-            this.direction = undefined;
-
-        },
-
-        close() {
-
-            if (this.opened) {
-                this.opened = false;
-                this.direction = undefined;
-                this.removeCloseEvents();
-                this.teardownPosition();
-            }
-
-        },
-
-        closeViaOverlay(e) {
-
-            if (this.hasInputElement && e.target === this.$refs.outerWrap) {
-                this.close();
-            }
-
-        },
-
-        addCloseEvents() {
-
-            if (!this.closeEventListener) {
-
-                this.closeEventListener = e => this.inspectCloseEvent(e);
-
-                ['click', 'keyup', 'focusin'].forEach(
-                    eventName => document.addEventListener(eventName, this.closeEventListener)
-                );
-
-            }
-
-        },
-
-        inspectCloseEvent(event) {
-
-            if (event.keyCode) {
-                event.keyCode === 27 && this.close();
-            } else if (!(event.target === this.$el) && !this.$el.contains(event.target)) {
-                this.close();
-            }
-
-        },
-
-        removeCloseEvents() {
-
-            if (this.closeEventListener) {
-
-                ['click', 'keyup'].forEach(
-                    eventName => document.removeEventListener(eventName, this.closeEventListener)
-                );
-
-                delete this.closeEventListener;
-
-            }
-
-        },
-
-        setupPosition() {
-
-            if (!this.positionEventListener) {
-                this.positionEventListener = () => this.positionFloater();
-                window.addEventListener('resize', this.positionEventListener);
-            }
-
-            this.positionFloater();
-
-        },
-
-        positionFloater() {
-
-            const inputRect = this.$el.getBoundingClientRect();
-
-            let verticalClass = 'vdpPositionTop';
-            let horizontalClass = 'vdpPositionLeft';
-
-            const calculate = () => {
-
-                const rect = this.$refs.outerWrap.getBoundingClientRect();
-                const floaterHeight = rect.height;
-                const floaterWidth = rect.width;
-
-                if (window.innerWidth > this.mobileBreakpointWidth) {
-
-                    // vertical
-                    if (
-                        (inputRect.top + inputRect.height + floaterHeight > window.innerHeight) &&
-                        (inputRect.top - floaterHeight > 0)
-                    ) {
-                        verticalClass = 'vdpPositionBottom';
-                    }
-
-                    // horizontal
-                    if (inputRect.left + floaterWidth > window.innerWidth) {
-                        horizontalClass = 'vdpPositionRight';
-                    }
-
-                    this.positionClass = ['vdpPositionReady', verticalClass, horizontalClass].join(' ');
-
-                } else {
-
-                    this.positionClass = 'vdpPositionFixed';
-
-                }
-
-            };
-
-            this.$refs.outerWrap ? calculate() : this.$nextTick(calculate);
-
-        },
-
-        teardownPosition() {
-
-            if (this.positionEventListener) {
-                this.positionClass = undefined;
-                window.removeEventListener('resize', this.positionEventListener);
-                delete this.positionEventListener;
-            }
-
-        },
-
-        clear() {
-
-            this.$emit('input', '');
-
-        },
-
-        selectDateItem(item) {
-
-            if (!item.disabled) {
-
-                const newDate = new Date(item.date);
-
-                if (this.currentTime) {
-                    newDate.setHours(this.currentTime.hours);
-                    newDate.setMinutes(this.currentTime.minutes);
-                    newDate.setSeconds(this.currentTime.seconds);
-                }
-
-                this.$emit('input', this.formatDateToString(newDate, this.format));
-
-                if (this.hasInputElement && !this.pickTime) {
-                    this.close();
-                }
-            }
-
-        },
-
-        inputTime(method, event) {
-
-            const currentDate = this.valueDate;
-            const maxValues = {setHours: 23, setMinutes: 59, setSeconds: 59};
-
-            let numValue = parseInt(event.target.value, 10) || 0;
-
-            if (numValue > maxValues[method]) {
-                numValue = maxValues[method];
-            } else if (numValue < 0) {
-                numValue = 0;
-            }
-
-            event.target.value = paddNum(numValue, method === 'setHours' ? 1 : 2);
-            currentDate[method](numValue);
-
-            this.$emit('input', this.formatDateToString(currentDate, this.format));
-
-        }
-
-    }
-
-});
-
-function paddNum(num, padsize) {
-
-    return typeof num !== 'undefined'
-        ? num.toString().length > padsize
-            ? num
-            : new Array(padsize - num.toString().length + 1).join('0') + num
-        : undefined
-    ;
-
-}
-
-function chunkArray(inputArray, chunkSize) {
-
-    const results = [];
-
-    while (inputArray.length) {
-        results.push(inputArray.splice(0, chunkSize));
-    }
-
-    return results;
-
-}
-
-function areSameDates(date1, date2) {
-
-    return (date1.getDate() === date2.getDate()) &&
-        (date1.getMonth() === date2.getMonth()) &&
-        (date1.getFullYear() === date2.getFullYear())
-    ;
-
-}
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=template&id=0069e486&":
-/*!*********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue-date-pick/src/vueDatePick.vue?vue&type=template&id=0069e486& ***!
-  \*********************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "vdpComponent",
-      class: { vdpWithInput: _vm.hasInputElement }
-    },
-    [
-      _vm.hasInputElement
-        ? _c(
-            "input",
-            _vm._b(
-              {
-                attrs: { type: "text", readonly: _vm.isReadOnly },
-                domProps: { value: _vm.inputValue },
-                on: {
-                  input: function($event) {
-                    _vm.editable && _vm.processUserInput($event.target.value)
-                  },
-                  focus: function($event) {
-                    _vm.editable && _vm.open()
-                  },
-                  click: function($event) {
-                    _vm.editable && _vm.open()
-                  }
-                }
-              },
-              "input",
-              _vm.inputAttributes,
-              false
-            )
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.editable && _vm.hasInputElement && _vm.inputValue
-        ? _c("button", {
-            staticClass: "vdpClearInput",
-            attrs: { type: "button" },
-            on: { click: _vm.clear }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _c("transition", { attrs: { name: "vdp-toggle-calendar" } }, [
-        _vm.opened
-          ? _c(
-              "div",
-              {
-                ref: "outerWrap",
-                staticClass: "vdpOuterWrap",
-                class: [
-                  _vm.positionClass,
-                  { vdpFloating: _vm.hasInputElement }
-                ],
-                on: { click: _vm.closeViaOverlay }
-              },
-              [
-                _c("div", { staticClass: "vdpInnerWrap" }, [
-                  _c("header", { staticClass: "vdpHeader" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "vdpArrow vdpArrowPrev",
-                        attrs: { title: _vm.prevMonthCaption, type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.incrementMonth(-1)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(_vm.prevMonthCaption))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "vdpArrow vdpArrowNext",
-                        attrs: { type: "button", title: _vm.nextMonthCaption },
-                        on: {
-                          click: function($event) {
-                            return _vm.incrementMonth(1)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(_vm.nextMonthCaption))]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "vdpPeriodControls" }, [
-                      _c("div", { staticClass: "vdpPeriodControl" }, [
-                        _c(
-                          "button",
-                          {
-                            key: _vm.currentPeriod.month,
-                            class: _vm.directionClass,
-                            attrs: { type: "button" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(_vm.months[_vm.currentPeriod.month]) +
-                                "\n                            "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.currentPeriod.month,
-                                expression: "currentPeriod.month"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.currentPeriod,
-                                  "month",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          _vm._l(_vm.months, function(month, index) {
-                            return _c(
-                              "option",
-                              { key: month, domProps: { value: index } },
-                              [
-                                _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(month) +
-                                    "\n                                "
-                                )
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "vdpPeriodControl" }, [
-                        _c(
-                          "button",
-                          {
-                            key: _vm.currentPeriod.year,
-                            class: _vm.directionClass,
-                            attrs: { type: "button" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(_vm.currentPeriod.year) +
-                                "\n                            "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.currentPeriod.year,
-                                expression: "currentPeriod.year"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.currentPeriod,
-                                  "year",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          _vm._l(_vm.yearRange, function(year) {
-                            return _c(
-                              "option",
-                              { key: year, domProps: { value: year } },
-                              [
-                                _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(year) +
-                                    "\n                                "
-                                )
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("table", { staticClass: "vdpTable" }, [
-                    _c("thead", [
-                      _c(
-                        "tr",
-                        _vm._l(_vm.weekdaysSorted, function(weekday) {
-                          return _c(
-                            "th",
-                            { key: weekday, staticClass: "vdpHeadCell" },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "vdpHeadCellContent" },
-                                [_vm._v(_vm._s(weekday))]
-                              )
-                            ]
-                          )
-                        }),
-                        0
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      {
-                        key:
-                          _vm.currentPeriod.year +
-                          "-" +
-                          _vm.currentPeriod.month,
-                        class: _vm.directionClass
-                      },
-                      _vm._l(_vm.currentPeriodDates, function(week, weekIndex) {
-                        return _c(
-                          "tr",
-                          { key: weekIndex, staticClass: "vdpRow" },
-                          _vm._l(week, function(item) {
-                            return _c(
-                              "td",
-                              {
-                                key: item.dateKey,
-                                staticClass: "vdpCell",
-                                class: {
-                                  selectable: !item.disabled,
-                                  selected: item.selected,
-                                  disabled: item.disabled,
-                                  today: item.today,
-                                  outOfRange: item.outOfRange
-                                },
-                                attrs: { "data-id": item.dateKey },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.selectDateItem(item)
-                                  }
-                                }
-                              },
-                              [
-                                _c("div", { staticClass: "vdpCellContent" }, [
-                                  _vm._v(_vm._s(item.date.getDate()))
-                                ])
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      }),
-                      0
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm.pickTime && _vm.currentTime
-                    ? _c("div", { staticClass: "vdpTimeControls" }, [
-                        _c("span", { staticClass: "vdpTimeCaption" }, [
-                          _vm._v(_vm._s(_vm.setTimeCaption))
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "vdpTimeUnit" }, [
-                          _c("pre", [
-                            _c("span", [
-                              _vm._v(_vm._s(_vm.currentTime.hoursPadded))
-                            ]),
-                            _c("br")
-                          ]),
-                          _vm._v(" "),
-                          _c("input", {
-                            staticClass: "vdpHoursInput",
-                            attrs: { type: "number", pattern: "\\d*" },
-                            domProps: { value: _vm.currentTime.hoursPadded },
-                            on: {
-                              input: function($event) {
-                                $event.preventDefault()
-                                return _vm.inputTime("setHours", $event)
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _vm.pickMinutes
-                          ? _c("span", { staticClass: "vdpTimeSeparator" }, [
-                              _vm._v(":")
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.pickMinutes
-                          ? _c("div", { staticClass: "vdpTimeUnit" }, [
-                              _c("pre", [
-                                _c("span", [
-                                  _vm._v(_vm._s(_vm.currentTime.minutesPadded))
-                                ]),
-                                _c("br")
-                              ]),
-                              _vm._v(" "),
-                              _vm.pickMinutes
-                                ? _c("input", {
-                                    staticClass: "vdpMinutesInput",
-                                    attrs: { type: "number", pattern: "\\d*" },
-                                    domProps: {
-                                      value: _vm.currentTime.minutesPadded
-                                    },
-                                    on: {
-                                      input: function($event) {
-                                        return _vm.inputTime(
-                                          "setMinutes",
-                                          $event
-                                        )
-                                      }
-                                    }
-                                  })
-                                : _vm._e()
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.pickSeconds
-                          ? _c("span", { staticClass: "vdpTimeSeparator" }, [
-                              _vm._v(":")
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.pickSeconds
-                          ? _c("div", { staticClass: "vdpTimeUnit" }, [
-                              _c("pre", [
-                                _c("span", [
-                                  _vm._v(_vm._s(_vm.currentTime.secondsPadded))
-                                ]),
-                                _c("br")
-                              ]),
-                              _vm._v(" "),
-                              _vm.pickSeconds
-                                ? _c("input", {
-                                    staticClass: "vdpSecondsInput",
-                                    attrs: { type: "number", pattern: "\\d*" },
-                                    domProps: {
-                                      value: _vm.currentTime.secondsPadded
-                                    },
-                                    on: {
-                                      input: function($event) {
-                                        return _vm.inputTime(
-                                          "setSeconds",
-                                          $event
-                                        )
-                                      }
-                                    }
-                                  })
-                                : _vm._e()
-                            ])
-                          : _vm._e()
-                      ])
-                    : _vm._e()
-                ])
-              ]
-            )
-          : _vm._e()
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
+!function(e,t){ true?module.exports=t(__webpack_require__(/*! cleave.js */ "./node_modules/cleave.js/dist/cleave-esm.js")):undefined}("undefined"!=typeof self?self:this,function(e){return function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=1)}([function(t,n){t.exports=e},function(e,t,n){"use strict";n.r(t);var r=n(0),o=n.n(r);function u(){return(u=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e}).apply(this,arguments)}var a={name:"cleave",render:function(e){return e("input",{attrs:{type:"text",value:this.value},on:{blur:this.onBlur}})},props:{value:{default:null,required:!0,validator:function(e){return null===e||"string"==typeof e||e instanceof String||"number"==typeof e}},options:{type:Object,default:function(){return{}}},raw:{type:Boolean,default:!0}},data:function(){return{cleave:null,onValueChangedFn:null}},mounted:function(){this.cleave||(this.cleave=new o.a(this.$el,this.getOptions(this.options)))},methods:{getOptions:function(e){return this.onValueChangedFn=e.onValueChanged,u({},e,{onValueChanged:this.onValueChanged})},onValueChanged:function(e){var t=this.raw?e.target.rawValue:e.target.value;this.$emit("input",t),"function"==typeof this.onValueChangedFn&&this.onValueChangedFn.call(this,e)},onBlur:function(e){this.$emit("blur",this.value)}},watch:{options:{deep:!0,handler:function(e){this.cleave.destroy(),this.cleave=new o.a(this.$el,this.getOptions(e)),this.cleave.setRawValue(this.value)}},value:function(e){this.cleave&&(this.raw&&e===this.cleave.getRawValue()||(this.raw||e!==this.$el.value)&&this.cleave.setRawValue(e))}},beforeDestroy:function(){this.cleave&&(this.cleave.destroy(),this.cleave=null,this.onValueChangedFn=null)}};n.d(t,"plugin",function(){return i}),n.d(t,"component",function(){return a});var i=function(e,t){var n="cleave";"string"==typeof t&&(n=t),e.component(n,a)};a.install=i;t.default=a}]).default});
 
 /***/ }),
 
@@ -8174,44 +8210,6 @@ var render = function() {
           ])
         }),
         _vm._v(" "),
-        _c("validation-provider", {
-          attrs: { rules: "required" },
-          scopedSlots: _vm._u([
-            {
-              key: "default",
-              fn: function(ref) {
-                var errors = ref.errors
-                return [
-                  _c(
-                    "div",
-                    { staticClass: "form__control" },
-                    [
-                      _c("label", [_vm._v("Summary")]),
-                      _vm._v(" "),
-                      _c("editor", {
-                        model: {
-                          value: _vm.data.summary,
-                          callback: function($$v) {
-                            _vm.$set(_vm.data, "summary", $$v)
-                          },
-                          expression: "data.summary"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _vm._l(errors, function(err) {
-                        return _c("span", { staticClass: "input__error" }, [
-                          _vm._v(_vm._s(err))
-                        ])
-                      })
-                    ],
-                    2
-                  )
-                ]
-              }
-            }
-          ])
-        }),
-        _vm._v(" "),
         _c("div", [
           _c("input", {
             directives: [
@@ -8257,35 +8255,113 @@ var render = function() {
           ]),
           _vm._v(" "),
           _vm.hasSignUpPeriod
-            ? _c(
-                "div",
-                { staticClass: "card mt--2" },
-                [
-                  _c("validation-provider", [
+            ? _c("div", { staticClass: "d--flex" }, [
+                _c(
+                  "div",
+                  { staticClass: "form__control m--2" },
+                  [
                     _c(
-                      "div",
-                      { staticClass: "form__control" },
-                      [
-                        _c("vue-date-pick", {
-                          staticClass: "input--vdp",
-                          attrs: { format: "YYYY.MM.DD" },
-                          model: {
-                            value: _vm.data.sign_up_beg,
-                            callback: function($$v) {
-                              _vm.$set(_vm.data, "sign_up_beg", $$v)
-                            },
-                            expression: "data.sign_up_beg"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ])
-                ],
-                1
-              )
+                      "label",
+                      {
+                        staticClass: "form__label",
+                        attrs: { for: "SignUpBeg" }
+                      },
+                      [_vm._v("Starts at")]
+                    ),
+                    _vm._v(" "),
+                    _c("cleave", {
+                      staticClass: "input",
+                      attrs: {
+                        id: "SignUpBeg",
+                        type: "text",
+                        options: { date: true, datePattern: ["Y", "m", "d"] },
+                        placeholder: "YYYY/MM/DD"
+                      },
+                      model: {
+                        value: _vm.sign_up_beg_raw,
+                        callback: function($$v) {
+                          _vm.sign_up_beg_raw = $$v
+                        },
+                        expression: "sign_up_beg_raw"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form__control m--2" },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "form__label",
+                        attrs: { for: "SignUpEnd" }
+                      },
+                      [_vm._v("Ends at")]
+                    ),
+                    _vm._v(" "),
+                    _c("cleave", {
+                      staticClass: "input",
+                      attrs: {
+                        id: "SignUpEnd",
+                        type: "text",
+                        options: { date: true, datePattern: ["Y", "m", "d"] },
+                        placeholder: "YYYY/MM/DD"
+                      },
+                      model: {
+                        value: _vm.sign_up_end_raw,
+                        callback: function($$v) {
+                          _vm.sign_up_end_raw = $$v
+                        },
+                        expression: "sign_up_end_raw"
+                      }
+                    })
+                  ],
+                  1
+                )
+              ])
             : _vm._e()
-        ])
+        ]),
+        _vm._v(" "),
+        _c("validation-provider", {
+          attrs: { rules: "required" },
+          scopedSlots: _vm._u([
+            {
+              key: "default",
+              fn: function(ref) {
+                var errors = ref.errors
+                return [
+                  _c(
+                    "div",
+                    { staticClass: "form__control" },
+                    [
+                      _c("label", [_vm._v("Summary")]),
+                      _vm._v(" "),
+                      _c("editor", {
+                        model: {
+                          value: _vm.data.summary,
+                          callback: function($$v) {
+                            _vm.$set(_vm.data, "summary", $$v)
+                          },
+                          expression: "data.summary"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._l(errors, function(err) {
+                        return _c("span", { staticClass: "input__error" }, [
+                          _vm._v(_vm._s(err))
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ]
+              }
+            }
+          ])
+        })
       ],
       1
     )
@@ -24918,19 +24994,16 @@ var router_1 = __webpack_require__(/*! ./router */ "./resources/js/router.ts");
 var App_vue_1 = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
 var store_1 = __webpack_require__(/*! ./store */ "./resources/js/store.ts");
 var vee_validate_1 = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
-var vueDatePick_vue_1 = __webpack_require__(/*! vue-date-pick/src/vueDatePick.vue */ "./node_modules/vue-date-pick/src/vueDatePick.vue");
 __webpack_require__(/*! ./validationRules */ "./resources/js/validationRules.ts");
+var Cleave = __webpack_require__(/*! vue-cleave-component */ "./node_modules/vue-cleave-component/dist/vue-cleave.min.js");
+vue_1.default.use(Cleave);
 vue_1.default.use(vue_router_1.default);
-vue_1.default.component('vue-date-pick', vueDatePick_vue_1.default);
 vue_1.default.component('validation-provider', vee_validate_1.ValidationProvider);
 var app = new vue_1.default({
     el: '#app',
     render: function (h) { return h(App_vue_1.default); },
     router: router_1.default,
-    store: store_1.store,
-    components: {
-        'vue-date-pick': vueDatePick_vue_1.default
-    }
+    store: store_1.store
 });
 
 
@@ -24945,36 +25018,9 @@ var app = new vue_1.default({
 
 "use strict";
 
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-var api_1 = __webpack_require__(/*! ./api */ "./resources/js/api.ts");
 axios_1.default.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios_1.default.defaults.headers.common['Authentication'] = api_1.api.getAuthentication();
-function loadMeta() {
-    var meta = {};
-    document.querySelectorAll('meta[name^="backend:"]').forEach(function ($el) {
-        meta[$el.getAttribute('name').substr(8)] = $el.getAttribute('content');
-    });
-    return meta;
-}
-var meta = loadMeta();
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
-var token = document.head.querySelector('meta[name="csrf-token"]');
-if (meta.csrf) {
-    axios_1.default.defaults.headers.common['X-CSRF-TOKEN'] = meta.csrf;
-}
-else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
 
 
 /***/ }),
@@ -25437,14 +25483,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************************!*\
   !*** ./resources/js/components/pages/NewCourseForm.vue ***!
   \*********************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NewCourseForm_vue_vue_type_template_id_06f57219_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewCourseForm.vue?vue&type=template&id=06f57219&scoped=true& */ "./resources/js/components/pages/NewCourseForm.vue?vue&type=template&id=06f57219&scoped=true&");
-/* harmony import */ var _NewCourseForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewCourseForm.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewCourseForm.vue?vue&type=script&lang=ts& */ "./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=ts&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -25453,7 +25500,7 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _NewCourseForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_1__["default"],
   _NewCourseForm_vue_vue_type_template_id_06f57219_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _NewCourseForm_vue_vue_type_template_id_06f57219_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -25470,17 +25517,19 @@ component.options.__file = "resources/js/components/pages/NewCourseForm.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=ts&":
 /*!**********************************************************************************!*\
-  !*** ./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=ts& ***!
   \**********************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewCourseForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./NewCourseForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewCourseForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_ts_loader_index_js_ref_5_node_modules_vue_loader_lib_index_js_vue_loader_options_NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/ts-loader??ref--5!../../../../node_modules/vue-loader/lib??vue-loader-options!./NewCourseForm.vue?vue&type=script&lang=ts& */ "./node_modules/ts-loader/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/NewCourseForm.vue?vue&type=script&lang=ts&");
+/* harmony import */ var _node_modules_ts_loader_index_js_ref_5_node_modules_vue_loader_lib_index_js_vue_loader_options_NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_ts_loader_index_js_ref_5_node_modules_vue_loader_lib_index_js_vue_loader_options_NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_ts_loader_index_js_ref_5_node_modules_vue_loader_lib_index_js_vue_loader_options_NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_ts_loader_index_js_ref_5_node_modules_vue_loader_lib_index_js_vue_loader_options_NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_ts_loader_index_js_ref_5_node_modules_vue_loader_lib_index_js_vue_loader_options_NewCourseForm_vue_vue_type_script_lang_ts___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
