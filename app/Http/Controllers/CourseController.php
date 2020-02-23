@@ -5,31 +5,15 @@ namespace App\Http\Controllers;
 use App\Course;
 use Illuminate\Http\Request;
 
-class CourseController extends Controller
+class CourseController extends CRUDController
 {
-    function show(Request $request) {
-        $id = $request->id;
-
-        $course = Course::findOrFail($id);
-        return $course;
-    }
-
-    function store(Request $request) {
-        $data = $request->validate(Course::$rules);
-        $course = Course::create($data);
-        return $course;
-    }
-
-    function update(Request $request) {
-        $data = $request->validate(Course::$updateRules);
-        $course = Course::getById($request->id);
-        $course->update($data);
-        $course->save();
-        return response()->noContent();
-    }
-
-    function destroy(Request $request) {
-        Course::findOrFail($request->id)->delete();
-        return response()->noContent();
+    public function __construct()
+    {
+        $this->configure(
+            Course::class,
+            Course::$rules,
+            Course::$updateRules,
+            'course'
+        );
     }
 }

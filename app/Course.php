@@ -32,7 +32,7 @@ class Course extends Model
 
     public static $rules = [
         'name' => 'required|min:1|max:255',
-        'price' => 'number|default:0|min:0|max:9999999999999999999.99',
+        'price' => 'numeric|min:0|max:9999999999999999999.99',
         'about' => 'required',
         'sign_up_beg' => 'nullable|date',
         'sign_up_end' => 'nullable|date',
@@ -41,7 +41,7 @@ class Course extends Model
 
     public static $updateRules = [
         'name' => 'min:1|max:255',
-        'price' => 'number|min:0|max:9999999999999999999.99',
+        'price' => 'numeric|min:0|max:9999999999999999999.99',
         'about' => 'string',
         'sign_up_beg' => 'nullable|date',
         'sign_up_end' => 'nullable|date',

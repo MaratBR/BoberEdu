@@ -25,8 +25,8 @@ Route::group([
 });
 
 
-Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store']);
-Route::resource('users', 'UserController')->only(['update', 'show','store']);
+Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store', 'index']);
+Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
 
 
 Route::fallback(function (Request $request) {

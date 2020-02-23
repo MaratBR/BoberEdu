@@ -10,6 +10,16 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    private function createUser($uniquePrefix)
+    {
+        return User::create([
+            'name' => $uniquePrefix . '_SOME_USER',
+            'password' => Hash::make('123456'),
+            'sex' => 'm',
+            'email' => $uniquePrefix . '_test@notgmail.notcom'
+        ]);
+    }
+
     /**
      *
      * @return void
@@ -42,7 +52,7 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function testUserApi()
+    public function testUserAuthApi()
     {
         $q = $this->post('/api/auth/register', [
             'sex' => 'm',
@@ -87,5 +97,16 @@ class UserTest extends TestCase
         self::assertEquals($user->name, $q->json('name'));
 
         User::query()->where('name', '=', 'Test_UserNameApi');
+    }
+
+    public function testUserApi() {
+        $user = $this->createUser('1');
+        $r = $this->get("/api/users/{$user->id}")
+            ->assertOk();
+        self::assertEquals($user->name, $r->json('name'));
+
+        $users = $this->get('/api/users');
+        $users->assertOk();
+        self::assertIsArray($users->json());
     }
 }

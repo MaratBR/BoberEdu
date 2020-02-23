@@ -78,7 +78,7 @@ export type User = {
 //#region Course-related objects
 
 export type CoursePayload = {
-    summary: string
+    about: string
     sign_up_beg: DateString | null
     sign_up_end: DateString | null
     price: number
