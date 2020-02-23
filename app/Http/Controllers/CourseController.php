@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    function get(Request $request) {
+    function show(Request $request) {
         $id = $request->id;
 
         $course = Course::findOrFail($id);
         return $course;
     }
 
-    function create(Request $request) {
+    function store(Request $request) {
         $data = $request->validate(Course::$rules);
         $course = Course::create($data);
         return $course;
@@ -28,7 +28,7 @@ class CourseController extends Controller
         return response()->noContent();
     }
 
-    function delete(Request $request) {
+    function destroy(Request $request) {
         Course::findOrFail($request->id)->delete();
         return response()->noContent();
     }

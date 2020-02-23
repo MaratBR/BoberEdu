@@ -27,6 +27,7 @@
   "dependencies": {
     "@northwalker/vue-hotel-datepicker": "github:northwalker/vue-hotel-datepicker",
     "@toast-ui/vue-editor": "^1.0.0",
+    "loglevel": "^1.6.7",
     "tui-editor": "^1.4.10",
     "v-mask": "^2.0.2",
     "vee-validate": "^3.2.5",

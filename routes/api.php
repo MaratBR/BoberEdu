@@ -24,11 +24,9 @@ Route::group([
     Route::get('user', 'AuthController@currentUser');
 });
 
-Route::group([
-    'prefix' => 'users'
-], function ($router) {
-    Route::get('{id}', 'UserController@get');
-});
+
+Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store']);
+Route::resource('users', 'UserController')->only(['update', 'show','store']);
 
 
 Route::fallback(function (Request $request) {

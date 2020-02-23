@@ -24,7 +24,7 @@
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import {api, LoginResponse} from "../../api";
+    import {auth, LoginResponse} from "../../api";
     import Vue from "vue";
 
     export default Vue.extend({
@@ -39,12 +39,12 @@
         },
         methods: {
             onSubmit() {
-                if (api.getUser()) {
+                if (this.$store.getters.isAuthenticated) {
                     this.$router.push('/');
                     return;
                 }
                 localStorage['lastLoginAttempt'] = this.name;
-                api.login({name: this.name, password: this.password})
+                auth.login({name: this.name, password: this.password})
                     .then(r => {
                         this.$router.push('/')
                     })

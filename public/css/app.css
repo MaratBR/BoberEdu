@@ -512,6 +512,14 @@ select {
   display: inline-grid;
 }
 
+.fxw--wrap {
+  flex-wrap: wrap;
+}
+
+.fxbs--100 {
+  flex-basis: 100%;
+}
+
 .mt--1 {
   margin-top: 5px;
 }

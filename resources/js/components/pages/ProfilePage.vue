@@ -10,7 +10,7 @@
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import {api, User} from "../../api";
+    import {api, auth, log, User, users} from "../../api";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
     export default {
@@ -34,17 +34,19 @@
             }
         },
         created(): void {
+            log.debug('ProfilePage: created');
             api.ready().then(this.init.bind(this))
         },
         methods: {
             init() {
                 let id: number = +this.$route.params.id;
+                log.debug(`ProfilePage: ${id}`);
                 if (isNaN(id)) {
                     this.error = `Invalid user id: ${this.$route.params.id}`
                 } else {
                     this.error = null;
-                    let promise = (this.$store.getters.isAuthenticated && id === api.getUser().id) ?
-                        api.syncUserFromServer(true) : api.getUserById(id);
+                    let promise = (this.$store.getters.isAuthenticated && id === auth.getUser().id) ?
+                        auth.syncUserFromServer(true) : users.get(id);
                     this.updateFrom(promise)
                 }
             },

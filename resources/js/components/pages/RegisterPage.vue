@@ -37,7 +37,7 @@ import {Sex} from "../../api";
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import {api, RegisterRequest, Sex, sexes} from "../../api";
+    import {auth, RegisterRequest, Sex, sexes} from "../../api";
 
 
     export default {
@@ -57,7 +57,7 @@ import {Sex} from "../../api";
         },
         methods: {
             onSubmit() {
-                api.register(this.data)
+                auth.register(this.data)
                     .then(console.log)
                     .catch(({response: {data: {errors}}}) => {
                         this.errors = errors

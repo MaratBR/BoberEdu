@@ -18,7 +18,7 @@ export default new VueRouter({
 
         {
             path: '/c/new',
-            component: () => import('./components/pages/NewCourseForm.vue')
+            component: () => import('./components/pages/CourseForm.vue')
         },
         {
             path: '/c/:id',
