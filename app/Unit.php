@@ -36,9 +36,14 @@ class Unit extends Model
         'order_num' => 'integer'
     ];
 
+    public function course() {
+        return $this->belongsTo(Course::class);
+    }
+
     public static function scopeForUser(User $user)
     {
-        if ($user->can())
+        if ($user->isAdmin())
+            return self::query();
         return self::query()
             ->whereHas('course', function (Builder $q) {
                 $q->where('available', '=', true);
