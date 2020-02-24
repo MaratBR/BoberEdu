@@ -16,13 +16,13 @@ class CreateUnitsTable extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->integerIncrements('id');
             $table->timestamps();
-            $table->string('name')->nullable(false);
-            $table->boolean('is_preview')->nullable(false)->default(false);
+            $table->string('name');
+            $table->boolean('is_preview')->default(false);
             $table->text('about');
-            $table->smallInteger('order_num')->nullable(false)->default(0);
+            $table->smallInteger('order_num')->default(0);
             $table->softDeletes();
 
-            $table->unsignedInteger('course_id')->nullable(false);
+            $table->unsignedInteger('course_id');
             $table->foreign('course_id')->on('courses')->references('id');
         });
     }

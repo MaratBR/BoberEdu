@@ -1,3 +1,4 @@
+
 //#region Error-related stuff
 
 type ErrorResponse = {
@@ -27,7 +28,6 @@ type Timestamps = {
 }
 
 //#endregion
-
 
 //#region User-related objects section
 

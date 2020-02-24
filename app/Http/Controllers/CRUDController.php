@@ -46,7 +46,7 @@ class CRUDController extends Controller
         $this->setInputName($inputName);
     }
 
-    protected function getById($id) {
+    protected function getById($id, Request $request) {
         return $this->class ? call_user_func($this->class . '::findOrFail', $id) : null;
     }
 
@@ -67,13 +67,13 @@ class CRUDController extends Controller
 
     function update(Request $request) {
         $data = $request->validate($this->updateValidationRules);
-        $inst = $this->getById($this->getId($request));
+        $inst = $this->getById($this->getId($request), $request);
         $inst->update($data);
         return response()->noContent();
     }
 
     function destroy(Request $request) {
-        $this->getById($this->getId($request))->delete();
+        $this->getById($this->getId($request), $request)->delete();
         return response()->noContent();
     }
 

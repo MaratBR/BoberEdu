@@ -25,7 +25,8 @@ class Unit extends Model
         'name' => 'required|min:1|max:255',
         'is_preview' => 'required|boolean',
         'about' => 'required',
-        'order_num' => 'integer'
+        'order_num' => 'integer',
+        'course_id' => 'integer|required'
     ];
 
     public static $updateRules = [
@@ -35,11 +36,10 @@ class Unit extends Model
         'order_num' => 'integer'
     ];
 
-    public static function get(int $courseId, int $unitId)
+    public static function scopeForUser(User $user)
     {
+        if ($user->can())
         return self::query()
-            ->where('id', '=', $unitId)
-            ->where('course_id', '=', $courseId)
             ->whereHas('course', function (Builder $q) {
                 $q->where('available', '=', true);
             });
