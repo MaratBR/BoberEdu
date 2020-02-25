@@ -22,7 +22,13 @@ export default new VueRouter({
         },
         {
             path: '/c/:id',
-            component: () => import('./components/pages/CourseView.vue')
+            component: () => import('./components/pages/CourseView.vue'),
+            name: 'course'
+        },
+        {
+            path: '/c/:id/edit',
+            component: () => import('./components/pages/EditCourseForm.vue'),
+            name: 'edit_course'
         }
     ],
     mode: 'history'

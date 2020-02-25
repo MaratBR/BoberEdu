@@ -3,6 +3,9 @@
 use Illuminate\Database\Seeder;
 
 require  __DIR__ . '/UsersTableSeeder.php';
+require  __DIR__ . '/CoursesTableSeeder.php';
+require  __DIR__ . '/UnitsTableSeeder.php';
+require  __DIR__ . '/LessonsTableSeeder.php';
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,5 +17,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UsersTableSeeder::class);
+        $this->call(CoursesTableSeeder::class);
+        $this->call(UnitsTableSeeder::class);
+        $this->call(LessonsTableSeeder::class);
     }
 }

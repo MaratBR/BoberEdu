@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 
+/**
+ * @method static create(array $array)
+ */
 class Unit extends Model
 {
     protected $fillable = [

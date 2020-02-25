@@ -3,9 +3,10 @@ import {EventBus} from "./bus";
 import {store} from "./store";
 import {Course, CoursePayload, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, User} from "./apiDef";
 export * from "./apiDef";
+import * as models from "./models";
+(window as any).models = models;
 import * as path from 'path';
 import * as log from 'loglevel';
-log.setLevel('debug');
 
 function getData<T>(response: AxiosResponse<T>): T {
     return response.data
@@ -47,7 +48,7 @@ class CrudAdapter<T, TPayload> {
     }
 
     update(id: number, data: TPayload): Promise<void> {
-        return putNoContent( path.join(this.basePath, id + ''))
+        return putNoContent(path.join(this.basePath, id + ''), data)
     }
 
     delete(id: number): Promise<void> {
@@ -127,8 +128,8 @@ class Api {
     private isReady: boolean = false;
 
     public auth = new AuthenticationModule();
-    public readonly courses = new CrudAdapter('courses');
-    public readonly users = new CrudAdapter('users');
+    public readonly courses = new CrudAdapter<Course, CoursePayload>('courses');
+    public readonly users = new CrudAdapter<User, never>('users');
 
 
     constructor() {

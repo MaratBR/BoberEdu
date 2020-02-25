@@ -5,7 +5,16 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "experimentalDecorators": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "plugins": [
+            { "transform": "ts-transformer-keys/transformer" }
+        ],
+        "lib": [
+            "dom",
+            "es5",
+            "scripthost",
+            "es2015.proxy"
+        ]
     },
     "include": [
         "resources/js/**/*"

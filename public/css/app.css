@@ -8,35 +8,32 @@ hr {
   margin: 20px 0;
 }
 
+img {
+  max-width: 100%;
+}
+
+pre {
+  max-width: 100%;
+  overflow: auto;
+}
+
 .container {
   margin: 0 auto;
 }
 
-@media screen and (min-width: 1408px) {
+@media screen and (min-width: 769px) {
   .container {
     max-width: 1200px;
-  }
-}
-
-@media screen and (max-width: 1407px) and (min-width: 1216px) {
-  .container {
-    max-width: 1200px;
-  }
-}
-
-@media screen and (max-width: 1215px) and (min-width: 1024px) {
-  .container {
-    max-width: 800px;
-  }
-}
-
-@media screen and (max-width: 1023px) and (min-width: 769px) {
-  .container {
-    max-width: 600px;
   }
 }
 
 @media screen and (max-width: 768px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
   .container {
     max-width: 100vw;
   }
@@ -109,6 +106,7 @@ hr {
 textarea.input {
   width: 100%;
   min-height: 100px;
+  box-sizing: border-box;
 }
 
 select {
@@ -385,6 +383,23 @@ select {
   color: #cc0000;
 }
 
+.btn--transparent,
+.btn--transparent:hover {
+  background: transparent;
+}
+
+.btn--flat-white {
+  border: 2px solid white;
+  background: transparent;
+  transition: background 0.1s;
+  color: white;
+}
+
+.btn--flat-white:hover {
+  background: white;
+  color: black;
+}
+
 .notification {
   padding: 5px 15px;
   margin: 0 0 10px 0;
@@ -406,6 +421,15 @@ select {
 
 .page {
   padding: 0 10px;
+}
+
+.page__header {
+  display: flex;
+}
+
+.page__header__right {
+  margin-left: auto;
+  align-self: center;
 }
 
 .d--block {
@@ -510,14 +534,6 @@ select {
 
 .d--inline-grid {
   display: inline-grid;
-}
-
-.fxw--wrap {
-  flex-wrap: wrap;
-}
-
-.fxbs--100 {
-  flex-basis: 100%;
 }
 
 .mt--1 {

@@ -15,13 +15,11 @@ class Course extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'price', 'about', 'sign_in_beg', 'sign_in_end',
+        'name', 'price', 'about', 'sign_up_beg', 'sign_up_end',
         'available'
     ];
 
     protected $casts = [
-        'sign_in_beg' => 'date',
-        'sign_in_end' => 'date',
         'available' => 'boolean',
         'price' => 'float'
     ];
@@ -43,22 +41,13 @@ class Course extends Model
         'name' => 'min:1|max:255',
         'price' => 'numeric|min:0|max:9999999999999999999.99',
         'about' => 'string',
-        'sign_up_beg' => 'nullable|date',
-        'sign_up_end' => 'nullable|date',
+        'sign_up_beg' => 'nullable|date_format:Ymd',
+        'sign_up_end' => 'nullable|date_format:Ymd',
         'available' => 'boolean'
     ];
 
-    public static function getById($id): Course
+    public function units()
     {
-        return self::findOrFail($id);
-    }
-
-    public function scopeForUser(Builder $query, User $user)
-    {
-        if ($user->can(Course::class, 'bypass_protection')) {
-            return $query;
-        }
-        return $query
-            ->where('available', '=', true);
+        return $this->hasMany(Unit::class);
     }
 }

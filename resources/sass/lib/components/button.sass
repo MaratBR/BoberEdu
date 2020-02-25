@@ -54,5 +54,16 @@ $ss-button-primary-fg: white
     &--danger
         @include button-style($ss-button-danger-bg, $ss-button-danger-fg)
 
+    &--transparent
+        &, &:hover
+            background: transparent
 
+    &--flat-white
+        border: 2px solid white
+        background: transparent
+        transition: background 0.1s
+        color: white
+        &:hover
+            background: white
+            color: black
 

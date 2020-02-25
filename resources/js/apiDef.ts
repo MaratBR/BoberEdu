@@ -75,6 +75,17 @@ export type User = {
 
 //#endregion
 
+export type UnitPayload = {
+    name: string,
+    is_preview: boolean,
+    about: string,
+    order_num: 0
+}
+
+export type Unit = IDModel & Timestamps & UnitPayload & {
+    course_id: number
+}
+
 //#region Course-related objects
 
 export type CoursePayload = {
@@ -85,6 +96,19 @@ export type CoursePayload = {
     name: string
 }
 
-export type Course = CoursePayload & Timestamps & IDModel;
+export type Course = CoursePayload & Timestamps & IDModel & {
+    units: Unit[]
+};
+
+function removeTimestampsAndId<T extends object>(obj: T & Timestamps & IDModel): T {
+
+    let {created_at, id, ...result} = obj;
+    // @ts-ignore
+    return result as T;
+}
+
+export function extractCoursePayload(course: Course): CoursePayload {
+    return removeTimestampsAndId(course);
+}
 
 //#endregion

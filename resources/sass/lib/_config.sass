@@ -1,8 +1,13 @@
-$ss-breakpoint-mobile: 'max-width: 768px'
-$ss-breakpoint-tablet: 'max-width: 1023px) and (min-width: 769px'
-$ss-breakpoint-desktop: 'max-width: 1215px) and (min-width: 1024px'
-$ss-breakpoint-wide: 'max-width: 1407px) and (min-width: 1216px'
-$ss-breakpoint-fhd: 'min-width: 1408px'
+$ss-breakpoint-mobile-v: 768px
+$ss-breakpoint-tablet-v: 1023px
+$ss-breakpoint-desktop-v: 1215px
+$ss-breakpoint-wide-v: 768px
+
+$ss-breakpoint-mobile: "max-width: #{$ss-breakpoint-mobile-v}"
+$ss-breakpoint-tablet: 'max-width: #{$ss-breakpoint-tablet-v}'
+$ss-breakpoint-desktop: 'max-width: #{$ss-breakpoint-desktop-v}'
+$ss-breakpoint-wide: 'max-width: #{$ss-breakpoint-wide-v}'
+$ss-breakpoint-fhd: 'min-width: #{$ss-breakpoint-wide-v + 1px}'
 
 $ss-font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif
 

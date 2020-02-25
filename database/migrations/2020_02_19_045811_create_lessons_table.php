@@ -17,7 +17,7 @@ class CreateLessonsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->smallInteger('order_num');
-            $table->string('title')->nullable(false)->unique();
+            $table->string('title');
             $table->text('content');
             $table->softDeletes();
 

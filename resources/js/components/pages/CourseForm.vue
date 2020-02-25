@@ -1,5 +1,5 @@
 <template>
-    <page title="New course">
+    <page :title="data.name + (course ? '' : ' (new course)')">
         <form class="form" @submit.prevent="onSubmit">
             <validation-provider v-slot="{errors}" rules="required">
             <div class="form__control">
@@ -42,36 +42,47 @@
             <validation-provider v-slot="{errors}" rules="required">
                 <div class="form__control">
                     <label>Summary</label>
-                    <editor v-model="data.summary" />
+                    <editor v-model="data.about" />
                     <span v-for="err in errors" class="input__error">{{err}}</span>
                 </div>
             </validation-provider>
 
-            <input type="submit" class="btn btn--primary" value="Save">
+            <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
         </form>
+
+        <units-editor :units="course ? course.units : []" />
     </page>
 </template>
 
 <script lang="ts">
     import Page from "./Page.vue";
     import {Editor} from '@toast-ui/vue-editor'
-    import {api} from "../../api";
+    import {CoursePayload, courses, extractCoursePayload} from "../../api";
+    import Loader from "../misc/Loader.vue";
+    import Error from "../misc/Error.vue";
+    import UnitsEditor from "./UnitsEditor.vue";
+    import {makeModel, Model} from "../../model";
+
+    const defaultCoursePayload = {
+        name: '',
+        about: '',
+        price: 0,
+        sign_up_beg: null,
+        sign_up_end: null
+    } as CoursePayload;
 
     console.log(Editor);
     export default {
-        name: "NewCourseForm",
-        components: {Page, editor: Editor},
+        name: "CourseForm",
+        components: {UnitsEditor, Error, Loader, Page, editor: Editor},
         data() {
             return {
-                data: {
-                    name: '',
-                    summary: '',
-                    price: 0,
-                    sign_up_beg: null,
-                    sign_up_end: null
-                },
+                data: null,
                 signUpPeriodErr: '',
-                hasSignUpPeriod: false
+                hasSignUpPeriod: false,
+                loading: true,
+                errors: null,
+                submitting: false
             }
         },
         props: {
@@ -82,12 +93,31 @@
         },
         methods: {
             onSubmit() {
-                api.courses.create(this.data)
+                if (this.submitting)
+                    return;
+                this.submitting = true;
+                console.log(this.data);
+                let data = this.data instanceof Proxy ? this.data.getStaged() : this.data;
+                return;
+                let promise: Promise<any> = this.course ?
+                    courses.update(this.course.id, data) :
+                    courses.create(data).then(c => this.course = c);
+                promise.finally(() => this.submitting = false)
+            },
+            init() {
+                if (this.course) {
+                    this.data = makeModel(extractCoursePayload(this.course));
+                } else {
+                    this.data = {...defaultCoursePayload};
+                }
             }
         },
         created(): void {
-            if (this.course) {
-
+            this.init()
+        },
+        watch: {
+            course() {
+                this.init()
             }
         }
     }

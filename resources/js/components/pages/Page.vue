@@ -3,7 +3,9 @@
         <section class="page">
             <header class="page__header">
                 <h2>{{title}}</h2>
-                <div class="page__header__right"></div>
+                <div class="page__header__right">
+                    <slot name="header"></slot>
+                </div>
             </header>
             <hr>
             <main class="page__content">
@@ -13,8 +15,8 @@
     </container>
 </template>
 
-<script>
-    import Container from "../Container";
+<script lang="ts">
+    import Container from "../Container.vue";
     export default {
         name: "Page",
         components: {Container},
