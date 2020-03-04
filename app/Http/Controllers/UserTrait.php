@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 
-class UserController extends CRUDController
+class UserTrait
 {
+    // TODO Implement
+    use CRUDTrait;
+
     public function __construct()
     {
         $this->configure(

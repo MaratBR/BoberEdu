@@ -4,9 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string name
+ * @property string description
+ */
 class Role extends Model
 {
-    protected $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = ['name', 'description'];
 }

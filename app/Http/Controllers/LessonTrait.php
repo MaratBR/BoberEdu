@@ -6,7 +6,7 @@ use App\Lesson;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class LessonController extends CRUDController
+class LessonTrait extends CRUDTrait
 {
     protected function getListColumns(Request $request): array
     {

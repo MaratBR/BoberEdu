@@ -65,7 +65,7 @@
                 this.loading = true;
                 courses.get(this.$route.params.id)
                     .then(c => {
-                        this.course = c
+                        this.course = c;
                     })
                     .finally(() => this.loading = false)
             }

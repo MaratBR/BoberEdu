@@ -25,9 +25,14 @@ Route::group([
 });
 
 
+Route::group([
+    'prefix' => 'units'
+], function ($r) {
+    Route::post('{course}', 'CourseController@updateUnits');
+});
+
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store', 'index']);
 Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
-Route::resource('units', 'UnitController')->only(['store', 'update', 'show', 'index', 'destroy']);
 Route::resource('lessons', 'LessonController')->only(['store', 'update', 'show', 'index', 'destroy']);
 
 

@@ -28,6 +28,7 @@
     "@northwalker/vue-hotel-datepicker": "github:northwalker/vue-hotel-datepicker",
     "@toast-ui/vue-editor": "^1.0.0",
     "loglevel": "^1.6.7",
+    "moment": "^2.24.0",
     "tui-editor": "^1.4.10",
     "vee-validate": "^3.2.5",
     "vue-cleave-component": "^2.1.3",

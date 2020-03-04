@@ -1,10 +1,10 @@
 <template>
-    <page :title="data.name + (course ? '' : ' (new course)')">
+    <page :title="courseData.name || 'New course'">
         <form class="form" @submit.prevent="onSubmit">
             <validation-provider v-slot="{errors}" rules="required">
             <div class="form__control">
                 <label for="Name">Name</label>
-                <input type="text" class="input" :aria-invalid="errors.length !== 0" id="Name" v-model="data.name">
+                <input type="text" class="input" :aria-invalid="errors.length !== 0" id="Name" v-model="courseData.name">
                 <span class="input__error">{{errors[0]}}</span>
             </div>
             </validation-provider>
@@ -12,7 +12,7 @@
             <validation-provider v-slot="{errors}" rules="required|min_value:0">
                 <div class="form__control">
                     <label for="Price">Price</label>
-                    <input type="text" class="input" :aria-invalid="errors.length !== 0" id="Price" v-model="data.price" />
+                    <input type="text" class="input" :aria-invalid="errors.length !== 0" id="Price" v-model="courseData.price" />
                     <span v-for="err in errors" class="input__error">{{err}}</span>
                 </div>
             </validation-provider>
@@ -27,14 +27,13 @@
                 <label for="HasSignupPeriod">Has sign up period</label>
                 <div v-show="hasSignUpPeriod" class="d--flex fxw--wrap">
                     <div class="form__control mr--2">
-                        <label for="SignUpBeg" class="form__label">Starts at</label>
-                        <cleave :aria-invalid="+data.sign_up_end < +data.sign_up_beg" id="SignUpBeg" type="text" :options="{date: true, datePattern: ['Y', 'm', 'd']}" placeholder="YYYY/MM/DD" v-model="data.sign_up_beg" class="input" />
-                        <span v-show="+data.sign_up_end < +data.sign_up_beg" class="input__error">"Starts at" must go <b>before</b> "Ends at"</span>
+                        <label class="form__label">Starts at</label>
+                        <date-input @input="$forceUpdate()" v-model="courseData.sign_up_beg" class="input" output-format="YYYY-MM-DD" />
                     </div>
 
                     <div class="form__control">
-                        <label for="SignUpEnd" class="form__label">Ends at</label>
-                        <cleave :aria-invalid="+data.sign_up_end < +data.sign_up_beg" id="SignUpEnd" type="text" :options="{date: true, datePattern: ['Y', 'm', 'd']}" placeholder="YYYY/MM/DD" v-model="data.sign_up_end" class="input" />
+                        <label class="form__label">Ends at</label>
+                        <date-input @input="$forceUpdate()" v-model="courseData.sign_up_end" output-format="YYYY-MM-DD" class="input" />
                     </div>
                 </div>
             </div>
@@ -42,15 +41,17 @@
             <validation-provider v-slot="{errors}" rules="required">
                 <div class="form__control">
                     <label>Summary</label>
-                    <editor v-model="data.about" />
+                    <editor v-model="courseData.about" />
                     <span v-for="err in errors" class="input__error">{{err}}</span>
                 </div>
             </validation-provider>
 
+            <error v-for="(error, index) in errors">{{index}}: {{error.join(', ')}}</error>
+
             <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
         </form>
 
-        <units-editor :units="course ? course.units : []" />
+        <units-editor :units="courseData ? courseData.units : []" />
     </page>
 </template>
 
@@ -61,23 +62,16 @@
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
     import UnitsEditor from "./UnitsEditor.vue";
-    import {makeModel, Model} from "../../model";
+    import Course from "../../models/course";
+    import DateInput from "../misc/DateInput.vue";
+    import {PropValidator} from "vue/types/options";
 
-    const defaultCoursePayload = {
-        name: '',
-        about: '',
-        price: 0,
-        sign_up_beg: null,
-        sign_up_end: null
-    } as CoursePayload;
-
-    console.log(Editor);
     export default {
         name: "CourseForm",
-        components: {UnitsEditor, Error, Loader, Page, editor: Editor},
+        components: {DateInput, UnitsEditor, Error, Loader, Page, editor: Editor},
         data() {
             return {
-                data: null,
+                courseData: new Course({}),
                 signUpPeriodErr: '',
                 hasSignUpPeriod: false,
                 loading: true,
@@ -89,36 +83,41 @@
             course: {
                 type: Object,
                 default: null
-            }
+            } as PropValidator<Course>
         },
         methods: {
             onSubmit() {
                 if (this.submitting)
                     return;
                 this.submitting = true;
-                console.log(this.data);
-                let data = this.data instanceof Proxy ? this.data.getStaged() : this.data;
-                return;
+
+                let data = this.courseData.getStagedChanges();
                 let promise: Promise<any> = this.course ?
                     courses.update(this.course.id, data) :
                     courses.create(data).then(c => this.course = c);
-                promise.finally(() => this.submitting = false)
+                promise
+                    .then(r => console.log(r))
+                    .catch(err => this.errors = err.response.data.errors)
+                    .finally(() => this.submitting = false)
             },
-            init() {
-                if (this.course) {
-                    this.data = makeModel(extractCoursePayload(this.course));
-                } else {
-                    this.data = {...defaultCoursePayload};
-                }
-            }
+            /*signUpPeriodIsValid() {
+                return (!this.courseData.sign_up_beg && !this.courseData.sign_up_end) ||
+                    this.courseData.sign_up_end && this.courseData.sign_up_beg && +this.courseData.sign_up_end > +this.courseData.sign_up_beg
+            }*/
         },
         created(): void {
-            this.init()
+            if (this.course)
+                this.courseData = this.course;
+            this.courseData.enableStaging();
+            this.hasSignUpPeriod = !!this.course.sign_up_beg;
         },
         watch: {
             course() {
                 this.init()
             }
+        },
+        computed: {
+
         }
     }
 </script>

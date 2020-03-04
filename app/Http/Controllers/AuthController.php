@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,20 +15,11 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-
-        $credentials = $request->validate([
-            'name' => 'required|unique:users|max:255',
-            'email' => 'required|unique:users|email',
-            'password' => 'required|min:8'
-        ]);
+        $credentials = $request->validated();
         $credentials['password'] = Hash::make($credentials['password']);
-
-
-
         $user = User::create($credentials);
-
         $token = auth()->login($user);
 
         return response()->json([
@@ -35,12 +28,9 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'name' => 'required|max:255',
-            'password' => 'required|max:255'
-        ]);
+        $credentials = $request->validated();
 
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
@@ -59,18 +49,18 @@ class AuthController extends Controller
         echo auth()->id();
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return ['message' => 'Successfully logged out'];
     }
 
     public function currentUser(Request $request) {
 
         $user = $request->user();
-        return response()->json($user);
+        return $user;
     }
 
     protected function respondWithToken($token)
     {
-        return response()->json($this->tokenBody($token));
+        return $this->tokenBody($token);
     }
 
     protected function tokenBody($token) {

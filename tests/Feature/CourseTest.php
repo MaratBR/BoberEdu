@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class CourseTest extends TestCase
@@ -27,7 +29,9 @@ class CourseTest extends TestCase
             'name' => $prefix . 'Test',
             'price' => 120.34,
             'available' => true
-        ])->assertStatus(201);
+        ]);
+        echo $response->getContent();
+        $response->assertStatus(201);
         self::assertIsInt($response->json('id'));
         return $response->json('id');
     }

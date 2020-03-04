@@ -9,6 +9,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @method static User create(array $credentials)
+ * @property Role[] roles
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -70,9 +71,23 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasRole('admin');
     }
 
+
+    /**
+     * @param $course int|Course
+     * @return bool
+     */
+    public function teacherAt($course): bool {
+        if ($course instanceof Course)
+            $course = $course->getKey();
+        // TODO Implement
+        return true;
+    }
+
     private function hasRole(string $name): bool
     {
-        foreach ($this->roles() as $role) {
+        foreach ($this->roles as $role) {
+            if (!$role)
+                continue;
             if ($role->name === $name) {
                 return true;
             }

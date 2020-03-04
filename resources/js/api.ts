@@ -1,12 +1,13 @@
 import axios, {AxiosResponse} from "axios"
 import {EventBus} from "./bus";
 import {store} from "./store";
-import {Course, CoursePayload, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, User} from "./apiDef";
+import {LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, User} from "./apiDef";
 export * from "./apiDef";
 import * as models from "./models";
 (window as any).models = models;
 import * as path from 'path';
 import * as log from 'loglevel';
+import {makeModel, Course, Model, ModelType} from "./models";
 
 function getData<T>(response: AxiosResponse<T>): T {
     return response.data
@@ -17,7 +18,8 @@ function getData<T>(response: AxiosResponse<T>): T {
 function retrieveOrNull<T>(path: string): Promise<T | null> {
     return new Promise<T | null>(function (resolve) {
         axios.get<T>(path)
-            .then(getData).then(resolve)
+            .then(getData)
+            .then(resolve)
             .catch(() => resolve(null))
     })
 }
@@ -36,18 +38,23 @@ function delete_(path: string): Promise<void> {
 
 //#endregion
 
-class CrudAdapter<T, TPayload> {
-    private readonly basePath: string
+class CrudAdapter<
+    T extends Model<TData>,
+    TData extends object> {
 
-    constructor(basePath: string) {
+    private readonly basePath: string;
+    private readonly model: ModelType<TData, T>;
+
+    constructor(basePath: string, model: ModelType<TData, T>) {
         this.basePath = basePath
+        this.model = model;
     }
 
     get(id: number): Promise<T | null> {
-        return retrieveOrNull( path.join(this.basePath, id + ''))
+        return retrieveOrNull<TData>( path.join(this.basePath, id + '')).then(makeModel(this.model))
     }
 
-    update(id: number, data: TPayload): Promise<void> {
+    update(id: number, data: TData): Promise<void> {
         return putNoContent(path.join(this.basePath, id + ''), data)
     }
 
@@ -55,8 +62,8 @@ class CrudAdapter<T, TPayload> {
         return delete_(path.join(this.basePath, id + ''))
     }
 
-    create(data: TPayload): Promise<T> {
-        return post(this.basePath, data)
+    create(data: TData): Promise<T> {
+        return post<TData>(this.basePath, data).then(makeModel(this.model))
     }
 }
 
@@ -128,8 +135,8 @@ class Api {
     private isReady: boolean = false;
 
     public auth = new AuthenticationModule();
-    public readonly courses = new CrudAdapter<Course, CoursePayload>('courses');
-    public readonly users = new CrudAdapter<User, never>('users');
+    public readonly courses = new CrudAdapter('courses', Course);
+    public readonly users = new CrudAdapter('users', null);
 
 
     constructor() {
@@ -169,6 +176,7 @@ class Api {
 }
 
 const api = new Api();
+(window as any).API = api;
 const auth = api.auth;
 const courses = api.courses;
 const users = api.users;

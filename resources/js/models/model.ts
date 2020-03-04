@@ -1,52 +1,86 @@
-export class Model<T extends object, TStatic extends object> {
-    private readonly _value: T & TStatic;
+export class Model<T extends object> {
+    private readonly _value: object = {};
+    private _stagedChanges: object | null = null;
 
-    constructor(val: T & TStatic) {
-        if (typeof val === "undefined")
-            throw new Error('Initial value required');
-        this._value = val
+    protected set(key: PropertyKey, val: any) {
+        if (this._stagedChanges !== null) {
+            if (val === this._value[key])
+                delete this._stagedChanges[key];
+            else
+                this._stagedChanges[key] = val;
+        }
+        else
+            this._value[key] = val;
     }
 
-    protected set<K extends keyof T>(key: K, val: T[K]) {
-        // @ts-ignore
-        this._value[key] = val;
-    }
-
-    protected get<K extends keyof T | keyof TStatic>(key: K): (T & TStatic)[K] {
+    protected get(key: PropertyKey): any {
+        if (this._stagedChanges !== null) {
+            // @ts-ignore
+            let val: (T & Partial<TStatic>)[K] | undefined = this._stagedChanges[key];
+            if (typeof val !== 'undefined')
+                return val;
+        }
         return this._value[key];
     }
+
+    enableStaging(): void {
+        this._stagedChanges = this._stagedChanges || {};
+    }
+
+    getStagedChanges(): Partial<T> {
+        if (this._stagedChanges === null)
+            throw new Error('Staging changes is not enabled');
+        return this._stagedChanges;
+    }
+
+    flushStagedChanges(): void {
+        this._stagedChanges = null;
+    }
 }
 
-interface IIDModel {
-    id: number
+export interface IIDModel {
+    id?: number
 }
 
-class IDModel<T extends object, TStatic extends object> extends Model<T, IIDModel & TStatic>{
+class IDModel<T extends object> extends Model<IIDModel & T>{
     get id(): number { return this.get('id') }
+
+    constructor({id}: Partial<IIDModel>) {
+        super();
+        this.set('id', id);
+    }
+
 }
 
 export type DateStr = string;
 
-interface ITimestamps extends IIDModel {
-    created_at: DateStr
+export interface ITimestamps extends IIDModel {
+    created_at?: DateStr
 }
 
-export class TimestampsModel<T extends object, TStatic extends object> extends IDModel<T, ITimestamps & TStatic>{
+export class TimestampsModel<T extends object> extends IDModel<T & ITimestamps>{
     get created_at(): DateStr { return this.get('created_at') }
+
+    constructor(val: ITimestamps) {
+        super(val);
+        this.set('created_at', val.created_at)
+    }
 }
+
+export type ModelType<
+    TData extends object,
+    T extends Model<TData>> = {new(val: TData): T};
 
 export function model<
     TData extends object,
-    TStatic extends object,
-    T extends Model<TData, TStatic>
-    >(model: {new(val: TData & TStatic): T}, val: TData & TStatic): T {
+    T extends Model<TData>
+    >(model: {new(val: TData): T}, val: TData): T {
     return new model(val);
 }
 
 export function makeModel<
     TData extends object,
-    TStatic extends object,
-    T extends Model<TData, TStatic>
-    >(model: {new(val: TData & TStatic): T}): (val: TData & TStatic) => T {
-    return (val: TData & TStatic) => new model(val);
+    T extends Model<TData>
+    >(model: {new(val: TData): T}): (val: TData) => T {
+    return (val: (TData) | null) => val !== null ? new model(val) : null;
 }
