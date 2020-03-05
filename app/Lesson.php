@@ -3,12 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static create(array $array)
  */
 class Lesson extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'title', 'content', 'unit_id', 'order_num'
     ];

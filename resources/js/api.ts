@@ -8,6 +8,8 @@ import * as models from "./models";
 import * as path from 'path';
 import * as log from 'loglevel';
 import {makeModel, Course, Model, ModelType} from "./models";
+import {ICourse} from "./models/course";
+import {IUnit} from "./models/unit";
 
 function getData<T>(response: AxiosResponse<T>): T {
     return response.data
@@ -131,11 +133,44 @@ class AuthenticationModule {
     }
 }
 
+export type CreateUnitsResponse = {
+    deleted: number[]
+    created: IUnit[]
+    updated: number[]
+}
+
+export type UnitPayload = {
+    name: string
+    about: string
+    is_preview?: boolean
+}
+
+export type UpdateUnitPayload = {
+    id: number
+} & Partial<UnitPayload>
+
+export type CreateUnitsRequest = {
+    delete?: number[]
+    order?: (number | string)[]
+    new?: UnitPayload[],
+    upd?: UpdateUnitPayload[]
+}
+
+class CourseAdapter extends CrudAdapter<Course, ICourse> {
+    constructor() {
+        super('courses', Course);
+    }
+
+    createUnits(course: Course | number, data: CreateUnitsRequest): Promise<CreateUnitsResponse> {
+        return post('courses/' + (course instanceof Course ? course.id : course) + '/units', data)
+    }
+}
+
 class Api {
     private isReady: boolean = false;
 
     public auth = new AuthenticationModule();
-    public readonly courses = new CrudAdapter('courses', Course);
+    public readonly courses = new CourseAdapter();
     public readonly users = new CrudAdapter('users', null);
 
 

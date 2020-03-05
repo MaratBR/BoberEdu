@@ -42,8 +42,10 @@ export interface IIDModel {
     id?: number
 }
 
-class IDModel<T extends object> extends Model<IIDModel & T>{
+export class IDModel<T extends object> extends Model<IIDModel & T>{
     get id(): number { return this.get('id') }
+
+    get isPersistent(): boolean { return typeof this.id !== 'undefined' }
 
     constructor({id}: Partial<IIDModel>) {
         super();
@@ -61,7 +63,7 @@ export interface ITimestamps extends IIDModel {
 export class TimestampsModel<T extends object> extends IDModel<T & ITimestamps>{
     get created_at(): DateStr { return this.get('created_at') }
 
-    constructor(val: ITimestamps) {
+    constructor(val: Partial<ITimestamps>) {
         super(val);
         this.set('created_at', val.created_at)
     }

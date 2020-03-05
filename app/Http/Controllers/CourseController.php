@@ -56,11 +56,11 @@ class CourseController
     public function destroy(Request $request)
     {
         $this->delById($request->course);
+        return response()->noContent();
     }
 
     public function store(CreateNewCourseRequest $request)
     {
-        return $request->validated();
         $course = $this->create($request->validated());
         return response()->json($course, 201);
     }
@@ -121,19 +121,33 @@ class CourseController
         }
 
         $course->units()->saveMany($newUnits);
+        $updated = [];
 
+        DB::beginTransaction();
 
         foreach ($units as $unit) {
-            $updData = $updById[$unit['id']] ?? [];
+            if (array_key_exists($unit['id'], $updById)) {
+                $updData = $updById[$unit['id']];
+                $updated[] = $unit['id'];
+            } else {
+                $updData = [];
+            }
             $updData['order_num'] = $orderInv[$unit['id']] ?? ($orderXCounter++);
-            $unit->update($updData);
+            Unit::query()
+                ->where('id', '=', $unit->id)
+                ->update($updData);
+            //$unit->update($updData);
         }
 
-        Unit::destroy($toBeDeleted);
+        Unit::query()->whereIn('id', $toBeDeleted)->delete();
+
+        DB::commit();
+
 
         return [
             'deleted' => $toBeDeleted,
-            'created' => $newUnits
+            'created' => $newUnits,
+            'updated' => $updated
         ];
     }
 }

@@ -1,5 +1,12 @@
 <template>
     <page :title="courseData.name || 'New course'">
+        <template v-slot:header>
+            <div class="d--flex">
+                <router-link class="btn" :to="{name: 'course', params: {id: courseData.id}}">View course</router-link>
+                <router-link class="ml--1 btn" v-if="courseData.isPersistent" :to="{name: 'course', params: {id: courseData.id}}">View course</router-link>
+            </div>
+        </template>
+
         <form class="form" @submit.prevent="onSubmit">
             <validation-provider v-slot="{errors}" rules="required">
             <div class="form__control">
@@ -16,7 +23,6 @@
                     <span v-for="err in errors" class="input__error">{{err}}</span>
                 </div>
             </validation-provider>
-
 
             <div>
                 <input
@@ -51,20 +57,21 @@
             <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
         </form>
 
-        <units-editor :units="courseData ? courseData.units : []" />
+        <units-editor :course="courseData" />
     </page>
 </template>
 
 <script lang="ts">
     import Page from "./Page.vue";
     import {Editor} from '@toast-ui/vue-editor'
-    import {CoursePayload, courses, extractCoursePayload} from "../../api";
+    import {CoursePayload, courses} from "../../api";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
     import UnitsEditor from "./UnitsEditor.vue";
     import Course from "../../models/course";
     import DateInput from "../misc/DateInput.vue";
     import {PropValidator} from "vue/types/options";
+    import {makeModel} from "../../models";
 
     export default {
         name: "CourseForm",
@@ -94,22 +101,25 @@
                 let data = this.courseData.getStagedChanges();
                 let promise: Promise<any> = this.course ?
                     courses.update(this.course.id, data) :
-                    courses.create(data).then(c => this.course = c);
+                    courses.create(data).then(makeModel(Course)).then(c => this.courseData = c);
                 promise
                     .then(r => console.log(r))
                     .catch(err => this.errors = err.response.data.errors)
                     .finally(() => this.submitting = false)
             },
+            init() {
+                if (this.course)
+                    this.courseData = this.course;
+                this.courseData.enableStaging();
+                this.hasSignUpPeriod = !!this.courseData.sign_up_beg;
+            }
             /*signUpPeriodIsValid() {
                 return (!this.courseData.sign_up_beg && !this.courseData.sign_up_end) ||
                     this.courseData.sign_up_end && this.courseData.sign_up_beg && +this.courseData.sign_up_end > +this.courseData.sign_up_beg
             }*/
         },
         created(): void {
-            if (this.course)
-                this.courseData = this.course;
-            this.courseData.enableStaging();
-            this.hasSignUpPeriod = !!this.course.sign_up_beg;
+            this.init()
         },
         watch: {
             course() {

@@ -1,82 +1,142 @@
 <template>
-    <section class="units-editor">
-        <div class="unit-entry-wrp" v-for="ui in indexes">
+    <form @submit.prevent="onSubmit" class="units-editor">
+        <div class="unit-entry-wrp" v-for="unit in units">
             <div class="unit-entry">
                 <header class="unit-entry__header">
                     <label>
                         Name:
-                        <input type="text" class="input" v-model="units[ui].name">
+                        <input type="text" class="input" v-model="unit.name">
                     </label>
                 </header>
 
                 <div class="unit-entry__body">
-                    <textarea class="input" v-model="units[ui].about" />
+                    <textarea class="input" v-model="unit.about" />
                 </div>
             </div>
 
+
             <div class="unit-controls">
-                <button v-if="indexes.indexOf(ui) !== 0" @click="move(ui, -1)" class="btn btn--transparent">
+                <button v-if="true" @click.prevent="move(unit, -1)" class="btn btn--transparent">
                     <i class="fa fa-arrow-up"></i>
                 </button>
-                <button v-if="indexes.indexOf(ui) !== indexes.length - 1" @click="move(ui, 1)" class="btn btn--transparent">
+
+                <button @click.prevent="del(unit)" class="btn btn--transparent">
+                    <i class="fa fa-trash"></i>
+                </button>
+
+                <button v-if="true" @click.prevent="move(unit, 1)" class="btn btn--transparent">
                     <i class="fa fa-arrow-down"></i>
                 </button>
             </div>
         </div>
-    </section>
+
+        <div class="units-editor__add">
+            <button class="btn" @click.prevent="addNew()">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+
+        <input :disabled="submitting" type="submit" value="Save">
+        <error v-if="errors !== null" :error="errors" />
+    </form>
 </template>
 
 <script lang="ts">
-    import {Unit} from "../../apiDef";
-    import Vue from "vue";
+    import {Course, Unit} from "../../models";
+    import Vue, {PropOptions} from "vue";
+    import ModelCollection from "../../models/collection";
+    import {IUnit} from "../../models/unit";
+    import {courses, CreateUnitsRequest} from "../../api";
+    import {PropValidator} from "vue/types/options";
+    import Error from "../misc/Error.vue";
 
     export default {
         name: "UnitsEditor",
+        components: {Error},
         data() {
             return {
                 changes: {},
-                indexes: []
+                unitsCollectionAdapter: undefined as ModelCollection<Unit, IUnit>,
+                units: [] as Unit[],
+                submitting: false,
+                errors: null
             }
         },
         props: {
-            units: {
+            course: {
                 required: true,
-                type: Array
-            }
+                type: Object
+            } as PropValidator<Course>
         },
         methods: {
-            move(unitIndex: number, diff: number) {
-                let ii = this.indexes.indexOf(unitIndex);
-                let newIi = ii + diff;
-                if (newIi < 0)
-                    newIi = 0;
-                else if (newIi >= this.indexes.length)
-                    newIi = this.indexes.length - 1;
-                if (newIi !== ii) {
-                    let i1 = this.indexes[newIi], i2 = this.indexes[ii];
-                    Vue.set(this.indexes, newIi, i2);
-                    Vue.set(this.indexes, ii, i1);
+            move(unit: Unit, diff: number) {
+                let index = this.units.indexOf(unit);
+                let newIndex = index + diff;
+                if (newIndex < 0 || newIndex >= this.units.length || newIndex === index)
+                    return;
+                this.units[index] = this.units[newIndex];
+                Vue.set(this.units, newIndex, unit);
+            },
+            del(unit: Unit) {
+                // Delete index from indexes
+                this.unitsCollectionAdapter.delete(unit);
+            },
+            addNew() {
+                let unit = new Unit({});
+                unit.enableStaging();
+                this.unitsCollectionAdapter.add(unit);
+            },
+            init() {
+                this.units = this.course.units;
+                this.units.map(u => {
+                    u.enableStaging();
+                });
+                this.unitsCollectionAdapter = new ModelCollection<Unit, IUnit>(this.units);
+            },
+            getPayload(): CreateUnitsRequest {
+                return {
+                    new: this.unitsCollectionAdapter.created.map(u => u.getStagedChanges()),
+                    upd: this.units.map(u => {
+                        let changes = u.getStagedChanges();
+                        if (Object.keys(changes).length === 0)
+                            return null;
+                        changes.id = u.id;
+                        return changes;
+                    }).filter(u => u !== null),
+                    delete: this.unitsCollectionAdapter.deleted.map(u => u.id),
+                    order: this.units.map(u => u.id || `n${this.unitsCollectionAdapter.created.indexOf(u)}`)
                 }
             },
+            onSubmit() {
+                this.submitting = true;
+                courses
+                    .createUnits(this.course, this.getPayload())
+                    .catch(err => this.errors = err.response.data)
+                    .finally(() => this.submitting = false)
+            }
         },
         created(): void {
-            this.units.push({
-                name: 'Test',
-                order_num: 10,
-
-            });
-            this.indexes = Array.from(Array(this.units.length).keys())
-
+            this.init()
         }
     }
 </script>
 
 <style lang="sass" scoped>
+    .units-editor
+        &__add
+            display: flex
+            justify-content: center
+
+            & > button
+                width: 200px
+                height: 50px
+                font-size: 1.6em
+
     .unit-entry
         padding: 10px
         border: 1px solid whitesmoke
-
         background: whitesmoke
+
     .unit-entry-wrp
         display: grid
         grid-template-columns: 1fr 60px

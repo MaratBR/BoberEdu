@@ -1,6 +1,11 @@
 import Course from "./course"
-export * from "./model"
+import Unit from './unit';
+import User from "./user";
+
+export * from './model';
 
 export {
-    Course
+    Course,
+    Unit,
+    User
 }

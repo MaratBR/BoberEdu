@@ -8,17 +8,18 @@ export interface IUnit extends ITimestamps {
     course_id: number
 }
 
-export class Unit extends TimestampsModel<IUnit> {
-    constructor(val: IUnit) {
+export default class Unit extends TimestampsModel<IUnit> {
+    constructor(val: Partial<IUnit>) {
         super(val);
 
-        ({
-            name: this.name,
-            about: this.about,
-            is_preview: this.is_preview,
-            order_num: this.order_num,
-            course_id: this.course_id,
-        } = val);
+        if (val)
+            ({
+                name: this.name,
+                about: this.about,
+                is_preview: this.is_preview,
+                order_num: this.order_num,
+                course_id: this.course_id,
+            } = val);
     }
 
     get name(): string { return this.get('name') }

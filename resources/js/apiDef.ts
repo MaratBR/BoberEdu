@@ -100,15 +100,5 @@ export type Course = CoursePayload & Timestamps & IDModel & {
     units: Unit[]
 };
 
-function removeTimestampsAndId<T extends object>(obj: T & Timestamps & IDModel): T {
-
-    let {created_at, id, ...result} = obj;
-    // @ts-ignore
-    return result as T;
-}
-
-export function extractCoursePayload(course: Course): CoursePayload {
-    return removeTimestampsAndId(course);
-}
 
 //#endregion

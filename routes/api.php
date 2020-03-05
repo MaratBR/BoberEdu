@@ -26,9 +26,9 @@ Route::group([
 
 
 Route::group([
-    'prefix' => 'units'
+    'prefix' => 'courses'
 ], function ($r) {
-    Route::post('{course}', 'CourseController@updateUnits');
+    Route::post('{course}/units', 'CourseController@updateUnits');
 });
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store', 'index']);

@@ -1,7 +1,7 @@
 import {DateStr, ITimestamps, TimestampsModel} from "./model";
-import {IUnit, Unit} from "./unit";
+import {IUnit, default as Unit} from "./unit";
 
-interface ICourse extends ITimestamps {
+export interface ICourse extends ITimestamps {
     name: string
     about: string
     price: number
