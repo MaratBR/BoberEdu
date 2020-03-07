@@ -7,9 +7,7 @@ import App from "./App.vue"
 import {store} from "./store";
 import {ValidationProvider} from "vee-validate";
 import "./validationRules"
-import * as Cleave from 'vue-cleave-component';
 
-Vue.use(Cleave);
 Vue.use(Router);
 Vue.component('validation-provider', ValidationProvider);
 

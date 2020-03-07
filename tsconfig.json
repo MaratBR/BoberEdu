@@ -2,13 +2,10 @@
     "compilerOptions": {
         "target": "es5",
         "strict": false,
-        "module": "commonjs",
+        "module": "esnext",
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "resolveJsonModule": true,
-        "plugins": [
-            { "transform": "ts-transformer-keys/transformer" }
-        ],
         "lib": [
             "dom",
             "es5",

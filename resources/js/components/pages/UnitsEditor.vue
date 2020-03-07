@@ -43,7 +43,7 @@
 
 <script lang="ts">
     import {Course, Unit} from "../../models";
-    import Vue, {PropOptions} from "vue";
+    import Vue from "vue";
     import ModelCollection from "../../models/collection";
     import {IUnit} from "../../models/unit";
     import {courses, CreateUnitsRequest} from "../../api";

@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +12,15 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.ts('resources/js/app.ts', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+
+mix.webpackConfig({
+    output: {
+        chunkFilename: 'js/chunks/[name].[chunkhash].js',//replace with your path
+    },
+});
+
+
+mix.ts('resources/js/app.ts', 'public/js');
+mix.sass('resources/sass/app.scss', 'public/css');
+mix.version();
+

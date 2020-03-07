@@ -5,29 +5,39 @@ export default new VueRouter({
     routes: [
         {
             path: '/login',
-            component: () => import('./components/pages/LoginPage.vue')
+            component: () => import(
+                /* webpackChunkName: "login" */
+                './components/pages/LoginPage.vue')
         },
         {
             path: '/register',
-            component: () => import('./components/pages/RegisterPage.vue')
+            component: () => import(
+                /* webpackChunkName: "register" */
+                './components/pages/RegisterPage.vue')
         },
         {
             path: '/user/:id',
-            component: () => import('./components/pages/ProfilePage.vue')
+            component: () => import(/* webpackChunkName: "profile" */ './components/pages/ProfilePage.vue')
         },
 
         {
+            path: '/c',
+            component: () => import(
+                /* webpackChunkName: "courses-list" */
+                './components/pages/CoursesList.vue')
+        },
+        {
             path: '/c/new',
-            component: () => import('./components/pages/CourseForm.vue')
+            component: () => import(/* webpackChunkName: "course-form" */ './components/pages/CourseForm.vue')
         },
         {
             path: '/c/:id',
-            component: () => import('./components/pages/CourseView.vue'),
+            component: () => import(/* webpackChunkName: "course-view" */ './components/pages/CourseView.vue'),
             name: 'course'
         },
         {
             path: '/c/:id/edit',
-            component: () => import('./components/pages/EditCourseForm.vue'),
+            component: () => import(/* webpackChunkName: "edit-course" */ './components/pages/EditCourseForm.vue'),
             name: 'edit_course'
         }
     ],

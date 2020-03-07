@@ -47,8 +47,7 @@
             <validation-provider v-slot="{errors}" rules="required">
                 <div class="form__control">
                     <label>Summary</label>
-                    <editor v-model="courseData.about" />
-                    <span v-for="err in errors" class="input__error">{{err}}</span>
+                    <markdown-editor  v-model="courseData.about" />
                 </div>
             </validation-provider>
 
@@ -61,21 +60,21 @@
     </page>
 </template>
 
-<script lang="ts">
+<script>
+    console.log('HELLo!');
     import Page from "./Page.vue";
-    import {Editor} from '@toast-ui/vue-editor'
-    import {CoursePayload, courses} from "../../api";
+    import {courses} from "../../api";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
     import UnitsEditor from "./UnitsEditor.vue";
     import Course from "../../models/course";
     import DateInput from "../misc/DateInput.vue";
-    import {PropValidator} from "vue/types/options";
     import {makeModel} from "../../models";
+    import MarkdownEditor from "../misc/MarkdownEditor.vue";
 
     export default {
         name: "CourseForm",
-        components: {DateInput, UnitsEditor, Error, Loader, Page, editor: Editor},
+        components: {MarkdownEditor, DateInput, UnitsEditor, Error, Loader, Page},
         data() {
             return {
                 courseData: new Course({}),
@@ -90,7 +89,7 @@
             course: {
                 type: Object,
                 default: null
-            } as PropValidator<Course>
+            }
         },
         methods: {
             onSubmit() {
@@ -99,7 +98,7 @@
                 this.submitting = true;
 
                 let data = this.courseData.getStagedChanges();
-                let promise: Promise<any> = this.course ?
+                let promise = this.course ?
                     courses.update(this.course.id, data) :
                     courses.create(data).then(makeModel(Course)).then(c => this.courseData = c);
                 promise
@@ -110,15 +109,12 @@
             init() {
                 if (this.course)
                     this.courseData = this.course;
+                console.log(this.courseData.about)
                 this.courseData.enableStaging();
                 this.hasSignUpPeriod = !!this.courseData.sign_up_beg;
             }
-            /*signUpPeriodIsValid() {
-                return (!this.courseData.sign_up_beg && !this.courseData.sign_up_end) ||
-                    this.courseData.sign_up_end && this.courseData.sign_up_beg && +this.courseData.sign_up_end > +this.courseData.sign_up_beg
-            }*/
         },
-        created(): void {
+        created() {
             this.init()
         },
         watch: {

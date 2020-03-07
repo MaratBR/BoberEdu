@@ -1,12 +1,13 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-import {User} from "./api";
+import {User} from "./models";
 
 type State = {
     user: User | null | undefined,
-    userSyncing: boolean
+    userSyncing: boolean,
 }
 Vue.use(Vuex);
+
 const store = new Vuex.Store<State>({
     state: {
         user: null,

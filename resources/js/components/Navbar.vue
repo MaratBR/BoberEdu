@@ -29,9 +29,6 @@
 </template>
 
 <script lang="ts">
-    import {EventBus} from "../bus";
-    import {api, User} from "../api";
-
     export default {
         name: "Navbar",
         data() {

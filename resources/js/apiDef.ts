@@ -1,6 +1,8 @@
 
 //#region Error-related stuff
 
+import {IUser} from "./models/user";
+
 type ErrorResponse = {
     message: string,
     errors: {
@@ -65,13 +67,11 @@ export type RegisterRequest = {
 }
 
 export type RegisterResponse = {
-    user: User,
+    user: IUser,
     login: LoginResponseSuccess
 }
 
-export type User = {
-    name: string
-} & IDModel & Timestamps
+
 
 //#endregion
 

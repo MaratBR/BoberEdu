@@ -1,17 +1,27 @@
-import {DateStr, ITimestamps, TimestampsModel} from "./model";
+import {DateStr, IIDModel, ITimestamps, TimestampsModel} from "./model";
 import {IUnit, default as Unit} from "./unit";
 
 export interface ICourse extends ITimestamps {
     name: string
     about: string
     price: number
-    sign_up_beg?: Date
-    sign_up_end?: Date
+    sign_up_beg: string | null
+    sign_up_end: string | null
     units?: IUnit[]
+}
+
+export interface ICoursePaginationData extends IIDModel {
+    name: string
+    price: number
+    sign_up_be: string
+    sign_up_end: string
+    units_count: number
+    lessons_count: number
 }
 
 export default class Course extends TimestampsModel<ICourse> {
     constructor(val: Partial<ICourse>) {
+        // TODO Check if this is a bad idea (why did i do this?)
         val.about = val.about || '';
         super(val);
 
@@ -29,8 +39,8 @@ export default class Course extends TimestampsModel<ICourse> {
     get name(): string { return this.get('name') }
     get about(): string { return this.get('about') }
     get price(): number { return this.get('price') }
-    get sign_up_beg(): Date | undefined { return this.get('sign_up_beg') }
-    get sign_up_end(): Date | undefined { return this.get('sign_up_end') }
+    get sign_up_beg(): string | undefined { return this.get('sign_up_beg') }
+    get sign_up_end(): string | undefined { return this.get('sign_up_end') }
     get units(): Unit[] { return this.get('units') }
 
 

@@ -1,15 +1,17 @@
-import axios, {AxiosResponse} from "axios"
+import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
 import {EventBus} from "./bus";
 import {store} from "./store";
-import {LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, User} from "./apiDef";
+import {LoginRequest, LoginResponse, RegisterRequest, RegisterResponse} from "./apiDef";
 export * from "./apiDef";
 import * as models from "./models";
 (window as any).models = models;
 import * as path from 'path';
 import * as log from 'loglevel';
-import {makeModel, Course, Model, ModelType} from "./models";
-import {ICourse} from "./models/course";
+import {makeModel, Course, Model, ModelType, User} from "./models";
+import {ICourse, ICoursePaginationData} from "./models/course";
 import {IUnit} from "./models/unit";
+import Pagination, {IPagination} from "./models/pagination";
+import {IUser} from "./models/user";
 
 function getData<T>(response: AxiosResponse<T>): T {
     return response.data
@@ -17,9 +19,9 @@ function getData<T>(response: AxiosResponse<T>): T {
 
 //#region Axios shortcuts
 
-function retrieveOrNull<T>(path: string): Promise<T | null> {
+function retrieveOrNull<T>(path: string, opts?: AxiosRequestConfig): Promise<T | null> {
     return new Promise<T | null>(function (resolve) {
-        axios.get<T>(path)
+        axios.get<T>(path, opts)
             .then(getData)
             .then(resolve)
             .catch(() => resolve(null))
@@ -42,13 +44,14 @@ function delete_(path: string): Promise<void> {
 
 class CrudAdapter<
     T extends Model<TData>,
-    TData extends object> {
+    TData extends object,
+    TPaginationData extends object = TData> {
 
     private readonly basePath: string;
     private readonly model: ModelType<TData, T>;
 
     constructor(basePath: string, model: ModelType<TData, T>) {
-        this.basePath = basePath
+        this.basePath = basePath;
         this.model = model;
     }
 
@@ -66,6 +69,10 @@ class CrudAdapter<
 
     create(data: TData): Promise<T> {
         return post<TData>(this.basePath, data).then(makeModel(this.model))
+    }
+
+    pagination(page: number = 1): Promise<Pagination<TPaginationData>> {
+        return retrieveOrNull<IPagination<TPaginationData>>(this.basePath, {params: {page}}).then(v => new Pagination(v))
     }
 }
 
@@ -93,7 +100,7 @@ class AuthenticationModule {
     }
 
     static retrieveUser(): Promise<User | null> {
-        return retrieveOrNull<User>('/auth/user')
+        return retrieveOrNull<IUser>('/auth/user').then(makeModel(User))
     }
 
     syncUserFromServer(silent: boolean = false): Promise<User | null> {
@@ -116,7 +123,7 @@ class AuthenticationModule {
         return axios.post<RegisterResponse>('/auth/register', data)
             .then((resp) => {
                 this.setToken(resp.data.login.accessToken);
-                AuthenticationModule.setUser(resp.data.user);
+                AuthenticationModule.setUser(new User(resp.data.user));
                 console.log(resp.data);
                 return resp.data
             });
@@ -156,7 +163,7 @@ export type CreateUnitsRequest = {
     upd?: UpdateUnitPayload[]
 }
 
-class CourseAdapter extends CrudAdapter<Course, ICourse> {
+class CourseAdapter extends CrudAdapter<Course, ICourse, ICoursePaginationData> {
     constructor() {
         super('courses', Course);
     }

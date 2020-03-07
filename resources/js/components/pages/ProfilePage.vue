@@ -10,9 +10,10 @@
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import {api, auth, log, User, users} from "../../api";
+    import {api, auth, log, users} from "../../api";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
+    import {User} from "../../models";
     export default {
         name: "ProfilePage",
         components: {Error, Loader, Page},

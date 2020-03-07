@@ -41,11 +41,10 @@
     import {courses} from "../../api";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
-    import {EditorViewer} from '@toast-ui/vue-editor'
 
     export default {
         name: "CourseView",
-        components: {Error, Loader, Page, EditorViewer},
+        components: {Error, Loader, Page},
         data() {
             return {
                 course: null as Course | null,
