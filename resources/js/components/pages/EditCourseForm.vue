@@ -11,7 +11,6 @@
 <script lang="ts">
     import CourseForm from "./CourseForm.vue";
     import {Course} from "../../apiDef";
-    import {courses} from "../../api";
     import Page from "./Page.vue";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
@@ -30,9 +29,9 @@
                     this.course = null;
                     return
                 }
-                this.loading = true
+                this.loading = true;
 
-                courses.get(+this.$route.params.id)
+                this.$store.dispatch('getCourse', +this.$route.params.id)
                     .then(c => this.course = c)
                     .finally(() => this.loading = false)
 

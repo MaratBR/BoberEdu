@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'auth'
 ], function ($router) {
     Route::post('login', 'AuthController@login');
@@ -35,6 +34,13 @@ Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show
 Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
 Route::resource('lessons', 'LessonController')->only(['store', 'update', 'show', 'index', 'destroy']);
 
+
+Route::group([
+    'prefix' => 'payments'
+], function ($r) {
+    Route::post('init', 'PaymentController@initPayment');
+    Route::get('confirm/{payment}', 'PaymentController@confirmPayment');
+});
 
 Route::fallback(function (Request $request) {
     return response()->json(['message' => 'Route not found'], 404);

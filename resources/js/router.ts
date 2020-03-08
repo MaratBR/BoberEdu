@@ -7,28 +7,33 @@ export default new VueRouter({
             path: '/login',
             component: () => import(
                 /* webpackChunkName: "login" */
-                './components/pages/LoginPage.vue')
+                './components/pages/LoginPage.vue'),
+            name: 'login'
         },
         {
             path: '/register',
             component: () => import(
                 /* webpackChunkName: "register" */
-                './components/pages/RegisterPage.vue')
+                './components/pages/RegisterPage.vue'),
+            name: 'register'
         },
         {
             path: '/user/:id',
-            component: () => import(/* webpackChunkName: "profile" */ './components/pages/ProfilePage.vue')
+            component: () => import(/* webpackChunkName: "profile" */ './components/pages/ProfilePage.vue'),
+            name: 'user'
         },
 
         {
             path: '/c',
             component: () => import(
                 /* webpackChunkName: "courses-list" */
-                './components/pages/CoursesList.vue')
+                './components/pages/CoursesList.vue'),
+            name: 'courses'
         },
         {
             path: '/c/new',
-            component: () => import(/* webpackChunkName: "course-form" */ './components/pages/CourseForm.vue')
+            component: () => import(/* webpackChunkName: "course-form" */ './components/pages/CourseForm.vue'),
+            name: 'create_course'
         },
         {
             path: '/c/:id',

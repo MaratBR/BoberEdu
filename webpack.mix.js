@@ -17,6 +17,9 @@ mix.webpackConfig({
     output: {
         chunkFilename: 'js/chunks/[name].[chunkhash].js',//replace with your path
     },
+    plugins: [
+        new BundleAnalyzerPlugin()
+    ]
 });
 
 

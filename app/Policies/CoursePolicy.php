@@ -92,4 +92,9 @@ class CoursePolicy
     {
         return $user->isAdmin();
     }
+
+    public function buy(User $user, Course $course)
+    {
+        return true;
+    }
 }

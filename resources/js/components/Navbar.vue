@@ -5,10 +5,11 @@
                 <h2>EducationalBober</h2>
             </div>
             <section class="nav__links">
-                <a href="" class="nav__links__a">1</a>
-                <a href="" class="nav__links__a">2</a>
-                <a href="" class="nav__links__a">3</a>
-                <a href="" class="nav__links__a">4</a>
+                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
+                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
+                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
+                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
+                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
             </section>
 
             <section class="nav__right">

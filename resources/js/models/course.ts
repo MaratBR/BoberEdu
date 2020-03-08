@@ -21,9 +21,8 @@ export interface ICoursePaginationData extends IIDModel {
 
 export default class Course extends TimestampsModel<ICourse> {
     constructor(val: Partial<ICourse>) {
-        // TODO Check if this is a bad idea (why did i do this?)
-        val.about = val.about || '';
         super(val);
+        val.about = val.about || '';
 
         this.set('units', val.units ? val.units.map(u => new Unit(u)) : []);
 
@@ -42,6 +41,8 @@ export default class Course extends TimestampsModel<ICourse> {
     get sign_up_beg(): string | undefined { return this.get('sign_up_beg') }
     get sign_up_end(): string | undefined { return this.get('sign_up_end') }
     get units(): Unit[] { return this.get('units') }
+
+    get has_preview(): boolean { return this.units ? this.units.some(u => u.is_preview) : null }
 
 
     set name(v) { this.set('name', v) }

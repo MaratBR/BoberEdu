@@ -1,6 +1,26 @@
+const registeredModels: any = {};
+
+function ensure<
+    TData extends object,
+    T extends Model<TData>
+    >(model: {new(val: TData): T}): void {
+    if (!registeredModels[model.name]) {
+        registeredModels[model.name] = model;
+    }
+    console.log(registeredModels)
+}
+
+export function serializeModel() {
+
+}
+
 export class Model<T extends object> {
     private readonly _value: object = {};
     private _stagedChanges: object | null = null;
+
+    constructor() {
+        ensure(this.constructor as {new(val: T): Model<T>, name: string})
+    }
 
     protected set(key: PropertyKey, val: any) {
         if (this._stagedChanges !== null) {

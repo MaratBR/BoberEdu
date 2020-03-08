@@ -61,7 +61,6 @@
 </template>
 
 <script>
-    console.log('HELLo!');
     import Page from "./Page.vue";
     import {courses} from "../../api";
     import Loader from "../misc/Loader.vue";

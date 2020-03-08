@@ -2,11 +2,13 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @method static Course create(array $data)
@@ -60,5 +62,24 @@ class Course extends Model
     public function units(): HasMany
     {
         return $this->hasMany(Unit::class);
+    }
+
+    public function canBePurchased()
+    {
+        $now = Carbon::now();
+        return ($this->sign_up_beg == null && $this->sign_up_end == null) ||
+            ($this->sign_up_beg < $now && $this->sign_up_end > $now);
+    }
+
+    public static function getWithDetailsOrFail($id)
+    {
+        return self::query()
+            ->with([
+                'units' => function (Builder $q) {
+                    $q->where('is_preview', '=', true);
+                }
+            ])
+            ->select(['courses.*', DB::raw('COUNT(units.*) != 0 as has_preview')])
+            ->findOrFail($id);
     }
 }

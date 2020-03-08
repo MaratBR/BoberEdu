@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -19,6 +20,18 @@ class User extends Authenticatable implements JWTSubject
         'name', 'email', 'password', 'sex'
     ];
 
+    protected $appends = [
+        'roles_names'
+    ];
+
+    public function getRolesNamesAttribute() {
+        $names = [];
+        foreach ($this->roles as $role) {
+            $names[] = $role->name;
+        }
+        return $names;
+    }
+
     public static $updateRules = [
         'name' => 'string|max:255|min:1',
         'email' => 'email',
@@ -31,7 +44,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'deleted_at'
+        'password', 'remember_token', 'deleted_at', 'roles'
     ];
 
     /**
@@ -79,8 +92,13 @@ class User extends Authenticatable implements JWTSubject
     public function teacherAt($course): bool {
         if ($course instanceof Course)
             $course = $course->getKey();
-        // TODO Implement
-        return true;
+
+        return TeachingPeriod::query()
+            ->where('course_id', '=', $course)
+            ->where('since', '>', DB::raw('NOW()'))
+            ->whereNull('until')
+            ->orWhere('until', '>', DB::raw('NOW()'))
+            ->exists();
     }
 
     private function hasRole(string $name): bool

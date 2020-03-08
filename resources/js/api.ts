@@ -86,21 +86,17 @@ class AuthenticationModule {
     }
 
     setToken(token: string): void {
-        localStorage['__tok'] = token;
+        store.commit('setToken', token);
         AuthenticationModule.updateToken();
         this.syncUserFromServer();
     }
 
     static updateToken(): void {
-        axios.defaults.headers['Authorization'] = localStorage['__tok'] ? 'Bearer ' + localStorage['__tok'] : null;
+        axios.defaults.headers['Authorization'] = store.state.authToken ? 'Bearer ' + store.state.authToken : null;
     }
 
-    static getToken(): string | null {
-        return localStorage['__tok']
-    }
-
-    static retrieveUser(): Promise<User | null> {
-        return retrieveOrNull<IUser>('/auth/user').then(makeModel(User))
+    static retrieveUser(): Promise<IUser | null> {
+        return retrieveOrNull<IUser>('/auth/user')
     }
 
     syncUserFromServer(silent: boolean = false): Promise<User | null> {
@@ -115,7 +111,7 @@ class AuthenticationModule {
             });
     }
 
-    getUser(): User | null {
+    getUser(): IUser | null {
         return store.state.user
     }
 
@@ -127,12 +123,6 @@ class AuthenticationModule {
                 console.log(resp.data);
                 return resp.data
             });
-    }
-
-    static getAuthentication(): string | null {
-        let val = localStorage.getItem('authentication')
-        val = val ? `Bearer ${val}` : null;
-        return val
     }
 
     private static setUser(user: User) {
@@ -170,6 +160,10 @@ class CourseAdapter extends CrudAdapter<Course, ICourse, ICoursePaginationData> 
 
     createUnits(course: Course | number, data: CreateUnitsRequest): Promise<CreateUnitsResponse> {
         return post('courses/' + (course instanceof Course ? course.id : course) + '/units', data)
+    }
+
+    purchase(course: Course | number, preview: boolean = false) {
+
     }
 }
 
