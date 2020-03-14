@@ -40,7 +40,6 @@ class CourseController extends Controller
     public function update(UpdateCourseRequest $request)
     {
         $course = $this->courses->get($request->course);
-        $this->authorize('update', $course);
 
         $this->courses->update(
             $course,
@@ -51,12 +50,7 @@ class CourseController extends Controller
     public function destroy(DeleteCourseRequest $request)
     {
         $course = $this->courses->get($request->course);
-        $forceDelete = $request->isForce();
-        $action = $forceDelete ? 'forceDelete' : 'delete';
-        if (!$request->user()->can($action, $course))
-            throw new ForbiddenApiException("You are not allowed to delete this course!");
-
-        $success = $this->courses->delete($course);
+        $success = $this->courses->delete($course, $request->isForce());
         if (!$success)
             throw new InternalServerErrorApiException("Failed to delete course");
 

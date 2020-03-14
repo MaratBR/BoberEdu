@@ -3,11 +3,12 @@
 namespace App\Http\Requests\Courses;
 
 use App\Course;
+use App\Http\Requests\AuthenticatedRequest;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class CreateNewCourseRequest extends FormRequest
+class CreateNewCourseRequest extends AuthenticatedRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,7 +17,7 @@ class CreateNewCourseRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('create', Course::class);
+        return parent::authorize() && Gate::allows('create', Course::class);
     }
 
     /**

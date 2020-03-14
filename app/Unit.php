@@ -8,6 +8,8 @@ use Illuminate\Database\Query\Builder;
 
 /**
  * @method static create(array $array)
+ * @property Course course
+ * @property int course_id
  */
 class Unit extends Model
 {
