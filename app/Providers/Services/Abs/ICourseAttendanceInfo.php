@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Providers\Services;
+namespace App\Providers\Services\Abs;
 
 
 interface ICourseAttendanceInfo

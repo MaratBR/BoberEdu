@@ -11,8 +11,8 @@ use App\Http\Requests\Courses\CreateNewCourseRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Http\Requests\Courses\UpdateCourseUnitsRequest;
 use App\Http\Requests\Utils;
-use App\Providers\Services\ICourseService;
-use App\Providers\Services\ICourseUnitsUpdateResponse;
+use App\Providers\Services\Abs\ICourseService;
+use App\Providers\Services\Abs\ICourseUnitsUpdateResponse;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -78,32 +78,5 @@ class CourseController extends Controller
     {
         $course = $this->courses->get($request->courses);
         return $this->courses->updateCourseUnits($course, $request);
-    }
-
-    public function attend(AttendCourseRequest $request)
-    {
-        $course = $this->courses->get($request->getCourseId());
-        $this->authorize('buy', $course);
-
-        if (!$course->canBePurchased())
-            throw new BadRequestApiException("This course cannot be purchased, hence you cannot attend it");
-
-        return $this->courses->attend(
-            $course,
-            $request->user(),
-            $request
-        );
-    }
-
-    public function status(AuthenticatedRequest $request)
-    {
-        $courseId = $request->course;
-        $status = CourseAttendance::status($request->user()->id, $request->course);
-        if ($status === null)
-            throw new ModelNotFoundException("Course with id = $courseId not found");
-
-        return [
-            'status' => $status
-        ];
     }
 }

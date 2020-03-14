@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
- * @method static User create(array $credentials)
+ * @method static User create(array $data)
  * @method static User findOrFail(int|null $id)
  * @property Role[] roles
  */
@@ -57,11 +57,12 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
     public function roles() {
-        return $this->belongsToMany('App\Role', 'user_roles');
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    public function courses() {
+        return $this->belongsToMany(Course::class, CourseAttendance::class);
     }
 
     /**

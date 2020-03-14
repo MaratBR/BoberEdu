@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Courses;
 
 use App\Http\Requests\AuthenticatedRequest;
-use App\Providers\Services\ICourseAttendanceInfo;
+use App\Providers\Services\Abs\ICourseAttendanceInfo;
 
 class AttendCourseRequest extends AuthenticatedRequest implements ICourseAttendanceInfo
 {

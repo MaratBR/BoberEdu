@@ -14,7 +14,12 @@ use Illuminate\Support\Facades\DB;
  * @method static Course create(array $data)
  * @method static Course findOrFail(int $id)
  * @method static Builder where(string $column, string $op, $value)
+ *
  * @property Unit[] units
+ * @property int id
+ * @property string name
+ * @property float price
+ * @property bool available
  */
 class Course extends Model
 {

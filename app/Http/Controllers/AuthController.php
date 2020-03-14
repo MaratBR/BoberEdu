@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\AuthenticatedRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -34,23 +35,21 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function refresh()
+    public function refresh(AuthenticatedRequest $request)
     {
         return $this->respondWithToken(auth()->refresh());
     }
 
     public function logout()
     {
-        echo auth()->id();
         auth()->logout();
 
         return ['message' => 'Successfully logged out'];
     }
 
-    public function currentUser(Request $request) {
-
-        $user = $request->user();
-        return $user;
+    public function currentUser(AuthenticatedRequest $request)
+    {
+        return $request->user();
     }
 
     protected function respondWithToken($token)

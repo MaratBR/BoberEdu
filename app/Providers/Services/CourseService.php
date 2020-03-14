@@ -6,118 +6,15 @@ namespace App\Providers\Services;
 
 use App\Course;
 use App\CourseAttendance;
+use App\Providers\Services\Abs\ICourseService;
+use App\Providers\Services\Abs\ICourseUnitsUpdateResponse;
 use App\Purchase;
 use App\Unit;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Lanin\Laravel\ApiExceptions\BadRequestApiException;
-use Lanin\Laravel\ApiExceptions\ConflictApiException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
-
-class UnitsUpdateResponse implements ICourseUnitsUpdateResponse
-{
-    private $newIds;
-    private $updated;
-    private $deleted;
-
-    public function __construct($newIds, $updated, $deleted)
-    {
-        $this->deleted = $deleted;
-        $this->newIds = $newIds;
-        $this->updated = $updated;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode([
-            'created' => $this->newIds,
-            'deleted' => $this->deleted,
-            'updated' => $this->updated
-        ], $options);
-    }
-}
-
-class AttendanceStatus implements IAttendanceStatus
-{
-    private $attendance;
-    private $previewDurationInDays;
-
-    public function __construct(?CourseAttendance $attendance, int $previewDurationInDays)
-    {
-        $this->attendance = $attendance;
-        $this->previewDurationInDays = $previewDurationInDays;
-    }
-
-    function hasAccess(): bool
-    {
-        return ($this->isPreview() && !$this->isExpired()) ||
-            $this->getPurchaseInnerStatus() === Purchase::STATUS_SUCCESSFUL;
-    }
-
-    function isPreview(): bool
-    {
-        return $this->exists() && $this->attendance->preview;
-    }
-
-    function isExpired(): bool
-    {
-        return $this->exists() && $this->addPreviewPeriod($this->attendance->created_at)->gt(Carbon::now());
-    }
-
-    function asString(): string
-    {
-        if (!$this->exists())
-            return ATTENDANCE_STATUS_NO;
-        elseif ($this->isPreview())
-            if ($this->isExpired())
-                return ATTENDANCE_STATUS_PREVIEW_EXPIRED;
-            else
-                return ATTENDANCE_STATUS_PREVIEW;
-        else
-        {
-            $innerStatus = $this->getPurchaseInnerStatus();
-
-            switch ($innerStatus)
-            {
-                case null:
-                case Purchase::STATUS_PENDING:
-                    return ATTENDANCE_STATUS_AWAITING_PAYMENT;
-                case Purchase::STATUS_SUCCESSFUL:
-                    return ATTENDANCE_STATUS_YES;
-                default:
-                    return ATTENDANCE_STATUS_CANCELLED;
-            }
-
-        }
-    }
-
-    function getPurchaseInnerStatus(): ?string
-    {
-        return $this->exists() ?
-            ($this->attendance->purchase ? $this->attendance->purchase->status : null) :
-            null;
-    }
-
-    private function addPreviewPeriod(Carbon $createdAt): Carbon
-    {
-        return $createdAt->addDays($this->previewDurationInDays);
-    }
-
-    private function exists(): bool
-    {
-        return $this->attendance !== null;
-    }
-
-    function hasPayment(): bool
-    {
-        return $this->getPurchaseInnerStatus() === Purchase::STATUS_PENDING;
-    }
-}
 
 class CourseService implements ICourseService
 {
@@ -235,52 +132,5 @@ class CourseService implements ICourseService
         );
     }
 
-    function attend(Course $course, User $user, ICourseAttendanceInfo $info): CourseAttendance
-    {
-        $giftTo = $info->giftTo();
 
-        if ($giftTo !== null)
-        {
-            if ($info->isPreview())
-                throw new BadRequestApiException("You cannot gift a preview course");
-            $giftTo = User::findOrFail($giftTo);
-        }
-
-        $userId = $giftTo ? $giftTo->id : $user->id;
-        $giftBy = $giftTo ? $user->id : null;
-
-        if (CourseAttendance::hasRecord($userId, $course->id))
-        {
-            throw new ConflictApiException(
-                $giftTo ? "This user already attend this course" : "You already attend this course");
-        }
-
-
-        $attendance = new CourseAttendance([
-            'user_id' => $userId,
-            'gifted_by_id' => $giftBy,
-            'course_id' => $course->id,
-            'preview' => $info->isPreview()
-        ]);
-
-        $attendance->save();
-        $attendance->refresh();
-
-        return $attendance;
-    }
-
-    private function addPreviewPeriod(Carbon $date)
-    {
-        return $date->addDays(7);
-    }
-
-    function attendanceStatus(Course $course, User $user): IAttendanceStatus
-    {
-        $attendance = CourseAttendance::query()
-            ->where('user_id', '=', $user->id)
-            ->where('course_id', '=', $course->id)
-            ->first();
-
-        return new AttendanceStatus($attendance, 7);
-    }
 }

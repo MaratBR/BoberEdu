@@ -28,8 +28,9 @@ Route::group([
     'prefix' => 'courses'
 ], function ($r) {
     Route::post('{course}/units', 'CourseController@updateUnits');
-    Route::post('attendance/attend', 'CourseController@attend');
-    Route::get('attendance/{course}', 'CourseController@status');
+
+    Route::get('attendance/{course}', 'CourseAttendanceController@status');
+    Route::post('attendance/attend', 'CourseAttendanceController@attend');
 });
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store', 'index']);
@@ -37,12 +38,6 @@ Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
 Route::resource('lessons', 'LessonController')->only(['store', 'update', 'show', 'index', 'destroy']);
 
 
-Route::group([
-    'prefix' => 'payments'
-], function ($r) {
-    Route::post('init', 'PaymentController@initPayment');
-    Route::get('check/{payment}', 'PaymentController@checkPayment');
-});
 
 Route::fallback(function (Request $request) {
     return response()->json(['message' => 'Route not found'], 404);

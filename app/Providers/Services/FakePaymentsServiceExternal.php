@@ -4,6 +4,7 @@
 namespace App\Providers\Services;
 
 
+use App\Providers\Services\Abs\IExternalPaymentService;
 use Ramsey\Uuid\Uuid;
 
 class FakePaymentsServiceExternal implements IExternalPaymentService

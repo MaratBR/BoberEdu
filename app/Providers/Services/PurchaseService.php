@@ -6,6 +6,8 @@ namespace App\Providers\Services;
 
 use App\Course;
 use App\CourseAttendance;
+use App\Providers\Services\Abs\IExternalPaymentService;
+use App\Providers\Services\Abs\IPurchasesService;
 use App\Purchase;
 use App\User;
 
@@ -23,17 +25,15 @@ class PurchaseService implements IPurchasesService
         return Purchase::findOrFail($id);
     }
 
-    function create(string $title, string $redirect, float $price,
-                    CourseAttendance $course, User $recipient): Purchase
+    function create(string $title, string $redirect, float $price, User $customer): Purchase
     {
         $externalPaymentId = $this->externalPaymentService->placePayment($price, $title, $redirect);
 
         return Purchase::create([
             'external_id' => $externalPaymentId,
             'status' => 'pending',
-            'user_id' => $recipient->id,
-            'price' => $price,
-            'course_attendance_id' => $course->id
+            'user_id' => $customer->id,
+            'price' => $price
         ]);
     }
 }
