@@ -1,5 +1,5 @@
 <template>
-    <section id="NavWrapper">
+    <section id="NavWrapper" v-if="active">
         <nav :class="['nav', {'nav--active': mobileExpanded}]" role="navigation">
             <div class="nav__brand">
                 <h2>EducationalBober</h2>
@@ -13,10 +13,15 @@
             </section>
 
             <section class="nav__right">
-                <router-link :to="`/user/${$store.state.user.id}`" v-if="$store.getters.isAuthenticated ">{{$store.getters.username}}</router-link>
-                <span v-if="$store.state.userSyncing">Loading...</span>
-                <router-link v-if="!$store.getters.isAuthenticated && !$store.state.userSyncing" to="/login" class="btn btn--primary btn--inverted">Login</router-link>
-                <router-link v-if="!$store.getters.isAuthenticated && !$store.state.userSyncing" to="/register" class="btn btn--primary btn--inverted">Sign Up</router-link>
+                <router-link :to="`/user/${$store.state.auth.user.id}`"
+                             v-if="$store.getters['auth/isAuthenticated'] ">{{$store.state.auth.user.name}}</router-link>
+                <span v-if="$store.state.auth.syncing">Loading...</span>
+                <router-link
+                    v-if="!$store.getters['auth/isAuthenticated'] && !$store.state.auth.syncing"
+                    to="/login" class="btn btn--primary btn--inverted">Login</router-link>
+                <router-link
+                    v-if="!$store.getters['auth/isAuthenticated'] && !$store.state.auth.syncing"
+                        to="/register" class="btn btn--primary btn--inverted">Sign Up</router-link>
             </section>
 
             <div :class="['nav__burger', {'nav__burger--active': mobileExpanded}]" @click="mobileExpanded = !mobileExpanded">
@@ -34,19 +39,9 @@
         name: "Navbar",
         data() {
             return {
-                mobileExpanded: false
+                mobileExpanded: false,
+                active: (new URLSearchParams(window.location.search)).get('navbar') !== 'hide'
             }
-        },
-        methods: {
-        },
-        created(): void {
-
-        },
-        destroyed(): void {
-
-        },
-        mounted(): void {
-
         }
     }
 </script>

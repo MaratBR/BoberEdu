@@ -1,6 +1,6 @@
 <template>
     <page title="Courses List">
-        <pagination :pagination="pagination" v-slot="c">
+        <pagination :pagination="pagination" v-slot="c" @requestPage="load($event)">
             <div class="card course">
                 <header class="course__name">
                     <h3>{{c.name}}</h3>
@@ -38,10 +38,12 @@
             }
         },
         methods: {
-            load() {
-                this.pagination = null
+            load(page = null) {
+                if (page)
+                    this.currentPage = page;
+                this.pagination = null;
 
-                courses.pagination(this.currentPage)
+                this.$store.dispatch('courses/getCoursesPage', {page: this.currentPage})
                     .then(p => this.pagination = p)
             }
         },

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Courses;
 
 use App\Course;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
-class UpdateCourseRequest extends FormRequest
+class CreateNewCourseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,16 +16,7 @@ class UpdateCourseRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = Auth::user();
-        if ($user == null)
-            return false;
-
-        if ($user->isAdmin())
-            return true;
-
-        $courseId = $this->route('course');
-
-        return $user != null && $user->teacherAt($courseId);
+        return Gate::allows('create', Course::class);
     }
 
     /**
@@ -36,9 +27,9 @@ class UpdateCourseRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'min:1|max:255',
+            'name' => 'required|min:1|max:255',
             'price' => 'numeric|min:0|max:9999999999999999999.99',
-            'about' => 'string',
+            'about' => 'required',
             'sign_up_beg' => 'nullable|date_format:Y-m-d',
             'sign_up_end' => 'nullable|date_format:Y-m-d',
             'available' => 'boolean'

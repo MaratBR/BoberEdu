@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * @method static Course create(array $data)
  * @method static Course findOrFail(int $id)
+ * @method static Builder where(string $column, string $op, $value)
  * @property Unit[] units
  */
 class Course extends Model
@@ -74,12 +75,14 @@ class Course extends Model
     public static function getWithDetailsOrFail($id)
     {
         return self::query()
-            ->with([
-                'units' => function (Builder $q) {
-                    $q->where('is_preview', '=', true);
-                }
-            ])
-            ->select(['courses.*', DB::raw('COUNT(units.*) != 0 as has_preview')])
+            ->select('courses.*')
+            ->selectSub(function (Builder $q) use ($id) {
+                $q->from('units')
+                    ->where('course_id', '=', $id)
+                    ->where('is_preview', '=', true)
+                    ->selectRaw('COUNT(units.id)');
+            }, 'preview_units')
+            ->groupBy('courses.id')
             ->findOrFail($id);
     }
 }

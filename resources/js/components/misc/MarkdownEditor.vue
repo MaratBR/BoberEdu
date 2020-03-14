@@ -24,6 +24,7 @@
 
 <script lang="ts">
     import * as marked from "marked";
+    import * as DOMPurify from 'dompurify'
 
     export default {
         name: "MarkdownEditor",
@@ -35,10 +36,6 @@
             }
         },
         methods: {
-            update() {
-                console.log(this.value)
-                this.marked = marked(this.value)
-            },
             onInput(val: string) {
                 this.$emit('input', val)
             },
@@ -49,12 +46,12 @@
         },
         created(): void {
             if (typeof this.value === 'string')
-                this.marked = marked(this.value)
+                this.marked = DOMPurify.sanitize(marked(this.value))
         },
         watch: {
             value(newV) {
                 if (typeof newV === 'string')
-                    this.marked = marked(newV)
+                    this.marked = DOMPurify.sanitize(marked(newV))
             }
         }
     }

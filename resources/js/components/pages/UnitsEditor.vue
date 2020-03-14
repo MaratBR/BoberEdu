@@ -98,7 +98,7 @@
                     new: this.unitsCollectionAdapter.created.map(u => u.getStagedChanges()),
                     upd: this.units.map(u => {
                         let changes = u.getStagedChanges();
-                        if (Object.keys(changes).length === 0)
+                        if (Object.keys(changes).length === 0 || typeof changes.id !== 'number')
                             return null;
                         changes.id = u.id;
                         return changes;
@@ -109,8 +109,7 @@
             },
             onSubmit() {
                 this.submitting = true;
-                courses
-                    .createUnits(this.course, this.getPayload())
+                this.$store.dispatch('courses/updateUnits', {course: this.course, data: this.getPayload()})
                     .catch(err => this.errors = err.response.data)
                     .finally(() => this.submitting = false)
             }

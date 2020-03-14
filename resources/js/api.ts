@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
 import {EventBus} from "./bus";
-import {store} from "./store";
+import {store} from "./store/store";
 import {LoginRequest, LoginResponse, RegisterRequest, RegisterResponse} from "./apiDef";
 export * from "./apiDef";
 import * as models from "./models";
@@ -12,12 +12,13 @@ import {ICourse, ICoursePaginationData} from "./models/course";
 import {IUnit} from "./models/unit";
 import Pagination, {IPagination} from "./models/pagination";
 import {IUser} from "./models/user";
+import {CourseAttendance} from "./models/courseAttendance";
+
+//#region Axios shortcuts
 
 function getData<T>(response: AxiosResponse<T>): T {
     return response.data
 }
-
-//#region Axios shortcuts
 
 function retrieveOrNull<T>(path: string, opts?: AxiosRequestConfig): Promise<T | null> {
     return new Promise<T | null>(function (resolve) {
@@ -80,53 +81,27 @@ class AuthenticationModule {
     login(data: LoginRequest) {
         return post<LoginResponse>('/auth/login', data)
             .then(data => {
-                this.setToken(data.accessToken);
                 return data
             });
     }
 
-    setToken(token: string): void {
-        store.commit('setToken', token);
-        AuthenticationModule.updateToken();
-        this.syncUserFromServer();
-    }
-
-    static updateToken(): void {
-        axios.defaults.headers['Authorization'] = store.state.authToken ? 'Bearer ' + store.state.authToken : null;
+    setAuthorization(token?: string): void {
+        axios.defaults.headers['Authorization'] = token ? 'Bearer ' + token : null;
     }
 
     static retrieveUser(): Promise<IUser | null> {
         return retrieveOrNull<IUser>('/auth/user')
     }
 
-    syncUserFromServer(silent: boolean = false): Promise<User | null> {
-        if (!silent)
-            store.commit('setUserSyncing', true);
+    syncUserFromServer(): Promise<IUser | null> {
         return AuthenticationModule.retrieveUser()
-            .then((user: User | null) => {
-                if (!silent)
-                    store.commit('setUserSyncing', false);
-                AuthenticationModule.setUser(user)
+            .then((user: IUser | null) => {
                 return user;
             });
     }
 
-    getUser(): IUser | null {
-        return store.state.user
-    }
-
     register(data: RegisterRequest) {
-        return axios.post<RegisterResponse>('/auth/register', data)
-            .then((resp) => {
-                this.setToken(resp.data.login.accessToken);
-                AuthenticationModule.setUser(new User(resp.data.user));
-                console.log(resp.data);
-                return resp.data
-            });
-    }
-
-    private static setUser(user: User) {
-        store.state.user = user
+        return post<RegisterResponse>('/auth/register', data);
     }
 }
 
@@ -153,6 +128,20 @@ export type CreateUnitsRequest = {
     upd?: UpdateUnitPayload[]
 }
 
+export type AttendCourseRequest = {
+    course_id: number,
+    gift_to?: number,
+    preview?: boolean
+};
+
+export type AttendCourseResponse = {
+    attendance: CourseAttendance
+}
+
+export type AttendanceStatusResponse = {
+    status: 'do_not_attend' | 'preview' | 'awaiting_purchase' | 'purchase:successful' | 'purchase:'
+}
+
 class CourseAdapter extends CrudAdapter<Course, ICourse, ICoursePaginationData> {
     constructor() {
         super('courses', Course);
@@ -162,8 +151,19 @@ class CourseAdapter extends CrudAdapter<Course, ICourse, ICoursePaginationData> 
         return post('courses/' + (course instanceof Course ? course.id : course) + '/units', data)
     }
 
-    purchase(course: Course | number, preview: boolean = false) {
+    attend(course: Course | number, preview: boolean = false, giftTo?: number) {
+        let data: AttendCourseRequest = {
+            course_id: (course instanceof Course ? course.id : course)
+        };
+        if (preview)
+            data.preview = preview;
+        if (giftTo)
+            data.gift_to = giftTo;
+        return post<AttendCourseResponse>('courses/attendance/attend', data)
+    }
 
+    checkAttendanceStatus(id: number) {
+        return retrieveOrNull<AttendanceStatusResponse>('courses/attendance/' + id)
     }
 }
 
@@ -172,7 +172,7 @@ class Api {
 
     public auth = new AuthenticationModule();
     public readonly courses = new CourseAdapter();
-    public readonly users = new CrudAdapter('users', null);
+    public readonly users = new CrudAdapter('users', User);
 
 
     constructor() {
@@ -183,13 +183,7 @@ class Api {
 
     private prepare() {
         axios.defaults.baseURL = location.origin + '/api';
-        AuthenticationModule.updateToken();
-        Promise.all([
-            this.auth.syncUserFromServer() as Promise<any>
-        ]).then(() => {
-            EventBus.$emit('api-ready');
-            this.isReady = true;
-        });
+        this.auth.setAuthorization(store.state.auth.authToken);
     }
 
     //#endregion
@@ -212,6 +206,7 @@ class Api {
 }
 
 const api = new Api();
+// TODO Remove that line
 (window as any).API = api;
 const auth = api.auth;
 const courses = api.courses;

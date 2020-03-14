@@ -57,11 +57,8 @@ import {Sex} from "../../api";
         },
         methods: {
             onSubmit() {
-                auth.register(this.data)
+                this.$store.dispatch('register', this.data)
                     .then(console.log)
-                    .catch(({response: {data: {errors}}}) => {
-                        this.errors = errors
-                    })
             }
         }
     }

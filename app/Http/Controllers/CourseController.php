@@ -3,151 +3,107 @@
 namespace App\Http\Controllers;
 
 use App\Course;
-use App\Http\Requests\CreateNewCourseRequest;
-use App\Http\Requests\UpdateCourseRequest;
-use App\Http\Requests\UpdateCourseUnitsRequest;
-use App\Unit;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
+use App\CourseAttendance;
+use App\Http\Requests\Courses\AttendCourseRequest;
+use App\Http\Requests\AuthenticatedRequest;
+use App\Http\Requests\Courses\DeleteCourseRequest;
+use App\Http\Requests\Courses\CreateNewCourseRequest;
+use App\Http\Requests\Courses\UpdateCourseRequest;
+use App\Http\Requests\Courses\UpdateCourseUnitsRequest;
+use App\Http\Requests\Utils;
+use App\Providers\Services\ICourseService;
+use App\Providers\Services\ICourseUnitsUpdateResponse;
+use App\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Lanin\Laravel\ApiExceptions\BadRequestApiException;
+use Lanin\Laravel\ApiExceptions\ForbiddenApiException;
+use Lanin\Laravel\ApiExceptions\InternalServerErrorApiException;
 
-class CourseController
+class CourseController extends Controller
 {
-    use CRUDTrait;
+    private $courses;
 
-    public function __construct()
+    public function __construct(ICourseService $service)
     {
-        $this->eloquentModel = Course::class;
-    }
-
-    protected function byIdWithDetails($id)
-    {
-        return $this->getQueryBuilder()
-            ->with([
-                'units' => function ($q) {
-                    $q->orderBy('order_num', 'ASC');
-                }
-            ])
-            ->findOrFail($id);
-    }
-
-    protected function getAll(): Builder
-    {
-        return $this->getQueryBuilder()
-            ->select('courses.name', 'courses.price', 'courses.id', 'courses.sign_up_beg', 'courses.sign_up_end',
-                DB::raw('COUNT(units.id) as units_count'), DB::raw('COUNT(lessons.id) as lessons_count'))
-            ->leftJoin('units', 'units.course_id', '=', 'courses.id')
-            ->leftJoin('lessons', 'lessons.unit_id', '=', 'units.id')
-            ->groupBy('courses.id');
+        $this->courses = $service;
     }
 
     public function show(Request $request)
     {
-        return $this->byIdWithDetails($request->course);
+        return $this->courses->get(
+            $request->course,
+            Utils::asBool($request->query('units'))
+            );
     }
 
     public function update(UpdateCourseRequest $request)
     {
-        $this->updById($request->course, $request->validated());
-        return response()->noContent();
+        $course = $this->courses->get($request->course);
+        $this->authorize('update', $course);
+
+        $this->courses->update(
+            $course,
+            $request->validated()
+        );
     }
 
-    public function destroy(Request $request)
+    public function destroy(DeleteCourseRequest $request)
     {
-        $this->delById($request->course);
+        $course = $this->courses->get($request->course);
+        $forceDelete = $request->isForce();
+        $action = $forceDelete ? 'forceDelete' : 'delete';
+        if (!$request->user()->can($action, $course))
+            throw new ForbiddenApiException("You are not allowed to delete this course!");
+
+        $success = $this->courses->delete($course);
+        if (!$success)
+            throw new InternalServerErrorApiException("Failed to delete course");
+
         return response()->noContent();
     }
 
     public function store(CreateNewCourseRequest $request)
     {
-        $course = $this->create($request->validated());
+        $course = $this->courses->create($request->validated());
         return response()->json($course, 201);
     }
 
     public function index(Request $request)
     {
-        return $this->paginate($request, $this->getAll());
+        return $this->courses->paginate();
     }
 
     public function updateUnits(UpdateCourseUnitsRequest $request)
     {
-        $data = $request->validated();
-        if ($data === [])
-            return response()->noContent();
+        $course = $this->courses->get($request->courses);
+        return $this->courses->updateCourseUnits($course, $request);
+    }
 
-        /** @var Course $course */
-        $course = $this->byId($request->course);
-        $units = [];
-        foreach ($course->units as $unit)
-        {
-            $units[$unit->id] = $unit;
-        }
+    public function attend(AttendCourseRequest $request)
+    {
+        $course = $this->courses->get($request->getCourseId());
+        $this->authorize('buy', $course);
 
-        $toBeDeleted = $data['delete'] ?? [];
-        $new = $data['new'] ?? [];
-        $order = $data['order'] ?? [];
-        $upd = $data['upd'] ?? [];
-        $upd = array_filter($upd, function ($v) use ($toBeDeleted, $upd) {
-            return !in_array($v['id'], $toBeDeleted) &&
-                isset($units, $v['id']) &&
-                array_keys($v) !== ['id'];
-        });
-        $updById = [];
+        if (!$course->canBePurchased())
+            throw new BadRequestApiException("This course cannot be purchased, hence you cannot attend it");
 
-        foreach ($upd as $r)
-        {
-            $updById[$r['id']] = $r;
-        }
+        return $this->courses->attend(
+            $course,
+            $request->user(),
+            $request
+        );
+    }
 
-        $orderInv = [];
-        $orderXCounter = count($order);
-
-        foreach ($order as $ii => $i)
-        {
-            $orderInv[$i] = $ii;
-            if (substr($i, 0, 1) === 'n')
-            {
-                if (substr($i, 1) >= count($new))
-                    return response()->json(['message' => 'Invalid order item: ' . $i . ' no corresponding unit defined in "new"']);
-            }
-        }
-
-        $newUnits = [];
-
-        foreach ($new as $i => $nu) {
-            $nu['order_num'] = $orderInv["n$i"] ?? ($orderXCounter++);
-            $newUnits[] = new Unit($nu);
-        }
-
-        $course->units()->saveMany($newUnits);
-        $updated = [];
-
-        DB::beginTransaction();
-
-        foreach ($units as $unit) {
-            if (array_key_exists($unit['id'], $updById)) {
-                $updData = $updById[$unit['id']];
-                $updated[] = $unit['id'];
-            } else {
-                $updData = [];
-            }
-            $updData['order_num'] = $orderInv[$unit['id']] ?? ($orderXCounter++);
-            Unit::query()
-                ->where('id', '=', $unit->id)
-                ->update($updData);
-            //$unit->update($updData);
-        }
-
-        Unit::query()->whereIn('id', $toBeDeleted)->delete();
-
-        DB::commit();
-
+    public function status(AuthenticatedRequest $request)
+    {
+        $courseId = $request->course;
+        $status = CourseAttendance::status($request->user()->id, $request->course);
+        if ($status === null)
+            throw new ModelNotFoundException("Course with id = $courseId not found");
 
         return [
-            'deleted' => $toBeDeleted,
-            'created' => $newUnits,
-            'updated' => $updated
+            'status' => $status
         ];
     }
 }

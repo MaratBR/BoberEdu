@@ -1,31 +1,16 @@
 <template>
     <div class="notification notification--danger error">
-        <slot v-once v-if="typeof error === 'undefined'"></slot>
-        <template v-once v-else>
-            <span v-if="typeof error !== 'object'">{{error}}</span>
-            <ul v-else-if="error instanceof Array">
-                <li v-for="err in error">
-                    <error :error="err" />
-                </li>
-            </ul>
-            <template v-else-if="typeof error.message !== 'undefined'">
-                <b>{{error.message}}</b>
-                <error v-if="typeof error.errors === 'object'" :error="error.errors" />
-            </template>
-            <template v-else>
-                <ul>
-                    <li v-for="(v, k) in error">
-                        <b>{{k}}</b>: {{v}}
-                    </li>
-                </ul>
-            </template>
-        </template>
+        <error-presenter :error="error">
+            <slot></slot>
+        </error-presenter>
     </div>
 </template>
 
 <script lang="ts">
+    import ErrorPresenter from "./ErrorPresenter.vue";
     export default {
         name: "Error",
+        components: {ErrorPresenter},
         props: ['error']
     }
 </script>

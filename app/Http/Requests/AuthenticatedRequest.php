@@ -3,12 +3,13 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedRequest extends FormRequest
 {
     public function authorize()
     {
-        return $this->user() !== null;
+        return Auth::user() != null;
     }
 
     public function rules()

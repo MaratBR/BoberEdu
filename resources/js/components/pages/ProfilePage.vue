@@ -1,5 +1,8 @@
 <template>
     <page :title="user ? user.name : loading ? 'Loading...' : 'User not found'">
+        <pre>
+            {{user}}
+        </pre>
         <error v-html="error" v-if="error" />
         <loader v-if="loading" />
         <section id="Profile" v-if="user">
@@ -26,7 +29,7 @@
         },
         computed: {
             username() {
-                return this.user ? this.user : null
+                return this.user ? this.user.name : null
             }
         },
         watch: {
@@ -35,19 +38,18 @@
             }
         },
         created(): void {
-            log.debug('ProfilePage: created');
             api.ready().then(this.init.bind(this))
         },
         methods: {
             init() {
                 let id: number = +this.$route.params.id;
-                log.debug(`ProfilePage: ${id}`);
                 if (isNaN(id)) {
                     this.error = `Invalid user id: ${this.$route.params.id}`
                 } else {
                     this.error = null;
-                    let promise = (this.$store.getters.isAuthenticated && id === auth.getUser().id) ?
-                        auth.syncUserFromServer(true) : users.get(id);
+                    let promise = (this.$store.getters.isAuthenticated && id === this.$store.state.auth.user.id) ?
+                        this.$store.dispatch('updateUser') : users.get(id);
+                    console.log(promise)
                     this.updateFrom(promise)
                 }
             },
@@ -58,6 +60,7 @@
                     })
                     .catch(err => {
                         this.error = err.toString()
+                        throw err
                     })
                     .finally(() => this.loading = false)
             }

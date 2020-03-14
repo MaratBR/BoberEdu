@@ -31,10 +31,9 @@
                 }
                 this.loading = true;
 
-                this.$store.dispatch('getCourse', +this.$route.params.id)
+                this.$store.dispatch('courses/getCourse', +this.$route.params.id)
                     .then(c => this.course = c)
                     .finally(() => this.loading = false)
-
             }
         },
         watch: {

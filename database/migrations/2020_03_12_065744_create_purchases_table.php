@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCoursePurchasesTable extends Migration
+class CreatePurchasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateCoursePurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('course_purchases', function (Blueprint $table) {
+        Schema::create('purchases', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->decimal('price', 19, 4)->default(0);
+            $table->timestamp('created_at')->useCurrent();
+            $table->decimal('price', 19, 4);
+            $table->string('external_id');
+            $table->enum('status', ['pending', 'failed', 'cancelled', 'successful']);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->on('users')->references('id');
-            $table->string('payment_external_id')->nullable();
-            $table->enum('status', ['success', 'failed', 'pending', 'cancelled'])->default('pending');
-            $table->boolean('preview')->default(false);
-            $table->timestamp('created_at')->useCurrent();
         });
     }
 
@@ -32,6 +31,6 @@ class CreateCoursePurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('course_purchases');
+        Schema::dropIfExists('purchases');
     }
 }

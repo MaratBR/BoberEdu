@@ -19,9 +19,11 @@ export default class ModelCollection<T extends IDModel<TData>, TData extends obj
         let index = this.inner.indexOf(model);
         if (index !== -1) {
             this.inner.splice(index, 1);
-            this._deleted.push(model);
-        } else if ((index = this._new.indexOf(model)) !== -1) {
-            delete this._new[index];
+            let newIndex = this._new.indexOf(model);
+            if (newIndex !== -1)
+                this._new.splice(newIndex, 1);
+            else
+                this._deleted.push(model);
         }
     }
 

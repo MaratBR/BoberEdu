@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Course;
+use App\CoursePurchase;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -49,12 +50,12 @@ class CoursePolicy
      * Determine whether the user can update the course.
      *
      * @param  \App\User  $user
-     * @param  \App\Course  $course
+     * @param  \App\Course|int  $course
      * @return mixed
      */
-    public function update(User $user, Course $course)
+    public function update(User $user, $course)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() or true;
     }
 
     /**

@@ -1,20 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Courses;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Providers\Services\ICourseUnitsPayload;
 
-class UpdateCourseUnitsRequest extends UpdateCourseRequest
+class UpdateCourseUnitsRequest extends UpdateCourseRequest implements ICourseUnitsPayload
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return parent::authorize() or true;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -37,5 +28,25 @@ class UpdateCourseUnitsRequest extends UpdateCourseRequest
             'upd.*.about' => 'string',
             'upd.*.is_preview' => 'boolean',
         ];
+    }
+
+    public function getOrder(): array
+    {
+        return $this->validated()['order'] ?? [];
+    }
+
+    public function getNew(): array
+    {
+        return $this->validated()['new'] ?? [];
+    }
+
+    public function getUpdated(): array
+    {
+        return $this->validated()['upd'] ?? [];
+    }
+
+    public function getDeleted(): array
+    {
+        return $this->validated()['delete'] ?? [];
     }
 }

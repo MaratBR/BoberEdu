@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @method static User create(array $credentials)
+ * @method static User findOrFail(int|null $id)
  * @property Role[] roles
  */
 class User extends Authenticatable implements JWTSubject

@@ -1,6 +1,6 @@
 <template>
     <page title="Login">
-        <form class="form" @submit.prevent="onSubmit" v-if="!$store.getters.isAuthenticated">
+        <form class="form" @submit.prevent="onSubmit" v-if="!$store.getters['auth/isAuthenticated']">
             <div class="form__control">
                 <label class="form__label" for="InputLogin">Login</label>
                 <input class="input" id="InputLogin" type="text" v-model="name">
@@ -9,22 +9,22 @@
                 <label class="form__label" for="InputPwd">Password</label>
                 <input class="input" id="InputPwd" type="password" v-model="password">
             </div>
-            <div v-if="result && !result.success" class="notification notification--danger">Credentials doesn't match</div>
+            <div v-show="failed" class="notification notification--danger">Credentials doesn't match</div>
 
             <div class="form__control">
-                <button class="btn btn--primary">Log in</button>
+                <button class="btn btn--primary" :disabled="$store.state.auth.loggingIn">Log in</button>
             </div>
 
         </form>
         <section v-else>
             <h2>Hold on a sec</h2>
+            <p>I've seen you haven't I?</p>
         </section>
     </page>
 </template>
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import {auth, LoginResponse} from "../../api";
     import Vue from "vue";
 
     export default Vue.extend({
@@ -32,26 +32,30 @@
         components: {Page},
         data() {
             return {
-                name: localStorage['lastLoginAttempt'] || '',
+                name: null,
                 password: '',
-                result: null as LoginResponse | null
+                failed: false
             }
         },
         methods: {
             onSubmit() {
-                if (this.$store.getters.isAuthenticated) {
+                if (this.$store.getters['auth/isAuthenticated']) {
                     this.$router.push('/');
                     return;
                 }
-                localStorage['lastLoginAttempt'] = this.name;
-                auth.login({name: this.name, password: this.password})
-                    .then(r => {
-                        this.$router.push('/')
+
+                this.$store.dispatch('auth/attemptLogin',
+                    {name: this.name, password: this.password})
+                    .then(() => {
+                        this.failed = false;
+                        this.$store.dispatch('auth/updateUser')
                     })
-                    .catch(e => {
-                        this.result = e.response ? e.response.data : null
-                    });
+                    .catch(() => this.failed = true)
+
             }
+        },
+        created(): void {
+            this.name = this.$store.state.auth.lastLoginAttempt
         }
     })
 </script>

@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use App\Providers\Services\FakePaymentsServiceExternal;
+use App\Providers\Services\IExternalPaymentService;
+use App\Providers\Services\CourseService;
+use App\Providers\Services\ICourseService;
 use Illuminate\Support\ServiceProvider;
+use function foo\func;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind(IExternalPaymentService::class, function($app) { return new FakePaymentsServiceExternal(); });
+        $this->app->bind(ICourseService::class, function($app) { return new CourseService(); });
     }
 }

@@ -1,5 +1,5 @@
 import VueRouter from "vue-router";
-import {store} from "./store";
+import {store} from "./store/store";
 
 export default new VueRouter({
     routes: [
@@ -44,6 +44,11 @@ export default new VueRouter({
             path: '/c/:id/edit',
             component: () => import(/* webpackChunkName: "edit-course" */ './components/pages/EditCourseForm.vue'),
             name: 'edit_course'
+        },
+        {
+            path: '/c/:id/purchase',
+            name: 'purchase_course',
+            component: () => import(/* webpackChunkName: "purchase" */ './components/pages/PurchaseCourse.vue')
         }
     ],
     mode: 'history'

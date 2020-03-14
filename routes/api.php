@@ -28,6 +28,8 @@ Route::group([
     'prefix' => 'courses'
 ], function ($r) {
     Route::post('{course}/units', 'CourseController@updateUnits');
+    Route::post('attendance/attend', 'CourseController@attend');
+    Route::get('attendance/{course}', 'CourseController@status');
 });
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store', 'index']);
@@ -39,7 +41,7 @@ Route::group([
     'prefix' => 'payments'
 ], function ($r) {
     Route::post('init', 'PaymentController@initPayment');
-    Route::get('confirm/{payment}', 'PaymentController@confirmPayment');
+    Route::get('check/{payment}', 'PaymentController@checkPayment');
 });
 
 Route::fallback(function (Request $request) {
