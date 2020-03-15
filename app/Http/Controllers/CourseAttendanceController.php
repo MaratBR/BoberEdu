@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\CourseAttendance;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\AttendCourseRequest;
+use App\Http\Requests\Courses\PurchaseCourseRequest;
+use App\Providers\Services\Abs\IAttendanceStatus;
 use App\Providers\Services\Abs\ICourseAttendanceService;
 use App\Providers\Services\Abs\ICourseService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -21,33 +23,47 @@ class CourseAttendanceController extends Controller
         $this->courses = $courseService;
     }
 
-    public function attend(AttendCourseRequest $request)
+    /**
+     * Handles request to attend a course.
+     * When user make such request it means user wants to attend this course and either want to start trial period or
+     * wants to pay for it. Associated purchase record won't be created. User need to do that manually.
+     *
+     * @param AttendCourseRequest $request
+     * @return array
+     */
+    public function purchase(AttendCourseRequest $request)
     {
         $course = $this->courses->get($request->getCourseId());
-        $this->authorize('buy', $course);
 
-        if (!$course->canBePurchased())
-            throw new BadRequestApiException("This course cannot be purchased, hence you cannot attend it");
-
-        return $this->attendances->attend(
-            $course,
-            $request->user(),
-            $request
-        );
+        return [
+            'attendance' => $this->attendances->purchase(
+                $course,
+                $request->user(),
+                $request
+            )
+        ];
     }
 
+    /**
+     * Returns a status of attendance to the user.
+     *
+     * @param AuthenticatedRequest $request
+     * @return IAttendanceStatus
+     */
     public function status(AuthenticatedRequest $request)
     {
         $courseId = $request->course;
-        $status = $this->attendances->attendanceStatus(
+        return $this->attendances->attendanceStatus(
             $courseId,
-            $request->user()->id
+            $request->user()
         );
-        if (!$status->courseExists())
-            throw new ModelNotFoundException("Course with id = $courseId not found");
+    }
 
+    public function submitPurchase(PurchaseCourseRequest $request)
+    {
+        $attendance = $this->attendances->get($request->getAttendanceId(), $request->user());
         return [
-            'status' => $status->asString()
+            'purchase' => $this->attendances->submitPurchase($attendance, $request->user())
         ];
     }
 }

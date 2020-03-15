@@ -4,6 +4,7 @@
 namespace App\Providers\Services;
 
 
+use App\Exceptions\ThrowUtils;
 use App\Lesson;
 use App\Providers\Services\Abs\ILessonsService;
 use App\User;
@@ -13,7 +14,8 @@ use Lanin\Laravel\ApiExceptions\UnauthorizedApiException;
 
 class LessonsService implements ILessonsService
 {
-    use Utils;
+    use ThrowUtils;
+
     const UPDATE_NOT_ALLOWED = "You are not allowed to update this lesson";
     const VIEW_NOT_ALLOWED = "You are not allowed to view this lesson";
     const DELETE_NOT_ALLOWED = "You are not allowed to delete this lesson";

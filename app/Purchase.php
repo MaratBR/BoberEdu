@@ -19,7 +19,7 @@ class Purchase extends Model
 
     protected $fillable = [
         'price', 'external_id', 'course_attendance_id',
-        'status', 'user_id'
+        'status', 'user_id', 'external_redirect_url'
     ];
 
     public function user() {

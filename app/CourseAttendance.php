@@ -14,12 +14,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property int id
  * @property bool preview
  * @property Carbon created_at
+ * @property int|null purchase_id
+ * @method static findOrFail(int $id)
+ * @method static find(int $id)
  */
 class CourseAttendance extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-        'course_id', 'preview', 'user_id', 'gifted_by_id'
+        'course_id', 'user_id', 'gifted_by_id', 'status', 'purchase_id'
     ];
 
     protected $dates = [
@@ -32,11 +35,11 @@ class CourseAttendance extends Model
 
     public function purchase()
     {
-        return $this->hasOne(Purchase::class);
+        return $this->belongsTo(Purchase::class);
     }
 
     public function course()
     {
-        return $this->hasOne(Course::class);
+        return $this->belongsTo(Course::class, 'course_id');
     }
 }

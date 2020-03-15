@@ -3,19 +3,9 @@
 namespace App\Http\Requests\Courses;
 
 use App\Http\Requests\AuthenticatedRequest;
+use App\Http\Requests\DeleteRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteCourseRequest extends AuthenticatedRequest
+class DeleteCourseRequest extends DeleteRequest
 {
-    public function isForce(): bool
-    {
-        return $this->validated()['force'] ?? false;
-    }
-
-    public function rules()
-    {
-        return [
-            'force' => 'booleand'
-        ];
-    }
 }

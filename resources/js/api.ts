@@ -13,6 +13,7 @@ import {IUnit} from "./models/unit";
 import Pagination, {IPagination} from "./models/pagination";
 import {IUser} from "./models/user";
 import {CourseAttendance} from "./models/courseAttendance";
+import {Purchase} from "./models/purchase";
 
 //#region Axios shortcuts
 
@@ -128,18 +129,28 @@ export type CreateUnitsRequest = {
     upd?: UpdateUnitPayload[]
 }
 
-export type AttendCourseRequest = {
+export type PurchaseCourseRequest = {
     course_id: number,
     gift_to?: number,
     preview?: boolean
 };
 
-export type AttendCourseResponse = {
+export type PurchaseCourseResponse = {
     attendance: CourseAttendance
 }
 
+export type SubmitPurchaseRequest = {
+    attendance_id: number
+}
+
+export type SubmitPurchaseResponse = {
+    purchase: Purchase
+}
+
+export type AttendanceStatus = 'no' | 'yes' | 'preview' | 'preview_expired' | 'awaiting_payment' | 'cancelled';
+
 export type AttendanceStatusResponse = {
-    status: 'do_not_attend' | 'preview' | 'awaiting_purchase' | 'purchase:successful' | 'purchase:'
+    status: AttendanceStatus
 }
 
 class CourseAdapter extends CrudAdapter<Course, ICourse, ICoursePaginationData> {
@@ -151,19 +162,24 @@ class CourseAdapter extends CrudAdapter<Course, ICourse, ICoursePaginationData> 
         return post('courses/' + (course instanceof Course ? course.id : course) + '/units', data)
     }
 
-    attend(course: Course | number, preview: boolean = false, giftTo?: number) {
-        let data: AttendCourseRequest = {
+    purchase(course: Course | number, preview: boolean = false, giftTo?: number) {
+        let data: PurchaseCourseRequest = {
             course_id: (course instanceof Course ? course.id : course)
         };
         if (preview)
             data.preview = preview;
         if (giftTo)
             data.gift_to = giftTo;
-        return post<AttendCourseResponse>('courses/attendance/attend', data)
+        return post<PurchaseCourseResponse>('courses/purchase', data)
+    }
+
+    submitPurchase(request: SubmitPurchaseRequest) {
+        return post<SubmitPurchaseResponse>('courses/submitPurchase', request)
     }
 
     checkAttendanceStatus(id: number) {
-        return retrieveOrNull<AttendanceStatusResponse>('courses/attendance/' + id)
+        return retrieveOrNull<AttendanceStatusResponse>('courses/attendanceStatus/' + id)
+            .then(result => result.status)
     }
 }
 

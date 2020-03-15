@@ -6,6 +6,7 @@ namespace App\Providers\Services;
 
 use App\Course;
 use App\CourseAttendance;
+use App\Exceptions\ThrowUtils;
 use App\Providers\Services\Abs\ICourseService;
 use App\Providers\Services\Abs\ICourseUnitsUpdateResponse;
 use App\Purchase;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class CourseService implements ICourseService
 {
-    use Utils;
+    use ThrowUtils;
 
     /**
      * @inheritDoc

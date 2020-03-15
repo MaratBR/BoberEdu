@@ -26,17 +26,17 @@ class AttendanceStatus implements IAttendanceStatus
 
     function isPreview(): bool
     {
-        return $this->courseExists() && $this->attendance->preview;
+        return $this->exists() && $this->attendance->preview;
     }
 
     function isExpired(): bool
     {
-        return $this->courseExists() && $this->addPreviewPeriod($this->attendance->created_at)->gt(Carbon::now());
+        return $this->exists() && $this->addPreviewPeriod($this->attendance->created_at)->gt(Carbon::now());
     }
 
     function asString(): string
     {
-        if (!$this->courseExists())
+        if (!$this->exists())
             return ATTENDANCE_STATUS_NO;
         elseif ($this->isPreview())
             if ($this->isExpired())
@@ -61,8 +61,8 @@ class AttendanceStatus implements IAttendanceStatus
 
     function getPurchaseInnerStatus(): ?string
     {
-        return $this->courseExists() ?
-            ($this->attendance->purchase ? $this->attendance->purchase->status : null) :
+        return $this->hasPayment() ?
+            $this->attendance->purchase->status :
             null;
     }
 
@@ -71,13 +71,40 @@ class AttendanceStatus implements IAttendanceStatus
         return $createdAt->addDays($this->previewDurationInDays);
     }
 
-    public function courseExists(): bool
+    public function exists(): bool
     {
         return $this->attendance !== null;
     }
 
     public function hasPayment(): bool
     {
-        return $this->getPurchaseInnerStatus() === Purchase::STATUS_PENDING;
+        return $this->exists() && $this->attendance->purchase_id !== null;
+    }
+
+    public function isPaymentPending(): bool
+    {
+        return $this->hasPayment() && $this->getPurchaseInnerStatus() === Purchase::STATUS_PENDING;
+    }
+
+    public function isPaymentSuccessful(): bool
+    {
+        return $this->hasPayment() && $this->getPurchaseInnerStatus() === Purchase::STATUS_SUCCESSFUL;
+    }
+
+    public function isAwaitingPayment(): bool
+    {
+        return $this->isPaymentPending();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode([
+            'status' => $this->asString(),
+            'gifted_by' => $this->exists() ? $this->attendance->gifted_by_id : null,
+            'gift_to' => $this->exists() && $this->attendance->gifted_by_id ? $this->attendance->user_id : null
+        ]);
     }
 }

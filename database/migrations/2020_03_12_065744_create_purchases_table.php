@@ -18,6 +18,7 @@ class CreatePurchasesTable extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->decimal('price', 19, 4);
             $table->string('external_id');
+            $table->string('external_redirect_url');
             $table->enum('status', ['pending', 'failed', 'cancelled', 'successful']);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->on('users')->references('id');

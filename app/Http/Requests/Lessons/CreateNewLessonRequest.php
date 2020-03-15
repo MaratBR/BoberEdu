@@ -10,16 +10,6 @@ use Illuminate\Support\Facades\Gate;
 class CreateNewLessonRequest extends AuthenticatedRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return parent::authorize() && Gate::allows('create', Lesson::class);
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -27,7 +17,10 @@ class CreateNewLessonRequest extends AuthenticatedRequest
     public function rules()
     {
         return [
-            //
+            'unit_id' => 'numeric|required',
+            'title' => 'string|required',
+            'content' => 'string',
+            'order_num' => 'numeric'
         ];
     }
 }

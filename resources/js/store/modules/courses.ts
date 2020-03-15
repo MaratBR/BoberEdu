@@ -1,6 +1,6 @@
 import {Store} from "vuex";
 import {Course} from "../../models";
-import {api} from "../../api";
+import {api, AttendanceStatus} from "../../api";
 import course, {ICoursePaginationData} from "../../models/course";
 import Pagination from "../../models/pagination";
 
@@ -12,6 +12,11 @@ export type CoursesState = {
         }
     },
     maxCacheAgeMs: number
+}
+
+export type PurchaseModel = {
+    course: Course,
+    attendanceStatus: AttendanceStatus
 }
 
 export default {
@@ -53,15 +58,37 @@ export default {
             return  api.courses.update(id, data)
                 .then(() => commit('MARK_AS_CLEAN', id))
         },
-        updateUnits({}, {data, course}) {
+        updateUnits(_context, {data, course}) {
             return api.courses.createUnits(course, data)
         },
         getCoursesPage({commit}, {page}): Promise<Pagination<ICoursePaginationData>> {
             return api.courses.pagination(page)
         },
 
-        attend(_context, {course, preview}) {
-            return api.courses.attend(course, preview)
+        purchase(_context, {course, preview}) {
+            return api.courses.purchase(course, preview)
+        },
+
+        submitPurchase(_context, attendanceId) {
+            return api.courses.submitPurchase({
+                attendance_id: attendanceId
+            })
+        },
+
+        checkAttendanceStatus(_context, courseId) {
+            return api.courses.checkAttendanceStatus(courseId)
+        },
+
+        getPurchaseModel({dispatch}, courseId) {
+            return Promise.all([
+                dispatch('getCourse', courseId),
+                dispatch('checkAttendanceStatus', courseId)
+            ]).then(([course, attendanceStatus]) => {
+                return {
+                    attendanceStatus,
+                    course
+                } as PurchaseModel
+            })
         }
 
     },

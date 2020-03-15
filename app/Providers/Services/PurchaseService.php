@@ -27,10 +27,11 @@ class PurchaseService implements IPurchasesService
 
     function create(string $title, string $redirect, float $price, User $customer): Purchase
     {
-        $externalPaymentId = $this->externalPaymentService->placePayment($price, $title, $redirect);
+        $externalPayment= $this->externalPaymentService->placePayment($price, $title, $redirect);
 
         return Purchase::create([
-            'external_id' => $externalPaymentId,
+            'external_redirect_url' => $externalPayment->redirect(),
+            'external_id' => $externalPayment->id(),
             'status' => 'pending',
             'user_id' => $customer->id,
             'price' => $price

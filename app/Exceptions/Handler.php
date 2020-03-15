@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Lanin\Laravel\ApiExceptions\ApiException;
 
 class Handler extends ExceptionHandler
 {
@@ -53,6 +54,11 @@ class Handler extends ExceptionHandler
         if (substr($request->path(), 0, 3) === 'api') {
             $request->headers->set('Accept', 'application/json');
         }
+
+        if ($exception instanceof ApiException) {
+            return response()->json($exception->jsonSerialize(), $exception->getCode());
+        }
+
         return parent::render($request, $exception);
     }
 }

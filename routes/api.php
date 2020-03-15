@@ -29,16 +29,12 @@ Route::group([
 ], function ($r) {
     Route::post('{course}/units', 'CourseController@updateUnits');
 
-    Route::get('attendance/{course}', 'CourseAttendanceController@status');
-    Route::post('attendance/attend', 'CourseAttendanceController@attend');
+    Route::get('attendanceStatus/{course}', 'CourseAttendanceController@status');
+    Route::post('purchase', 'CourseAttendanceController@purchase');
+    Route::post('submitPurchase', 'CourseAttendanceController@submitPurchase');
 });
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store', 'index']);
 Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
 Route::resource('lessons', 'LessonController')->only(['store', 'update', 'show', 'index', 'destroy']);
 
-
-
-Route::fallback(function (Request $request) {
-    return response()->json(['message' => 'Route not found'], 404);
-});
