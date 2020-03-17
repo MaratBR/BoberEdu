@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
 import {EventBus} from "./bus";
-import {store} from "./store/store";
+import {store} from "./store";
 import {LoginRequest, LoginResponse, RegisterRequest, RegisterResponse} from "./apiDef";
 export * from "./apiDef";
 import * as models from "./models";
@@ -130,22 +130,9 @@ export type CreateUnitsRequest = {
 }
 
 export type PurchaseCourseRequest = {
-    course_id: number,
     gift_to?: number,
     preview?: boolean
 };
-
-export type PurchaseCourseResponse = {
-    attendance: CourseAttendance
-}
-
-export type SubmitPurchaseRequest = {
-    attendance_id: number
-}
-
-export type SubmitPurchaseResponse = {
-    purchase: Purchase
-}
 
 export type AttendanceStatus = 'no' | 'yes' | 'preview' | 'preview_expired' | 'awaiting_payment' | 'cancelled';
 
@@ -162,24 +149,26 @@ class CourseAdapter extends CrudAdapter<Course, ICourse, ICoursePaginationData> 
         return post('courses/' + (course instanceof Course ? course.id : course) + '/units', data)
     }
 
-    purchase(course: Course | number, preview: boolean = false, giftTo?: number) {
-        let data: PurchaseCourseRequest = {
-            course_id: (course instanceof Course ? course.id : course)
-        };
+    attend(courseId: number, preview: boolean = false, giftTo?: number) {
+        let data: PurchaseCourseRequest = {};
         if (preview)
             data.preview = preview;
         if (giftTo)
             data.gift_to = giftTo;
-        return post<PurchaseCourseResponse>('courses/purchase', data)
+        return post<CourseAttendance>(`courses/${courseId}/attend`, data)
     }
 
-    submitPurchase(request: SubmitPurchaseRequest) {
-        return post<SubmitPurchaseResponse>('courses/submitPurchase', request)
+    submitAttendance(courseId: number) {
+        return post<Purchase>(`courses/${courseId}/attendance/submit`)
     }
 
-    checkAttendanceStatus(id: number) {
-        return retrieveOrNull<AttendanceStatusResponse>('courses/attendanceStatus/' + id)
-            .then(result => result.status)
+    checkAttendanceStatus(courseId: number) {
+        return retrieveOrNull<AttendanceStatusResponse>(`courses/${courseId}/attendance/status`)
+            .then(result => result ? result.status : null)
+    }
+
+    getAttendance(courseId: number) {
+        return retrieveOrNull(`courses/${courseId}/attendance`)
     }
 }
 

@@ -22,6 +22,7 @@ class CreateCoursesTable extends Migration
             $table->date('sign_up_beg')->nullable();
             $table->date('sign_up_end')->nullable();
             $table->boolean('available')->default(false);
+            $table->smallInteger('trial_length')->default(0);
             $table->softDeletes();
         });
 

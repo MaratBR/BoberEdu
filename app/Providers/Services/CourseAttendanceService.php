@@ -28,19 +28,33 @@ class CourseAttendanceService implements ICourseAttendanceService
         $this->purchases = $service;
     }
 
-    public function get(int $id, User $user): CourseAttendance
+    private function getOrNull(int $courseId, User $user): ?CourseAttendance
+    {
+        return CourseAttendance::query()
+            ->where('course_id', '=', $courseId)
+            ->where('user_id', '=', $user->id)
+            ->orWhere('gifted_by_id', '=', $user->id)
+            ->with(['purchase'])
+            ->first();
+    }
+
+    public function get(int $courseId, User $user): CourseAttendance
     {
         return $this->throwNotFoundIfNull(
-            CourseAttendance::query()
-                ->where('id', '=', $id)
-                ->where('user_id', '=', $user->id)
-                ->orWhere('gifted_by_id', '=', $user->id)
-                ->first(),
-            "We haven't found a record you are looking for"
+            $this->getOrNull($courseId, $user),
+            "We haven't found a record of you attending course with id = $courseId"
         );
     }
 
-    function purchase(Course $course, User $user, ICourseAttendanceInfo $info): CourseAttendance
+    public function exists(int $courseId, User $user): bool
+    {
+        return CourseAttendance::query()
+            ->where('course_id', '=', $courseId)
+            ->where('user_id', '=', $user->id)
+            ->exists();
+    }
+
+    function attend(Course $course, User $user, ICourseAttendanceInfo $info): CourseAttendance
     {
         if (!$course->canBePurchased())
             throw new BadRequestApiException("This course cannot be purchased, hence you cannot attend it");
@@ -57,11 +71,10 @@ class CourseAttendanceService implements ICourseAttendanceService
         $userId = $giftTo ? $giftTo->id : $user->id;
         $giftBy = $giftTo ? $user->id : null;
 
-        $status = $this->attendanceStatus($course->id, $giftTo ?? $user);
         $this->throwErrorIf(
             409,
             $giftTo ? "This user already attend this course" : "You already attend this course, check list of your courses",
-            $status->exists()
+            $this->exists($course->id, $user)
         );
 
 
@@ -79,20 +92,16 @@ class CourseAttendanceService implements ICourseAttendanceService
         return $attendance;
     }
 
-    function attendanceStatus(int $courseId, User $user): IAttendanceStatus
-    {
-        $attendance = CourseAttendance::query()
-            ->where('user_id', '=', $user->id)
-            ->where('course_id', '=', $courseId)
-            ->first();
-
-        // IDEA, it's FINE, I told you
-        return $this->getAttendanceStatusFrom($attendance);
-    }
-
     public function getAttendanceStatusFrom(?CourseAttendance $attendance): IAttendanceStatus
     {
         return new Abs\AttendanceStatus($attendance, 7);
+    }
+
+    public function attendanceStatus(int $courseId, User $user)
+    {
+        return $this->getAttendanceStatusFrom(
+            $this->getOrNull($courseId, $user)
+        );
     }
 
     public function attachNewPurchase(CourseAttendance $attendance, User $user)
@@ -105,7 +114,7 @@ class CourseAttendanceService implements ICourseAttendanceService
         )->id;
     }
 
-    public function submitPurchase(CourseAttendance $attendance, User $customer): Purchase
+    public function makePurchase(CourseAttendance $attendance, User $customer): Purchase
     {
         $status = $this->getAttendanceStatusFrom($attendance);
 

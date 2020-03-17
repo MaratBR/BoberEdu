@@ -11,10 +11,11 @@ use App\User;
 
 interface ICourseAttendanceService
 {
-    function get(int $id, User $user): CourseAttendance;
-    function purchase(Course $course, User $user, ICourseAttendanceInfo $info): CourseAttendance;
-    function attendanceStatus(int $courseId, User $user): IAttendanceStatus;
+    function get(int $courseId, User $user): CourseAttendance;
+    function exists(int $courseId, User $user): bool;
+    function attend(Course $course, User $user, ICourseAttendanceInfo $info): CourseAttendance;
     function getAttendanceStatusFrom(?CourseAttendance $attendance): IAttendanceStatus;
+    function attendanceStatus(int $courseId, User $user);
     function attachNewPurchase(CourseAttendance $attendance, User $customer);
-    function submitPurchase(CourseAttendance $attendance, User $customer): Purchase;
+    function makePurchase(CourseAttendance $attendance, User $customer): Purchase;
 }

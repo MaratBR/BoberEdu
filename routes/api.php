@@ -29,9 +29,10 @@ Route::group([
 ], function ($r) {
     Route::post('{course}/units', 'CourseController@updateUnits');
 
-    Route::get('attendanceStatus/{course}', 'CourseAttendanceController@status');
-    Route::post('purchase', 'CourseAttendanceController@purchase');
-    Route::post('submitPurchase', 'CourseAttendanceController@submitPurchase');
+    Route::get('{course}/attendance/status', 'CourseAttendanceController@status');
+    Route::post('{course}/attend', 'CourseAttendanceController@attend');
+    Route::get('{course}/attendance', 'CourseAttendanceController@get');
+    Route::post('{course}/attendance/submit', 'CourseAttendanceController@submit');
 });
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store', 'index']);

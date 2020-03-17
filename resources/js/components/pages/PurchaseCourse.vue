@@ -2,6 +2,7 @@
     <page title="Purchasing a course">
         <div class="purchase">
             <loader :promise="promise" v-slot="{value}">
+                <pre>{{value}}</pre>
                 <template v-if="value.course">
                     <div class="purchase__body">
                         <div class="purchase__about">
@@ -32,7 +33,7 @@
                         </template>
 
                         <template v-else-if="value.attendanceStatus === 'awaiting_payment'">
-                            <p>All done, we're awaiting for your confirmation</p>
+                            <loader ></loader>
                         </template>
 
                     </div>
@@ -41,7 +42,7 @@
                     </div>
                     <div class="purchase__actions" v-if="value.attendanceStatus !== 'yes'">
                         <button class="btn btn--primary" @click.prevent="purchase(value.course)">Purchase</button>
-                        <button class="btn" @click.prevent="purchase(value.course, true)">Try it for free</button>
+                        <button class="btn" @click.prevent="purchase(value.course, true)" v-if="value.course.has_preview">Try it for free</button>
                     </div>
                 </template>
                 <template v-else>
@@ -56,41 +57,46 @@
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import {PropValidator} from "vue/types/options";
     import {Course} from "../../models";
-    import {api} from "../../api";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
+    import {PurchaseModel} from "../../store/modules/courses";
 
     export default {
         name: "PurchaseCourse",
         components: {Error, Loader, Page},
         data() {
             return {
-                promise: null
+                promise: null,
+                attendance: null
             }
         },
         methods: {
-            purchase(course: Course, preview = false) {
+            async purchase(course: Course, preview = false) {
                 if (preview && !course.has_preview)
                     return;
 
-                this.$store.dispatch('courses/purchase', {course, preview})
-                    .then(r => {
-                        this.submitPurchase(r.attendance.id)
-                    })
+                let attendance = await this.$store.dispatch('courses/purchase', {course, preview});
+
+                if (!preview) {
+                    let purchase = await this.$store.dispatch('courses/submitPurchase', course);
+                }
             },
-            submitPurchase(attendanceId: number) {
-                this.$store.dispatch('courses/submitPurchase', attendanceId)
-                    .then(r => console.log(r))
+            async submitPurchase(attendanceId: number) {
+                this.submitting = true;
+
+                let r = this.$store.dispatch('courses/submitPurchase', attendanceId);
+                window.open(r.purchase.external_redirect_url, null, "width=500,height=500");
+                this.load();
+                this.submitting = true;
             },
 
-            load() {
-                this.promise = this.$store.dispatch('courses/getPurchaseModel', this.$route.params.id)
+            async getPromise() {
+                return this.$store.dispatch('courses/getPurchaseModel', this.$route.params.id);
             }
         },
         created(): void {
-            this.load()
+            this.promise = this.getPromise();
         },
         watch: {
             $route() {

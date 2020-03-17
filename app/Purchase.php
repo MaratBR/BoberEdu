@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static findOrFail(int $id)
  * @method static create(array $array)
+ * @property int id
+ * @property string external_id
+ * @property float price
+ * @property string external_redirect_url
  */
 class Purchase extends Model
 {
@@ -18,7 +22,7 @@ class Purchase extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'price', 'external_id', 'course_attendance_id',
+        'price', 'external_id',
         'status', 'user_id', 'external_redirect_url'
     ];
 

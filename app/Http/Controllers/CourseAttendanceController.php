@@ -29,19 +29,25 @@ class CourseAttendanceController extends Controller
      * wants to pay for it. Associated purchase record won't be created. User need to do that manually.
      *
      * @param AttendCourseRequest $request
-     * @return array
+     * @return CourseAttendance
      */
-    public function purchase(AttendCourseRequest $request)
+    public function attend(AttendCourseRequest $request)
     {
         $course = $this->courses->get($request->getCourseId());
 
-        return [
-            'attendance' => $this->attendances->purchase(
-                $course,
-                $request->user(),
-                $request
-            )
-        ];
+        return $this->attendances->attend(
+            $course,
+            $request->user(),
+            $request
+        );
+    }
+
+    public function get(AuthenticatedRequest $request)
+    {
+        return $this->attendances->get(
+            $request->course,
+            $request->user()
+        );
     }
 
     /**
@@ -53,17 +59,12 @@ class CourseAttendanceController extends Controller
     public function status(AuthenticatedRequest $request)
     {
         $courseId = $request->course;
-        return $this->attendances->attendanceStatus(
-            $courseId,
-            $request->user()
-        );
+        return $this->attendances->attendanceStatus($courseId, $request->user());
     }
 
-    public function submitPurchase(PurchaseCourseRequest $request)
+    public function submit(PurchaseCourseRequest $request)
     {
-        $attendance = $this->attendances->get($request->getAttendanceId(), $request->user());
-        return [
-            'purchase' => $this->attendances->submitPurchase($attendance, $request->user())
-        ];
+        $attendance = $this->attendances->get($request->course, $request->user());
+        return $this->attendances->makePurchase($attendance, $request->user());
     }
 }

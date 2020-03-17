@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Courses;
 
+use App\Exceptions\ThrowUtils;
 use App\Http\Requests\AuthenticatedRequest;
+use App\Http\Requests\Utils;
 use App\Providers\Services\Abs\ICourseAttendanceInfo;
 
 class AttendCourseRequest extends AuthenticatedRequest implements ICourseAttendanceInfo
@@ -16,7 +18,6 @@ class AttendCourseRequest extends AuthenticatedRequest implements ICourseAttenda
     public function rules()
     {
         return [
-            'course_id' => 'numeric|required',
             'preview' => 'boolean',
             'gift_to' => 'numeric'
         ];
@@ -34,6 +35,6 @@ class AttendCourseRequest extends AuthenticatedRequest implements ICourseAttenda
 
     function getCourseId(): int
     {
-        return $this->validated()['course_id'];
+        return Utils::asInt($this->route('course'));
     }
 }

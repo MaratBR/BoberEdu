@@ -3,6 +3,8 @@ import {Course} from "../../models";
 import {api, AttendanceStatus} from "../../api";
 import course, {ICoursePaginationData} from "../../models/course";
 import Pagination from "../../models/pagination";
+import {Purchase} from "../../models/purchase";
+import {CourseAttendance} from "../../models/courseAttendance";
 
 export type CoursesState = {
     cache: {
@@ -16,7 +18,8 @@ export type CoursesState = {
 
 export type PurchaseModel = {
     course: Course,
-    attendanceStatus: AttendanceStatus
+    attendanceStatus: AttendanceStatus,
+    attendance: CourseAttendance
 }
 
 export default {
@@ -65,30 +68,38 @@ export default {
             return api.courses.pagination(page)
         },
 
-        purchase(_context, {course, preview}) {
-            return api.courses.purchase(course, preview)
+        attend(_context, {course, preview}: {course: Course, preview: boolean}) {
+            return api.courses.attend(course.id, preview)
         },
 
-        submitPurchase(_context, attendanceId) {
-            return api.courses.submitPurchase({
-                attendance_id: attendanceId
-            })
+        getAttendance(_context, course: Course) {
+            return api.courses.getAttendance(course.id)
         },
 
-        checkAttendanceStatus(_context, courseId) {
-            return api.courses.checkAttendanceStatus(courseId)
+        submitAttendance(_context, course: Course) {
+            return api.courses.submitAttendance(course.id)
         },
 
-        getPurchaseModel({dispatch}, courseId) {
-            return Promise.all([
-                dispatch('getCourse', courseId),
-                dispatch('checkAttendanceStatus', courseId)
-            ]).then(([course, attendanceStatus]) => {
-                return {
-                    attendanceStatus,
-                    course
-                } as PurchaseModel
-            })
+        checkAttendanceStatus(_context, course: Course) {
+            return api.courses.checkAttendanceStatus(course.id)
+        },
+
+        async getPurchaseModel({dispatch}, courseId: number) {
+
+            let course = await dispatch('getCourse', courseId);
+
+            let [attendanceStatus, attendance] = await Promise.all([
+                dispatch('checkAttendanceStatus', course),
+                dispatch('getAttendance', course)
+            ]);
+
+            let model: PurchaseModel = {
+                attendance,
+                attendanceStatus,
+                course
+            };
+
+            return model;
         }
 
     },
