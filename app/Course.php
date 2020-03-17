@@ -27,7 +27,7 @@ class Course extends Model
 
     protected $fillable = [
         'name', 'price', 'about', 'sign_up_beg', 'sign_up_end',
-        'available'
+        'available', 'trial_length'
     ];
 
     protected $casts = [
