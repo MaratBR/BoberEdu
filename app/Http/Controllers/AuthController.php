@@ -6,7 +6,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\AuthenticatedRequest;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -24,6 +23,16 @@ class AuthController extends Controller
         ], 201);
     }
 
+    protected function tokenBody($token)
+    {
+        return [
+            'accessToken' => $token,
+            'tokenType' => 'bearer',
+            'expiresIn' => auth()->factory()->getTTL() * 60,
+            'success' => true
+        ];
+    }
+
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
@@ -33,6 +42,11 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
+    }
+
+    protected function respondWithToken($token)
+    {
+        return $this->tokenBody($token);
     }
 
     public function refresh(AuthenticatedRequest $request)
@@ -50,19 +64,5 @@ class AuthController extends Controller
     public function currentUser(AuthenticatedRequest $request)
     {
         return $request->user();
-    }
-
-    protected function respondWithToken($token)
-    {
-        return $this->tokenBody($token);
-    }
-
-    protected function tokenBody($token) {
-        return [
-            'accessToken' => $token,
-            'tokenType'   => 'bearer',
-            'expiresIn'   => auth()->factory()->getTTL() * 60,
-            'success'     => true
-        ];
     }
 }

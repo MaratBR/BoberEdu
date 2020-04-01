@@ -5,8 +5,6 @@ namespace App\Http\Requests;
 
 
 use App\Exceptions\ThrowUtils;
-use App\User;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Utils
@@ -25,8 +23,7 @@ class Utils
     public static function asInt($val, ?int $default = null): int
     {
         $result = $default;
-        if (is_string($val))
-        {
+        if (is_string($val)) {
             $intv = ctype_digit($val) ? intval($val) : null;
             if ($intv !== null)
                 return $intv;

@@ -14,11 +14,11 @@ interface ICourseService
     /**
      * Queries a course with given id, calls Gate authorization.
      *
-     * @throws ForbiddenApiException if user is not allowed to view course
-     * @throws ModelNotFoundException if course not found
      * @param int $id
      * @param bool $extra
      * @return Course
+     * @throws ModelNotFoundException if course not found
+     * @throws ForbiddenApiException if user is not allowed to view course
      */
     function get(int $id, bool $extra = false): Course;
 
@@ -34,11 +34,11 @@ interface ICourseService
     /**
      * Update a course with given data
      *
-     * @throws ForbiddenApiException if user is not allowed to update course
-     * @throws ModelNotFoundException if course not found
      * @param Course $course
      * @param $data
      * @return bool|null
+     * @throws ModelNotFoundException if course not found
+     * @throws ForbiddenApiException if user is not allowed to update course
      */
     function update(Course $course, $data): ?bool;
 
@@ -54,19 +54,19 @@ interface ICourseService
     /**
      * Creates a new course
      *
-     * @throws ForbiddenApiException if user is not allowed to create course
      * @param array $data
      * @return Course
+     * @throws ForbiddenApiException if user is not allowed to create course
      */
     function create(array $data): Course;
 
     /**
      * Updates course's units
      *
-     * @throws ForbiddenApiException if user is not allowed to update course
      * @param Course $course
      * @param ICourseUnitsPayload $payload
      * @return ICourseUnitsUpdateResponse
+     * @throws ForbiddenApiException if user is not allowed to update course
      */
     function updateCourseUnits(Course $course, ICourseUnitsPayload $payload): ICourseUnitsUpdateResponse;
 }

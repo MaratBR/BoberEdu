@@ -1,12 +1,11 @@
 <?php
 
 
-namespace App\Providers\Services;
+namespace App\Providers\Services\Implementation;
 
 
 use App\Course;
 use App\Exceptions\ThrowUtils;
-use App\Providers\Services\Abs\IAttendanceStatus;
 use App\Providers\Services\Abs\IJoinCourseInfo;
 use App\Providers\Services\Abs\IJoinCourseService;
 use App\Providers\Services\Abs\IPurchasesService;
@@ -16,10 +15,6 @@ use App\User;
 use App\UserCourse;
 use App\UserCoursePurchase;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Auth;
-use Lanin\Laravel\ApiExceptions\BadRequestApiException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class JoinCourseService implements IJoinCourseService
 {
@@ -33,6 +28,13 @@ class JoinCourseService implements IJoinCourseService
         $this->purchases = $service;
     }
 
+    /**
+     * @inheritDoc
+     */
+    function get(Course $course, User $user): UserCourse
+    {
+        return $this->builder($course, $user)->firstOrFail();
+    }
 
     /**
      * @param Course $course
@@ -44,14 +46,6 @@ class JoinCourseService implements IJoinCourseService
         return UserCourse::query()
             ->where('course_id', $course->id)
             ->where('user_id', $user->id);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    function get(Course $course, User $user): UserCourse
-    {
-        return $this->builder($course, $user)->firstOrFail();
     }
 
     /**
@@ -69,20 +63,6 @@ class JoinCourseService implements IJoinCourseService
         $assoc->save();
         $assoc->refresh();
         return $assoc;
-    }
-
-    private function findPurchase(UserCourse $record): ?Purchase {
-        $userCoursePurchase = UserCoursePurchase::query()
-            ->where('user_course_id', '=', $record->id)
-            ->whereHas('purchase', function (Builder $q) {
-                $q->where('status', '=', 'pending');
-            })
-            ->first();
-
-        if ($userCoursePurchase == null)
-            return null;
-
-        return $userCoursePurchase->purchase;
     }
 
     /**
@@ -110,5 +90,20 @@ class JoinCourseService implements IJoinCourseService
         $userCoursePurchase->save();
 
         return $purchase;
+    }
+
+    private function findPurchase(UserCourse $record): ?Purchase
+    {
+        $userCoursePurchase = UserCoursePurchase::query()
+            ->where('user_course_id', '=', $record->id)
+            ->whereHas('purchase', function (Builder $q) {
+                $q->where('status', '=', 'pending');
+            })
+            ->first();
+
+        if ($userCoursePurchase == null)
+            return null;
+
+        return $userCoursePurchase->purchase;
     }
 }

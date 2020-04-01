@@ -15,10 +15,10 @@ interface IJoinCourseService
     /**
      * Returns record that associated given user with course with given ID
      *
-     * @throws HttpException if record is not found
      * @param Course $course
      * @param User $user
      * @return UserCourse
+     * @throws HttpException if record is not found
      */
     function get(Course $course, User $user): UserCourse;
 

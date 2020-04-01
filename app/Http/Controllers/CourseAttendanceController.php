@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\AttendJoinCourseRequest;
 use App\Http\Requests\Courses\CourseRequest;
 use App\Http\Requests\Courses\PurchaseCourseRequest;
-use App\Providers\Services\Abs\IAttendanceStatus;
-use App\Providers\Services\Abs\IJoinCourseService;
 use App\Providers\Services\Abs\ICourseService;
-use App\UserCourse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Lanin\Laravel\ApiExceptions\BadRequestApiException;
+use App\Providers\Services\Abs\IJoinCourseService;
 
 class CourseAttendanceController extends Controller
 {

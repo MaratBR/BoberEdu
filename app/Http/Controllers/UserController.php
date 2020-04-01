@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthenticatedRequest;
 use App\Providers\Services\Abs\IUsersService;
-use App\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -21,5 +18,10 @@ class UserController extends Controller
     public function get(AuthenticatedRequest $request, int $id)
     {
         return $this->users->get($id);
+    }
+
+    public function update(AuthenticatedRequest $request, int $id)
+    {
+
     }
 }

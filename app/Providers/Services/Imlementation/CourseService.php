@@ -1,13 +1,14 @@
 <?php
 
 
-namespace App\Providers\Services;
+namespace App\Providers\Services\Implementation;
 
 
 use App\Course;
 use App\Exceptions\ThrowUtils;
 use App\Providers\Services\Abs\ICourseService;
 use App\Providers\Services\Abs\ICourseUnitsUpdateResponse;
+use App\Providers\Services\ICourseUnitsPayload;
 use App\Unit;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -29,8 +30,7 @@ class CourseService implements ICourseService
         $course = $extra ? Course::with(['units' => function ($q) {
             $q->orderBy('order_num');
         }])->findOrFail($id) : Course::findOrFail($id);
-        if (!Gate::allows('view', $course) && !Gate::allows('viewAny', Course::class))
-        {
+        if (!Gate::allows('view', $course) && !Gate::allows('viewAny', Course::class)) {
             throw new ForbiddenApiException("You are not allowed to view this course");
         }
         return $course;
@@ -67,13 +67,10 @@ class CourseService implements ICourseService
     function delete(Course $course, bool $force = false): ?bool
     {
         try {
-            if ($force)
-            {
+            if ($force) {
                 $this->throwForbiddenIfNotAllowed('forceDelete', $course, "You are not allowed to force-delete this course");
                 return $course->forceDelete();
-            }
-            else
-            {
+            } else {
                 $this->throwForbiddenIfNotAllowed('delete', $course, "You are not allowed to delete this course");
                 return $course->delete();
             }
@@ -102,8 +99,7 @@ class CourseService implements ICourseService
             throw new UnprocessableEntityHttpException("Message body is empty");
 
         $units = [];
-        foreach ($course->units as $unit)
-        {
+        foreach ($course->units as $unit) {
             $units[$unit->id] = $unit;
         }
 
@@ -118,19 +114,16 @@ class CourseService implements ICourseService
         });
         $updById = [];
 
-        foreach ($upd as $r)
-        {
+        foreach ($upd as $r) {
             $updById[$r['id']] = $r;
         }
 
         $orderInv = [];
         $orderXCounter = count($order);
 
-        foreach ($order as $ii => $i)
-        {
+        foreach ($order as $ii => $i) {
             $orderInv[$i] = $ii;
-            if (substr($i, 0, 1) === 'n')
-            {
+            if (substr($i, 0, 1) === 'n') {
                 if (substr($i, 1) >= count($new))
                     throw new BadRequestApiException('Invalid order item: ' . $i . ' no corresponding unit defined in "new"');
             }
@@ -168,7 +161,9 @@ class CourseService implements ICourseService
 
 
         return new UnitsUpdateResponse(
-            array_map(function (Unit $unit) { return $unit->id; }, $newUnits),
+            array_map(function (Unit $unit) {
+                return $unit->id;
+            }, $newUnits),
             $updated,
             $toBeDeleted
         );

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Providers\Services;
+namespace App\Providers\Services\Implementation;
 
 
 use App\Providers\Services\Abs\IRedirectService;
@@ -12,6 +12,6 @@ class RedirectService implements IRedirectService
 
     function paymentRedirect(UserCourse $record): string
     {
-        return  "TODO " . $record->course_id;
+        return "TODO " . $record->course_id;
     }
 }

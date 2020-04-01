@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
 use App\CourseAttendance;
 use App\Http\Requests\Courses\AttendJoinCourseRequest;
-use App\Http\Requests\AuthenticatedRequest;
-use App\Http\Requests\Courses\DeleteCourseRequest;
 use App\Http\Requests\Courses\CreateNewCourseRequest;
+use App\Http\Requests\Courses\DeleteCourseRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Http\Requests\Courses\UpdateCourseUnitsRequest;
-use App\Http\Requests\Utils;
 use App\Providers\Services\Abs\ICourseService;
-use App\Providers\Services\Abs\ICourseUnitsUpdateResponse;
-use App\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Lanin\Laravel\ApiExceptions\BadRequestApiException;
-use Lanin\Laravel\ApiExceptions\ForbiddenApiException;
 use Lanin\Laravel\ApiExceptions\InternalServerErrorApiException;
 
 class CourseController extends Controller
@@ -34,7 +26,7 @@ class CourseController extends Controller
         return $this->courses->get(
             $request->course,
             true
-            );
+        );
     }
 
     public function update(UpdateCourseRequest $request)

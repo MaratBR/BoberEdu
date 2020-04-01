@@ -3,9 +3,6 @@
 namespace App\Http\Requests\Lessons;
 
 use App\Http\Requests\AuthenticatedRequest;
-use App\Lesson;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 
 class CreateNewLessonRequest extends AuthenticatedRequest
 {

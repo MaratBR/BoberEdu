@@ -2,14 +2,6 @@
 
 namespace App\Http\Requests\Courses;
 
-use App\Course;
-use App\Http\Requests\AuthenticatedRequest;
-use App\Providers\Services\Abs\ICourseService;
-use App\User;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
-
 class UpdateCourseRequest extends CourseRequest
 {
     /**

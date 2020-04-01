@@ -26,11 +26,13 @@ class Purchase extends Model
         'status', 'user_id', 'external_redirect_url'
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->hasOne(User::class);
     }
 
-    public function courseAttendance() {
+    public function courseAttendance()
+    {
         return $this->hasOne(CourseAttendance::class);
     }
 }

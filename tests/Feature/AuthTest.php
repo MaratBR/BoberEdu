@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -19,6 +18,28 @@ class AuthTest extends TestCase
     public function testRegister()
     {
         $this->createUser();
+    }
+
+    public function createUser()
+    {
+        $pwd = $this->faker->password;
+        $name = $this->faker()->userName;
+        $email = $this->faker()->email;
+
+
+        $resp = $this->post('/api/auth/register', [
+            'name' => $name,
+            'password' => $pwd,
+            'email' => $email
+        ]);
+
+        $resp->assertCreated();
+
+        return [
+            'user' => User::findOrFail($resp->json('user.id')),
+            'pwd' => $pwd,
+            'login' => $resp->json('login')
+        ];
     }
 
     public function testLogin()
@@ -43,27 +64,5 @@ class AuthTest extends TestCase
         $resp2->assertOk();
 
         self::assertEquals($resp->json('id'), $resp2->json('id'));
-    }
-
-    public function createUser()
-    {
-        $pwd = $this->faker->password;
-        $name = $this->faker()->userName;
-        $email = $this->faker()->email;
-
-
-        $resp = $this->post('/api/auth/register', [
-            'name' => $name,
-            'password' => $pwd,
-            'email' => $email
-        ]);
-
-        $resp->assertCreated();
-
-        return [
-            'user' => User::findOrFail($resp->json('user.id')),
-            'pwd' => $pwd,
-            'login' => $resp->json('login')
-        ];
     }
 }

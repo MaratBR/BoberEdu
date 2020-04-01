@@ -10,5 +10,5 @@ interface IUserService
 {
     function get(int $id): User;
 
-
+    function update(User $user, array $data);
 }

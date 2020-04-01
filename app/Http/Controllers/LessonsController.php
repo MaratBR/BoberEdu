@@ -7,7 +7,6 @@ use App\Http\Requests\Lessons\CreateNewLessonRequest;
 use App\Http\Requests\Lessons\DeleteLessonRequest;
 use App\Http\Requests\Lessons\UpdateLessonRequest;
 use App\Providers\Services\Abs\ILessonsService;
-use Illuminate\Http\Request;
 
 class LessonsController extends Controller
 {

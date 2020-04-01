@@ -5,16 +5,14 @@ namespace App\Exceptions;
 
 
 use Illuminate\Support\Facades\Gate;
-use Lanin\Laravel\ApiExceptions\ForbiddenApiException;
-use Lanin\Laravel\ApiExceptions\NotFoundApiException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait ThrowUtils
 {
-    public function throwErrorIf(int $code, string $message, bool $condition)
+    public function throwForbiddenIfNotAllowed($ability, $argument, string $msg)
     {
-        if ($condition)
-            throw new HttpException($code, $message);
+        $allows = gettype($ability) === 'array' ? Gate::any($ability, $argument) : Gate::allows($ability, $argument);
+        $this->throwForbidden($msg, !$allows);
     }
 
     public function throwForbidden(string $message, bool $condition)
@@ -22,10 +20,10 @@ trait ThrowUtils
         $this->throwErrorIf(403, $message, $condition);
     }
 
-    public function throwForbiddenIfNotAllowed($ability, $argument, string $msg)
+    public function throwErrorIf(int $code, string $message, bool $condition)
     {
-        $allows = gettype($ability) === 'array' ? Gate::any($ability, $argument) : Gate::allows($ability, $argument);
-        $this->throwForbidden($msg, !$allows);
+        if ($condition)
+            throw new HttpException($code, $message);
     }
 
     public function throwNotFoundIfNull($val, ?string $msg = null)

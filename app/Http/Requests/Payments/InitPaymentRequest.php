@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Payments;
 
-use App\Course;
 use App\Http\Requests\AuthenticatedRequest;
 
 class InitPaymentRequest extends AuthenticatedRequest

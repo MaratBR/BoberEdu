@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +24,12 @@ Route::group([
 });
 
 Route::group([
+    'prefix' => 'users'
+], function ($q) {
+    Route::get('{id}', 'UserController@get');
+});
+
+Route::group([
     'prefix' => 'courses'
 ], function ($r) {
     Route::post('{course}/units', 'CourseController@updateUnits');
@@ -34,7 +39,7 @@ Route::group([
     Route::post('{course}/attendance/purchase', 'CourseAttendanceController@purchase');
 });
 
-Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store', 'index']);
+Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show', 'store', 'index']);
 Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
 Route::resource('lessons', 'LessonController')->only(['store', 'update', 'show', 'index', 'destroy']);
 

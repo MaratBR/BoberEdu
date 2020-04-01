@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 
 use App\Exceptions\ThrowUtils;
-use Lanin\Laravel\ApiExceptions\InternalServerErrorApiException;
 
 trait ControllerUtils
 {
@@ -16,9 +15,12 @@ trait ControllerUtils
         return response()->json($data, 201);
     }
 
-    protected function noContent()
+    protected function deleteShortcut(?bool $result)
     {
-        return response()->noContent();
+        return $this->noContentOrErrorIfNotSuccess(
+            $result,
+            500,
+            "Failed to delete the record");
     }
 
     protected function noContentOrErrorIfNotSuccess(bool $success, int $code, string $msg)
@@ -27,12 +29,9 @@ trait ControllerUtils
         return $this->noContent();
     }
 
-    protected function deleteShortcut(?bool $result)
+    protected function noContent()
     {
-        return $this->noContentOrErrorIfNotSuccess(
-            $result,
-            500,
-            "Failed to delete the record");
+        return response()->noContent();
     }
 
     protected function updateShortcut(?bool $result)

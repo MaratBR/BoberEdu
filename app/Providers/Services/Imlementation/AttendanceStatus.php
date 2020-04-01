@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Providers\Services;
+namespace App\Providers\Services\Implementation;
 
 use App\Providers\Services\Abs\IAttendanceStatus;
 use App\Purchase;
 use App\UserCourse;
-
+use Carbon\Carbon;
 use const App\Providers\Services\Abs\ATTENDANCE_STATUS_AWAITING_PAYMENT;
 use const App\Providers\Services\Abs\ATTENDANCE_STATUS_CANCELLED;
 use const App\Providers\Services\Abs\ATTENDANCE_STATUS_NO;
 use const App\Providers\Services\Abs\ATTENDANCE_STATUS_PREVIEW;
 use const App\Providers\Services\Abs\ATTENDANCE_STATUS_PREVIEW_EXPIRED;
 use const App\Providers\Services\Abs\ATTENDANCE_STATUS_YES;
-
-use Carbon\Carbon;
 
 
 class AttendanceStatus implements IAttendanceStatus
@@ -38,9 +36,57 @@ class AttendanceStatus implements IAttendanceStatus
         return $this->exists() && $this->record->preview;
     }
 
+    public function exists(): bool
+    {
+        return $this->record !== null;
+    }
+
     function isExpired(): bool
     {
         return $this->exists() && $this->addPreviewPeriod($this->record->created_at)->gt(Carbon::now());
+    }
+
+    private function addPreviewPeriod(Carbon $createdAt): Carbon
+    {
+        return $createdAt->addDays($this->previewDurationInDays);
+    }
+
+    function getPurchaseInnerStatus(): ?string
+    {
+        return $this->hasPayment() ?
+            $this->record->purchase->status :
+            null;
+    }
+
+    public function hasPayment(): bool
+    {
+        return $this->exists() && $this->attendance->purchase_id !== null;
+    }
+
+    public function isPaymentSuccessful(): bool
+    {
+        return $this->hasPayment() && $this->getPurchaseInnerStatus() === Purchase::STATUS_SUCCESSFUL;
+    }
+
+    public function isAwaitingPayment(): bool
+    {
+        return $this->isPaymentPending();
+    }
+
+    public function isPaymentPending(): bool
+    {
+        return $this->hasPayment() && $this->getPurchaseInnerStatus() === Purchase::STATUS_PENDING;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode([
+            'status' => $this->asString(),
+            'user_id' => $this->exists() ? $this->record->user_id : null,
+        ]);
     }
 
     function asString(): string
@@ -66,53 +112,5 @@ class AttendanceStatus implements IAttendanceStatus
             }
 
         }
-    }
-
-    function getPurchaseInnerStatus(): ?string
-    {
-        return $this->hasPayment() ?
-            $this->record->purchase->status :
-            null;
-    }
-
-    private function addPreviewPeriod(Carbon $createdAt): Carbon
-    {
-        return $createdAt->addDays($this->previewDurationInDays);
-    }
-
-    public function exists(): bool
-    {
-        return $this->record !== null;
-    }
-
-    public function hasPayment(): bool
-    {
-        return $this->exists() && $this->attendance->purchase_id !== null;
-    }
-
-    public function isPaymentPending(): bool
-    {
-        return $this->hasPayment() && $this->getPurchaseInnerStatus() === Purchase::STATUS_PENDING;
-    }
-
-    public function isPaymentSuccessful(): bool
-    {
-        return $this->hasPayment() && $this->getPurchaseInnerStatus() === Purchase::STATUS_SUCCESSFUL;
-    }
-
-    public function isAwaitingPayment(): bool
-    {
-        return $this->isPaymentPending();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode([
-            'status' => $this->asString(),
-            'user_id' => $this->exists() ? $this->record->user_id : null,
-        ]);
     }
 }

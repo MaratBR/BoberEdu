@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Providers\Services;
+namespace App\Providers\Services\Implementation;
 
 
 use App\Providers\Services\Abs\IUsersService;

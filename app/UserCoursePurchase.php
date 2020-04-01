@@ -10,11 +10,13 @@ class UserCoursePurchase extends Model
         'purchase_id', 'user_course_id'
     ];
 
-    public function purchase() {
+    public function purchase()
+    {
         return $this->belongsTo(Purchase::class);
     }
 
-    public function userCourse() {
+    public function userCourse()
+    {
         return $this->belongsTo(UserCourse::class);
     }
 }

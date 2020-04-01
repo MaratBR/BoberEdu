@@ -1,16 +1,14 @@
 <?php
 
 
-namespace App\Providers\Services;
+namespace App\Providers\Services\Implementation;
 
 
-use App\Course;
 use App\CourseAttendance;
 use App\Providers\Services\Abs\IExternalPaymentService;
 use App\Providers\Services\Abs\IPurchasesService;
 use App\Purchase;
 use App\User;
-use App\UserCoursePurchase;
 
 class PurchaseService implements IPurchasesService
 {
@@ -28,7 +26,7 @@ class PurchaseService implements IPurchasesService
 
     function create(string $title, string $redirect, float $price, User $customer): Purchase
     {
-        $externalPayment= $this->externalPaymentService->placePayment($price, $title, $redirect);
+        $externalPayment = $this->externalPaymentService->placePayment($price, $title, $redirect);
 
         /** @var Purchase $purchase */
         $purchase = Purchase::create([
