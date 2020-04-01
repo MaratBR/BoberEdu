@@ -12,13 +12,14 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static User create(array $data)
  * @method static User findOrFail(int|null $id)
  * @property Role[] roles
+ * @property int id
  */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'sex'
+        'name', 'email', 'password', 'sex', 'status'
     ];
 
     protected $appends = [

@@ -3,7 +3,7 @@
         <template v-slot:header>
             <div class="d--flex">
                 <router-link class="btn" :to="{name: 'course', params: {id: courseData.id}}">View course</router-link>
-                <router-link class="ml--1 btn" v-if="courseData.isPersistent" :to="{name: 'course', params: {id: courseData.id}}">View course</router-link>
+                <router-link class="ml--1 btn" v-if="courseData.isPersistent" :to="{name: 'edit_course_units', params: {id: courseData.id}}">Edit units</router-link>
             </div>
         </template>
 
@@ -55,8 +55,6 @@
 
             <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
         </form>
-
-        <units-editor :course="courseData" />
     </page>
 </template>
 
@@ -108,7 +106,7 @@
             init() {
                 if (this.course)
                     this.courseData = this.course;
-                console.log(this.courseData.about)
+                console.log(this.courseData.about);
                 this.courseData.enableStaging();
                 this.hasSignUpPeriod = !!this.courseData.sign_up_beg;
             }

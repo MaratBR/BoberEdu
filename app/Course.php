@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
  * @property string name
  * @property float price
  * @property bool available
+ * @property int trial_length
  */
 class Course extends Model
 {

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\CourseAttendance;
 use App\Http\Requests\AuthenticatedRequest;
-use App\Http\Requests\Courses\AttendCourseRequest;
+use App\Http\Requests\Courses\AttendJoinCourseRequest;
+use App\Http\Requests\Courses\CourseRequest;
 use App\Http\Requests\Courses\PurchaseCourseRequest;
 use App\Providers\Services\Abs\IAttendanceStatus;
-use App\Providers\Services\Abs\ICourseAttendanceService;
+use App\Providers\Services\Abs\IJoinCourseService;
 use App\Providers\Services\Abs\ICourseService;
+use App\UserCourse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Lanin\Laravel\ApiExceptions\BadRequestApiException;
 
@@ -17,54 +18,35 @@ class CourseAttendanceController extends Controller
     private $attendances;
     private $courses;
 
-    public function __construct(ICourseAttendanceService $service, ICourseService $courseService)
+    public function __construct(IJoinCourseService $service, ICourseService $courseService)
     {
         $this->attendances = $service;
         $this->courses = $courseService;
     }
 
-    /**
-     * Handles request to attend a course.
-     * When user make such request it means user wants to attend this course and either want to start trial period or
-     * wants to pay for it. Associated purchase record won't be created. User need to do that manually.
-     *
-     * @param AttendCourseRequest $request
-     * @return CourseAttendance
-     */
-    public function attend(AttendCourseRequest $request)
+    public function join(CourseRequest $request)
     {
         $course = $this->courses->get($request->getCourseId());
 
-        return $this->attendances->attend(
+        return $this->attendances->join(
             $course,
-            $request->user(),
-            $request
-        );
-    }
-
-    public function get(AuthenticatedRequest $request)
-    {
-        return $this->attendances->get(
-            $request->course,
             $request->user()
         );
     }
 
-    /**
-     * Returns a status of attendance to the user.
-     *
-     * @param AuthenticatedRequest $request
-     * @return IAttendanceStatus
-     */
-    public function status(AuthenticatedRequest $request)
+    public function get(CourseRequest $request)
     {
-        $courseId = $request->course;
-        return $this->attendances->attendanceStatus($courseId, $request->user());
+        $course = $this->courses->get($request->getCourseId());
+        return $this->attendances->get(
+            $course,
+            $request->user()
+        );
     }
 
-    public function submit(PurchaseCourseRequest $request)
+    public function purchase(CourseRequest $request)
     {
-        $attendance = $this->attendances->get($request->course, $request->user());
-        return $this->attendances->makePurchase($attendance, $request->user());
+        $course = $this->courses->get($request->getCourseId());
+        $attendance = $this->attendances->get($course, $request->user());
+        return $this->attendances->purchase($attendance, $request->user());
     }
 }

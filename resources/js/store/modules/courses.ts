@@ -57,51 +57,31 @@ export default {
                     return course
                 })
         },
+
         updateCourse({commit}, {id, data}): Promise<void> {
             return  api.courses.update(id, data)
                 .then(() => commit('MARK_AS_CLEAN', id))
         },
+
         updateUnits(_context, {data, course}) {
             return api.courses.createUnits(course, data)
         },
+
         getCoursesPage({commit}, {page}): Promise<Pagination<ICoursePaginationData>> {
             return api.courses.pagination(page)
         },
 
-        attend(_context, {course, preview}: {course: Course, preview: boolean}) {
-            return api.courses.attend(course.id, preview)
+        getAttendance(_context, courseId: number) {
+            return api.courses.getAttendance(courseId)
         },
 
-        getAttendance(_context, course: Course) {
-            return api.courses.getAttendance(course.id)
+        join(_context, courseId: number) {
+            return api.courses.join(courseId)
         },
 
-        submitAttendance(_context, course: Course) {
-            return api.courses.submitAttendance(course.id)
-        },
-
-        checkAttendanceStatus(_context, course: Course) {
-            return api.courses.checkAttendanceStatus(course.id)
-        },
-
-        async getPurchaseModel({dispatch}, courseId: number) {
-
-            let course = await dispatch('getCourse', courseId);
-
-            let [attendanceStatus, attendance] = await Promise.all([
-                dispatch('checkAttendanceStatus', course),
-                dispatch('getAttendance', course)
-            ]);
-
-            let model: PurchaseModel = {
-                attendance,
-                attendanceStatus,
-                course
-            };
-
-            return model;
+        purchase(_context, courseId: number) {
+            return api.courses.purchase(courseId)
         }
-
     },
     getters: {
         course: state => id => {

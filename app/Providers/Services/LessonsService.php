@@ -8,6 +8,7 @@ use App\Exceptions\ThrowUtils;
 use App\Lesson;
 use App\Providers\Services\Abs\ILessonsService;
 use App\User;
+use Exception;
 use Illuminate\Support\Facades\Gate;
 use Lanin\Laravel\ApiExceptions\ForbiddenApiException;
 use Lanin\Laravel\ApiExceptions\UnauthorizedApiException;
@@ -42,7 +43,7 @@ class LessonsService implements ILessonsService
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     function delete(Lesson $lesson, bool $force = false): ?bool
     {

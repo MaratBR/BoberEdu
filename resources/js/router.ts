@@ -46,6 +46,11 @@ export default new VueRouter({
             name: 'edit_course'
         },
         {
+            path: '/c/:id/edit/units',
+            component: () => import(/* webpackChunkName: "edit-course-units" */ './components/pages/CourseUnitsForm.vue'),
+            name: 'edit_course_units'
+        },
+        {
             path: '/c/:id/purchase',
             name: 'purchase_course',
             component: () => import(/* webpackChunkName: "purchase" */ './components/pages/PurchaseCourse.vue')

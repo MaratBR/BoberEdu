@@ -10,6 +10,7 @@ use App\Providers\Services\Abs\IExternalPaymentService;
 use App\Providers\Services\Abs\IPurchasesService;
 use App\Purchase;
 use App\User;
+use App\UserCoursePurchase;
 
 class PurchaseService implements IPurchasesService
 {
@@ -29,12 +30,15 @@ class PurchaseService implements IPurchasesService
     {
         $externalPayment= $this->externalPaymentService->placePayment($price, $title, $redirect);
 
-        return Purchase::create([
+        /** @var Purchase $purchase */
+        $purchase = Purchase::create([
             'external_redirect_url' => $externalPayment->redirect(),
             'external_id' => $externalPayment->id(),
             'status' => 'pending',
             'user_id' => $customer->id,
             'price' => $price
         ]);
+        $purchase->refresh();
+        return $purchase;
     }
 }

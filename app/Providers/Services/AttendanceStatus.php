@@ -1,20 +1,29 @@
 <?php
 
-namespace App\Providers\Services\Abs;
+namespace App\Providers\Services;
 
-use App\CourseAttendance;
 use App\Providers\Services\Abs\IAttendanceStatus;
 use App\Purchase;
+use App\UserCourse;
+
+use const App\Providers\Services\Abs\ATTENDANCE_STATUS_AWAITING_PAYMENT;
+use const App\Providers\Services\Abs\ATTENDANCE_STATUS_CANCELLED;
+use const App\Providers\Services\Abs\ATTENDANCE_STATUS_NO;
+use const App\Providers\Services\Abs\ATTENDANCE_STATUS_PREVIEW;
+use const App\Providers\Services\Abs\ATTENDANCE_STATUS_PREVIEW_EXPIRED;
+use const App\Providers\Services\Abs\ATTENDANCE_STATUS_YES;
+
 use Carbon\Carbon;
+
 
 class AttendanceStatus implements IAttendanceStatus
 {
-    private $attendance;
+    private $record;
     private $previewDurationInDays;
 
-    public function __construct(?CourseAttendance $attendance, int $previewDurationInDays)
+    public function __construct(?UserCourse $record, int $previewDurationInDays)
     {
-        $this->attendance = $attendance;
+        $this->record = $record;
         $this->previewDurationInDays = $previewDurationInDays;
     }
 
@@ -26,12 +35,12 @@ class AttendanceStatus implements IAttendanceStatus
 
     function isPreview(): bool
     {
-        return $this->exists() && $this->attendance->preview;
+        return $this->exists() && $this->record->preview;
     }
 
     function isExpired(): bool
     {
-        return $this->exists() && $this->addPreviewPeriod($this->attendance->created_at)->gt(Carbon::now());
+        return $this->exists() && $this->addPreviewPeriod($this->record->created_at)->gt(Carbon::now());
     }
 
     function asString(): string
@@ -62,7 +71,7 @@ class AttendanceStatus implements IAttendanceStatus
     function getPurchaseInnerStatus(): ?string
     {
         return $this->hasPayment() ?
-            $this->attendance->purchase->status :
+            $this->record->purchase->status :
             null;
     }
 
@@ -73,7 +82,7 @@ class AttendanceStatus implements IAttendanceStatus
 
     public function exists(): bool
     {
-        return $this->attendance !== null;
+        return $this->record !== null;
     }
 
     public function hasPayment(): bool
@@ -103,8 +112,7 @@ class AttendanceStatus implements IAttendanceStatus
     {
         return json_encode([
             'status' => $this->asString(),
-            'gifted_by' => $this->exists() ? $this->attendance->gifted_by_id : null,
-            'gift_to' => $this->exists() && $this->attendance->gifted_by_id ? $this->attendance->user_id : null
+            'user_id' => $this->exists() ? $this->record->user_id : null,
         ]);
     }
 }

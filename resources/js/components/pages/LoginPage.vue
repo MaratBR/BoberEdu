@@ -46,9 +46,14 @@
 
                 this.$store.dispatch('auth/attemptLogin',
                     {name: this.name, password: this.password})
-                    .then(() => {
+                    .then(async () => {
                         this.failed = false;
-                        this.$store.dispatch('auth/updateUser')
+                        await this.$store.dispatch('auth/updateUser')
+                    })
+                    .then(() => {
+                        if (this.$route.query.next) {
+                            location.href = this.$route.query.next
+                        }
                     })
                     .catch(() => this.failed = true)
 

@@ -14,25 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::group([
     'prefix' => 'auth'
-], function ($router) {
+], function () {
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
     Route::post('logout', 'AuthController@logout');
     Route::get('user', 'AuthController@currentUser');
 });
 
-
 Route::group([
     'prefix' => 'courses'
 ], function ($r) {
     Route::post('{course}/units', 'CourseController@updateUnits');
 
-    Route::get('{course}/attendance/status', 'CourseAttendanceController@status');
-    Route::post('{course}/attend', 'CourseAttendanceController@attend');
     Route::get('{course}/attendance', 'CourseAttendanceController@get');
-    Route::post('{course}/attendance/submit', 'CourseAttendanceController@submit');
+    Route::post('{course}/attendance/join', 'CourseAttendanceController@join');
+    Route::post('{course}/attendance/purchase', 'CourseAttendanceController@purchase');
 });
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show','store', 'index']);

@@ -10,10 +10,13 @@
         </div>
         <div v-else class="loader__wrapper">
             <template v-if="promiseMode">
-                <slot v-if="success && value" :value="value"></slot>
+                <div class="loader__content" v-if="success">
+                    <slot :value="value"></slot>
+                </div>
                 <error v-else-if="error" :error="error" />
                 <error v-else :error="noValueMessage" />
             </template>
+
             <slot v-else></slot>
         </div>
     </div>
@@ -65,7 +68,7 @@
                             this.success = true
                         })
                         .catch(err => {
-                            this.error = err || 'Unknown error'
+                            this.error = err || 'Unknown error';
                             this.success = false
                         })
                         .finally(() => this.completed = true)

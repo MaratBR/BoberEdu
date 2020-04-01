@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\CourseAttendance;
-use App\Http\Requests\Courses\AttendCourseRequest;
+use App\Http\Requests\Courses\AttendJoinCourseRequest;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\DeleteCourseRequest;
 use App\Http\Requests\Courses\CreateNewCourseRequest;
@@ -33,7 +33,7 @@ class CourseController extends Controller
     {
         return $this->courses->get(
             $request->course,
-            Utils::asBool($request->query('units'))
+            true
             );
     }
 
@@ -70,7 +70,7 @@ class CourseController extends Controller
 
     public function updateUnits(UpdateCourseUnitsRequest $request)
     {
-        $course = $this->courses->get($request->courses);
+        $course = $this->courses->get($request->getCourseId());
         return $this->courses->updateCourseUnits($course, $request);
     }
 }

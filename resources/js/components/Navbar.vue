@@ -13,8 +13,8 @@
             </section>
 
             <section class="nav__right">
-                <router-link :to="`/user/${$store.state.auth.user.id}`"
-                             v-if="$store.getters['auth/isAuthenticated'] ">{{$store.state.auth.user.name}}</router-link>
+                <router-link :to="`/user/${$store.state.auth.user.id}`" class="btn"
+                             v-if="$store.getters['auth/isAuthenticated']">{{$store.state.auth.user.name}}</router-link>
                 <span v-if="$store.state.auth.syncing">Loading...</span>
                 <router-link
                     v-if="!$store.getters['auth/isAuthenticated'] && !$store.state.auth.syncing"

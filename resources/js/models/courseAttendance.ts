@@ -1,10 +1,11 @@
 import {ITimestamps} from "./model";
 
 export interface CourseAttendance extends ITimestamps {
-    purchase_id: number
+    course_id: number
     preview: boolean
     user_id: number
-    gifted_by_id: number
+    active: boolean
+    id: number
 }
 
 

@@ -10,7 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-class UpdateCourseRequest extends AuthenticatedRequest
+class UpdateCourseRequest extends CourseRequest
 {
     /**
      * Get the validation rules that apply to the request.

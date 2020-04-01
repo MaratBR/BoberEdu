@@ -2,15 +2,17 @@
 
 namespace App\Providers;
 
-use App\Providers\Services\Abs\ICourseAttendanceService;
+use App\Providers\Services\Abs\IJoinCourseService;
 use App\Providers\Services\Abs\IPurchasesService;
+use App\Providers\Services\Abs\IRedirectService;
 use App\Providers\Services\Abs\IUsersService;
-use App\Providers\Services\CourseAttendanceService;
-use App\Providers\Services\FakePaymentsServiceExternal;
+use App\Providers\Services\JoinCourseService;
+use App\Providers\Services\FakeExternalPaymentsService;
 use App\Providers\Services\Abs\IExternalPaymentService;
 use App\Providers\Services\CourseService;
 use App\Providers\Services\Abs\ICourseService;
 use App\Providers\Services\PurchaseService;
+use App\Providers\Services\RedirectService;
 use App\Providers\Services\UsersService;
 use Illuminate\Support\ServiceProvider;
 use function foo\func;
@@ -36,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             IExternalPaymentService::class,
-            FakePaymentsServiceExternal::class
+            FakeExternalPaymentsService::class
         );
 
         $this->app->singleton(
@@ -55,8 +57,13 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
-            ICourseAttendanceService::class,
-            CourseAttendanceService::class
+            IJoinCourseService::class,
+            JoinCourseService::class
+        );
+
+        $this->app->singleton(
+            IRedirectService::class,
+            RedirectService::class
         );
     }
 }

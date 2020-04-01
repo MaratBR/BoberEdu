@@ -43,6 +43,22 @@ export default class Course extends TimestampsModel<ICourse> {
     get units(): Unit[] { return this.get('units') }
 
     get has_preview(): boolean { return this.units ? this.units.some(u => u.is_preview) : null }
+    get can_join(): boolean {
+        let now = +new Date();
+        let beg = +new Date(this.sign_up_beg);
+        let end = +new Date(this.sign_up_end);
+        return (!this.sign_up_beg || beg < now) && (!this.sign_up_end || end > now)
+    }
+    get will_be_available(): boolean {
+        let now = +new Date();
+        let beg = +new Date(this.sign_up_beg);
+        return this.sign_up_beg && now < beg
+    }
+    get was_available(): boolean {
+        let now = +new Date();
+        let end = +new Date(this.sign_up_end);
+        return this.sign_up_end && now > end
+    }
 
 
     set name(v) { this.set('name', v) }

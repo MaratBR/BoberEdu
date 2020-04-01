@@ -145,29 +145,19 @@ class CourseAdapter extends CrudAdapter<Course, ICourse, ICoursePaginationData> 
         super('courses', Course);
     }
 
+    purchase(courseId: number): Promise<Purchase> {
+        return post('courses/' + courseId + '/attendance/purchase')
+    }
+
+    join(courseId: number): Promise<CourseAttendance> {
+        return post('courses/' + courseId + '/attendance/join')
+    }
+
     createUnits(course: Course | number, data: CreateUnitsRequest): Promise<CreateUnitsResponse> {
         return post('courses/' + (course instanceof Course ? course.id : course) + '/units', data)
     }
 
-    attend(courseId: number, preview: boolean = false, giftTo?: number) {
-        let data: PurchaseCourseRequest = {};
-        if (preview)
-            data.preview = preview;
-        if (giftTo)
-            data.gift_to = giftTo;
-        return post<CourseAttendance>(`courses/${courseId}/attend`, data)
-    }
-
-    submitAttendance(courseId: number) {
-        return post<Purchase>(`courses/${courseId}/attendance/submit`)
-    }
-
-    checkAttendanceStatus(courseId: number) {
-        return retrieveOrNull<AttendanceStatusResponse>(`courses/${courseId}/attendance/status`)
-            .then(result => result ? result.status : null)
-    }
-
-    getAttendance(courseId: number) {
+    getAttendance(courseId: number): Promise<CourseAttendance | null> {
         return retrieveOrNull(`courses/${courseId}/attendance`)
     }
 }

@@ -1,11 +1,14 @@
 <?php
 
 
-class UnitsTableSeeder extends \Illuminate\Database\Seeder
+use App\Unit;
+use Illuminate\Database\Seeder;
+
+class UnitsTableSeeder extends Seeder
 {
     public function run()
     {
-        \App\Unit::create([
+        Unit::create([
             'name' => 'Unit #1',
             'is_preview' => true,
             'course_id' => 1,

@@ -5,13 +5,11 @@ namespace App\Providers\Services;
 
 
 use App\Course;
-use App\CourseAttendance;
 use App\Exceptions\ThrowUtils;
 use App\Providers\Services\Abs\ICourseService;
 use App\Providers\Services\Abs\ICourseUnitsUpdateResponse;
-use App\Purchase;
 use App\Unit;
-use App\User;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Lanin\Laravel\ApiExceptions\BadRequestApiException;
@@ -28,7 +26,9 @@ class CourseService implements ICourseService
      */
     function get(int $id, bool $extra = false): Course
     {
-        $course = $extra ? Course::with(['units'])->findOrFail($id) : Course::findOrFail($id);
+        $course = $extra ? Course::with(['units' => function ($q) {
+            $q->orderBy('order_num');
+        }])->findOrFail($id) : Course::findOrFail($id);
         if (!Gate::allows('view', $course) && !Gate::allows('viewAny', Course::class))
         {
             throw new ForbiddenApiException("You are not allowed to view this course");
@@ -77,7 +77,7 @@ class CourseService implements ICourseService
                 $this->throwForbiddenIfNotAllowed('delete', $course, "You are not allowed to delete this course");
                 return $course->delete();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
     }

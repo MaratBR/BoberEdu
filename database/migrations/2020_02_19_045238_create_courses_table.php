@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateCoursesTable extends Migration
@@ -27,7 +28,7 @@ class CreateCoursesTable extends Migration
         });
 
         if (config('database.default') !== 'sqlite') {
-            \Illuminate\Support\Facades\DB::statement('
+            DB::statement('
             ALTER TABLE courses
                 ADD CONSTRAINT chk_signup_period CHECK (
                     (sign_up_beg IS NULL AND sign_up_end IS NULL) OR
@@ -44,6 +45,13 @@ class CreateCoursesTable extends Migration
      */
     public function down()
     {
+        if (config('database.default') !== 'sqlite') {
+            DB::statement('
+                ALTER TABLE courses
+                DROP CHECK chk_signup_period;
+            ');
+        }
+
         Schema::dropIfExists('courses');
     }
 }

@@ -1,6 +1,9 @@
 <template>
     <form @submit.prevent="onSubmit" class="units-editor">
-        <div class="unit-entry-wrp" v-for="unit in units">
+        <div class="units-editor__nounits" v-if="units.length == 0">
+            <p class="p--middle text--hint p--10">No units yet, add one by click on button below</p>
+        </div>
+        <div v-else class="unit-entry-wrp" v-for="unit in units">
             <div class="unit-entry">
                 <header class="unit-entry__header">
                     <label>
@@ -36,7 +39,7 @@
             </button>
         </div>
 
-        <input :disabled="submitting" type="submit" value="Save">
+        <input class="btn btn--primary" :disabled="submitting" type="submit" value="Save">
         <error v-if="errors !== null" :error="errors" />
     </form>
 </template>

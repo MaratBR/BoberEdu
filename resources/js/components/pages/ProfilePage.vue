@@ -49,7 +49,7 @@
                     this.error = null;
                     let promise = (this.$store.getters.isAuthenticated && id === this.$store.state.auth.user.id) ?
                         this.$store.dispatch('updateUser') : users.get(id);
-                    console.log(promise)
+                    console.log(promise);
                     this.updateFrom(promise)
                 }
             },
@@ -59,7 +59,7 @@
                         this.user = user
                     })
                     .catch(err => {
-                        this.error = err.toString()
+                        this.error = err.toString();
                         throw err
                     })
                     .finally(() => this.loading = false)

@@ -1,3 +1,5 @@
+@import "../config"
+
 @mixin button-style-ex($bg, $bgH, $fg, $fgH)
     background: $bg
     color: $fg
@@ -5,10 +7,14 @@
     &:hover
         background: $bgH
         color: $fgH
+        text-decoration: underline
     &:focus
-        outline: 2px dotted gray
+        outline: 2px solid whitesmoke
+
     &:active
-        outline: 2px dotted black
+        outline: 2px solid white
+        background: darken($bgH, 10%)
+        box-shadow: 0 0 3px opacify($bgH, 0.3)
 
     &.btn--inverted
         color: $bg
@@ -19,24 +25,25 @@
             color: $bgH
 
 @mixin button-style($bg, $fg)
-  @include button-style-ex($bg, darken($bg, 10%), $fg, lighten($fg, 10%))
+  @include button-style-ex($bg, darken($bg, 3%), $fg, lighten($fg, 10%))
 
-$ss-button-primary-bg: darken(cyan, 10%)
-$ss-button-primary-fg: white
 
-$ss-button-danger-bg: red
-$ss-button-danger-fg: white
-
-$ss-button-primary-bg: darken(cyan, 10%)
-$ss-button-primary-fg: white
-
+a.btn
+    display: inline-block
+    text-align: center
 
 .btn
     border: none
     padding: 10px
-    border-radius: 4px
     cursor: pointer
     text-decoration: none
+    outline-offset: -3px
+    font-size: 1.1em
+    transition: transform 0.2s
+    transform: scale(1)
+
+    &:active
+        transform: scale(0.95)
 
     &:disabled
         cursor: not-allowed
