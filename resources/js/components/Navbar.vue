@@ -35,14 +35,16 @@
 </template>
 
 <script lang="ts">
-    export default {
-        name: "Navbar",
-        data() {
-            return {
-                mobileExpanded: false,
-                active: (new URLSearchParams(window.location.search)).get('navbar') !== 'hide'
-            }
-        }
+
+    import Vue from 'vue';
+    import Component from "vue-class-component";
+
+    @Component({
+        name: 'Navbar'
+    })
+    export default class extends Vue {
+        mobileExpanded = false;
+        readonly active = (new URLSearchParams(window.location.search)).get('navbar') !== 'hide'
     }
 </script>
 

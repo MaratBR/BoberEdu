@@ -25,34 +25,33 @@
 <script lang="ts">
     import * as marked from "marked";
     import * as DOMPurify from 'dompurify'
+    import {Component, Prop, Vue, Watch} from "vue-property-decorator";
 
-    export default {
-        name: "MarkdownEditor",
-        props: ['value'],
-        data() {
-            return {
-                marked: '',
-                vertical: localStorage['md-editor-vmode'] === 'true'
-            }
-        },
-        methods: {
-            onInput(val: string) {
-                this.$emit('input', val)
-            },
-            toggleMode() {
-                this.vertical = !this.vertical;
-                localStorage['md-editor-vmode'] = this.vertical;
-            }
-        },
+    @Component
+    export default class MarkdownEditor extends Vue {
+        vertical: boolean = localStorage['md-editor-vmode'] === 'true';
+        marked: string = '';
+
+        @Prop({ type: String }) value: string;
+
+        onInput(val: string) {
+            this.$emit('input', val)
+        }
+
+        toggleMode() {
+            this.vertical = !this.vertical;
+            localStorage['md-editor-vmode'] = this.vertical;
+        }
+
         created(): void {
-            if (typeof this.value === 'string')
+            if (this.value)
                 this.marked = DOMPurify.sanitize(marked(this.value))
-        },
-        watch: {
-            value(newV) {
-                if (typeof newV === 'string')
-                    this.marked = DOMPurify.sanitize(marked(newV))
-            }
+        }
+
+        @Watch('value')
+        valueChanged(newV) {
+            if (newV)
+                this.marked = DOMPurify.sanitize(marked(newV))
         }
     }
 </script>

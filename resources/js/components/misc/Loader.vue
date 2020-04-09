@@ -23,72 +23,60 @@
 </template>
 
 <script lang="ts">
-    import {PropValidator} from "vue/types/options";
     import Error from "./Error.vue";
+    import {Component, Model, Prop, Vue, Watch} from "vue-property-decorator";
 
-    export default {
-        name: "Loader",
-        components: {Error},
-        props: {
-            promise: {
-                type: Promise
-            } as PropValidator<Promise<any>>,
-            noValueMessage: {
-                type: String,
-                default: 'No data were retrieved'
-            },
-            loading: {
-                type: Boolean,
-                default: false
-            },
-            promiseMode: {
-                type: Boolean,
-                default: true
-            }
-        },
-        data() {
-            return {
-                value: null,
-                completed: false,
-                success: false,
-                error: null
-            }
-        },
-        methods: {
-            updateFrom(promise: Promise<any>) {
-                if (!promise)
-                    return;
-                this.completed = false;
-                this.success = null;
-                this.error = null;
-                if (promise && !this.$slots.default)
-                    promise
-                        .then(v => {
-                            this.value = v;
-                            this.success = true
-                        })
-                        .catch(err => {
-                            this.error = err || 'Unknown error';
-                            this.success = false
-                        })
-                        .finally(() => this.completed = true)
-            }
-        },
+    @Component({
+        name: 'Loader',
+        components: {Error}
+    })
+    export default class Loader extends Vue {
+        @Prop({ type: Promise }) promise: Promise<any>;
+        @Prop({ default: 'No data were retrieved' }) noValueMessage: string;
+        @Prop({ type: Boolean, default: true }) promiseMode: boolean;
+        @Prop({ type: Boolean, default: false }) loading: boolean;
+
+        value: any = null;
+        completed: boolean = false;
+        success: boolean = false;
+        error: any = null;
+
+        updateFrom(promise: Promise<any>) {
+            if (!promise)
+                return;
+            this.completed = false;
+            this.success = null;
+            this.error = null;
+            if (promise && !this.$slots.default)
+                promise
+                    .then(v => {
+                        this.value = v;
+                        this.success = true
+                    })
+                    .catch(err => {
+                        this.error = err || 'Unknown error';
+                        this.success = false
+                    })
+                    .finally(() => this.completed = true)
+        }
+
         created(): void {
             if (this.promiseMode && this.promise)
                 this.updateFrom(this.promise);
-        },
-        watch: {
-            promise(newPromise) {
-                if (this.promiseMode)
-                    this.updateFrom(newPromise)
-            },
-            loading(newValue) {
-                if (this.promiseMode)
-                    return;
+        }
 
-                this.completed = !newValue;
-            }
+        @Watch('promise')
+        onPromiseChanged(newPromise) {
+            if (this.promiseMode)
+                this.updateFrom(newPromise)
+        }
+
+        @Watch('loading')
+        onLoadingChanged(newValue) {
+            if (this.promiseMode)
+                return;
+
+            this.completed = !newValue;
         }
     }
 </script>

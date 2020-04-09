@@ -58,7 +58,7 @@
     </page>
 </template>
 
-<script>
+<script lang="ts">
     import Page from "./Page.vue";
     import {courses} from "../../api";
     import Loader from "../misc/Loader.vue";
@@ -68,59 +68,51 @@
     import DateInput from "../misc/DateInput.vue";
     import {makeModel} from "../../models";
     import MarkdownEditor from "../misc/MarkdownEditor.vue";
+    import {Component, Prop, Vue, Watch} from "vue-property-decorator";
 
-    export default {
-        name: "CourseForm",
-        components: {MarkdownEditor, DateInput, UnitsEditor, Error, Loader, Page},
-        data() {
-            return {
-                courseData: new Course({}),
-                signUpPeriodErr: '',
-                hasSignUpPeriod: false,
-                loading: true,
-                errors: null,
-                submitting: false
-            }
-        },
-        props: {
-            course: {
-                type: Object,
-                default: null
-            }
-        },
-        methods: {
-            onSubmit() {
-                if (this.submitting)
-                    return;
-                this.submitting = true;
+    @Component({
+        components: {MarkdownEditor, DateInput, UnitsEditor, Error, Loader, Page}
+    })
+    export default class CourseForm extends Vue {
+        courseData = new Course({});
+        signUpPeriodErr = '';
+        hasSignUpPeriod = false;
+        loading = true;
+        errors = null;
+        submitting = false;
 
-                let data = this.courseData.getStagedChanges();
-                let promise = this.course ?
-                    courses.update(this.course.id, data) :
-                    courses.create(data).then(makeModel(Course)).then(c => this.courseData = c);
-                promise
-                    .then(r => console.log(r))
-                    .catch(err => this.errors = err.response.data.errors)
-                    .finally(() => this.submitting = false)
-            },
-            init() {
-                if (this.course)
-                    this.courseData = this.course;
-                console.log(this.courseData.about);
-                this.courseData.enableStaging();
-                this.hasSignUpPeriod = !!this.courseData.sign_up_beg;
-            }
-        },
+        @Prop({ type: Object }) course: Course;
+
+        onSubmit() {
+            if (this.submitting)
+                return;
+            this.submitting = true;
+
+            let data = this.courseData.getStagedChanges();
+            let promise = this.course ?
+                courses.update(this.course.id, data) :
+                courses.create(data).then(makeModel(Course)).then(c => this.courseData = c);
+            promise
+                .then(r => console.log(r))
+                .catch(err => this.errors = err.response.data.errors)
+                .finally(() => this.submitting = false)
+        }
+
+        init() {
+            if (this.course)
+                this.courseData = this.course;
+            console.log(this.courseData.about);
+            this.courseData.enableStaging();
+            this.hasSignUpPeriod = !!this.courseData.sign_up_beg;
+        }
+
         created() {
             this.init()
-        },
-        watch: {
-            course() {
-                this.init()
-            }
-        },
-        computed: {
+        }
 
+        @Watch('course')
+        courseChanged() {
+            this.init()
         }
     }
 </script>

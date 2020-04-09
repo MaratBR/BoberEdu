@@ -8,10 +8,13 @@
 
 <script lang="ts">
     import ErrorPresenter from "./ErrorPresenter.vue";
-    export default {
-        name: "Error",
-        components: {ErrorPresenter},
-        props: ['error']
+    import {Component, Prop, Vue} from "vue-property-decorator";
+
+    @Component({
+        components: {ErrorPresenter}
+    })
+    export default class Error extends Vue {
+        @Prop() error: any
     }
 </script>
 
