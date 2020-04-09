@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Providers\Services\Implementation;
+namespace App\Services\Implementation;
 
 
-use App\Providers\Services\Abs\IRedirectService;
+use App\Services\Abs\IRedirectService;
 use App\UserCourse;
 
 class RedirectService implements IRedirectService

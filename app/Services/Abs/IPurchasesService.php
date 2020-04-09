@@ -1,10 +1,9 @@
 <?php
 
 
-namespace App\Providers\Services\Abs;
+namespace App\Services\Abs;
 
 
-use App\CourseAttendance;
 use App\Purchase;
 use App\User;
 

@@ -15,7 +15,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 mix.webpackConfig({
     output: {
-        chunkFilename: 'js/chunks/[name].[chunkhash].js',//replace with your path
+        chunkFilename: 'js/chunks/[chunkhash].js',//replace with your path
     },
     plugins: [
         new BundleAnalyzerPlugin()
@@ -23,7 +23,7 @@ mix.webpackConfig({
 });
 
 
-mix.ts('resources/js/app.ts', 'public/js');
+mix.js('resources/js/app.js', 'public/js');
 mix.sass('resources/sass/app.scss', 'public/css');
 mix.version();
 

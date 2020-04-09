@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Services\Abs;
+namespace App\Services\Abs;
 
 use Illuminate\Contracts\Support\Jsonable;
 const ATTENDANCE_STATUS_YES = 'yes'; // user has access to course

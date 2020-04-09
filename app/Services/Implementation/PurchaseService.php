@@ -1,13 +1,12 @@
 <?php
 
 
-namespace App\Providers\Services\Implementation;
+namespace App\Services\Implementation;
 
 
-use App\CourseAttendance;
-use App\Providers\Services\Abs\IExternalPaymentService;
-use App\Providers\Services\Abs\IPurchasesService;
 use App\Purchase;
+use App\Services\Abs\IExternalPaymentService;
+use App\Services\Abs\IPurchasesService;
 use App\User;
 
 class PurchaseService implements IPurchasesService

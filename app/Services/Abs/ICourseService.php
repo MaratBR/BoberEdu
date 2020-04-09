@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Providers\Services\Abs;
+namespace App\Services\Abs;
 
 
 use App\Course;
-use App\Providers\Services\ICourseUnitsPayload;
+use App\Services\Implementation\ICourseUnitsPayload;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Lanin\Laravel\ApiExceptions\ForbiddenApiException;
 
@@ -46,10 +46,9 @@ interface ICourseService
      * Deletes course.
      *
      * @param Course $course
-     * @param bool $force
      * @return bool|null
      */
-    function delete(Course $course, bool $force = false): ?bool;
+    function delete(Course $course): ?bool;
 
     /**
      * Creates a new course
@@ -69,4 +68,9 @@ interface ICourseService
      * @throws ForbiddenApiException if user is not allowed to update course
      */
     function updateCourseUnits(Course $course, ICourseUnitsPayload $payload): ICourseUnitsUpdateResponse;
+
+
+    function getWithUnitsAndLessonsNames(int $id);
+
+    function getWithUnits(int $id);
 }

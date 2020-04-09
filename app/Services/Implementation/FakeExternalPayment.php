@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers\Services\Implementation;
+namespace App\Services\Implementation;
 
-use App\Providers\Services\Abs\IExternalPayment;
+use App\Services\Abs\IExternalPayment;
 
 class FakeExternalPayment implements IExternalPayment
 {

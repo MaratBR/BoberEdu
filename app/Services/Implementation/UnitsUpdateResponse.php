@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers\Services\Implementation;
+namespace App\Services\Implementation;
 
-use App\Providers\Services\Abs\ICourseUnitsUpdateResponse;
+use App\Services\Abs\ICourseUnitsUpdateResponse;
 
 class UnitsUpdateResponse implements ICourseUnitsUpdateResponse
 {

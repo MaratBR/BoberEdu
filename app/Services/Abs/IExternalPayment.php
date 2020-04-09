@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Services\Abs;
+namespace App\Services\Abs;
 
 interface IExternalPayment
 {

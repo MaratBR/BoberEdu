@@ -1,11 +1,10 @@
 <?php
 
 
-namespace App\Providers\Services\Implementation;
+namespace App\Services\Implementation;
 
-
-use App\Providers\Services\Abs\IExternalPayment;
-use App\Providers\Services\Abs\IExternalPaymentService;
+use App\Services\Abs\IExternalPayment;
+use App\Services\Abs\IExternalPaymentService;
 use Ramsey\Uuid\Uuid;
 
 class FakeExternalPaymentsService implements IExternalPaymentService
@@ -17,10 +16,5 @@ class FakeExternalPaymentsService implements IExternalPaymentService
             Uuid::uuid4()->getHex(),
             $redirectUrl
         );
-    }
-
-    function checkPayment(string $id): string
-    {
-        return 'successful';
     }
 }

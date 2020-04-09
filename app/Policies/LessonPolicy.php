@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Lesson;
-use App\Providers\Services\Abs\IJoinCourseService;
+use App\Services\Abs\IJoinCourseService;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

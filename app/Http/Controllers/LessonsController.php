@@ -6,7 +6,8 @@ use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Lessons\CreateNewLessonRequest;
 use App\Http\Requests\Lessons\DeleteLessonRequest;
 use App\Http\Requests\Lessons\UpdateLessonRequest;
-use App\Providers\Services\Abs\ILessonsService;
+use App\Lesson;
+use App\Services\Abs\ILessonsService;
 
 class LessonsController extends Controller
 {
@@ -19,11 +20,14 @@ class LessonsController extends Controller
 
     public function show(AuthenticatedRequest $request)
     {
-        return $this->lessons->get($request->lesson);
+        $lesson = $this->lessons->get($request->lesson);
+        $this->throwForbiddenIfNotAllowed('view', $lesson);
+        return $lesson;
     }
 
     public function store(CreateNewLessonRequest $request)
     {
+        $this->throwForbiddenIfNotAllowed('create', Lesson::class);
         return $this->created(
             $this->lessons->create($request->validated())
         );
@@ -31,9 +35,11 @@ class LessonsController extends Controller
 
     public function destroy(DeleteLessonRequest $request)
     {
+        $lesson = $this->lessons->get($request->lesson);
+        $this->throwForbiddenIfNotAllowed('delete', $lesson);
         return $this->deleteShortcut(
             $this->lessons->delete(
-                $this->lessons->get($request->lesson),
+                $lesson,
                 $request->isForce()
             )
         );
@@ -42,6 +48,7 @@ class LessonsController extends Controller
     public function update(UpdateLessonRequest $request)
     {
         $lesson = $this->lessons->get($request->lesson);
+        $this->throwForbiddenIfNotAllowed('update   ', $lesson);
         $this->updateShortcut(
             $lesson->update($request->validated())
         );

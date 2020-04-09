@@ -1,16 +1,16 @@
 <?php
 
 
-namespace App\Providers\Services\Implementation;
+namespace App\Services\Implementation;
 
 
 use App\Course;
 use App\Exceptions\ThrowUtils;
-use App\Providers\Services\Abs\ICourseService;
-use App\Providers\Services\Abs\ICourseUnitsUpdateResponse;
-use App\Providers\Services\ICourseUnitsPayload;
+use App\Services\Abs\ICourseService;
+use App\Services\Abs\ICourseUnitsUpdateResponse;
 use App\Unit;
 use Exception;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Lanin\Laravel\ApiExceptions\BadRequestApiException;
@@ -27,7 +27,7 @@ class CourseService implements ICourseService
      */
     function get(int $id, bool $extra = false): Course
     {
-        $course = $extra ? Course::with(['units' => function ($q) {
+        $course = $extra ? Course::with(['units' => function (HasMany $q) {
             $q->orderBy('order_num');
         }])->findOrFail($id) : Course::findOrFail($id);
         if (!Gate::allows('view', $course) && !Gate::allows('viewAny', Course::class)) {
@@ -41,8 +41,6 @@ class CourseService implements ICourseService
      */
     function paginate($size = 15)
     {
-        $this->throwForbiddenIfNotAllowed('viewAny', Course::class, "You are not allowed to view all courses");
-
         return Course::query()
             ->select('courses.name', 'courses.price', 'courses.id', 'courses.sign_up_beg', 'courses.sign_up_end',
                 DB::raw('COUNT(units.id) as units_count'), DB::raw('COUNT(lessons.id) as lessons_count'))
@@ -57,23 +55,16 @@ class CourseService implements ICourseService
      */
     function update(Course $course, $data): bool
     {
-        $this->throwForbiddenIfNotAllowed('update', $course, "You are not allowed to update this course");
         return $course->update($data);
     }
 
     /**
      * @inheritDoc
      */
-    function delete(Course $course, bool $force = false): ?bool
+    function delete(Course $course): ?bool
     {
         try {
-            if ($force) {
-                $this->throwForbiddenIfNotAllowed('forceDelete', $course, "You are not allowed to force-delete this course");
-                return $course->forceDelete();
-            } else {
-                $this->throwForbiddenIfNotAllowed('delete', $course, "You are not allowed to delete this course");
-                return $course->delete();
-            }
+            return $course->delete();
         } catch (Exception $e) {
             return null;
         }
@@ -84,7 +75,6 @@ class CourseService implements ICourseService
      */
     function create($data): Course
     {
-        $this->throwForbiddenIfNotAllowed('create', Course::class, "You are not allowed to create a course");
         return Course::create($data);
     }
 
@@ -93,8 +83,6 @@ class CourseService implements ICourseService
      */
     function updateCourseUnits(Course $course, ICourseUnitsPayload $data): ICourseUnitsUpdateResponse
     {
-        $this->throwForbiddenIfNotAllowed('update', $course, "You are not allowed to update this course");
-
         if ($data === [])
             throw new UnprocessableEntityHttpException("Message body is empty");
 
@@ -169,5 +157,24 @@ class CourseService implements ICourseService
         );
     }
 
+    function getWithUnitsAndLessonsNames(int $id)
+    {
+        return Course::with([
+            'units' => function (HasMany $b) {
+                $b->select('name', 'id', 'course_id', 'about', 'order_num', 'is_preview');
+                $b->orderBy('order_num');
+                $b->with([
+                    'lessons' => function (HasMany $b) {
+                        $b->orderBy('order_num');
+                        $b->select('id', 'unit_id', 'title', 'order_num');
+                    }
+                ]);
+            }
+        ])->findOrFail($id);
+    }
 
+    function getWithUnits(int $id)
+    {
+        return Course::with('units')->findOrFail($id);
+    }
 }

@@ -1,19 +1,23 @@
 <?php
 
 
-namespace App\Providers\Services\Implementation;
+namespace App\Services\Implementation;
 
 
-use App\Providers\Services\Abs\IUsersService;
+use App\Exceptions\ThrowUtils;
+use App\Services\Abs\IUsersService;
 use App\User;
 
 class UsersService implements IUsersService
 {
+    use ThrowUtils;
 
     function get(int $id): User
     {
         // It's fine, IDEA, calm down
-        return User::with('roles')->findOrFail($id);
+        /** @var User $user */
+        $user = User::with('roles')->findOrFail($id);
+        return $user;
     }
 
     function paginate(int $perPage = 15)
@@ -24,5 +28,10 @@ class UsersService implements IUsersService
     function create(array $data): User
     {
         return User::create($data);
+    }
+
+    function update(User $user, array $data)
+    {
+        $user->update($data);
     }
 }

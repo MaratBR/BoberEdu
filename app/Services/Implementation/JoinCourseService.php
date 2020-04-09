@@ -1,16 +1,15 @@
 <?php
 
 
-namespace App\Providers\Services\Implementation;
+namespace App\Service\Implementation;
 
 
 use App\Course;
 use App\Exceptions\ThrowUtils;
-use App\Providers\Services\Abs\IJoinCourseInfo;
-use App\Providers\Services\Abs\IJoinCourseService;
-use App\Providers\Services\Abs\IPurchasesService;
-use App\Providers\Services\Abs\IRedirectService;
 use App\Purchase;
+use App\Services\Abs\IJoinCourseService;
+use App\Services\Abs\IPurchasesService;
+use App\Services\Abs\IRedirectService;
 use App\User;
 use App\UserCourse;
 use App\UserCoursePurchase;
@@ -18,7 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class JoinCourseService implements IJoinCourseService
 {
-    use ThrowUtils;
     private $purchases;
     private $redirects;
 
@@ -53,8 +51,6 @@ class JoinCourseService implements IJoinCourseService
      */
     function join(Course $course, User $user): UserCourse
     {
-        $this->throwErrorIf(409, "You already joined this course", $this->builder($course, $user)->exists());
-
         $assoc = new UserCourse([
             'user_id' => $user->id,
             'course_id' => $course->id

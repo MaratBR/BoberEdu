@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Providers\Services\Implementation;
+namespace App\Services\Implementation;
 
-use App\Providers\Services\Abs\IAttendanceStatus;
 use App\Purchase;
+use App\Services\Abs\IAttendanceStatus;
 use App\UserCourse;
 use Carbon\Carbon;
-use const App\Providers\Services\Abs\ATTENDANCE_STATUS_AWAITING_PAYMENT;
-use const App\Providers\Services\Abs\ATTENDANCE_STATUS_CANCELLED;
-use const App\Providers\Services\Abs\ATTENDANCE_STATUS_NO;
-use const App\Providers\Services\Abs\ATTENDANCE_STATUS_PREVIEW;
-use const App\Providers\Services\Abs\ATTENDANCE_STATUS_PREVIEW_EXPIRED;
-use const App\Providers\Services\Abs\ATTENDANCE_STATUS_YES;
+use const App\Services\Abs\ATTENDANCE_STATUS_AWAITING_PAYMENT;
+use const App\Services\Abs\ATTENDANCE_STATUS_CANCELLED;
+use const App\Services\Abs\ATTENDANCE_STATUS_NO;
+use const App\Services\Abs\ATTENDANCE_STATUS_PREVIEW;
+use const App\Services\Abs\ATTENDANCE_STATUS_PREVIEW_EXPIRED;
+use const App\Services\Abs\ATTENDANCE_STATUS_YES;
 
 
 class AttendanceStatus implements IAttendanceStatus

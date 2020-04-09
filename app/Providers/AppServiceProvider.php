@@ -2,18 +2,20 @@
 
 namespace App\Providers;
 
-use App\Providers\Services\Abs\ICourseService;
-use App\Providers\Services\Abs\IExternalPaymentService;
-use App\Providers\Services\Abs\IJoinCourseService;
-use App\Providers\Services\Abs\IPurchasesService;
-use App\Providers\Services\Abs\IRedirectService;
-use App\Providers\Services\Abs\IUsersService;
-use App\Providers\Services\Implementation\CourseService;
-use App\Providers\Services\Implementation\FakeExternalPaymentsService;
-use App\Providers\Services\Implementation\JoinCourseService;
-use App\Providers\Services\Implementation\PurchaseService;
-use App\Providers\Services\Implementation\RedirectService;
-use App\Providers\Services\Implementation\UsersService;
+use App\Service\Implementation\JoinCourseService;
+use App\Services\Abs\ICourseService;
+use App\Services\Abs\IExternalPaymentService;
+use App\Services\Abs\IJoinCourseService;
+use App\Services\Abs\ILessonsService;
+use App\Services\Abs\IPurchasesService;
+use App\Services\Abs\IRedirectService;
+use App\Services\Abs\IUsersService;
+use App\Services\Implementation\CourseService;
+use App\Services\Implementation\FakeExternalPaymentsService;
+use App\Services\Implementation\LessonsService;
+use App\Services\Implementation\PurchaseService;
+use App\Services\Implementation\RedirectService;
+use App\Services\Implementation\UsersService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -46,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            ILessonsService::class,
+            LessonsService::class
+        );
+
+        $this->app->singleton(
             IUsersService::class,
             UsersService::class
         );
@@ -63,6 +70,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             IRedirectService::class,
             RedirectService::class
+        );
+
+        $this->app->singleton(
+            IUsersService::class,
+            UsersService::class
         );
     }
 }

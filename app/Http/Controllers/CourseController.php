@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\CourseAttendance;
-use App\Http\Requests\Courses\AttendJoinCourseRequest;
+use App\Course;
 use App\Http\Requests\Courses\CreateNewCourseRequest;
 use App\Http\Requests\Courses\DeleteCourseRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Http\Requests\Courses\UpdateCourseUnitsRequest;
-use App\Providers\Services\Abs\ICourseService;
+use App\Services\Abs\ICourseService;
 use Illuminate\Http\Request;
 use Lanin\Laravel\ApiExceptions\InternalServerErrorApiException;
 
@@ -21,12 +20,12 @@ class CourseController extends Controller
         $this->courses = $service;
     }
 
-    public function show(Request $request)
+    public function show(int $courseId)
     {
-        return $this->courses->get(
-            $request->course,
-            true
+        $course = $this->courses->getWithUnitsAndLessonsNames(
+            $courseId
         );
+        return $this->createCourseDto($course);
     }
 
     public function update(UpdateCourseRequest $request)
@@ -60,9 +59,54 @@ class CourseController extends Controller
         return $this->courses->paginate();
     }
 
-    public function updateUnits(UpdateCourseUnitsRequest $request)
+    public function updateUnits(UpdateCourseUnitsRequest $request, int $courseId)
     {
-        $course = $this->courses->get($request->getCourseId());
+        $course = $this->courses->get($courseId);
         return $this->courses->updateCourseUnits($course, $request);
     }
+
+    public function lessons(int $courseId)
+    {
+        $course = $this->courses->getWithUnitsAndLessonsNames($courseId);
+        return [
+            'units' => $this->createUnitsWithLessonsNamesDto($course)
+        ];
+    }
+
+    public function units(int $courseId)
+    {
+        $course = $this->courses->getWithUnits($courseId);
+        $units = $this->createUnitsDto($course);
+        return [
+            'units' => $units
+        ];
+    }
+
+    private function createUnitsDto(Course $course)
+    {
+        return $course->units;
+    }
+
+    private function createUnitsWithLessonsNamesDto(Course $course)
+    {
+        return collect($course->units)->map(function ($unit) {
+            return [
+                'name' => $unit->name,
+                'is_preview' => $unit->is_preview,
+                'about' => $unit->about,
+                'lessons' => collect($unit->lessons)->map(function ($lesson) {
+                    return $lesson->title;
+                })
+            ];
+        });
+    }
+
+    private function createCourseDto(Course $course)
+    {
+        $data = collect($course);
+
+        $data['units'] = $this->createUnitsWithLessonsNamesDto($course);
+        return $data;
+    }
 }
+

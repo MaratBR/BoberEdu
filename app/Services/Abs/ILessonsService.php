@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Providers\Services\Abs;
+namespace App\Services\Abs;
 
 
 use App\Lesson;
-use Lanin\Laravel\ApiExceptions\ForbiddenApiException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 interface ILessonsService
 {
@@ -14,7 +14,7 @@ interface ILessonsService
      *
      * @param int $id
      * @return Lesson
-     * @throws ForbiddenApiException if user is not allowed to view lesson
+     * @throws HttpException if user is not allowed to view lesson
      */
     function get(int $id): Lesson;
 
@@ -23,7 +23,7 @@ interface ILessonsService
      * @param Lesson $lesson
      * @param array $data
      * @return bool|null
-     * @throws ForbiddenApiException is user is not allowed to update this lesson
+     * @throws HttpException is user is not allowed to update this lesson
      */
     function update(Lesson $lesson, array $data): ?bool;
 
@@ -32,7 +32,7 @@ interface ILessonsService
      * @param Lesson $lesson
      * @param bool $force
      * @return bool|null
-     * @throws ForbiddenApiException is user is not allowed to delete this lesson
+     * @throws HttpException is user is not allowed to delete this lesson
      */
     function delete(Lesson $lesson, bool $force = false): ?bool;
 
@@ -41,7 +41,7 @@ interface ILessonsService
      *
      * @param array $data
      * @return Lesson
-     * @throws ForbiddenApiException is user is not allowed to create a lesson
+     * @throws HttpException is user is not allowed to create a lesson
      */
     function create(array $data): Lesson;
 }

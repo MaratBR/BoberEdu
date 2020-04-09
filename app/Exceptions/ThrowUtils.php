@@ -5,12 +5,14 @@ namespace App\Exceptions;
 
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait ThrowUtils
 {
-    public function throwForbiddenIfNotAllowed($ability, $argument, string $msg)
+    public function throwForbiddenIfNotAllowed($ability, $argument, string $msg = null)
     {
+        $msg = $msg ?: (Request::method() == 'get' ? 'You can\'t access this resource' : 'You are not allowed to do this action');
         $allows = gettype($ability) === 'array' ? Gate::any($ability, $argument) : Gate::allows($ability, $argument);
         $this->throwForbidden($msg, !$allows);
     }

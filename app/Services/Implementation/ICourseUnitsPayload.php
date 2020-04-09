@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Providers\Services;
+namespace App\Services\Implementation;
 
 
 interface ICourseUnitsPayload

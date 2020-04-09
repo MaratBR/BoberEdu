@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Courses\AttendJoinCourseRequest;
 use App\Http\Requests\Courses\CourseRequest;
-use App\Http\Requests\Courses\PurchaseCourseRequest;
-use App\Providers\Services\Abs\ICourseService;
-use App\Providers\Services\Abs\IJoinCourseService;
+use App\Services\Abs\ICourseService;
+use App\Services\Abs\IJoinCourseService;
 
 class CourseAttendanceController extends Controller
 {

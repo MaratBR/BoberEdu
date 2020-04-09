@@ -33,6 +33,8 @@ Route::group([
     'prefix' => 'courses'
 ], function ($r) {
     Route::post('{course}/units', 'CourseController@updateUnits');
+    Route::get('{course}/lessons', 'CourseController@lessons');
+    Route::get('{course}/units', 'CourseController@units');
 
     Route::get('{course}/attendance', 'CourseAttendanceController@get');
     Route::post('{course}/attendance/join', 'CourseAttendanceController@join');
@@ -41,5 +43,5 @@ Route::group([
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show', 'store', 'index']);
 Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
-Route::resource('lessons', 'LessonController')->only(['store', 'update', 'show', 'index', 'destroy']);
+Route::resource('lessons', 'LessonsController')->only(['store', 'update', 'show', 'destroy']);
 
