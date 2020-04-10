@@ -26,29 +26,51 @@
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import Pagination from "./Pagination.vue";
-    import {courses} from "../../api";
-    export default {
-        name: "CoursesList",
-        components: {Pagination, Page},
-        data() {
-            return {
-                pagination: null,
-                currentPage: 1
-            }
-        },
-        methods: {
-            load(page = null) {
-                if (page)
-                    this.currentPage = page;
-                this.pagination = null;
+    import Pagination from "./PaginationControl.vue";
+    import {CoursesPagination} from "../../store/modules/CoursesModule"
+    import {Component, Vue, Watch} from "vue-property-decorator";
+    import {Store} from "../../store";
+    import {useStore} from "vuex-simple";
 
-                this.$store.dispatch('courses/getCoursesPage', {page: this.currentPage})
-                    .then(p => this.pagination = p)
+    @Component({
+        components: {Pagination, Page}
+    })
+    export default class CoursesList extends Vue {
+        pagination: CoursesPagination = null;
+        currentPage: number;
+        store: Store = useStore(this.$store);
+
+        async load(page = null) {
+            if (page == null)
+            {
+                if (this.pagination)
+                    return;
+                page = this.currentPage;
             }
-        },
+            else if (page == this.currentPage)
+                return;
+            this.currentPage = page;
+            await this.loadData();
+            await this.$router.push({ path: this.$route.path, query: { p: page } })
+        }
+
+        async loadData() {
+            this.pagination = await this.store.courses.paginate(this.currentPage)
+        }
+
         created(): void {
-            this.load()
+            this.currentPage = +this.$route.query.p || 1;
+            this.loadData()
+        }
+
+        @Watch('$route')
+        routeChanged() {
+            let newPage = +this.$route.query.p;
+            if (!isNaN(newPage) && newPage > 0)
+            {
+                this.currentPage = newPage;
+                this.loadData();
+            }
         }
     }
 </script>

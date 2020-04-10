@@ -42,8 +42,7 @@ class CourseService implements ICourseService
     function paginate($size = 15)
     {
         return Course::query()
-            ->select('courses.name', 'courses.price', 'courses.id', 'courses.sign_up_beg', 'courses.sign_up_end',
-                DB::raw('COUNT(units.id) as units_count'), DB::raw('COUNT(lessons.id) as lessons_count'))
+            ->select('courses.*', DB::raw('COUNT(units.id) as units_count'), DB::raw('COUNT(lessons.id) as lessons_count'))
             ->leftJoin('units', 'units.course_id', '=', 'courses.id')
             ->leftJoin('lessons', 'lessons.unit_id', '=', 'units.id')
             ->groupBy('courses.id')

@@ -3,7 +3,7 @@
         <template v-slot:header>
             <div class="d--flex">
                 <router-link class="btn" :to="{name: 'course', params: {id: courseData.id}}">View course</router-link>
-                <router-link class="ml--1 btn" v-if="courseData.isPersistent" :to="{name: 'edit_course_units', params: {id: courseData.id}}">Edit units</router-link>
+                <router-link class="ml--1 btn" v-if="persistent" :to="{name: 'edit_course_units', params: {id: courseData.id}}">Edit units</router-link>
             </div>
         </template>
 
@@ -51,7 +51,7 @@
                 </div>
             </validation-provider>
 
-            <error v-for="(error, index) in errors">{{index}}: {{error.join(', ')}}</error>
+            <error :error="errors" />
 
             <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
         </form>
@@ -60,49 +60,90 @@
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import {courses} from "../../api";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
     import UnitsEditor from "./UnitsEditor.vue";
-    import Course from "../../models/course";
     import DateInput from "../misc/DateInput.vue";
-    import {makeModel} from "../../models";
     import MarkdownEditor from "../misc/MarkdownEditor.vue";
-    import {Component, Prop, Vue, Watch} from "vue-property-decorator";
+    import {Component, Emit, Prop, Vue, Watch} from "vue-property-decorator";
+    import {Course, CreateCourseDate, UpdateCourseData} from "../../store/modules/CoursesModule";
+    import {useStore} from "vuex-simple";
+    import {Store} from "../../store";
+    import {getStagedChangeset, makeStagedProxy} from "../../models";
 
     @Component({
         components: {MarkdownEditor, DateInput, UnitsEditor, Error, Loader, Page}
     })
     export default class CourseForm extends Vue {
-        courseData = new Course({});
-        signUpPeriodErr = '';
+        persistent: boolean = false;
+        courseData: CreateCourseDate | UpdateCourseData = {};
         hasSignUpPeriod = false;
-        loading = true;
         errors = null;
         submitting = false;
 
-        @Prop({ type: Object }) course: Course;
+        store: Store = useStore(this.$store);
 
-        onSubmit() {
-            if (this.submitting)
-                return;
-            this.submitting = true;
+        @Prop({ type: Object }) course?: Course;
 
-            let data = this.courseData.getStagedChanges();
-            let promise = this.course ?
-                courses.update(this.course.id, data) :
-                courses.create(data).then(makeModel(Course)).then(c => this.courseData = c);
-            promise
-                .then(r => console.log(r))
-                .catch(err => this.errors = err.response.data.errors)
-                .finally(() => this.submitting = false)
+        async onSubmit() {
+            if (!this.persistent)
+                this.create();
+            else
+                this.update()
+        }
+
+        async create() {
+            if (!this.persistent) {
+                this.submitting = true;
+                let course: Course;
+                try
+                {
+                    course = await this.store.courses.create(getStagedChangeset(this.courseData) as CreateCourseDate);
+                }
+                catch (e)
+                {
+                    this.submitting = false;
+                    this.errors = e.response.data;
+                    return;
+                }
+                this.$emit('created', course);
+                this.submitting = false;
+            }
+        }
+
+        async update() {
+            if (this.persistent) {
+                this.submitting = true;
+                try
+                {
+                    let data = getStagedChangeset(this.courseData);
+                    await this.store.courses.update({id: this.course.id, data})
+                }
+                catch (e) {
+                    this.submitting = false;
+                    this.errors = e.response.data;
+                    return;
+                }
+                this.submitting = false;
+            }
         }
 
         init() {
             if (this.course)
-                this.courseData = this.course;
-            console.log(this.courseData.about);
-            this.courseData.enableStaging();
+            {
+                this.persistent = true;
+                this.courseData = makeStagedProxy({
+                    name: this.course.name,
+                    sign_up_beg: this.course.sign_up_beg,
+                    sign_up_end: this.course.sign_up_end,
+                    about: this.course.sign_up_end,
+                    price: this.course.price
+                } as UpdateCourseData);
+            }
+            else
+            {
+                this.courseData = makeStagedProxy({})
+            }
             this.hasSignUpPeriod = !!this.courseData.sign_up_beg;
         }
 

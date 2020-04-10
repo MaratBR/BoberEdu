@@ -1,6 +1,6 @@
 <template>
     <page title="Login">
-        <form class="form" @submit.prevent="onSubmit" v-if="!$store.getters['auth/isAuthenticated']">
+        <form class="form" @submit.prevent="onSubmit" v-if="!store.auth.isAuthenticated">
             <div class="form__control">
                 <label class="form__label" for="InputLogin">Login</label>
                 <input class="input" id="InputLogin" type="text" v-model="name">
@@ -12,7 +12,7 @@
             <div v-show="failed" class="notification notification--danger">Credentials doesn't match</div>
 
             <div class="form__control">
-                <button class="btn btn--primary" :disabled="$store.state.auth.loggingIn">Log in</button>
+                <button class="btn btn--primary" :disabled="store.auth.loggingIn">Log in</button>
             </div>
 
         </form>
@@ -25,44 +25,49 @@
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import Vue from "vue";
+    import {Component, Vue} from "vue-property-decorator";
+    import {Store} from "../../store";
+    import {useStore} from "vuex-simple";
 
-    export default Vue.extend({
-        name: "LoginPage",
-        components: {Page},
-        data() {
-            return {
-                name: null,
-                password: '',
-                failed: false
-            }
-        },
-        methods: {
-            onSubmit() {
-                if (this.$store.getters['auth/isAuthenticated']) {
-                    this.$router.push('/');
-                    return;
-                }
-
-                this.$store.dispatch('auth/attemptLogin',
-                    {name: this.name, password: this.password})
-                    .then(async () => {
-                        this.failed = false;
-                        await this.$store.dispatch('auth/updateUser')
-                    })
-                    .then(() => {
-                        if (this.$route.query.next) {
-                            location.href = this.$route.query.next
-                        }
-                    })
-                    .catch(() => this.failed = true)
-
-            }
-        },
-        created(): void {
-            this.name = this.$store.state.auth.lastLoginAttempt
-        }
+    @Component({
+        components: {Page}
     })
+    export default class LoginPage extends Vue {
+        name = localStorage['lastLoginAttempt'] || '';
+        password = '';
+        failed = false;
+        store: Store = useStore(this.$store);
+
+        async onSubmit() {
+            if (this.store.auth.isAuthenticated) {
+                await this.$router.push('/');
+                return;
+            }
+
+            localStorage['lastLoginAttempt'] = this.name;
+
+            try
+            {
+                await this.store.auth.login({
+                    name: this.name,
+                    password: this.password
+                });
+            }
+            catch (e)
+            {
+                this.failed = true;
+                return;
+            }
+
+            this.failed = false;
+            if (this.$route.query.next) {
+                let next = this.$route.query.next instanceof Array ? this.$route.query.next[0] : this.$route.query.next;
+                await this.$router.push(next)
+            } else {
+                await this.$router.push('/')
+            }
+        }
+    }
 </script>
 
 <style scoped>

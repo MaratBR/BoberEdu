@@ -17,17 +17,13 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
-    public static $updateRules = [
-        'name' => 'string|max:255|min:1',
-        'email' => 'email',
-        'sex' => 'in:u,f,m'
-    ];
     protected $fillable = [
         'name', 'email', 'password', 'sex', 'status'
     ];
     protected $appends = [
         'roles_names'
     ];
+
     /**
      * The attributes that should be hidden for arrays.
      *

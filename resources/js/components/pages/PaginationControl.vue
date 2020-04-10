@@ -31,30 +31,26 @@
 </template>
 
 <script lang="ts">
-    import Pagination from "../../models/pagination";
     import {PropOptions} from "vue/types/options";
     import Loader from "../misc/Loader.vue";
+    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {Pagination} from "../../store/_utils";
 
-    export default {
-        name: "Pagination",
-        components: {Loader},
-        props: {
-            pagination: {
-                type: Object
-            } as PropOptions<Pagination<any>>
-        },
-        methods: {
-            page(num: number) {
-                this.$emit('requestPage', num);
-            }
-        },
-        computed: {
-            leftCorner() {
-                return Math.max(1, this.pagination.current_page - 3)
-            },
-            size() {
-                return Math.min(7, this.pagination.last_page - this.leftCorner + 1)
-            }
+    @Component({
+        components: {Loader}
+    })
+    export default class PaginationControl extends Vue {
+        @Prop() pagination: Pagination<any>
+
+        page(num: number) {
+            this.$emit('requestPage', num);
+        }
+
+        get leftCorner() {
+            return Math.max(1, this.pagination.current_page - 3)
+        }
+        get size() {
+            return Math.min(7, this.pagination.last_page - this.leftCorner + 1)
         }
     }
 </script>

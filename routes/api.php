@@ -32,7 +32,7 @@ Route::group([
 Route::group([
     'prefix' => 'courses'
 ], function ($r) {
-    Route::post('{course}/units', 'CourseController@updateUnits');
+    Route::put('{course}/units', 'CourseController@updateUnits');
     Route::get('{course}/lessons', 'CourseController@lessons');
     Route::get('{course}/units', 'CourseController@units');
 

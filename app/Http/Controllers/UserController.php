@@ -23,7 +23,6 @@ class UserController extends Controller
     public function get(AuthenticatedRequest $request, int $id)
     {
         $user = $this->users->get($id);
-        $this->throwForbiddenIfNotAllowed('view', $user);
         return $user;
     }
 

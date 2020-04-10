@@ -21,8 +21,12 @@
                     <h2>Units</h2>
                     <ul>
                         <li v-for="u in value.units" class="unit">
-                            <router-link class="btn btn--transparent" :to="{name: 'unit', params: {id: u.id}}">{{u.name}}</router-link>
+                            <span>{{u.name}}</span>
                             <span v-if="u.is_preview" class="unit__badge">preview</span>
+
+                            <ul>
+                                <li v-for="l in u.lessons">{{l}}</li>
+                            </ul>
                         </li>
                     </ul>
                 </aside>
@@ -33,44 +37,44 @@
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import {Course} from "../../apiDef";
-    import {courses} from "../../api";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
     import MarkdownViewer from "../misc/MarkdownViewer.vue";
+    import {Component, Vue, Watch} from "vue-property-decorator";
+    import {Course} from "../../store/modules/CoursesModule";
+    import {Store} from "../../store";
+    import {useStore} from "vuex-simple";
 
-    export default {
-        name: "CourseView",
-        components: {MarkdownViewer, Error, Loader, Page},
-        data() {
-            return {
-                courseId: null,
-                promise: null
-            }
-        },
+    @Component({
+        components: {MarkdownViewer, Error, Loader, Page}
+    })
+    export default class CourseView extends Vue {
+        courseId: number | null = null;
+        promise: Promise<Course> | null = null;
+        store: Store = useStore(this.$store);
 
         created(): void {
             this.init()
-        },
-        methods: {
-            init() {
-                this.courseId = this.$route.params.id;
-                this.promise = this.$store.dispatch('courses/getCourse', this.courseId)
-            },
-            hasFreePreview(course: Course): boolean {
-                return course.units.some(u => u.is_preview)
-            }
-        },
-        watch: {
-            $route() {
-                this.init();
-            }
+        }
+
+        init() {
+            this.courseId = +this.$route.params.id || null;
+            this.promise = this.store.courses.get(this.courseId)
+        }
+
+        hasFreePreview(course): boolean {
+            return course.units.some(u => u.is_preview)
+        }
+
+        @Watch('$route')
+        routeChanged() {
+            this.init();
         }
     }
 </script>
 
 <style lang="sass" scoped>
-    @import "resources/sass/lib/config"
+    @import "../../../sass/lib/config"
 
     .unit
         &__badge

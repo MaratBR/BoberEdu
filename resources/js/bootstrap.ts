@@ -3,7 +3,6 @@ import axios from "axios"
 import "./validationRules"
 import "./models"
 import "loglevel"
-import "./api"
 import "./components/bootstrap"
 
 import Vuex from 'vuex'

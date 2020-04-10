@@ -1,3 +1,3 @@
-import {store} from "./store"
+import {store, Store} from "./store"
 
-export {store}
+export {store, Store}

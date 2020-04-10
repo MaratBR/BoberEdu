@@ -1,108 +1,35 @@
-const registeredModels: any = {};
+const PROXY_HANDLER_KEY = '__PROXY__';
 
-function ensure<
-    TData extends object,
-    T extends Model<TData>
-    >(model: {new(val: TData): T}): void {
-    if (!registeredModels[model.name]) {
-        registeredModels[model.name] = model;
-    }
-    console.log(registeredModels)
-}
 
-export function serializeModel() {
+class ModelProxyHandler<T extends object> implements ProxyHandler<T> {
+    public readonly inner: object = {};
 
-}
+    get(target: T, p: string | number | symbol, receiver: any): any {
+        if (p === PROXY_HANDLER_KEY)
+            return this;
 
-export class Model<T extends object> {
-    private readonly _value: object = {};
-    private _stagedChanges: object | null = null;
-
-    constructor() {
-        ensure(this.constructor as {new(val: T): Model<T>, name: string})
+        if (typeof this.inner[p] === 'undefined')
+            return target[p];
+        return this.inner[p];
     }
 
-    protected set(key: PropertyKey, val: any) {
-        if (this._stagedChanges !== null) {
-            if (val === this._value[key])
-                delete this._stagedChanges[key];
-            else
-                this._stagedChanges[key] = val;
-        }
+    set(target: T, p: string | number | symbol, value: any, receiver: any): boolean {
+        if (value === target[p])
+            delete this.inner[p];
         else
-            this._value[key] = val;
-    }
+            this.inner[p] = value;
 
-    protected get(key: PropertyKey): any {
-        if (this._stagedChanges !== null) {
-            // @ts-ignore
-            let val: (T & Partial<TStatic>)[K] | undefined = this._stagedChanges[key];
-            if (typeof val !== 'undefined')
-                return val;
-        }
-        return this._value[key];
-    }
-
-    enableStaging(): void {
-        this._stagedChanges = this._stagedChanges || {};
-    }
-
-    getStagedChanges(): Partial<T> {
-        if (this._stagedChanges === null)
-            throw new Error('Staging changes is not enabled');
-        return this._stagedChanges;
-    }
-
-    flushStagedChanges(): void {
-        this._stagedChanges = null;
+        return true;
     }
 }
 
-export interface IIDModel {
-    id?: number
+export function makeStagedProxy<T extends object>(target: T): T {
+    return new Proxy(target, new ModelProxyHandler<T>())
 }
 
-export class IDModel<T extends object> extends Model<IIDModel & T>{
-    get id(): number { return this.get('id') }
-
-    get isPersistent(): boolean { return typeof this.id !== 'undefined' }
-
-    constructor({id}: Partial<IIDModel>) {
-        super();
-        this.set('id', id);
-    }
-
-}
-
-export type DateStr = string;
-
-export interface ITimestamps extends IIDModel {
-    created_at?: DateStr
-}
-
-export class TimestampsModel<T extends object> extends IDModel<T & ITimestamps>{
-    get created_at(): DateStr { return this.get('created_at') }
-
-    constructor(val: Partial<ITimestamps>) {
-        super(val);
-        this.set('created_at', val.created_at)
-    }
-}
-
-export type ModelType<
-    TData extends object,
-    T extends Model<TData>> = {new(val: TData): T};
-
-export function model<
-    TData extends object,
-    T extends Model<TData>
-    >(model: {new(val: TData): T}, val: TData): T {
-    return new model(val);
-}
-
-export function makeModel<
-    TData extends object,
-    T extends Model<TData>
-    >(model: {new(val: TData): T}): (val: TData) => T {
-    return (val: (TData) | null) => val !== null ? new model(val) : null;
+export function getStagedChangeset<T extends object>(o: T): Partial<T> {
+    let handler = (o as any)[PROXY_HANDLER_KEY];
+    if (handler instanceof ModelProxyHandler)
+        return handler.inner as Partial<T>;
+    throw new Error("Given object is not a proxy")
 }

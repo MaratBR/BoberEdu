@@ -15,7 +15,7 @@
     </container>
 </template>
 
-<script lang="ts">
+<script>
     import Container from "../Container.vue";
     export default {
         name: "Page",

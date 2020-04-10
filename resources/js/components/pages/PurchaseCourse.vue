@@ -70,7 +70,7 @@
     import {Course} from "../../models";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
-    import {PurchaseModel} from "../../store/modules/courses";
+    import {PurchaseModel} from "../../store/modules/CoursesModule";
     import MarkdownViewer from "../misc/MarkdownViewer.vue";
     import {mapGetters} from "vuex";
 
@@ -121,7 +121,7 @@
 </script>
 
 <style lang="sass" scoped>
-    @import "resources/sass/lib/config"
+    @import "../../../sass/lib/config"
 
 
     .purchase

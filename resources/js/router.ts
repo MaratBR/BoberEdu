@@ -1,5 +1,4 @@
 import VueRouter from "vue-router";
-import {store} from "./store/store";
 
 export default new VueRouter({
     routes: [

@@ -5,27 +5,27 @@ import {Sex} from "../../api";
         <form class="form" @submit.prevent="onSubmit">
             <div class="form__control">
                 <label class="form__label" for="InputUsername">Name</label>
-                <input class="input" id="InputUsername" type="text" v-model="data.name">
+                <input class="input" id="InputUsername" type="text" v-model="name">
             </div>
 
             <div class="form__control">
                 <label class="form__label" for="InputEMail">E-Mail</label>
-                <input class="input" id="InputEMail" type="text" v-model="data.email">
+                <input class="input" id="InputEMail" type="text" v-model="email">
             </div>
 
             <div class="form__control">
                 <label class="form__label" for="InputPwd">Password</label>
-                <input class="input" id="InputPwd" type="password" v-model="data.password">
+                <input class="input" id="InputPwd" type="password" v-model="password">
             </div>
 
             <div class="form__control">
                 <label for="InputSex">Sex</label>
-                <select v-once name="sex" id="InputSex" v-model="data.sex">
+                <select v-once name="sex" id="InputSex" v-model="sex">
                     <option v-for="(v, s) in sexes" :value="s">{{v}}</option>
                 </select>
             </div>
 
-            <div class="notification notification--danger" v-for="err in Object.values(errors)">{{err.join(', ')}}</div>
+            <error v-if="errors" :error="errors" />
 
             <div class="form__control">
                 <button class="btn btn--primary">Register</button>
@@ -37,28 +37,43 @@ import {Sex} from "../../api";
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import {auth, RegisterRequest, Sex, sexes} from "../../api";
+    import {Sex, sexes as sexesList} from "../../store/modules/AuthModule";
+    import {Component, Vue} from "vue-property-decorator";
+    import {Store} from "../../store";
+    import {useStore} from "vuex-simple";
+    import Error from "../misc/Error.vue";
 
 
-    export default {
-        name: "RegisterPage",
-        components: {Page},
-        data() {
-            return {
-                data: {
-                    email: '',
-                    password: '',
-                    name: '',
-                    sex: Sex.Unknown
-                } as RegisterRequest,
-                sexes,
-                errors: {}
+    @Component({
+        components: {Error, Page}
+    })
+    export default class RegisterPage extends Vue {
+        email = '';
+        password = '';
+        name = '';
+        sex = Sex.Unknown;
+        errors = null;
+        submitting = false;
+        sexes = sexesList;
+
+        store: Store = useStore(this.$store);
+
+        async onSubmit() {
+            try
+            {
+                await this.store.auth.register({
+                    name: this.name,
+                    email: this.email,
+                    sex: this.sex,
+                    password: this.password
+                })
+                await this.$router.push({ name: 'login' })
             }
-        },
-        methods: {
-            onSubmit() {
-                this.$store.dispatch('register', this.data)
-                    .then(console.log)
+            catch (e) {
+                this.errors = e.response.data
+            }
+            finally {
+                this.submitting = true;
             }
         }
     }

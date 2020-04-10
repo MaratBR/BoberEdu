@@ -1,5 +1,5 @@
-import "./misc/DateInput"
+import "./misc/DateInput.vue"
 import "./misc/Loader"
 import "./misc/Error"
 import "./pages/Page"
-import "./pages/Pagination"
+import "./pages/PaginationControl.vue"

@@ -45,11 +45,7 @@
 </template>
 
 <script lang="ts">
-    import {Course, Unit} from "../../models";
     import Vue from "vue";
-    import ModelCollection from "../../models/collection";
-    import {IUnit} from "../../models/unit";
-    import {courses, CreateUnitsRequest} from "../../api";
     import {PropValidator} from "vue/types/options";
     import Error from "../misc/Error.vue";
 
@@ -59,8 +55,8 @@
         data() {
             return {
                 changes: {},
-                unitsCollectionAdapter: undefined as ModelCollection<Unit, IUnit>,
-                units: [] as Unit[],
+                unitsCollectionAdapter: undefined,
+                units: [],
                 submitting: false,
                 errors: null
             }
@@ -69,10 +65,10 @@
             course: {
                 required: true,
                 type: Object
-            } as PropValidator<Course>
+            }
         },
         methods: {
-            move(unit: Unit, diff: number) {
+            move(unit, diff: number) {
                 let index = this.units.indexOf(unit);
                 let newIndex = index + diff;
                 if (newIndex < 0 || newIndex >= this.units.length || newIndex === index)
@@ -80,23 +76,17 @@
                 this.units[index] = this.units[newIndex];
                 Vue.set(this.units, newIndex, unit);
             },
-            del(unit: Unit) {
+            del(unit) {
                 // Delete index from indexes
                 this.unitsCollectionAdapter.delete(unit);
             },
             addNew() {
-                let unit = new Unit({});
-                unit.enableStaging();
-                this.unitsCollectionAdapter.add(unit);
+
             },
             init() {
-                this.units = this.course.units;
-                this.units.map(u => {
-                    u.enableStaging();
-                });
-                this.unitsCollectionAdapter = new ModelCollection<Unit, IUnit>(this.units);
+
             },
-            getPayload(): CreateUnitsRequest {
+            getPayload() {
                 return {
                     new: this.unitsCollectionAdapter.created.map(u => u.getStagedChanges()),
                     upd: this.units.map(u => {

@@ -14,22 +14,14 @@ class AuthController extends Controller
     {
         $credentials = $request->validated();
         $credentials['password'] = Hash::make($credentials['password']);
-        $user = User::create($credentials);
-        $token = auth()->login($user);
-
-        return response()->json([
-            'user' => $user,
-            'login' => $this->tokenBody($token)
-        ], 201);
+        User::create($credentials);
+        return response()->noContent();
     }
 
     protected function tokenBody($token)
     {
         return [
-            'accessToken' => $token,
-            'tokenType' => 'bearer',
-            'expiresIn' => auth()->factory()->getTTL() * 60,
-            'success' => true
+            'token' => $token
         ];
     }
 
@@ -47,11 +39,6 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         return $this->tokenBody($token);
-    }
-
-    public function refresh(AuthenticatedRequest $request)
-    {
-        return $this->respondWithToken(auth()->refresh());
     }
 
     public function logout()

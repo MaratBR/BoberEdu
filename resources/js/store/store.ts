@@ -3,43 +3,31 @@ import Vue from 'vue'
 
 Vue.use(Vuex);
 
-import createPersistedState from "vuex-persistedstate";
 import * as SecureLS from "secure-ls";
-
-import auth, {AuthState} from "./modules/auth"
-import courses, {CoursesState} from "./modules/courses"
-import {api} from "../api";
+import axios from 'axios'
+import {AuthModule} from "./modules/AuthModule"
+import {createVuexStore, Module} from "vuex-simple";
+import CoursesModule from "./modules/CoursesModule";
+import createPersistedState from "vuex-persistedstate";
 
 const ls = new SecureLS({ isCompression: false });
 
-type State = {
-    auth?: AuthState,
-    courses?: CoursesState
+const client = axios.create();
+client.defaults.baseURL = location.origin + '/api';
+
+export class Store {
+    @Module() public auth = new AuthModule(client);
+    @Module() public courses = new CoursesModule(client);
 }
 
-const store = new Vuex.Store<State>({
-    state: {
-    },
-    mutations: {
-    },
-    getters: {
-    },
-    actions: {
-    },
+const store = createVuexStore(new Store(), {
     plugins: [
         createPersistedState({
-            storage: {
-                getItem: key => ls.get(key),
-                setItem: (key, value) => ls.set(key, value),
-                removeItem: key => ls.remove(key),
-            },
+            getState: key => ls.get(key),
+            setState: (key, value) => ls.set(key, value),
             paths: ['auth']
         })
-    ],
-    modules: {
-        auth,
-        courses
-    }
+    ]
 });
 
 export {

@@ -4,7 +4,7 @@ import Router from "vue-router"
 import router from "./router";
 
 import App from "./App.vue"
-import {store} from "./store/store";
+import {store} from "./store";
 import {ValidationProvider} from "vee-validate";
 
 
