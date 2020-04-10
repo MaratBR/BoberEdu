@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Service\Implementation\JoinCourseService;
+use App\Services\Implementation\JoinCourseService;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IExternalPaymentService;
 use App\Services\Abs\IJoinCourseService;

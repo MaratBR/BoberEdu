@@ -53,6 +53,12 @@ export default new VueRouter({
             path: '/c/:id/purchase',
             name: 'purchase_course',
             component: () => import(/* webpackChunkName: "purchase" */ './components/pages/PurchaseCourse.vue')
+        },
+
+        {
+            path: '/you/purchases/:id',
+            name: 'purchase',
+            component: () => import(/* webpackChunkName: "purchase_check" */ './components/pages/ConfirmPurchasePage.vue')
         }
     ],
     mode: 'history'

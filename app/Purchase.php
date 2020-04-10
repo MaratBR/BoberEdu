@@ -11,19 +11,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property string external_id
  * @property float price
  * @property string external_redirect_url
+ * @property string status
+ * @property int user_id
  */
 class Purchase extends Model
 {
-    const STATUS_SUCCESSFUL = 'successful';
-    const STATUS_PENDING = 'pending';
-    const STATUS_FAILED = 'failed';
-    const STATUS_CANCELLED = 'cancelled';
-
     public $timestamps = false;
 
     protected $fillable = [
         'price', 'external_id',
-        'status', 'user_id', 'external_redirect_url'
+        'status', 'user_id', 'external_redirect_url',
+        'completed_at'
+    ];
+
+    protected $hidden = [
+        'external_id'
     ];
 
     public function user()

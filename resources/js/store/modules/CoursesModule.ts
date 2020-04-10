@@ -55,6 +55,18 @@ export type CourseEx = Course & {
     }[]
 };
 
+export type Purchase = {
+    id: number,
+    external_redirect_url: string,
+    status: string
+}
+
+export type CourseAttendance = {
+    user_id: number,
+    course_id: number,
+    active: boolean
+};
+
 export default class CoursesModule extends StoreModuleBase {
     @Action()
     get(id: number): Promise<CourseEx> {
@@ -79,5 +91,20 @@ export default class CoursesModule extends StoreModuleBase {
     @Action()
     paginate(page: number): Promise<CoursesPagination> {
         return this.client.get('courses', {params: {page}}).then(r => r.data)
+    }
+
+    @Action()
+    getAttendance(id: number): Promise<CourseAttendance> {
+        return this.client.get('courses/' + id + '/attendance').then(r => r.data)
+    }
+
+    @Action()
+    join(id: number): Promise<void> {
+        return this.client.post('courses/' + id + '/join')
+    }
+
+    @Action()
+    purchase(id: number): Promise<Purchase> {
+        return this.client.post('courses/' + id + '/purchase')
     }
 }

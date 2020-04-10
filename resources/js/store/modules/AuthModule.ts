@@ -1,5 +1,6 @@
 import StoreModuleBase from "./StoreModuleBase";
 import {Action, Getter, Mutation, State} from "vuex-simple";
+import {AxiosInstance} from "axios";
 
 export type User = {
     id: number,
@@ -46,11 +47,16 @@ export class AuthModule extends StoreModuleBase {
 
     @Mutation() SET_USER(user: User | null) {
         this.user = user;
+        console.log(user)
     }
 
-    @Mutation() SET_TOKEN(token: string | null) {
+    @Mutation() SET_ACCESS_TOKEN(token: string | null) {
         this.accessToken = token;
-        this.client.defaults.headers.Authorization = 'Bearer ' + token;
+        this.setAuthorizationHeader();
+    }
+
+    private setAuthorizationHeader() {
+        this.client.defaults.headers.Authorization = 'Bearer ' + this.accessToken;
     }
 
     @Getter() get isAuthenticated(): boolean {
@@ -58,9 +64,21 @@ export class AuthModule extends StoreModuleBase {
     }
 
     @Action()
+    async init() {
+        this.setAuthorizationHeader();
+        await this.fetchCurrentUser();
+    }
+
+    @Action()
     async fetchCurrentUser(): Promise<void> {
-        let {data} = await this.client.get<User>('auth/user');
-        this.SET_USER(data)
+        try
+        {
+            let {data} = await this.client.get<User>('auth/user');
+            this.SET_USER(data)
+        }
+        catch (e) {
+            this.clearSession()
+        }
     }
 
     @Action()
@@ -71,7 +89,7 @@ export class AuthModule extends StoreModuleBase {
                 throw new Error('You are already logged in!');
             this.SET_LOGGING_IN(true);
             let {data} = await this.client.post<LoginResponse>('auth/login', request);
-            this.SET_TOKEN(data.token);
+            this.SET_ACCESS_TOKEN(data.token);
             await this.fetchCurrentUser();
         }
         finally
@@ -90,7 +108,12 @@ export class AuthModule extends StoreModuleBase {
 
     @Action()
     async logout() {
-        this.SET_TOKEN(null);
+        this.clearSession()
+    }
+
+    @Action()
+    clearSession() {
+        this.SET_ACCESS_TOKEN(null);
         this.SET_USER(null);
     }
 }

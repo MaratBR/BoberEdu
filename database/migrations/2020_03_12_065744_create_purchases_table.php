@@ -16,10 +16,11 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('completed_at')->nullable();
             $table->decimal('price', 19, 4);
             $table->string('external_id');
             $table->string('external_redirect_url');
-            $table->enum('status', ['pending', 'failed', 'cancelled', 'successful']);
+            $table->string('status');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->on('users')->references('id');
         });

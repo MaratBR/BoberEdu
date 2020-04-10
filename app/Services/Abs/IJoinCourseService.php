@@ -36,6 +36,7 @@ interface IJoinCourseService
      * payment atm
      *
      * @param UserCourse $record
+     * @param User $user
      * @return Purchase
      */
     function purchase(UserCourse $record, User $user): Purchase;

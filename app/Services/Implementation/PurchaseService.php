@@ -38,4 +38,13 @@ class PurchaseService implements IPurchasesService
         $purchase->refresh();
         return $purchase;
     }
+
+    function getForUser(int $id, User $user): Purchase
+    {
+        /** @var Purchase $purchase */
+        $purchase =  Purchase::query()
+            ->where('user_id', '=', $user->id)
+            ->findOrFail($id);
+        return $purchase;
+    }
 }

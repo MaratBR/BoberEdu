@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service\Implementation;
+namespace App\Services\Implementation;
 
 
 use App\Course;
@@ -93,7 +93,7 @@ class JoinCourseService implements IJoinCourseService
         $userCoursePurchase = UserCoursePurchase::query()
             ->where('user_course_id', '=', $record->id)
             ->whereHas('purchase', function (Builder $q) {
-                $q->where('status', '=', 'pending');
+                $q->whereIn('status', ['pending', 'success']);
             })
             ->first();
 

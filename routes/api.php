@@ -37,11 +37,17 @@ Route::group([
     Route::get('{course}/units', 'CourseController@units');
 
     Route::get('{course}/attendance', 'CourseAttendanceController@get');
-    Route::post('{course}/attendance/join', 'CourseAttendanceController@join');
-    Route::post('{course}/attendance/purchase', 'CourseAttendanceController@purchase');
+    Route::post('{course}/join', 'CourseAttendanceController@join');
+    Route::post('{course}/purchase', 'CourseAttendanceController@purchase');
 });
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show', 'store', 'index']);
 Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
 Route::resource('lessons', 'LessonsController')->only(['store', 'update', 'show', 'destroy']);
+
+Route::group([
+    'prefix' => 'purchases'
+], function () {
+    Route::patch('{id}/check', 'PaymentsController@check');
+});
 

@@ -4,8 +4,9 @@ import Router from "vue-router"
 import router from "./router";
 
 import App from "./App.vue"
-import {store} from "./store";
+import {Store, store} from "./store";
 import {ValidationProvider} from "vee-validate";
+import {useStore} from "vuex-simple";
 
 
 Vue.use(Router);
@@ -17,8 +18,9 @@ const app = new Vue({
     render: h => h(App),
     router,
     store,
-    created() {
-        this.$store.dispatch('auth/updateUser')
+    async created() {
+        let store = useStore<Store>(this.$store);
+        await store.auth.init()
     }
 });
 
