@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static create(array $array)
  * @method static findOrFail(int $id)
  * @property Unit unit
+ * @property string title
  */
 class Lesson extends Model
 {

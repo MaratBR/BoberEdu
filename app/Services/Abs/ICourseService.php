@@ -29,7 +29,7 @@ interface ICourseService
      * @param int $size size of the page
      * @return mixed
      */
-    function paginate($size = 15);
+    function paginateWithExtra($size = 15);
 
     /**
      * Update a course with given data

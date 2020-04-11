@@ -10,6 +10,8 @@ interface IUsersService
 {
     function get(int $id): User;
 
+    function getWithRoles(int $id): User;
+
     function update(User $user, array $data);
 
     function paginate(int $perPage = 15);

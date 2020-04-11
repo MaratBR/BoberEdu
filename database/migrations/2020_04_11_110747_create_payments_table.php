@@ -19,7 +19,7 @@ class CreatePaymentsTable extends Migration
             $table->timestamp('completed_at')->nullable();
             $table->boolean('is_successful')->default(false);
             $table->boolean('is_pending')->default(true);
-            $table->string('uid')->unique();
+            $table->string('uid');
             $table->string('title');
             $table->unsignedBigInteger('user_id');
 

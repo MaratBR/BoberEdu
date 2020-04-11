@@ -10,6 +10,11 @@ use Illuminate\Database\Query\Builder;
  * @method static create(array $array)
  * @property Course course
  * @property int course_id
+ * @property string name
+ * @property string about
+ * @property int id
+ * @property bool is_preview
+ * @property Lesson[] lessons
  */
 class Unit extends Model
 {

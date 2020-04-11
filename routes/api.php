@@ -25,20 +25,16 @@ Route::group([
 
 Route::group([
     'prefix' => 'users'
-], function ($q) {
+], function () {
     Route::get('{id}', 'UserController@get');
 });
 
 Route::group([
     'prefix' => 'courses'
-], function ($r) {
+], function () {
     Route::put('{course}/units', 'CourseController@updateUnits');
     Route::get('{course}/lessons', 'CourseController@lessons');
     Route::get('{course}/units', 'CourseController@units');
-
-    Route::get('{course}/attendance', 'CourseAttendanceController@get');
-    Route::post('{course}/join', 'CourseAttendanceController@join');
-    Route::post('{course}/purchase', 'CourseAttendanceController@purchase');
 });
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show', 'store', 'index']);
@@ -48,6 +44,6 @@ Route::resource('lessons', 'LessonsController')->only(['store', 'update', 'show'
 Route::group([
     'prefix' => 'purchases'
 ], function () {
-    Route::patch('{id}/check', 'PaymentsController@check');
+
 });
 

@@ -1,0 +1,48 @@
+<?php
+
+
+namespace App\Http\DTO;
+
+
+use Illuminate\Contracts\Support\Arrayable;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
+
+class DtoBase implements Arrayable
+{
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray()
+    {
+        $reflect = new ReflectionClass(static::class);
+        $methods = $reflect->getMethods(ReflectionMethod::IS_PUBLIC);
+        $props = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
+
+        $data = [];
+
+        foreach ($props as $prop)
+        {
+            $data[$prop->name] = $prop->getValue($this);
+        }
+
+        foreach ($methods as $method)
+        {
+            if ($method->getNumberOfParameters() == 0)
+            {
+                if (substr($method->name, 0, 3) === 'get')
+                    $prop = substr($method->name, 3);
+                elseif (substr($method->name, 0, 2) === 'is')
+                    $prop = substr($method->name, 2);
+                else
+                    continue;
+                $prop = lcfirst($prop);
+                $data[$prop] = $method->invoke($this);
+            }
+        }
+
+        return $data;
+    }
+}

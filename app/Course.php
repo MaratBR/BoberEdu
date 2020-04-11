@@ -19,6 +19,7 @@ use Illuminate\Database\Query\Builder;
  * @property float price
  * @property bool available
  * @property int trial_length
+ * @property string about
  */
 class Course extends Model
 {

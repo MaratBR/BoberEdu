@@ -12,7 +12,13 @@ class UsersService implements IUsersService
 {
     use ThrowUtils;
 
-    function get(int $id): User
+
+    public function get(int $id): User
+    {
+        return User::findOrFail($id);
+    }
+
+    function getWithRoles(int $id): User
     {
         // It's fine, IDEA, calm down
         /** @var User $user */

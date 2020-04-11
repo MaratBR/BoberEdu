@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Courses;
 
-use App\Services\ICourseUnitsPayload;
+use App\Services\Implementation\ICourseUnitsPayload;
 
 class UpdateCourseUnitsRequest extends UpdateCourseRequest implements ICourseUnitsPayload
 {

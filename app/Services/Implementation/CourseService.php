@@ -39,7 +39,7 @@ class CourseService implements ICourseService
     /**
      * @inheritDoc
      */
-    function paginate($size = 15)
+    function paginateWithExtra($size = 15)
     {
         return Course::query()
             ->select('courses.*', DB::raw('COUNT(units.id) as units_count'), DB::raw('COUNT(lessons.id) as lessons_count'))
