@@ -57,7 +57,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class, CourseAttendance::class);
+        return $this->belongsToMany(Course::class, UserCourse::class);
     }
 
     /**
@@ -93,22 +93,4 @@ class User extends Authenticatable implements JWTSubject
 
         return false;
     }
-
-    /**
-     * @param $course int|Course
-     * @return bool
-     */
-    public function teacherAt($course): bool
-    {
-        if ($course instanceof Course)
-            $course = $course->getKey();
-
-        return TeachingPeriod::query()
-            ->where('course_id', '=', $course)
-            ->where('since', '>', DB::raw('NOW()'))
-            ->whereNull('until')
-            ->orWhere('until', '>', DB::raw('NOW()'))
-            ->exists();
-    }
-
 }

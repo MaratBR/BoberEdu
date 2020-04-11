@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\CourseRequest;
 use App\Services\Abs\ICourseService;
-use App\Services\Abs\IJoinCourseService;
+use App\Services\Abs\IUserCoursesService;
 
 class CourseAttendanceController extends Controller
 {
     private $attendances;
     private $courses;
 
-    public function __construct(IJoinCourseService $service, ICourseService $courseService)
+    public function __construct(IUserCoursesService $service, ICourseService $courseService)
     {
         $this->attendances = $service;
         $this->courses = $courseService;
@@ -35,12 +35,5 @@ class CourseAttendanceController extends Controller
             $course,
             $request->user()
         );
-    }
-
-    public function purchase(AuthenticatedRequest $request, int $courseId)
-    {
-        $course = $this->courses->get($courseId);
-        $attendance = $this->attendances->get($course, $request->user());
-        return $this->attendances->purchase($attendance, $request->user());
     }
 }

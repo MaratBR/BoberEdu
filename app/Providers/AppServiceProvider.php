@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Services\Implementation\JoinCourseService;
+use App\Services\Implementation\UserCoursesService;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IExternalPaymentService;
-use App\Services\Abs\IJoinCourseService;
+use App\Services\Abs\IUserCoursesService;
 use App\Services\Abs\ILessonsService;
 use App\Services\Abs\IPurchasesService;
 use App\Services\Abs\IRedirectService;
@@ -63,8 +63,8 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
-            IJoinCourseService::class,
-            JoinCourseService::class
+            IUserCoursesService::class,
+            UserCoursesService::class
         );
 
         $this->app->singleton(

@@ -28,9 +28,9 @@ class CourseController extends Controller
         return $this->createCourseDto($course);
     }
 
-    public function update(UpdateCourseRequest $request)
+    public function update(UpdateCourseRequest $request, int $courseId)
     {
-        $course = $this->courses->get($request->course);
+        $course = $this->courses->get($courseId);
 
         $this->courses->update(
             $course,
@@ -38,10 +38,10 @@ class CourseController extends Controller
         );
     }
 
-    public function destroy(DeleteCourseRequest $request)
+    public function destroy(DeleteCourseRequest $request, int $courseId)
     {
-        $course = $this->courses->get($request->course);
-        $success = $this->courses->delete($course, $request->isForce());
+        $course = $this->courses->get($courseId);
+        $success = $this->courses->delete($course);
         if (!$success)
             throw new InternalServerErrorApiException("Failed to delete course");
 

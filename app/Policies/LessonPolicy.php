@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Lesson;
-use App\Services\Abs\IJoinCourseService;
+use App\Services\Abs\IUserCoursesService;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -13,7 +13,7 @@ class LessonPolicy
 
     private $courseAttendanceService;
 
-    public function __construct(IJoinCourseService $courseAttendanceService)
+    public function __construct(IUserCoursesService $courseAttendanceService)
     {
         $this->courseAttendanceService = $courseAttendanceService;
     }
