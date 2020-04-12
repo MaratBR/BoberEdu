@@ -73,4 +73,6 @@ interface ICourseService
     function getWithUnitsAndLessonsNames(int $id);
 
     function getWithUnits(int $id);
+
+    function getTrialDays(int $id): int;
 }

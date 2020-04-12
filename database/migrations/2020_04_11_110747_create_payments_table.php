@@ -20,6 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->boolean('is_successful')->default(false);
             $table->boolean('is_pending')->default(true);
             $table->string('uid');
+            $table->string('gateaway_name');
             $table->string('title');
             $table->unsignedBigInteger('user_id');
 

@@ -176,4 +176,12 @@ class CourseService implements ICourseService
     {
         return Course::with('units')->findOrFail($id);
     }
+
+    function getTrialDays(int $id): int
+    {
+        /** @var Course $course */
+        $course = Course::query()->select(['trial_length'])->findOrFail($id);
+
+        return $course->trial_length;
+    }
 }

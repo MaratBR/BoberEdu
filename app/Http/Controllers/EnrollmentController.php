@@ -29,20 +29,33 @@ class EnrollmentController extends Controller
     {
         $user = $request->user();
 
-        $record = $this->enrollment->getEnrollmentRecordOrNull($courseId, $user);
+        $exists = $this->enrollment->hasEnrollment($courseId, $user);
 
-        if ($record == null)
-        {
-            $record = $this->enrollment->enroll($courseId, $user);
+
+        if ($exists) {
+            $record = $this->enrollment->getEnrollmentRecord($courseId, $user);
         }
-        return $this->noContent();
+        else {
+            if ($this->enrollment->isEnrollmentTrashed($courseId, $user))
+            {
+                $this->enrollment->restore($courseId, $user);
+                $record = $this->enrollment->getEnrollmentRecord($courseId, $user);
+            }
+            else
+            {
+                $record = $this->enrollment->createEnrollRecord($courseId, $user);
+            }
+        }
+
+        return new EnrollmentDto($record);
     }
 
     public function disenroll(AuthenticatedRequest $request, int $courseId)
     {
-        if ($this->enrollment->hasEnrollment($courseId, $request->user()))
+        $user = $request->user();
+        if ($this->enrollment->hasEnrollment($courseId, $user))
         {
-            $this->enrollment->disenroll($courseId, $request->user());
+            $this->enrollment->delete($courseId, $user);
         }
 
         return $this->noContent();

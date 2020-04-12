@@ -5,6 +5,7 @@ namespace App\Http\DTO;
 
 
 use App\Enrollment;
+use Carbon\Carbon;
 
 class EnrollmentDto extends DtoBase
 {
@@ -20,8 +21,13 @@ class EnrollmentDto extends DtoBase
         return $this->enrollment->course_id;
     }
 
-    public function isActivated()
+    public function getTrialEnd(): ?Carbon
     {
-        return $this->enrollment->activated;
+        return $this->enrollment->trial_ends_at;
+    }
+
+    public function getFirstJoined(): Carbon
+    {
+        return $this->enrollment->enrolled_at;
     }
 }
