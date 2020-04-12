@@ -42,8 +42,10 @@ Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
 Route::resource('lessons', 'LessonsController')->only(['store', 'update', 'show', 'destroy']);
 
 Route::group([
-    'prefix' => 'purchases'
+    'prefix' => 'enrollment'
 ], function () {
-
+    Route::patch('{course}/enroll', 'EnrollmentController@enroll');
+    Route::patch('{course}/disenroll', 'EnrollmentController@disenroll');
+    Route::get('yours', 'EnrollmentController@listEnrollments');
 });
 

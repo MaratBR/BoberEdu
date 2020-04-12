@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserCoursesTable extends Migration
+class CreateEnrollmentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateUserCoursesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_courses', function (Blueprint $table) {
+        Schema::create('enrollments', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('course_id');
-            $table->boolean('activated')->default('false');
+            $table->boolean('activated')->default(false);
 
             $table->primary(['user_id', 'course_id']);
         });

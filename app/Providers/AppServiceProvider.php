@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Abs\IEnrollmentService;
+use App\Services\Implementation\EnrollmentService;
 use App\Services\Implementation\UserCoursesService;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IExternalPaymentService;
@@ -38,8 +40,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->singleton(
-            IExternalPaymentService::class,
-            FakeExternalPaymentsService::class
+            IEnrollmentService::class,
+            EnrollmentService::class
         );
 
         $this->app->singleton(
@@ -55,21 +57,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             IUsersService::class,
             UsersService::class
-        );
-
-        $this->app->singleton(
-            IPurchasesService::class,
-            PurchaseService::class
-        );
-
-        $this->app->singleton(
-            IUserCoursesService::class,
-            UserCoursesService::class
-        );
-
-        $this->app->singleton(
-            IRedirectService::class,
-            RedirectService::class
         );
 
         $this->app->singleton(

@@ -4,7 +4,7 @@ namespace App\Services\Implementation;
 
 use App\Purchase;
 use App\Services\Abs\IAttendanceStatus;
-use App\UserCourse;
+use App\Enrollment;
 use Carbon\Carbon;
 use const App\Services\Abs\ATTENDANCE_STATUS_AWAITING_PAYMENT;
 use const App\Services\Abs\ATTENDANCE_STATUS_CANCELLED;
@@ -19,7 +19,7 @@ class AttendanceStatus implements IAttendanceStatus
     private $record;
     private $previewDurationInDays;
 
-    public function __construct(?UserCourse $record, int $previewDurationInDays)
+    public function __construct(?Enrollment $record, int $previewDurationInDays)
     {
         $this->record = $record;
         $this->previewDurationInDays = $previewDurationInDays;
