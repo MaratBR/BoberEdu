@@ -36,15 +36,23 @@ class PaymentsController extends Controller
 
         $user = $request->user();
         $enrollment = $this->enrollments->getEnrollmentRecord($courseId, $user);
+
+        $this->throwErrorIf(400, "You already  have access to this course", $enrollment->activated);
+
         $created = false;
         $payment = $enrollment->payment;
 
-        if ($payment == null || $payment->is_expired || (!$payment->is_successful && !$payment->is_pending))
+        if ($payment == null || $payment->is_failed)
         {
             $payment = $this->payments->createPayment($course, $request, $user, $gateaway, $data);
             $enrollment->update([
                 'payment_id' => $payment->id
             ]);
+        }
+
+        if ($payment->is_successful)
+        {
+            $this->enrollments->activate($enrollment);
         }
 
         $dto = new PaymentDto($payment);

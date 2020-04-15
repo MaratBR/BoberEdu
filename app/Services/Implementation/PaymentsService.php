@@ -6,6 +6,7 @@ namespace App\Services\Implementation;
 
 use App\Course;
 use App\Enrollment;
+use App\Exceptions\Payment\PaymentFailed;
 use App\Exceptions\ThrowUtils;
 use App\Payment;
 use App\Services\Abs\IEnrollmentService;
@@ -15,7 +16,7 @@ use App\Services\Implementation\Payments\DummyGatewayHandler;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Lanin\Laravel\ApiExceptions\ConflictApiException;
+use Illuminate\Support\Str;
 use Omnipay\Common\CreditCard;
 use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Omnipay;
@@ -47,31 +48,45 @@ class PaymentsService implements IPaymentsService
     {
         // NOTE: Development dummy implementation
         // TODO integrated with Paypal or Sberbank if I have time
+
+
+        $id = Str::uuid()->toString();
         $title = "Course \"{$course->name}\" @ Bober.Edu";
         $price = $course->price;
-
-        if (array_key_exists($gateawayName, $this->gatewayAliases))
-        {
-            $gateawayName = $this->gatewayAliases[$gateawayName];
-        }
-
+        $gateawayName = $this->getGatewayName($gateawayName);
         $handler = $this->gateawayHandlers[$gateawayName];
+
         /** @var IPaymentGatewayHandler $handler */
         $handler = new $handler();
         assert($handler instanceof IPaymentGatewayHandler, "Invalid payment gateaway handler");
 
-        $response = $handler->request($title, $price, $data);
+        // Payment
 
+        $response = $handler->request($title, $price, $id, $data);
         $this->throwErrorIf(400, "Payment cancelled: {$response->getMessage()}", $response->isCancelled());
         $paymentExpiration = null;
         $redirect = null;
 
         if ($response->isRedirect())
         {
+            $status = Payment::STATUS_PENDING;
             $redirect = $response->getRedirectUrl();
+        }
+        elseif ($response->isCancelled())
+        {
+            $status = Payment::STATUS_CANCELLED;
+        }
+        elseif ($response->isSuccessful())
+        {
+            $status = Payment::STATUS_SUCCESSFUL;
+        }
+        else
+        {
+            throw new PaymentFailed("Payment failed to process: {$response->getMessage()}");
         }
 
         $payment = new Payment([
+            'id' => $id,
             'user_id' => $user->id,
             'title' => $title,
             'user_agent' => $request->userAgent(),
@@ -81,14 +96,23 @@ class PaymentsService implements IPaymentsService
             'redirect_url' => $redirect,
             'uid' => $response->getTransactionReference(),
             'amount' => $price,
-            'is_successful' => $response->isSuccessful(),
-            'is_pending' => $response->isRedirect()
+            'status' => $status
         ]);
 
         $payment->save();
         $payment->refresh();
 
         return $payment;
+    }
+
+    function getGatewayName(string $name): string
+    {
+        if (array_key_exists($name, $this->gatewayAliases))
+        {
+            $name = $this->gatewayAliases[$name];
+        }
+
+        return $name;
     }
 
     function hasGateaway(string $gateaway)

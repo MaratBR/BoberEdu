@@ -48,6 +48,13 @@ class EnrollmentService implements IEnrollmentService
         return $record;
     }
 
+    public function getEnrollmentRecordWithPaymentOrNull(int $courseId, User $user): ?Enrollment
+    {
+        /** @var Enrollment|null $record */
+        $record = $this->builder($courseId, $user)->with('payment')->first();
+        return $record;
+    }
+
     function hasEnrollment(int $courseId, User $user): bool
     {
         return $this->builder($courseId, $user)->exists();

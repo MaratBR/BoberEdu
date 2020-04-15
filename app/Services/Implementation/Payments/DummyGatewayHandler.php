@@ -13,12 +13,12 @@ use Omnipay\Omnipay;
 class DummyGatewayHandler implements IPaymentGatewayHandler
 {
 
-    function request(string $paymentTitle, float $amount, array $data): ResponseInterface
+    function request(string $paymentTitle, float $amount, string $localPaymentId, array $data): ResponseInterface
     {
         $gateway = Omnipay::create('Dummy');
 
         $validator = Validator::make($data, [
-            'card.number' => 'required|string',
+            'card.number' => 'required|numeric',
             'card.expiryMonth' => 'required|string',
             'card.expiryYear' => 'required|string'
         ]);

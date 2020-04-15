@@ -8,5 +8,5 @@ use Omnipay\Common\Message\ResponseInterface;
 
 interface IPaymentGatewayHandler
 {
-    function request(string $paymentTitle, float $amount, array $data): ResponseInterface;
+    function request(string $paymentTitle, float $amount, string $localPaymentId, array $data): ResponseInterface;
 }

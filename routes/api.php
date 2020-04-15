@@ -46,6 +46,7 @@ Route::group([
 ], function () {
     Route::patch('{course}/enroll', 'EnrollmentController@enroll');
     Route::patch('{course}/disenroll', 'EnrollmentController@disenroll');
+    Route::get('{course}/status', 'EnrollmentController@status');
     Route::get('yours', 'EnrollmentController@listEnrollments');
 });
 

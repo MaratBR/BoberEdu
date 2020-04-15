@@ -20,11 +20,6 @@ class PaymentDto extends DtoBase
         return $this->payment->is_successful;
     }
 
-    public function getId()
-    {
-        return $this->payment->id;
-    }
-
     public function getRedirect(): ?string
     {
         return $this->payment->redirect_url;

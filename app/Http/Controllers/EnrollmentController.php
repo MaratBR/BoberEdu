@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\DTO\EnrollmentDto;
 use App\Http\DTO\EnrollmentsDto;
+use App\Http\DTO\EnrollmentStateDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
@@ -59,5 +60,21 @@ class EnrollmentController extends Controller
         }
 
         return $this->noContent();
+    }
+
+    public function status(AuthenticatedRequest $request, int $courseId)
+    {
+        $user = $request->user();
+        $enrollment = $this->enrollment->getEnrollmentRecordWithPaymentOrNull($courseId, $user);
+
+        $enrolled = !!$enrollment;
+        $hasAccess = $enrolled && $enrollment->activated;
+        $paymentSuccessful = $enrolled && $enrollment->payment && $enrollment->payment->is_successful;
+
+        return new EnrollmentStateDto(
+            $hasAccess,
+            $enrolled,
+            $paymentSuccessful
+        );
     }
 }

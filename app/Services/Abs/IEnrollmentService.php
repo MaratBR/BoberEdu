@@ -37,6 +37,8 @@ interface IEnrollmentService
      */
     function getEnrollmentRecordOrNull(int $courseId, User $user): ?Enrollment;
 
+    function getEnrollmentRecordWithPaymentOrNull(int $courseId, User $user): ?Enrollment;
+
     /**
      * Returns true if user has enrollment record
      *
