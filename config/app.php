@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        //Dyrynda\Database\LaravelEfficientUuidServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -225,6 +226,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Omnipay' => Barryvdh\Omnipay\Facade::class
 
     ],
 

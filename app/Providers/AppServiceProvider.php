@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Services\Abs\IEnrollmentService;
+use App\Services\Abs\IPaymentsService;
 use App\Services\Implementation\EnrollmentService;
+use App\Services\Implementation\PaymentsService;
 use App\Services\Implementation\UserCoursesService;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IExternalPaymentService;
@@ -62,6 +64,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             IUsersService::class,
             UsersService::class
+        );
+
+        $this->app->singleton(
+            IPaymentsService::class,
+            PaymentsService::class
         );
     }
 }

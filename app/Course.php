@@ -12,6 +12,7 @@ use Illuminate\Database\Query\Builder;
  * @method static Course create(array $data)
  * @method static Course findOrFail(int $id)
  * @method static Builder where(string $column, string $op, $value)
+ * @method static Course|null find(int $id)
  *
  * @property Unit[] units
  * @property int id
@@ -58,20 +59,6 @@ class Course extends Model
         'deleted_at', 'created_at', 'updated_at',
         'sign_up_beg', 'sign_up_end'
     ];
-
-    public static function getWithDetailsOrFail($id)
-    {
-        return self::query()
-            ->select('courses.*')
-            ->selectSub(function (Builder $q) use ($id) {
-                $q->from('units')
-                    ->where('course_id', '=', $id)
-                    ->where('is_preview', '=', true)
-                    ->selectRaw('COUNT(units.id)');
-            }, 'preview_units')
-            ->groupBy('courses.id')
-            ->findOrFail($id);
-    }
 
     public function units(): HasMany
     {

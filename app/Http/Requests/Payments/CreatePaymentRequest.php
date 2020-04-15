@@ -2,20 +2,11 @@
 
 namespace App\Http\Requests\Payments;
 
+use App\Http\Requests\AuthenticatedRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePaymentRequest extends FormRequest
+class CreatePaymentRequest extends AuthenticatedRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +15,18 @@ class CreatePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'gateaway' => 'string|required',
+            'data' => 'array|required'
         ];
+    }
+
+    public function getData(): array
+    {
+        return $this->json('data');
+    }
+
+    public function getGateaway(): string
+    {
+        return $this->json('gateaway');
     }
 }

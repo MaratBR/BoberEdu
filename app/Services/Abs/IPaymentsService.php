@@ -4,7 +4,15 @@
 namespace App\Services\Abs;
 
 
-class IPaymentsService
-{
+use App\Course;
+use App\Enrollment;
+use App\Payment;
+use App\User;
+use Illuminate\Http\Request;
 
+interface IPaymentsService
+{
+    function createPayment(Course $course, Request $request, User $user, string $gatewayName, array $data): Payment;
+
+    function hasGateaway(string $gateaway);
 }

@@ -49,3 +49,13 @@ Route::group([
     Route::get('yours', 'EnrollmentController@listEnrollments');
 });
 
+
+
+Route::group([
+    'prefix' => 'payments'
+], function () {
+    Route::patch('{course}/pay', 'PaymentsController@create');
+    Route::patch('{course}/disenroll', 'EnrollmentController@disenroll');
+    Route::get('yours', 'EnrollmentController@listEnrollments');
+});
+

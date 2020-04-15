@@ -38,7 +38,12 @@ class DtoBase implements Arrayable
                     $prop = substr($method->name, 2);
                 else
                     continue;
-                $prop = lcfirst($prop);
+                if (ctype_upper($prop))
+                    $prop = strtolower($prop);
+                else
+                    $prop = lcfirst($prop);
+
+
                 $data[$prop] = $method->invoke($this);
             }
         }

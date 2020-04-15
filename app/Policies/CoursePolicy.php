@@ -53,6 +53,6 @@ class CoursePolicy
 
     public function buy(User $user, Course $course)
     {
-        return true;
+        return $course->canBePurchased();
     }
 }

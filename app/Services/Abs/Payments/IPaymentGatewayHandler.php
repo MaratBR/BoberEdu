@@ -4,7 +4,9 @@
 namespace App\Services\Abs\Payments;
 
 
-interface PaymentGatewayHandler
-{
+use Omnipay\Common\Message\ResponseInterface;
 
+interface IPaymentGatewayHandler
+{
+    function request(string $paymentTitle, float $amount, array $data): ResponseInterface;
 }

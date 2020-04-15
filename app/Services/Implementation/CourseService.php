@@ -29,7 +29,10 @@ class CourseService implements ICourseService
     {
         $course = $extra ? Course::with(['units' => function (HasMany $q) {
             $q->orderBy('order_num');
-        }])->findOrFail($id) : Course::findOrFail($id);
+        }])->find($id) : Course::find($id);
+
+        $this->throwNotFoundIfNull($course, "Course not found");
+
         if (!Gate::allows('view', $course) && !Gate::allows('viewAny', Course::class)) {
             throw new ForbiddenApiException("You are not allowed to view this course");
         }
@@ -158,7 +161,7 @@ class CourseService implements ICourseService
 
     function getWithUnitsAndLessonsNames(int $id)
     {
-        return Course::with([
+        $course = Course::with([
             'units' => function (HasMany $b) {
                 $b->select('name', 'id', 'course_id', 'about', 'order_num', 'is_preview');
                 $b->orderBy('order_num');
@@ -169,7 +172,10 @@ class CourseService implements ICourseService
                     }
                 ]);
             }
-        ])->findOrFail($id);
+        ])->find($id);
+        $this->throwNotFoundIfNull($course, "Course not found");
+
+        return $course;
     }
 
     function getWithUnits(int $id)

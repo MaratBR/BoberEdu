@@ -6,14 +6,17 @@ namespace App\Services\Implementation;
 
 use App\Course;
 use App\Enrollment;
+use App\Exceptions\ThrowUtils;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
 use App\User;
 use Carbon\Carbon;
 use Carbon\CarbonTimeZone;
+use Lanin\Laravel\ApiExceptions\NotFoundApiException;
 
 class EnrollmentService implements IEnrollmentService
 {
+    use ThrowUtils;
     private $courses;
 
     public function __construct(ICourseService $courses)
@@ -31,7 +34,9 @@ class EnrollmentService implements IEnrollmentService
     function getEnrollmentRecord(int $courseId, User $user): Enrollment
     {
         /** @var Enrollment $record */
-        $record = $this->builder($courseId, $user)->firstOrFail();
+        $record = $this->getEnrollmentRecordOrNull($courseId, $user);
+
+        $this->throwNotFoundIfNull($record, "You are not enrolled in this course");
 
         return $record;
     }
