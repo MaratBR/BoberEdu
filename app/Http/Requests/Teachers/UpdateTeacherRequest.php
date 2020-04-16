@@ -2,19 +2,13 @@
 
 namespace App\Http\Requests\Teachers;
 
+use App\Http\Requests\AdminRequest;
+use App\Http\Requests\IPayloadRequest;
+use App\Utils\Convert;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTeacherRequest extends FormRequest
+class UpdateTeacherRequest extends AdminRequest implements IPayloadRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +18,13 @@ class UpdateTeacherRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'fullName' => 'string',
+            'passNum' => 'string'
         ];
+    }
+
+    function getPayload(): array
+    {
+        return Convert::toSnakeCase($this->validated());
     }
 }

@@ -9,10 +9,11 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        User::create([
+        $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@noreply.com',
             'password' => Hash::make('AdminAdmin')
-        ])->save();
+        ]);
+        $user->addRole('admin');
     }
 }

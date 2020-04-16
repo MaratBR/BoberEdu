@@ -82,7 +82,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasRole('admin');
     }
 
-    private function hasRole(string $name): bool
+    public function hasRole(string $name): bool
     {
         foreach ($this->roles as $role) {
             if (!$role)
@@ -93,5 +93,27 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return false;
+    }
+
+    public function addRole($role)
+    {
+        if (is_string($role))
+            $role = Role::getOrNull($role);
+
+        if ($role)
+            $this->attachRole($role);
+    }
+
+    public function ensureRole($role)
+    {
+        if (is_string($role))
+            $role = Role::ensure($role);
+
+        $this->attachRole($role);
+    }
+
+    private function attachRole(Role $role)
+    {
+        $this->roles()->attach($role);
     }
 }

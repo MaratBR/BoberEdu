@@ -11,6 +11,8 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \App\Role::createAll([
+            'admin' => 'Administrators can do stuff'
+        ]);
     }
 }

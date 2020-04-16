@@ -35,6 +35,12 @@ Route::group([
     Route::put('{course}/units', 'CourseController@updateUnits');
     Route::get('{course}/lessons', 'CourseController@lessons');
     Route::get('{course}/units', 'CourseController@units');
+
+    Route::group([
+        'prefix' => 'categories'
+    ], function () {
+
+    });
 });
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show', 'store', 'index']);
@@ -58,5 +64,13 @@ Route::group([
     Route::patch('{course}/pay', 'PaymentsController@create');
     Route::patch('{course}/disenroll', 'EnrollmentController@disenroll');
     Route::get('yours', 'EnrollmentController@listEnrollments');
+});
+
+
+Route::group([
+    'prefix' => 'teachers'
+], function () {
+    Route::get('{teacher}', 'TeacherController@get');
+    Route::post('', 'TeacherController@create');
 });
 
