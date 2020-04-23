@@ -1,4 +1,4 @@
-import {AxiosInstance} from "axios";
+import {AxiosInstance, AxiosRequestConfig} from "axios";
 
 export default class StoreModuleBase {
     protected client: AxiosInstance;
@@ -6,5 +6,4 @@ export default class StoreModuleBase {
     constructor(client: AxiosInstance) {
         this.client = client;
     }
-
 }

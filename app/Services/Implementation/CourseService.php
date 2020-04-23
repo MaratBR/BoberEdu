@@ -212,6 +212,11 @@ class CourseService implements ICourseService
         return Category::findOrFail($categoryId);
     }
 
+    function getPopular(int $categoryId)
+    {
+        return Course::query()->inRandomOrder()->limit(5)->get();
+    }
+
     function getAllCategories()
     {
         return Category::all();

@@ -79,6 +79,8 @@ interface ICourseService
 
     function getCategory(int $categoryId): Category;
 
+    function getPopular(int $categoryId);
+
     function getAllCategories();
 
     function removeRate(Course $course, User $user);

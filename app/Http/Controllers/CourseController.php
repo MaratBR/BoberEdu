@@ -52,6 +52,7 @@ class CourseController extends Controller
      *
      * @param UpdateCourseRequest $request
      * @param int $courseId
+     * @return Response
      */
     public function update(UpdateCourseRequest $request, int $courseId)
     {
@@ -59,8 +60,10 @@ class CourseController extends Controller
 
         $this->courses->update(
             $course,
-            $request->validated()
+            $request->getPayload()
         );
+
+        return $this->noContent();
     }
 
     /**
@@ -88,7 +91,7 @@ class CourseController extends Controller
     public function store(CreateNewCourseRequest $request)
     {
         $course = $this->courses->create($request->getPayload());
-        return response()->json($course, 201);
+        return response()->json(new CourseDto($course), 201);
     }
 
     /**
@@ -106,8 +109,9 @@ class CourseController extends Controller
     public function category(Request $request, int $categoryId)
     {
         $category = $this->courses->getCategory($categoryId);
+        $popular = $this->courses->getPopular($categoryId);
         // $paginator = $this->courses->paginateInCategory($category);
-        return new CategoryExDto($category);
+        return new CategoryExDto($category, $popular);
     }
 
     public function categoryCourses(Request $request, int $categoryId)

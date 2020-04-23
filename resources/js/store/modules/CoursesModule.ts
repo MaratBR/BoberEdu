@@ -1,110 +1,84 @@
 import StoreModuleBase from "./StoreModuleBase";
 import {Action} from "vuex-simple";
-import {Pagination} from "../_utils";
+import {requests, dto} from "../dto";
 
-export type Course = {
-    id: number,
-    sign_up_beg: string,
-    sign_up_end: string,
-    about: string,
-    name: string,
-    available: boolean,
-    trial_length: number,
-    price: number
-}
-
-export type CreateCourseDate = {
-    name: string,
-    price?: number,
-    about: string,
-    sign_up_beg?: string,
-    sign_up_end?: string,
-    available?: string
-};
-
-export type UpdateCourseData = {
-    name?: string,
-    price?: number,
-    about?: string,
-    sign_up_beg?: string,
-    sign_up_end?: string,
-    available?: string
-};
-
-export type UpdateCourseUnits = {
-    delete: number[],
-    order: string[],
-    upd: {
-        id: number,
-        name?: string,
-        about?: string
-    }[]
-};
-
-export type CoursesPagination = Pagination<Course & {
-    units_count: number,
-    lessons_count: number
-}>;
-
-export type CourseEx = Course & {
-    units: {
-        name: string
-        is_preview: boolean
-        about: string
-        lessons: string[]
-    }[]
-};
-
-export type Purchase = {
-    id: number,
-    external_redirect_url: string,
-    status: string
-}
-
-export type CourseAttendance = {
-    user_id: number,
-    course_id: number,
-    active: boolean
-};
 
 export default class CoursesModule extends StoreModuleBase {
     @Action()
-    get(id: number): Promise<CourseEx> {
+    get(id: number): Promise<dto.CourseExDto> {
         return this.client.get('courses/' + id).then(r => r.data)
     }
 
     @Action()
-    update({id, data}: {id: number, data: UpdateCourseData}): Promise<void> {
+    update({id, data}: {id: number, data: requests.UpdateCourse}): Promise<void> {
         return this.client.put('courses/' + id, data).then(r => r.data)
     }
 
     @Action()
-    create(data: CreateCourseDate): Promise<Course> {
+    create(data: requests.CreateCourse): Promise<dto.CourseDto> {
         return this.client.post('courses', data).then(r => r.data)
     }
 
     @Action()
-    updateUnits({id, data}: {id: number, data: UpdateCourseUnits}): Promise<void> {
+    updateUnits({id, data}: {id: number, data: requests.UpdateCourseUnits}): Promise<void> {
         return this.client.put('courses/' + id + '/units', data).then(r => r.data)
     }
 
     @Action()
-    paginate(page: number): Promise<CoursesPagination> {
+    paginate(page: number): Promise<dto.PaginationDto<dto.CoursePageItemDto>> {
         return this.client.get('courses', {params: {page}}).then(r => r.data)
     }
 
     @Action()
-    getAttendance(id: number): Promise<CourseAttendance> {
-        return this.client.get('courses/' + id + '/attendance').then(r => r.data)
+    deleteCourse(id: number): Promise<void> {
+        return this.client.delete('courses/' + id).then(r => r.data)
     }
 
     @Action()
-    join(id: number): Promise<void> {
-        return this.client.post('courses/' + id + '/join')
+    getCategory(id: number): Promise<dto.CategoryExDto> {
+        return this.client.get('courses/categories/' + id).then(r => r.data)
     }
 
     @Action()
-    purchase(id: number): Promise<Purchase> {
-        return this.client.post('courses/' + id + '/purchase')
+    getCoursesFromCategory(id: number): Promise<dto.PaginationDto<dto.CoursePageItemDto>>  {
+        return this.client.get('courses/categories/' + id + '/courses').then(r => r.data)
+    }
+
+    @Action()
+    getCategories(): Promise<dto.CategoriesDto> {
+        return this.client.get('courses/categories').then(r => r.data)
+    }
+
+    @Action()
+    removeRate(courseId: number): Promise<void> {
+        return this.client.delete('courses/' + courseId + '/rate').then(r => r.data)
+    }
+
+    @Action()
+    setRate(courseId: number, value: number): Promise<void> {
+        value = Math.round(value);
+        value = Math.min(Math.max(value, 1), 5);
+        return this.client.put('courses/' + courseId + '/rate', { value })
+    }
+
+
+    @Action()
+    enroll(id: number): Promise<void> {
+        return this.client.patch('enrollment/' + id + '/enroll')
+    }
+
+    @Action()
+    disenroll(id: number): Promise<void> {
+        return this.client.patch('enrollment/' + id + '/disenroll')
+    }
+
+    @Action()
+    status(id: number): Promise<dto.EnrollmentStateDto> {
+        return this.client.get('enrollment/' + id + '/status')
+    }
+
+    @Action()
+    getEnrolls(): Promise<dto.EnrollmentsDto> {
+        return this.client.get('enrollment/yours')
     }
 }

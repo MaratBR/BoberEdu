@@ -23,10 +23,10 @@ export default new VueRouter({
         },
 
         {
-            path: '/c',
+            path: '/category/:id',
             component: () => import(
-                /* webpackChunkName: "courses-list" */
-                './components/pages/CoursesList.vue'),
+                /* webpackChunkName: "category" */
+                './components/pages/Category.vue'),
             name: 'courses'
         },
         {

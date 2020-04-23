@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Courses;
 
-class UpdateCourseRequest extends CourseRequest
+use App\Http\Requests\IPayloadRequest;
+use App\Utils\Convert;
+
+class UpdateCourseRequest extends CourseRequest implements IPayloadRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,9 +18,14 @@ class UpdateCourseRequest extends CourseRequest
             'name' => 'min:1|max:255',
             'price' => 'numeric|min:0|max:9999999999999999999.99',
             'about' => 'string',
-            'sign_up_beg' => 'nullable|date_format:Y-m-d',
-            'sign_up_end' => 'nullable|date_format:Y-m-d',
+            'signUpBeg' => 'nullable|date_format:Y-m-d',
+            'signUpEnd' => 'nullable|date_format:Y-m-d',
             'available' => 'boolean'
         ];
+    }
+
+    function getPayload(): array
+    {
+        return Convert::toSnakeCase($this->validated());
     }
 }

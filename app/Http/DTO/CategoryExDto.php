@@ -6,28 +6,18 @@ namespace App\Http\DTO;
 
 use App\Category;
 
-class CategoryExDto extends DtoBase
+class CategoryExDto extends CategoryDto
 {
-    private $category;
+    private $popular;
 
-    public function __construct(Category $category)
+    public function __construct(Category $category, $popular)
     {
-        $this->category = $category;
-    }
-
-    function getCategory(): array
-    {
-        return [
-            'id' => $this->category->id,
-            'name' => $this->category->name,
-            'about' => $this->category->about
-        ];
+        parent::__construct($category);
+        $this->popular = $popular;
     }
 
     function getPopular()
     {
-        return [
-            // TODO
-        ];
+        return collect($this->popular)->mapInto(CourseDto::class);
     }
 }

@@ -15,6 +15,11 @@ class CourseDto extends DtoBase
         $this->course = $course;
     }
 
+    public function getPrice()
+    {
+        return $this->course->price;
+    }
+
     public function getId(): int
     {
         return $this->course->id;
