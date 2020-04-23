@@ -2,20 +2,11 @@
 
 namespace App\Http\Requests\Teachers;
 
+use App\Http\Requests\AdminRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RevokeTeacherRequest extends FormRequest
+class RevokeTeacherRequest extends AdminRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +15,12 @@ class RevokeTeacherRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'comment' => 'string|required'
         ];
+    }
+
+    public function getComment(): string
+    {
+        return $this->validated()['comment'];
     }
 }

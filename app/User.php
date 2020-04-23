@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static User findOrFail(int|null $id)
  * @property Role[] roles
  * @property int id
+ * @property Carbon created_at
+ * @property string sex
+ * @property string name
  */
 class User extends Authenticatable implements JWTSubject
 {

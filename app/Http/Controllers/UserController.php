@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ThrowUtils;
+use App\Http\DTO\PaginationDto;
+use App\Http\DTO\UserDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Users\EditUserRequest;
 use App\Services\Abs\IUsersService;
@@ -24,11 +26,13 @@ class UserController extends Controller
      *
      * @param AuthenticatedRequest $request
      * @param int $id
-     * @return User
+     * @return UserDto
      */
     public function get(AuthenticatedRequest $request, int $id)
     {
-        return $this->users->getWithRoles($id);
+        $user = $this->users->getWithRoles($id);
+
+        return new UserDto($user);
     }
 
     /**
@@ -53,6 +57,7 @@ class UserController extends Controller
     public function index(AuthenticatedRequest $request)
     {
         $this->throwForbiddenIfNotAllowed('paginate', User::class);
-        return $this->users->paginate();
+        $paginator = $this->users->paginate();
+        return new PaginationDto($paginator, UserDto::class);
     }
 }

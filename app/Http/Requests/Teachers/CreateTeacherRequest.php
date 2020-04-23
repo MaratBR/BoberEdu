@@ -19,18 +19,26 @@ class CreateTeacherRequest extends AdminRequest implements IPayloadRequest
         return [
             'passNum' => 'required',
             'fullName' => 'required',
-            'userId' => 'numeric|required'
+            'userId' => 'numeric|required',
+            'comment' => 'required'
         ];
     }
 
     public function getUserId(): int
     {
-        return $this->json('fullName');
+        return $this->validated()['userId'];
     }
 
     function getPayload(): array
     {
-        $payload = Convert::onlyKeys($this->validated(), ['fullName', 'passNum']);
-        return Convert::toSnakeCase($payload);
+        return [
+            'full_name' => $this->validated()['fullName'],
+            'passport_num' => $this->validated()['passNum']
+        ];
+    }
+
+    function getComment(): string
+    {
+        return $this->validated()['comment'];
     }
 }

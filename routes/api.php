@@ -61,9 +61,7 @@ Route::group([
 Route::group([
     'prefix' => 'payments'
 ], function () {
-    Route::patch('{course}/pay', 'PaymentsController@create');
-    Route::patch('{course}/disenroll', 'EnrollmentController@disenroll');
-    Route::get('yours', 'EnrollmentController@listEnrollments');
+    Route::patch('course/{course}/pay', 'PaymentsController@create');
 });
 
 
@@ -72,5 +70,7 @@ Route::group([
 ], function () {
     Route::get('{teacher}', 'TeacherController@get');
     Route::post('', 'TeacherController@create');
+    Route::post('assignment/{teacher}/{course}', 'TeacherController@assign');
+    Route::delete('assignment/{teacher}/{course}', 'TeacherController@revoke');
 });
 

@@ -18,9 +18,11 @@ class CreateAuditRecordsTable extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('user_id');
             $table->ipAddress('ip');
-            $table->char('action', 2);
+            $table->string('action');
+            $table->string('user_agent');
             $table->string('subject')->nullable();
             $table->json('extra')->nullable();
+            $table->string('comment')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
         });

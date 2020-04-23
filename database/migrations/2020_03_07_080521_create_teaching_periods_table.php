@@ -21,6 +21,7 @@ class CreateTeachingPeriodsTable extends Migration
             $table->unsignedInteger('course_id');
             $table->foreign('teacher_id')->on('teachers')->references('id');
             $table->foreign('course_id')->on('courses')->references('id');
+            $table->softDeletes();
         });
 
         // TODO Check constraint

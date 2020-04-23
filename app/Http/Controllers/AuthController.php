@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\DTO\UserDto;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\AuthenticatedRequest;
@@ -14,8 +15,9 @@ class AuthController extends Controller
     {
         $credentials = $request->validated();
         $credentials['password'] = Hash::make($credentials['password']);
-        User::create($credentials);
-        return response()->noContent();
+        $user = User::create($credentials);
+        $user->refresh();
+        return $this->created(new UserDto($user));
     }
 
     protected function tokenBody($token)
@@ -41,15 +43,8 @@ class AuthController extends Controller
         return $this->tokenBody($token);
     }
 
-    public function logout()
-    {
-        auth()->logout();
-
-        return ['message' => 'Successfully logged out'];
-    }
-
     public function currentUser(AuthenticatedRequest $request)
     {
-        return $request->user();
+        return new UserDto($request->user());
     }
 }

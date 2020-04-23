@@ -20,7 +20,8 @@
         "omnipay/dummy": "*",
         "omnipay/paypal": "*",
         "tymon/jwt-auth": "*",
-        "nunomaduro/collision": "^4.1"
+        "nunomaduro/collision": "^4.1",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

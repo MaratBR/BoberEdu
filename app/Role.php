@@ -15,7 +15,7 @@ class Role extends Model
 
     protected $fillable = ['name', 'description'];
 
-    public static function getOrNull(string $roleName): Role
+    public static function getOrNull(string $roleName): ?Role
     {
         /** @var Role $role */
         $role = Role::query()->where('name', $roleName)->first();

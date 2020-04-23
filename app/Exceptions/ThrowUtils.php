@@ -28,6 +28,11 @@ trait ThrowUtils
             throw new HttpException($code, $message);
     }
 
+    public function throwError(int $code, string $message)
+    {
+        throw new HttpException($code, $message);
+    }
+
     public function throwNotFoundIfNull($val, ?string $msg = null)
     {
         $this->throwErrorIf(

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static Teacher findOrFail(int $id)
  * @method static Teacher create(array $data)
+ * @property int id
  */
 class Teacher extends Model
 {

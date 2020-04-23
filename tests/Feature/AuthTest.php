@@ -5,8 +5,9 @@ namespace Tests\Feature;
 use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Tests\TestWithAuthentication;
 
-class AuthTest extends TestCase
+class AuthTest extends TestWithAuthentication
 {
     use WithFaker;
 
@@ -22,7 +23,7 @@ class AuthTest extends TestCase
 
     public function createUser()
     {
-        $pwd = $this->faker->password;
+        $pwd = $this->faker()->password(8);
         $name = $this->faker()->userName;
         $email = $this->faker()->email;
 
@@ -32,11 +33,11 @@ class AuthTest extends TestCase
             'password' => $pwd,
             'email' => $email
         ]);
-
+        echo $resp->getContent();
         $resp->assertCreated();
 
         return [
-            'user' => User::findOrFail($resp->json('user.id')),
+            'user' => User::findOrFail($resp->json('id')),
             'pwd' => $pwd,
             'login' => $resp->json('login')
         ];
@@ -49,16 +50,10 @@ class AuthTest extends TestCase
         $user = $user['user'];
         $loginData = $user['login'];
 
-        $resp = $this->post('/api/auth/login', [
-            'name' => $user->name,
-            'password' => $pwd
-        ]);
-        $resp->assertOk();
+        $token = $this->authenticate($user->name, $pwd);
 
-        $loginData2 = $resp->json();
-
-        $resp = $this->get('/api/auth/user', ['Authorization' => "{$loginData['tokenType']} {$loginData['accessToken']}"]);
-        $resp2 = $this->get('/api/auth/user', ['Authorization' => "{$loginData2['tokenType']} {$loginData2['accessToken']}"]);
+        $resp = $this->get('/api/auth/user', ['Authorization' => "Bearer {$loginData['token']}"]);
+        $resp2 = $this->get('/api/auth/user', ['Authorization' => "Bearer {$token}"]);
 
         $resp->assertOk();
         $resp2->assertOk();
