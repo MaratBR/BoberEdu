@@ -20,6 +20,11 @@ class CourseDto extends DtoBase
         return $this->course->id;
     }
 
+    public function getRating(): float
+    {
+        return 3.5;
+    }
+
     public function getName(): string
     {
         return $this->course->name;

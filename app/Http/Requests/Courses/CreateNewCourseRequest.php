@@ -4,9 +4,11 @@ namespace App\Http\Requests\Courses;
 
 use App\Course;
 use App\Http\Requests\AuthenticatedRequest;
+use App\Http\Requests\IPayloadRequest;
+use App\Utils\Convert;
 use Illuminate\Support\Facades\Gate;
 
-class CreateNewCourseRequest extends AuthenticatedRequest
+class CreateNewCourseRequest extends AuthenticatedRequest implements IPayloadRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,9 +31,14 @@ class CreateNewCourseRequest extends AuthenticatedRequest
             'name' => 'required|min:1|max:255',
             'price' => 'numeric|min:0|max:9999999999999999999.99',
             'about' => 'required',
-            'sign_up_beg' => 'nullable|date_format:Y-m-d',
-            'sign_up_end' => 'nullable|date_format:Y-m-d',
+            'signUpBeg' => 'nullable|date_format:Y-m-d',
+            'signUpEnd' => 'nullable|date_format:Y-m-d',
             'available' => 'boolean'
         ];
+    }
+
+    function getPayload(): array
+    {
+        return Convert::toSnakeCase($this->validated());
     }
 }

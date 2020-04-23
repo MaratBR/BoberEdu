@@ -4,17 +4,20 @@
 namespace App\Services\Implementation;
 
 
+use App\Category;
 use App\Course;
 use App\Exceptions\ThrowUtils;
+use App\Rate;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\ICourseUnitsUpdateResponse;
 use App\Unit;
+use App\User;
 use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Lanin\Laravel\ApiExceptions\BadRequestApiException;
-use Lanin\Laravel\ApiExceptions\ForbiddenApiException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 
@@ -44,12 +47,7 @@ class CourseService implements ICourseService
      */
     function paginateWithExtra($size = 15)
     {
-        return Course::query()
-            ->select('courses.*', DB::raw('COUNT(units.id) as units_count'), DB::raw('COUNT(lessons.id) as lessons_count'))
-            ->leftJoin('units', 'units.course_id', '=', 'courses.id')
-            ->leftJoin('lessons', 'lessons.unit_id', '=', 'units.id')
-            ->groupBy('courses.id')
-            ->paginate($size);
+        return $this->paginationModifier(Course::query(), $size);
     }
 
     /**
@@ -189,5 +187,60 @@ class CourseService implements ICourseService
         $course = Course::query()->select(['trial_length'])->findOrFail($id);
 
         return $course->trial_length;
+    }
+
+    function paginateInCategory(Category $category, int $size = 15): LengthAwarePaginator
+    {
+        return $this->paginationModifier(
+            Course::query()->where('category_id', '=', $category->id),
+            $size
+        );
+    }
+
+    private function paginationModifier(Builder $builder, int $size)
+    {
+        return $builder
+            ->select('courses.*', DB::raw('COUNT(units.id) as units_count'), DB::raw('COUNT(lessons.id) as lessons_count'))
+            ->leftJoin('units', 'units.course_id', '=', 'courses.id')
+            ->leftJoin('lessons', 'lessons.unit_id', '=', 'units.id')
+            ->groupBy('courses.id')
+            ->paginate($size);
+    }
+
+    function getCategory(int $categoryId): Category
+    {
+        return Category::findOrFail($categoryId);
+    }
+
+    function getAllCategories()
+    {
+        return Category::all();
+    }
+
+    function removeRate(Course $course, User $user)
+    {
+        Rate::query()
+            ->where('user_id', '=', $user->id)
+            ->where('course_id', '=', $course->id)
+            ->delete();
+    }
+
+    function setRate(Course $course, User $user, int $value)
+    {
+        $query = Rate::query()
+            ->where('user_id', '=', $user->id)
+            ->where('course_id', '=', $course->id);
+        $exists = $query->exists();
+
+        if ($exists) {
+            $query->update([
+                'value' => $value
+            ]);
+        } else {
+            Rate::create([
+                'user_id' => $user->id,
+                'course_id' => $course->id
+            ]);
+        }
     }
 }

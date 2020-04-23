@@ -36,10 +36,15 @@ Route::group([
     Route::get('{course}/lessons', 'CourseController@lessons');
     Route::get('{course}/units', 'CourseController@units');
 
+    Route::delete('{course}/rate', 'CourseController@removeRate');
+    Route::put('{course}/rate', 'CourseController@setRate');
+
     Route::group([
         'prefix' => 'categories'
     ], function () {
-
+        Route::get('', 'CourseController@categories');
+        Route::get('{category}', 'CourseController@category');
+        Route::get('{category}/courses', 'CourseController@categoryCourses');
     });
 });
 

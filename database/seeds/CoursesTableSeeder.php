@@ -8,12 +8,13 @@ class CoursesTableSeeder extends Seeder
 {
     public function run()
     {
-        for ($i = 0; $i < 150; $i++) {
+        for ($i = 0; $i < 25; $i++) {
             Course::create([
                 'name' => 'Test' . $i,
                 'about' => 'Just a test course, nothing much',
                 'price' => 1299.99,
-                'available' => true
+                'available' => true,
+                'category_id' => \App\Category::query()->inRandomOrder()->firstOrFail()->id
             ]);
         }
     }
