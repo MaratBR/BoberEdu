@@ -55,7 +55,7 @@ export default class CoursesModule extends StoreModuleBase {
     }
 
     @Action()
-    setRate(courseId: number, value: number): Promise<void> {
+    setRate({courseId, value}: {courseId: number, value: number}): Promise<void> {
         value = Math.round(value);
         value = Math.min(Math.max(value, 1), 5);
         return this.client.put('courses/' + courseId + '/rate', { value })

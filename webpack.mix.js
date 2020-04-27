@@ -22,7 +22,6 @@ mix.webpackConfig({
     ]
 });
 
-
 mix.ts('resources/js/app.ts', 'public/js');
 mix.sass('resources/sass/app.scss', 'public/css');
 mix.version();

@@ -1,6 +1,10 @@
 <template>
     <div class="course-view">
-        <loader v-if="!course" />
+        <loader v-if="!course && !err404" />
+
+        <p v-else-if="err404">
+            Course not found
+        </p>
 
         <template v-else>
             <section class="course-view__hero-wrp">
@@ -18,11 +22,13 @@
                             </div>
                             <span class="course-about__name">{{ course.name }}</span><br>
                             <span class="course-about__cap">by TODO Team | {{ unitsCount }} units | {{ lessonsCount }} lessons</span><br>
-                            <star-rating :rating="course.rating" star-size="25" :read-only="!this.hasAccess" :fixed-points="1" :max-rating="5" :round-start-rating="false" />
+                            <star-rating :rating="course.rating" :star-size="hasAccess ? 45 : 25"
+                                         :read-only="!this.hasAccess" :fixed-points="1" :max-rating="5"
+                                         :round-start-rating="false" @rating-selected="rateCourse($event)" />
+                            <span v-if="hasAccess">You can rate this course if you want</span>
                         </div>
 
                         <div class="course-view__actions">
-                            <router-link class="btn" v-if="!store.auth.isAuthenticated" :to="{name: 'register'}">Sign Up</router-link>
                             <button @click="join()" v-if="!enrolled" class="btn btn--primary" :disabled="joining">
                                 {{ joining ? '...' : 'Join' }}
                             </button>
@@ -78,7 +84,6 @@
     import {useStore} from "vuex-simple";
     import {dto} from "../../store/dto";
     import CourseExDto = dto.CourseExDto;
-    import EnrollmentStateDto = dto.EnrollmentStateDto;
 
     @Component({
         components: {MarkdownViewer, Error, Loader, Page}
@@ -91,7 +96,7 @@
         hasAccess: boolean = false;
         enrolled: boolean = false;
         joining: boolean = false;
-
+        err404: boolean = false;
 
         get unitsCount() { return this.course.units.length }
         get lessonsCount() {
@@ -109,9 +114,13 @@
 
         async init() {
             this.courseId = +this.$route.params.id || null;
-            this.course = await this.store.courses.get(this.courseId);
-            if (this.store.auth.isAuthenticated) {
-                await this.updateStatus()
+            try {
+                this.course = await this.store.courses.get(this.courseId);
+                if (this.store.auth.isAuthenticated) {
+                    await this.updateStatus();
+                }
+            } catch (e) {
+                this.err404 = true;
             }
         }
 
@@ -122,6 +131,11 @@
         }
 
         async join() {
+            if (!this.store.auth.isAuthenticated) {
+                await this.$router.push({ name: 'login' });
+                return;
+            }
+
             this.joining = true;
             await this.store.courses.enroll(this.course.id);
             this.joining = false;
@@ -129,8 +143,20 @@
         }
 
         async buy() {
+            if (!this.store.auth.isAuthenticated) {
+                await this.$router.push({ name: 'login' });
+                return;
+            }
+
             await this.join();
             await this.$router.push({name: 'purchase_course', params: {id: this.course.id+''}});
+        }
+
+        async rateCourse(v) {
+            await this.store.courses.setRate({
+                courseId: this.course.id,
+                value: v
+            })
         }
 
         toggleUnit(id: number) {
@@ -151,7 +177,8 @@
 
         @Watch('$route')
         routeChanged() {
-            this.init();
+            if (this.$route.name == 'course')
+                this.init();
         }
     }
 </script>

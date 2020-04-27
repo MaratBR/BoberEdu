@@ -154,3 +154,11 @@ export namespace requests {
         data: any
     }
 }
+
+export type CreditCardData = {
+    cvv: string,
+    holder: string,
+    number: string,
+    expiryMonth: string,
+    expiryYear: string
+};

@@ -1,20 +1,31 @@
 <template>
     <loader v-if="!status" />
     <page v-else title="Purchasing course">
-        <div class="notification" v-if="status.hasAccess">
+        <div class="notification" v-if="!status.enrolled">
+            <p>
+                Oops, it seems like you're not enrolled yet, gotta fix that!
+            </p>
+            <router-link :to="{name: 'course', params: {id: $route.params.id}}" class="btn btn--primary">Enroll</router-link>
+        </div>
+
+        <div class="notification" v-else-if="status.hasAccess">
             It seems like you already purchased this course.
         </div>
 
         <div class="payment" v-else>
             <tabs>
-                <tab name="DUMMY">
-                    <dummy-payment />
-                </tab>
-
-                <tab name="Tes2">
-                    Hiwefsrgdtfhmj
+                <tab v-for="gateway in availableGateways" :name="gateway.name">
+                    <component :is="gateway.component" :inline-template="true"
+                               @invalid="ready = false"
+                               @input="setPaymentPayload(gateway.name, $event)" />
                 </tab>
             </tabs>
+            <hr>
+            <div class="payment__submit" v-show="ready">
+                <p class="error" v-if="error">{{ error }}</p>
+                <p>Your payment is ready to go!</p>
+                <button @click="proceed">Proceed with payment</button>
+            </div>
         </div>
 
     </page>
@@ -40,28 +51,41 @@
         status: dto.EnrollmentStateDto = null;
         course: dto.CourseExDto = null;
         submitting = false;
-        currentPath = location.pathname;
+        error = null;
+        ready = false;
+        paymentData: any = null;
+        gateaway: any = null;
+        availableGateways = [
+            {
+                name: 'Dummy',
+                component: DummyPayment
+            }
+        ];
 
         store: Store = useStore(this.$store);
 
-        dateString(v) { return new Date(v).toLocaleDateString() }
-
-        canJoin(course: dto.CourseDto) {
-            return course.available && !this.willBeAvailable(course) && !this.wasAvailable(course)
+        setPaymentPayload(gateaway: string, data: any) {
+            this.ready = true;
+            this.gateaway = gateaway;
+            this.paymentData = data;
         }
 
-        willBeAvailable(course: dto.CourseDto) {
-            let now = +new Date();
-            return course.requirements.signUp.beg && now < +new Date(course.requirements.signUp.beg)
-        }
+        async proceed() {
+            this.submitting = true;
+            let payment = await this.store.payments.pay({
+                courseId: +this.$route.params.id,
+                data: this.paymentData,
+                gateway: this.gateaway
+            });
+            this.submitting = false;
 
-        wasAvailable(course: dto.CourseDto) {
-            let now = +new Date();
-            return course.requirements.signUp.end && now > +new Date(course.requirements.signUp.end)
-        }
+            if (payment.success) {
 
-        hasPreview(course: dto.CourseExDto) {
-
+            } else if (payment.redirect) {
+                window.open(payment.redirect);
+            } else {
+                this.error = "Failed to perform operation";
+            }
         }
 
         async load() {

@@ -33,24 +33,22 @@
 
                 </div>
 
-                <loader :promise="coursesPromise" v-slot="{value}">
-
-                    <div class="course-w" v-for="c in value.data">
+                <pagination-control :pagination="courses" v-slot="value">
+                    <div class="course-w">
                         <img class="course-w__pic" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
 
                         <div class="course-w__l">
-                            <router-link :to="{name: 'course', params: {id: c.id}}" class="course-w__name">{{ c.name }}</router-link><br>
-                            <span class="course-w__cap">by TODO Team | {{ c.info.uc }} units | {{ c.info.lc }} lessons</span>
+                            <router-link :to="{name: 'course', params: {id: value.id}}" class="course-w__name">{{ value.name }}</router-link><br>
+                            <span class="course-w__cap">by TODO Team | {{ value.info.uc }} units | {{ value.info.lc }} lessons</span>
                         </div>
 
                         <div class="course-w__r">
-                            <star-rating star-size="15" :read-only="true" :rating="c.rating"
+                            <star-rating :star-size="15" :read-only="true" :rating="value.rating"
                                          :round-start-rating="false" :fixed-points="1" />
-                            <span class="course-w__price">$ {{ c.price }}</span>
+                            <span class="course-w__price">$ {{ value.price }}</span>
                         </div>
                     </div>
-
-                </loader>
+                </pagination-control>
             </section>
         </div>
     </div>
@@ -71,13 +69,13 @@
     })
     export default class Category extends Vue {
         category: CategoryExDto = null;
-        coursesPromise: Promise<dto.PaginationDto<dto.CoursePageItemDto>>;
+        courses: dto.PaginationDto<dto.CoursePageItemDto> = null;
 
         store: Store = useStore(this.$store);
 
         async loadData() {
             this.category = await this.store.courses.getCategory(+this.$route.params.id);
-            this.coursesPromise = this.store.courses.getCoursesFromCategory(+this.$route.params.id)
+            this.courses = await this.store.courses.getCoursesFromCategory(+this.$route.params.id)
         }
 
         created() {

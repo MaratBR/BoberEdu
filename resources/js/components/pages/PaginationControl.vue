@@ -4,7 +4,7 @@
             <li
                 v-for="i in size"
                 class="pagination-item"
-                :class="{active: i + leftCorner - 1 === pagination.current_page}">
+                :class="{active: i + leftCorner - 1 === pagination.meta.page}">
                 <button class="btn" @click.prevent="page(i + leftCorner - 1)">{{i + leftCorner - 1}}</button>
             </li>
         </ul>
@@ -23,7 +23,7 @@
             <li
                 v-for="i in size"
                 class="pagination-item"
-                :class="{active: i + leftCorner - 1 === pagination.current_page}">
+                :class="{active: i + leftCorner - 1 === pagination.meta.page}">
                 <button class="btn" @click.prevent="page(i + leftCorner - 1)">{{i + leftCorner - 1}}</button>
             </li>
         </ul>
@@ -34,23 +34,23 @@
     import {PropOptions} from "vue/types/options";
     import Loader from "../misc/Loader.vue";
     import {Component, Prop, Vue} from "vue-property-decorator";
-    import {Pagination} from "../../store/_utils";
+    import {dto} from "../../store/dto";
 
     @Component({
         components: {Loader}
     })
     export default class PaginationControl extends Vue {
-        @Prop() pagination: Pagination<any>
+        @Prop() pagination: dto.PaginationDto<any>;
 
         page(num: number) {
             this.$emit('requestPage', num);
         }
 
         get leftCorner() {
-            return Math.max(1, this.pagination.current_page - 3)
+            return Math.max(1, this.pagination.meta.page - 3)
         }
         get size() {
-            return Math.min(7, this.pagination.last_page - this.leftCorner + 1)
+            return Math.min(7, this.pagination.meta.lastPage - this.leftCorner + 1)
         }
     }
 </script>

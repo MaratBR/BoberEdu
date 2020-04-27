@@ -244,7 +244,8 @@ class CourseService implements ICourseService
         } else {
             Rate::create([
                 'user_id' => $user->id,
-                'course_id' => $course->id
+                'course_id' => $course->id,
+                'value' => $value
             ]);
         }
     }

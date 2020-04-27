@@ -1,10 +1,14 @@
 <template>
-    <credit-card />
+    <div class="payment payment--dummy">
+        <p>DUMMY payment is not a payment gateaway it's basically just... DUMMY</p>
+        <credit-card @input="receiveData" @invalid="$emit('invalid')" />
+    </div>
 </template>
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import CreditCard from "../../../../app/Services/Implementation/Payments/CreditCard.vue";
+    import {CreditCardData} from "../../store/dto";
 
     type DummyPaymentRequest = {
         card: {
@@ -13,11 +17,22 @@
             expiryYear: string
         }
     }
+
     @Component({
         components: {CreditCard}
     })
     export default class DummyPayment extends Vue {
         value: DummyPaymentRequest = null;
+
+        receiveData(data: CreditCardData) {
+            this.$emit('input', {
+                card: {
+                    number: data.number,
+                    expiryMonth: data.expiryMonth,
+                    expiryYear: data.expiryYear,
+                }
+            })
+        }
     }
 </script>
 
