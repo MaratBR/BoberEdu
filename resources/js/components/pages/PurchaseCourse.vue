@@ -1,67 +1,22 @@
 <template>
-    <page title="Purchasing a course">
-        <loader :promise="coursePromise" v-slot="{value}">
-            <div class="purchase">
-                <div class="purchase__body">
-                    <div class="purchase__name">
-                        <h3>{{value.name}}</h3>
-                    </div>
-                    <div class="purchase__about">
-                        <markdown-viewer :value="value.about" />
-                    </div>
+    <loader v-if="!status" />
+    <page v-else title="Purchasing course">
+        <div class="notification" v-if="status.hasAccess">
+            It seems like you already purchased this course.
+        </div>
 
-                    <div class="purchase__links">
-                        <router-link class="btn" :to="{name: 'course', params: {id: value.id}}">
-                            <i class="fa fa-arrow-left"></i>
-                            Back to course
-                        </router-link>
-                    </div>
-                </div>
+        <div class="payment" v-else>
+            <tabs>
+                <tab name="DUMMY">
+                    <dummy-payment />
+                </tab>
 
-                <div class="purchase__aside">
-                    <template v-if="!store.auth.isAuthenticated">
-                        <p>Please, log in first to purchase this course</p>
-                        <router-link class="btn btn--primary" :to="{name: 'login', query: {next: currentPath}}">Login</router-link>
-                    </template>
-                    <loader v-else :promise="attendancePromise" v-slot="attendance">
-                        <template v-if="attendance.value">
-                            <div class="purchase__price">
-                                $ {{value.price}}
-                            </div>
+                <tab name="Tes2">
+                    Hiwefsrgdtfhmj
+                </tab>
+            </tabs>
+        </div>
 
-                            <div class="purchase__actions">
-                                <template v-if="attendance.value.active">
-                                    <router-link class="btn btn--primary" :to="{name: 'course', params: {id: value.id}}">Go to course</router-link>
-                                </template>
-                                <template v-else>
-                                    <p class="p p--primary">You've joined this course at <b>{{dateString(attendance.value.created_at)}}</b></p>
-                                    <p>You can purchase this course</p>
-                                    <button class="btn btn--primary" @click="purchase()">
-                                        {{submitting ? 'Purchasing...' : 'Purchase'}}
-                                    </button>
-
-                                </template>
-                            </div>
-                        </template>
-
-                        <template v-else-if="canJoin(value)">
-                            <p>You can join this course.</p>
-                            <p :test="hasPreview(value)">This course has free preview</p>
-                            <button :disabled="submitting" class="btn btn--primary" @click="join()">
-                                {{submitting ? 'Wait a moment...' : 'Join'}}
-                            </button>
-                        </template>
-
-                        <template v-else>
-                            <p>You can't join this course yet.</p>
-                            <p v-if="willBeAvailable(value)">Registration will be open in {{value.sign_up_beg}}</p>
-                            <p v-else-if="wasAvailable(value)">Registration will be open in {{value.sign_up_end}}</p>
-                        </template>
-
-                    </loader>
-                </div>
-            </div>
-        </loader>
     </page>
 </template>
 
@@ -70,62 +25,48 @@
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
     import MarkdownViewer from "../misc/MarkdownViewer.vue";
-    import {mapGetters} from "vuex";
     import {Component, Vue, Watch} from "vue-property-decorator";
     import {Store} from "../../store";
     import {useStore} from "vuex-simple";
-    import {Course, CourseEx} from "../../store/modules/CoursesModule";
+    import {dto} from "../../store/dto";
+    import Tabs from "../Tabs.vue";
+    import Tab from "../Tab.vue";
+    import DummyPayment from "../payments/DummyPayment.vue";
 
     @Component({
-        components: {MarkdownViewer, Error, Loader, Page}
+        components: {DummyPayment, Tab, Tabs, MarkdownViewer, Error, Loader, Page}
     })
     export default class PurchaseCourse extends Vue {
-        coursePromise = null;
-        attendancePromise = null;
+        status: dto.EnrollmentStateDto = null;
+        course: dto.CourseExDto = null;
         submitting = false;
-        currentPath = location.pathname
+        currentPath = location.pathname;
 
         store: Store = useStore(this.$store);
 
-        async purchase() {
-            this.submitting = true;
-            let r = await this.$store.dispatch('courses/purchase', this.$route.params.id);
-            this.submitting = false;
-            window.open(r.external_redirect_url, null, "width=500,height=500");
-        }
-
-        async join() {
-            this.submitting = true;
-            let r = await this.$store.dispatch('courses/join', this.$route.params.id);
-            console.log(r)
-            this.submitting = false;
-            this.attendancePromise = this.store.courses.getAttendance(+this.$route.params.id).catch(() => null);
-        }
-
         dateString(v) { return new Date(v).toLocaleDateString() }
 
-        canJoin(course: Course) {
+        canJoin(course: dto.CourseDto) {
             return course.available && !this.willBeAvailable(course) && !this.wasAvailable(course)
         }
 
-        willBeAvailable(course: Course) {
+        willBeAvailable(course: dto.CourseDto) {
             let now = +new Date();
-            return course.sign_up_beg && now < +new Date(course.sign_up_beg)
+            return course.requirements.signUp.beg && now < +new Date(course.requirements.signUp.beg)
         }
 
-        wasAvailable(course: Course) {
+        wasAvailable(course: dto.CourseDto) {
             let now = +new Date();
-            return course.sign_up_end && now > +new Date(course.sign_up_end)
+            return course.requirements.signUp.end && now > +new Date(course.requirements.signUp.end)
         }
 
-        hasPreview(course: CourseEx) {
+        hasPreview(course: dto.CourseExDto) {
 
         }
 
-        load() {
-            this.coursePromise = this.store.courses.get(+this.$route.params.id);
-            if (this.store.auth.isAuthenticated)
-                this.attendancePromise = this.store.courses.getAttendance(+this.$route.params.id).catch(() => null);
+        async load() {
+            this.course = await this.store.courses.get(+this.$route.params.id)
+            this.status = await this.store.courses.status(+this.$route.params.id)
         }
 
         created(): void {

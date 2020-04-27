@@ -1,38 +1,71 @@
 <template>
-    <loader no-value-message="Course not found" :promise="promise" v-slot="{value}">
-        <page :title="value.name">
-            <template v-slot:header>
-                <router-link class="btn" :to="{name: 'edit_course', params: {id: $route.params.id}}">Edit</router-link>
-            </template>
-            <div class="course">
-                <main class="course__content">
-                    <markdown-viewer :value="value.about" />
-                    <pre>{{value}}</pre>
-                </main>
-                <aside class="course__buy">
-                    <div class="course-aside">
-                        <router-link class="btn btn--flat-white" :to="{name: 'purchase_course', params: {id: value.id}}">Buy for ${{value.price}}</router-link>
-                        <span v-if="hasFreePreview(value)">or</span>
-                        <router-link v-if="hasFreePreview(value)" class="btn btn--flat-white" to="/">Try for free</router-link>
+    <div class="course-view">
+        <loader v-if="!course" />
+
+        <template v-else>
+            <section class="course-view__hero-wrp">
+                <div class="course-view__hero container">
+
+
+                    <div class="course-view__pic">
+                        <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
                     </div>
-                </aside>
 
-                <aside class="course__units">
-                    <h2>Units</h2>
-                    <ul>
-                        <li v-for="u in value.units" class="unit">
-                            <span>{{u.name}}</span>
-                            <span v-if="u.is_preview" class="unit__badge">preview</span>
+                    <div class="course-view__about">
+                        <div class="course-about">
+                            <div class="course-about__cat">
+                                <router-link :to="{name: 'category', params: {id: course.category.id}}"><i class="fa fa-chevron-left"></i> {{ course.category.name }}</router-link>
+                            </div>
+                            <span class="course-about__name">{{ course.name }}</span><br>
+                            <span class="course-about__cap">by TODO Team | {{ unitsCount }} units | {{ lessonsCount }} lessons</span><br>
+                            <star-rating :rating="course.rating" star-size="25" :read-only="!this.hasAccess" :fixed-points="1" :max-rating="5" :round-start-rating="false" />
+                        </div>
 
-                            <ul>
-                                <li v-for="l in u.lessons">{{l}}</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </aside>
+                        <div class="course-view__actions">
+                            <router-link class="btn" v-if="!store.auth.isAuthenticated" :to="{name: 'register'}">Sign Up</router-link>
+                            <button @click="join()" v-if="!enrolled" class="btn btn--primary" :disabled="joining">
+                                {{ joining ? '...' : 'Join' }}
+                            </button>
+                            <button @click="buy()" v-if="!hasAccess" class="btn btn--primary">Buy</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="course-body container">
+                <div class="course-body__about">
+                    <markdown-viewer :value="course.about" />
+
+                    <div class="course-body__units">
+                        <div class="units-list">
+                            <div v-for="unit in course.units" class="unit-item" :class="{'active': isUnitOpen(unit.id)}">
+                                <div class="unit-item__header" @click="toggleUnit(unit.id)">
+                                    <span class="unit-item__name">{{ unit.name }}</span>
+                                    <span class="unit-item__about">{{ unit.lessons.length }} lessons</span>
+                                    <span class="unit-item__preview" v-if="unit.preview">FREE PREVIEW</span>
+                                </div>
+
+                                <ul class="unit-item__lessons">
+                                    <li class="lesson-item" v-for="lesson in unit.lessons">
+                                        <router-link :to="{name: 'lesson', params: {id: lesson.id}}" class="lesson-item__name">{{ lesson.title }}</router-link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-body__opinions">
+                    <div class="opinion" v-for="i in 19">
+                        <cite class="opinion__text">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi dignissimos doloremque eveniet exercitationem iure iusto tenetur voluptas? Facere in labore natus, neque omnis optio possimus repellat reprehenderit tempora ullam.
+                        </cite>
+                        <div class="opinion__author">-- Lorem</div>
+                    </div>
+                </div>
             </div>
-        </page>
-    </loader>
+        </template>
+    </div>
+
 </template>
 
 <script lang="ts">
@@ -41,25 +74,75 @@
     import Error from "../misc/Error.vue";
     import MarkdownViewer from "../misc/MarkdownViewer.vue";
     import {Component, Vue, Watch} from "vue-property-decorator";
-    import {Course} from "../../store/modules/CoursesModule";
     import {Store} from "../../store";
     import {useStore} from "vuex-simple";
+    import {dto} from "../../store/dto";
+    import CourseExDto = dto.CourseExDto;
+    import EnrollmentStateDto = dto.EnrollmentStateDto;
 
     @Component({
         components: {MarkdownViewer, Error, Loader, Page}
     })
     export default class CourseView extends Vue {
         courseId: number | null = null;
-        promise: Promise<Course> | null = null;
+        course: CourseExDto | null = null;
         store: Store = useStore(this.$store);
+        selectedUnits: number[] = [];
+        hasAccess: boolean = false;
+        enrolled: boolean = false;
+        joining: boolean = false;
 
+
+        get unitsCount() { return this.course.units.length }
+        get lessonsCount() {
+            let v = 0;
+
+            for (let unit of this.course.units) {
+                v += unit.lessons.length
+            }
+
+            return v
+        }
         created(): void {
             this.init()
         }
 
-        init() {
+        async init() {
             this.courseId = +this.$route.params.id || null;
-            this.promise = this.store.courses.get(this.courseId)
+            this.course = await this.store.courses.get(this.courseId);
+            if (this.store.auth.isAuthenticated) {
+                await this.updateStatus()
+            }
+        }
+
+        async updateStatus() {
+            let status = await this.store.courses.status(this.courseId);
+            this.hasAccess = status.hasAccess;
+            this.enrolled = status.enrolled;
+        }
+
+        async join() {
+            this.joining = true;
+            await this.store.courses.enroll(this.course.id);
+            this.joining = false;
+            await this.updateStatus();
+        }
+
+        async buy() {
+            await this.join();
+            await this.$router.push({name: 'purchase_course', params: {id: this.course.id+''}});
+        }
+
+        toggleUnit(id: number) {
+            if (this.selectedUnits.includes(id)) {
+                this.selectedUnits.splice(this.selectedUnits.indexOf(id))
+            } else {
+                this.selectedUnits.push(id)
+            }
+        }
+
+        isUnitOpen(id: number) {
+            return this.selectedUnits.includes(id)
         }
 
         hasFreePreview(course): boolean {
@@ -73,50 +156,131 @@
     }
 </script>
 
-<style lang="sass" scoped>
-    @import "../../../sass/lib/config"
+<style lang="scss" scoped>
+    @import "../../../sass/lib/config";
 
-    .unit
-        &__badge
-            background: whitesmoke
-            padding: 6px
-            font-size: 0.8em
-            font-variant: all-small-caps
+    .course-view {
+        &__hero {
+            @media ($ss-breakpoint-mobile) {
+                display: block;
+            }
+            display: grid;
+            grid-template-columns: 1fr 1fr;
 
-    .course-aside
-        background: linear-gradient(133deg, rgba(244,101,200,1) 4%, rgba(135,131,245,1) 100%)
-        border-radius: 0.7em
-        min-height: 100px
-        color: white
-        display: flex
-        justify-content: center
-        align-items: center
-        box-sizing: border-box
-        & > span
-            font-size: 90%
-            margin: 10px
+            &-wrp {
+                padding-bottom: 20px    ;
+            }
+        }
 
+        &__about {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-    .course
-        display: grid
-        grid-template-columns: 0.66666fr 0.33333fr
-        grid-template-rows: auto 1fr
-        &__content
-            min-width: 0 // grid blowout fix https://stackoverflow.com/questions/43311943/prevent-content-from-expanding-grid-items
-            padding-right: 10px
-            grid-row: 1/span 2
+        &__l {
+            display: flex;
+            align-items: flex-end;
+        }
 
-        &__units
-            grid-row: 2
+        &__r {
 
-        @media ($ss-breakpoint-tablet)
-            grid-template-rows: 100px auto minmax(0, 1fr)
-            grid-template-columns: 1fr
+        }
 
-            &__buy
-                grid-row: 1
-            &__content
-                grid-row: 2
-            &__units
-                grid-row: 3
+        &__actions {
+            display: flex;
+            justify-content: stretch;
+
+            & > button {
+                margin: 5px;
+                flex-grow: 1;
+            }
+        }
+    }
+
+    .course-about {
+        padding: 25px;
+
+        &__name {
+            font-size: 2em;
+        }
+
+        &__cap {
+            font-size: 0.8em;
+            color: gray;
+        }
+    }
+
+    .course-body {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+
+    .opinion {
+        background: #fbf8ca;
+        padding: 15px;
+        margin: 10px;
+
+        &__author {
+            text-align: right;
+        }
+    }
+
+    .unit-item {
+        &.active &__lessons {
+            display: block;
+        }
+
+        &.active &__header {
+
+        }
+
+        &__header {
+            font-size: 1.1em;
+            padding: 17px;
+            background: whitesmoke;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-radius: 7px;
+
+            &:hover {
+                border-color: #999;
+                background: #ddd;
+            }
+        }
+
+        &__preview {
+            display: inline-block;
+            padding: 4px 4px 6px 4px;
+            font-variant: all-small-caps;
+            margin-left: auto;
+            background: orange;
+            color: white;
+            font-weight: 700;
+            border-radius: 4px;
+        }
+
+        &__lessons {
+            display: none;
+
+            list-style: none;
+            padding-left: 10px;
+        }
+    }
+
+    .lesson-item {
+        border-left: 2px solid #ddd;
+        padding: 10px 15px;
+
+        &:hover {
+            border-color: #00bdbd;
+            background: rgba(0,0,0,0.025);
+        }
+
+        &__name {
+
+        }
+    }
+
 </style>

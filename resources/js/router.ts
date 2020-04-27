@@ -27,6 +27,13 @@ export default new VueRouter({
             component: () => import(
                 /* webpackChunkName: "category" */
                 './components/pages/Category.vue'),
+            name: 'category'
+        },
+        {
+            path: '/categories',
+            component: () => import(
+                /* webpackChunkName: "categories" */
+                './components/pages/Categories.vue'),
             name: 'courses'
         },
         {

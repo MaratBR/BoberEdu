@@ -31,11 +31,13 @@
   },
   "dependencies": {
     "dompurify": "^2.0.8",
+    "imask": "^6.0.3",
     "marked": "^0.8.0",
     "secure-ls": "^1.2.6",
     "tui-editor": "^1.4.10",
     "vee-validate": "^3.2.5",
     "vue-router": "^3.1.5",
+    "vue-star-rating": "^1.6.1",
     "vuex": "^3.1.2",
     "vuex-persistedstate": "^2.7.1"
   }

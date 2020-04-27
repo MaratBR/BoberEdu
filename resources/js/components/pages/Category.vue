@@ -10,13 +10,14 @@
             <div class="category-view__popular">
                 <h3>Here is some popular courses for you</h3>
                 <div class="category-view__popular__list">
-                    <router-link to="#" v-for="c in category.popular">
+                    <router-link :to="{name: 'course', params: {id: c.id}}" v-for="c in category.popular">
                         <div class="course-sm">
                             <img class="course-sm__img" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
                             <div class="course-sm__about">
                                 <span class="course-sm__name">{{ c.name }}</span><br>
                                 <span class="course-sm__cap">by TODO Team</span>
-                                <span class="course-sm__rate">{{ c.rating }}</span>
+                                <star-rating :rating="c.rating" :fixed-points="1" :round-start-rating="false"
+                                             :show-rating="false" :star-size="14" :read-only="false" />
                                 <span class="course-sm__price">$ {{ c.price }}</span>
                             </div>
                         </div>
@@ -38,12 +39,13 @@
                         <img class="course-w__pic" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
 
                         <div class="course-w__l">
-                            <router-link :to="{}" class="course-w__name">{{ c.name }}</router-link><br>
+                            <router-link :to="{name: 'course', params: {id: c.id}}" class="course-w__name">{{ c.name }}</router-link><br>
                             <span class="course-w__cap">by TODO Team | {{ c.info.uc }} units | {{ c.info.lc }} lessons</span>
                         </div>
 
                         <div class="course-w__r">
-                            <span class="course-w__rating">{{ c.rating }}</span><br>
+                            <star-rating star-size="15" :read-only="true" :rating="c.rating"
+                                         :round-start-rating="false" :fixed-points="1" />
                             <span class="course-w__price">$ {{ c.price }}</span>
                         </div>
                     </div>
@@ -92,13 +94,20 @@
 <style scoped lang="scss">
 
     .category-view {
+        &__head {
+            background: #00a6f9 linear-gradient(0deg, white 20%, transparent);
+            color: white;
+            padding-bottom: 140px;
+        }
+
         &__cat {
             padding: 15px
         }
 
         &__title {
             font-size: 2.3em;
-            line-height: 80px
+            line-height: 90px;
+            border-bottom: 3px solid white;
         }
 
         &__popular {
@@ -137,8 +146,8 @@
 
 
     .course-sm {
+        color: black;
         margin: 4px;
-        border: 1px solid #f0f0f0;
         border-radius: 15px;
         overflow: hidden;
         min-width: 200px;
@@ -161,11 +170,12 @@
 
 
     .course-w {
-        margin: 6px;
-        border: 1px solid #f0f0f0;
+        margin-bottom: 13px;
+        border: 2px solid #f0f0f0;
         border-radius: 13px;
         overflow: hidden;
         display: flex;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
 
         &__name {
             display: inline-block;

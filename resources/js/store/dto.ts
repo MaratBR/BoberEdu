@@ -33,7 +33,11 @@ export namespace dto {
     };
 
     export type CourseExDto = CourseDto & {
-        units: UnitExDto[]
+        units: UnitExDto[],
+        category: {
+            id: number,
+            name: string
+        }
     };
 
     export type CoursePageItemDto = CourseDto & {

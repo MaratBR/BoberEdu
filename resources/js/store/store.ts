@@ -9,7 +9,7 @@ import {AuthModule} from "./modules/AuthModule"
 import {createVuexStore, Module} from "vuex-simple";
 import CoursesModule from "./modules/CoursesModule";
 import createPersistedState from "vuex-persistedstate";
-import PurchaseModule from "./modules/PurchaseModule";
+import PaymentsModule from "./modules/PaymentsModule";
 
 const ls = new SecureLS({ isCompression: false });
 
@@ -19,7 +19,7 @@ client.defaults.baseURL = location.origin + '/api';
 export class Store {
     @Module() public auth = new AuthModule(client);
     @Module() public courses = new CoursesModule(client);
-    @Module() public purchases = new PurchaseModule(client);
+    @Module() public payments = new PaymentsModule(client);
 }
 
 const store = createVuexStore(new Store(), {

@@ -10,4 +10,12 @@ class CourseExDto extends CourseDto
     {
         return collect($this->course->units)->mapInto(UnitExDto::class);
     }
+
+    function getCategory()
+    {
+        return [
+            'id' => $this->course->category->id,
+            'name' => $this->course->category->name,
+        ];
+    }
 }

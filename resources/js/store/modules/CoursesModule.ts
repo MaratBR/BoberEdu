@@ -64,21 +64,21 @@ export default class CoursesModule extends StoreModuleBase {
 
     @Action()
     enroll(id: number): Promise<void> {
-        return this.client.patch('enrollment/' + id + '/enroll')
+        return this.client.patch('enrollment/' + id + '/enroll').then(r => r.data)
     }
 
     @Action()
     disenroll(id: number): Promise<void> {
-        return this.client.patch('enrollment/' + id + '/disenroll')
+        return this.client.patch('enrollment/' + id + '/disenroll').then(r => r.data)
     }
 
     @Action()
     status(id: number): Promise<dto.EnrollmentStateDto> {
-        return this.client.get('enrollment/' + id + '/status')
+        return this.client.get('enrollment/' + id + '/status').then(r => r.data)
     }
 
     @Action()
     getEnrolls(): Promise<dto.EnrollmentsDto> {
-        return this.client.get('enrollment/yours')
+        return this.client.get('enrollment/yours').then(r => r.data)
     }
 }
