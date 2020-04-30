@@ -12,12 +12,20 @@ use Carbon\Carbon;
 interface IEnrollmentService
 {
     /**
-     * Returns list of enrollment record for a user
+     * Returns list of enrollment records for a user
      *
      * @param User $user
      * @return mixed
      */
     function getUserEnrolls(User $user);
+
+    /**
+     * Returns list of enrollment records with courses for a user
+     *
+     * @param User $user
+     * @return mixed
+     */
+    function getUserEnrollsWithCourses(User $user);
 
     /**
      * Returns enrollment record.

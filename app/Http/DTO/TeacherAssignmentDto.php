@@ -4,14 +4,14 @@
 namespace App\Http\DTO;
 
 
-use App\TeachingPeriod;
+use App\TeachingAssignment;
 use Carbon\Carbon;
 
 class TeacherAssignmentDto extends DtoBase
 {
     private $assignment;
 
-    public function __construct(TeachingPeriod $assignment)
+    public function __construct(TeachingAssignment $assignment)
     {
         $this->assignment = $assignment;
     }

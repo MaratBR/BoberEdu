@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 
@@ -113,7 +114,7 @@ class CourseService implements ICourseService
             $orderInv[$i] = $ii;
             if (substr($i, 0, 1) === 'n') {
                 if (substr($i, 1) >= count($new))
-                    throw new BadRequestApiException('Invalid order item: ' . $i . ' no corresponding unit defined in "new"');
+                    throw new HttpException(422, 'Invalid order item: ' . $i . ' no corresponding unit defined in "new"');
             }
         }
 
@@ -181,6 +182,23 @@ class CourseService implements ICourseService
         return Course::with('units')->findOrFail($id);
     }
 
+    function getWithOverview(int $id)
+    {
+        return Course::with([
+            'units' => function (HasMany $b) {
+                $b->select('name', 'id', 'course_id', 'about', 'order_num', 'is_preview');
+                $b->orderBy('order_num');
+                $b->with([
+                    'lessons' => function (HasMany $b) {
+                        $b->orderBy('order_num');
+                        $b->select('id', 'unit_id', 'title', 'order_num');
+                    }
+                ]);
+            },
+            'teachers'
+        ])->findOrFail($id);
+    }
+
     function getTrialDays(int $id): int
     {
         /** @var Course $course */
@@ -230,7 +248,7 @@ class CourseService implements ICourseService
             ->delete();
     }
 
-    function setRate(Course $course, User $user, int $value)
+    function setRate(Course $course, User $user, float $value)
     {
         $query = Rate::query()
             ->where('user_id', '=', $user->id)
@@ -248,5 +266,21 @@ class CourseService implements ICourseService
                 'value' => $value
             ]);
         }
+    }
+
+    function getRate(User $user, int $courseId): ?float
+    {
+        $rate = Rate::query()
+            ->where('user_id', '=', $user->id)
+            ->where('course_id', '=', $courseId)
+            ->first();
+
+        if ($rate == null)
+            return null;
+
+        $rate = $rate->value;
+        $rate = (float)$rate;
+        $rate /= 2;
+        return $rate;
     }
 }

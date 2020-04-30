@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeachingPeriodsTable extends Migration
+class CreateTeachingAssignmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,13 @@ class CreateTeachingPeriodsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teaching_periods', function (Blueprint $table) {
-            $table->integerIncrements('id');
-            $table->date('since');
-            $table->date('until')->nullable();
+        Schema::create('teaching_assignments', function (Blueprint $table) {
             $table->unsignedInteger('teacher_id');
             $table->unsignedInteger('course_id');
             $table->foreign('teacher_id')->on('teachers')->references('id');
             $table->foreign('course_id')->on('courses')->references('id');
-            $table->softDeletes();
+            $table->primary(['teacher_id', 'course_id']);
         });
-
-        // TODO Check constraint
     }
 
     /**
@@ -34,6 +29,6 @@ class CreateTeachingPeriodsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teaching_periods');
+        Schema::dropIfExists('teaching_assignments');
     }
 }

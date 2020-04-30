@@ -10,6 +10,7 @@ import {createVuexStore, Module} from "vuex-simple";
 import CoursesModule from "./modules/CoursesModule";
 import createPersistedState from "vuex-persistedstate";
 import PaymentsModule from "./modules/PaymentsModule";
+import UsersModule from "./modules/UsersModule";
 
 const ls = new SecureLS({ isCompression: false });
 
@@ -20,6 +21,7 @@ export class Store {
     @Module() public auth = new AuthModule(client);
     @Module() public courses = new CoursesModule(client);
     @Module() public payments = new PaymentsModule(client);
+    @Module() public users = new UsersModule(client);
 }
 
 const store = createVuexStore(new Store(), {

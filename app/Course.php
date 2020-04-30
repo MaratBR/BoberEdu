@@ -61,6 +61,11 @@ class Course extends Model
         return $this->hasMany(Unit::class);
     }
 
+    public function teachers() {
+        // TODO
+        return $this->belongsToMany(Teacher::class, 'teaching_assignments');
+    }
+
     public function category() {
         return $this->belongsTo(Category::class);
     }

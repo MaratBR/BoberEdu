@@ -42,7 +42,7 @@
                 <div class="course-body__about">
                     <markdown-viewer :value="course.about" />
 
-                    <div class="course-body__units">
+                    <section class="course-body__units">
                         <div class="units-list">
                             <div v-for="unit in course.units" class="unit-item" :class="{'active': isUnitOpen(unit.id)}">
                                 <div class="unit-item__header" @click="toggleUnit(unit.id)">
@@ -58,10 +58,24 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </section>
+
+                    <section class="course-body__teachers">
+                        <h2>Teachers</h2>
+                        <div class="d--flex">
+                            <router-link v-for="t in course.teachers" :to="{name: 'teacher', params: {id: t.id}}">
+                                <div class="teacher">
+                                    <div class="avatar s90">
+                                        <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
+                                    </div>
+                                    <span>{{ t.fullName }}</span>
+                                </div>
+                            </router-link>
+                        </div>
+                    </section>
                 </div>
                 <div class="course-body__opinions">
-                    <div class="opinion" v-for="i in 19">
+                    <div class="opinion" v-for="i in 2">
                         <cite class="opinion__text">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi dignissimos doloremque eveniet exercitationem iure iusto tenetur voluptas? Facere in labore natus, neque omnis optio possimus repellat reprehenderit tempora ullam.
                         </cite>
@@ -241,6 +255,17 @@
     .course-body {
         display: grid;
         grid-template-columns: 3fr 1fr;
+
+        &__teachers {
+            a {
+                text-decoration: none;
+                color: black;
+
+                &:hover .avatar {
+                    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.3);
+                }
+            }
+        }
     }
 
     .opinion {
@@ -307,6 +332,17 @@
 
         &__name {
 
+        }
+    }
+
+    .teacher {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & > .avatar {
+            transition: .2s;
+            margin-bottom: 7px;
         }
     }
 

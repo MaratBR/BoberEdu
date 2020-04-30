@@ -39,12 +39,8 @@ class CourseController extends Controller
      */
     public function show(int $courseId)
     {
-
-        $course = $this->courses->getWithUnitsAndLessonsNames(
-            $courseId
-        );
+        $course = $this->courses->getWithOverview($courseId);
         return new CourseExDto($course);
-
     }
 
     /**
@@ -126,6 +122,12 @@ class CourseController extends Controller
     {
         $categories = $this->courses->getAllCategories();
         return new CategoriesDto($categories);
+    }
+
+    public function getRate(AuthenticatedRequest $request, int $courseId)
+    {
+        $user = $request->user();
+        $rate = $this->courses->getRate();
     }
 
     public function setRate(SetRateRequest $request, int $courseId)

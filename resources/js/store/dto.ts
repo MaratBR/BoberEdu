@@ -29,7 +29,8 @@ export namespace dto {
         available: boolean,
         about: string,
         trialDays: number,
-        requirements: CourseRequirements
+        requirements: CourseRequirements,
+        teachers: TeacherDto[]
     };
 
     export type CourseExDto = CourseDto & {
@@ -116,8 +117,22 @@ export namespace dto {
         joinedAt: string,
         sex: Sex,
         name: string,
-        roles: string[]
+        roles: string[],
+        status: string
     };
+
+    export type UserProfileDto = {
+        user: UserDto,
+        courses: {
+            since: string,
+            activated: boolean,
+            trialEnd: string,
+            course: {
+                name: string,
+                id: string
+            }
+        }[]
+    }
 }
 
 export namespace requests {

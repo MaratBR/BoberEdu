@@ -90,6 +90,15 @@ class EnrollmentService implements IEnrollmentService
             ->get();
     }
 
+    function getUserEnrollsWithCourses(User $user)
+    {
+        return Enrollment::query()
+            ->where('user_id', '=', $user->id)
+            ->with(['course'])
+            ->orderBy('enrolled_at')
+            ->get();
+    }
+
     function activate(Enrollment $record): void
     {
         $this->setActivated($record, true);

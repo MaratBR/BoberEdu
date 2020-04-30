@@ -1,0 +1,21 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #f9f9f9;
+
+    th {
+        background: whitesmoke;
+    }
+
+    td, th {
+        padding: 5px 10px;
+    }
+
+    tr {
+        td, th {
+            &:not(:last-child) {
+                border-right: 1px solid #eee;
+            }
+        }
+    }
+}

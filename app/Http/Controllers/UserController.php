@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\Exceptions\ThrowUtils;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\UserDto;
+use App\Http\DTO\UserProfileDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Users\EditUserRequest;
+use App\Http\Requests\Users\SetStatusRequest;
+use App\Services\Abs\ICourseService;
+use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IUsersService;
 use App\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -28,7 +33,7 @@ class UserController extends Controller
      * @param int $id
      * @return UserDto
      */
-    public function get(AuthenticatedRequest $request, int $id)
+    public function get(Request $request, int $id)
     {
         $user = $this->users->getWithRoles($id);
 
@@ -59,5 +64,24 @@ class UserController extends Controller
         $this->throwForbiddenIfNotAllowed('paginate', User::class);
         $paginator = $this->users->paginate();
         return new PaginationDto($paginator, UserDto::class);
+    }
+
+    public function profile(int $userId, IEnrollmentService $enrollment)
+    {
+        $user = $this->users->get($userId);
+        $enrollments = $enrollment->getUserEnrollsWithCourses($user);
+
+        return new UserProfileDto($user, $enrollments);
+    }
+
+    public function setStatus(SetStatusRequest $request)
+    {
+        $user = $request->user();
+
+        $user->update([
+            'status' => $request->getStatus()
+        ]);
+
+        return $this->noContent();
     }
 }

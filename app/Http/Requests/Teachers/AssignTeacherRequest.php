@@ -17,8 +17,6 @@ class AssignTeacherRequest extends AdminRequest
     public function rules()
     {
         return [
-            'since' => 'date_format:Y-m-d|required',
-            'until' => 'date_format:Y-m-d|required',
             'comment' => 'string|required'
         ];
     }
@@ -26,16 +24,6 @@ class AssignTeacherRequest extends AdminRequest
     public function getComment(): string
     {
         return $this->validated()['comment'];
-    }
-
-    public function getSince(): Carbon
-    {
-        return $this->validated()['since'];
-    }
-
-    public function getUntil(): Carbon
-    {
-        return $this->validated()['until'];
     }
 }
 

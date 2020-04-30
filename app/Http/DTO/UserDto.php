@@ -38,6 +38,11 @@ class UserDto extends DtoBase
         return $this->user->name;
     }
 
+    public function getStatus(): ?string
+    {
+        return $this->user->status;
+    }
+
     public function getRoles()
     {
         return collect($this->user->roles)->map(function (Role $r) {

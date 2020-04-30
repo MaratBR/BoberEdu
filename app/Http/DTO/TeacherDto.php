@@ -24,4 +24,9 @@ class TeacherDto extends DtoBase
     {
         return $this->teacher->full_name;
     }
+
+    function getAvatar(): string
+    {
+        return "5f6b0239cfb94072cfe42b790c63b7db";
+    }
 }

@@ -1,23 +1,18 @@
 <template>
     <page :title="courseData.name || 'New course'">
-        <template v-slot:header>
+        <template v-slot:header v-if="persistent">
             <div class="d--flex">
-                <router-link class="btn" :to="{name: 'course', params: {id: courseData.id}}">View course</router-link>
-                <router-link class="ml--1 btn" v-if="persistent" :to="{name: 'edit_course_units', params: {id: courseData.id}}">Edit units</router-link>
+                <router-link class="btn" :to="{name: 'course', params: {id: $route.params.id}}">View course</router-link>
+                <router-link class="ml--1 btn" :to="{name: 'edit_course_units', params: {id: courseData.id}}">Edit units</router-link>
             </div>
         </template>
 
         <form class="form" @submit.prevent="onSubmit">
             <div class="form__control">
                 <label for="Name">Name</label>
-                <input type="text" class="input" :aria-invalid="errors.length !== 0" id="Name" v-model="courseData.name">
-                <span class="input__error">{{errors[0]}}</span>
-            </div>
-
-            <div class="form__control">
+                <input type="text" class="input" id="Name" v-model="courseData.name">
                 <label for="Price">Price</label>
-                <input type="text" class="input" :aria-invalid="errors.length !== 0" id="Price" v-model="courseData.price" />
-                <span v-for="err in errors" class="input__error">{{err}}</span>
+                <input type="text" class="input" id="Price" ref="priceInput" v-model="courseData.price">
             </div>
 
             <div>
@@ -30,22 +25,20 @@
                 <div v-show="hasSignUpPeriod" class="d--flex fxw--wrap">
                     <div class="form__control mr--2">
                         <label class="form__label">Starts at</label>
-                        <input @input="$forceUpdate()" v-model="courseData.sign_up_beg" class="input" output-format="YYYY-MM-DD" />
+                        <input ref="signUpBeg" v-model="courseData.signUpBeg" class="input" output-format="YYYY-MM-DD" />
                     </div>
 
                     <div class="form__control">
                         <label class="form__label">Ends at</label>
-                        <input @input="$forceUpdate()" v-model="courseData.sign_up_end" class="input" />
+                        <input ref="signUpEnd"  v-model="courseData.signUpEnd" class="input" />
                     </div>
                 </div>
             </div>
 
             <div class="form__control">
                 <label>Summary</label>
-                <markdown-editor  v-model="courseData.about" />
+                <markdown-editor v-model="courseData.about" />
             </div>
-
-            <error :error="errors" />
 
             <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
         </form>
@@ -55,17 +48,17 @@
 <script lang="ts">
     import Page from "./Page.vue";
     import Loader from "../misc/Loader.vue";
-    import Error from "../misc/Error.vue";
     import UnitsEditor from "./UnitsEditor.vue";
     import MarkdownEditor from "../misc/MarkdownEditor.vue";
     import {Component, Prop, Vue, Watch} from "vue-property-decorator";
     import {useStore} from "vuex-simple";
     import {Store} from "../../store";
     import {getStagedChangeset, makeStagedProxy} from "../../models";
-    import {requests} from "../../store/dto";
+    import {dto, requests} from "../../store/dto";
+    import IMask from "imask";
 
     @Component({
-        components: {MarkdownEditor, DateInput, UnitsEditor, Error, Loader, Page}
+        components: {MarkdownEditor, UnitsEditor, Loader, Page}
     })
     export default class CourseForm extends Vue {
         persistent: boolean = false;
@@ -88,10 +81,10 @@
         async create() {
             if (!this.persistent) {
                 this.submitting = true;
-                let course: Cou;
+                let course: dto.CourseDto;
                 try
                 {
-                    course = await this.store.courses.create(getStagedChangeset(this.courseData) as CreateCourseDate);
+                    course = await this.store.courses.create(this.courseData as requests.CreateCourse);
                 }
                 catch (e)
                 {
@@ -109,8 +102,7 @@
                 this.submitting = true;
                 try
                 {
-                    let data = getStagedChangeset(this.courseData);
-                    await this.store.courses.update({id: this.course.id, data})
+                    await this.store.courses.update({id: this.course.id, data: this.courseData})
                 }
                 catch (e) {
                     this.submitting = false;
@@ -122,26 +114,35 @@
         }
 
         init() {
-            if (this.course)
-            {
+            if (this.course) {
                 this.persistent = true;
-                this.courseData = makeStagedProxy({
+                let r: requests.UpdateCourse = {
                     name: this.course.name,
-                    sign_up_beg: this.course.sign_up_beg,
-                    sign_up_end: this.course.sign_up_end,
-                    about: this.course.sign_up_end,
+                    signUpBeg: this.course.requirements.signUp.beg,
+                    signUpEnd: this.course.requirements.signUp.end,
+                    about: this.course.about,
                     price: this.course.price
-                } as UpdateCourseData);
+                };
+                this.courseData = r;
             }
             else
             {
-                this.courseData = makeStagedProxy({})
+                this.courseData = {};
             }
-            this.hasSignUpPeriod = !!this.courseData.sign_up_beg;
+            this.hasSignUpPeriod = !!this.courseData.signUpEnd;
         }
 
         created() {
             this.init()
+        }
+
+        mounted() {
+            let $price = this.$refs.priceInput as HTMLInputElement;
+
+            IMask($price, {
+                mask: Number,
+                min: 0
+            })
         }
 
         @Watch('course')

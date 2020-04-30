@@ -18,6 +18,10 @@ class AuditRecord extends Model
         'action', 'extra', 'subject', 'ip', 'user_id', 'comment', 'user_agent'
     ];
 
+    protected $casts = [
+        'extra' => 'json'
+    ];
+
     public static function builder(): AuditRecordBuilder
     {
         return new AuditRecordBuilder();
@@ -30,4 +34,5 @@ class AuditRecord extends Model
             ->request($request)
             ->action($action);
     }
+
 }

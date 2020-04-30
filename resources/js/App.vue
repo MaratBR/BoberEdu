@@ -9,6 +9,17 @@
                 </keep-alive>
             </div>
         </div>
+
+        <div class="footer">
+            <div class="footer__logo">
+                <img src="https://via.placeholder.com/150" alt="">
+                <h2>Bober.Edu</h2>
+
+            </div>
+
+            <div class="footer__links">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -28,6 +39,25 @@
 </script>
 
 <style scoped lang="scss">
+    #ContentContainer {
+        padding-bottom: 200px;
+    }
+
+    .footer {
+        background: #111;
+        color: white;
+
+        padding: 20px;
+
+        &__logo {
+            display: flex;
+
+            & > img {
+                margin-right: 20px;
+            }
+        }
+    }
+
     .overlay {
         background: rgba(0, 0, 0, 0.8);
         position: fixed;

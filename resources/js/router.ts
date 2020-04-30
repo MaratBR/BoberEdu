@@ -3,6 +3,13 @@ import VueRouter from "vue-router";
 export default new VueRouter({
     routes: [
         {
+            path: '/u/:id',
+            name: 'profile',
+            component: () => import(
+                /* webpackChunkName: "profile" */
+                './components/pages/Profile.vue'),
+        },
+        {
             path: '/login',
             component: () => import(
                 /* webpackChunkName: "login" */

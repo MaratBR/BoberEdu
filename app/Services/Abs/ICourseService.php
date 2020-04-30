@@ -68,10 +68,11 @@ interface ICourseService
      */
     function updateCourseUnits(Course $course, ICourseUnitsPayload $payload): ICourseUnitsUpdateResponse;
 
-
     function getWithUnitsAndLessonsNames(int $id);
 
     function getWithUnits(int $id);
+
+    function getWithOverview(int $id);
 
     function getTrialDays(int $id): int;
 
@@ -85,5 +86,7 @@ interface ICourseService
 
     function removeRate(Course $course, User $user);
 
-    function setRate(Course $course, User $user, int $value);
+    function setRate(Course $course, User $user, float $value);
+
+    function getRate(User $user, int $courseId): ?float;
 }

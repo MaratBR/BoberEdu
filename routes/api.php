@@ -26,7 +26,9 @@ Route::group([
 Route::group([
     'prefix' => 'users'
 ], function () {
+    Route::put('profile/status', 'UserController@setStatus');
     Route::get('{id}', 'UserController@get');
+    Route::get('{id}/profile', 'UserController@profile');
 });
 
 Route::group([
@@ -38,6 +40,7 @@ Route::group([
 
     Route::delete('{course}/rate', 'CourseController@removeRate');
     Route::put('{course}/rate', 'CourseController@setRate');
+    Route::get('{course}/rate', 'CourseController@getRate');
 
     Route::group([
         'prefix' => 'categories'

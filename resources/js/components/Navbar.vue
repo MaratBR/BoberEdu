@@ -13,7 +13,7 @@
             </section>
 
             <section class="nav__right">
-                <router-link :to="`/user/${store.auth.user.id}`" class="btn"
+                <router-link :to="{name: 'profile', params: {id: store.auth.user.id}}" class="btn"
                              v-if="store.auth.isAuthenticated">{{store.auth.user.name}}</router-link>
                 <span v-if="store.auth.loggingIn">Loading...</span>
                 <router-link

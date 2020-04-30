@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\DB;
  * @property int payment_id
  * @property boolean activated
  * @property Carbon trial_ends_at
+ * @property Carbon enrolled_at
  * @property Payment|null payment
+ * @property Course course
  */
 class Enrollment extends CompositeModel
 {
@@ -39,5 +41,10 @@ class Enrollment extends CompositeModel
     public function payment()
     {
         return $this->belongsTo(Payment::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 }

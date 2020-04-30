@@ -39,13 +39,19 @@ class TeacherController extends Controller
     public function create(CreateTeacherRequest $request)
     {
         $user = $this->users->get($request->getUserId());
+        $this->throwErrorIf(
+            409,
+            "Teacher already exists",
+            $this->teachers->exists($user)
+        );
         $teacher = $this->teachers->create($user, $request->getPayload());
 
 
         AuditRecord::make($request->user(), $request, Audit::TEACHER_NEW)
             ->subject($teacher->id)
             ->data(['u' => $user->id])
-            ->comment($request->getComment());
+            ->comment($request->getComment())
+            ->build();
 
         return $this->created(new TeacherDto($teacher));
     }
@@ -53,33 +59,30 @@ class TeacherController extends Controller
     public function update(UpdateTeacherRequest $request, int $teacherId)
     {
         $teacher = $this->teachers->get($teacherId);
-
         $payload = $request->getPayload();
         $teacher->update($payload);
 
         AuditRecord::make($request->user(), $request, Audit::TEACHER_UPDATED)
             ->subject($teacher->id)
-            ->data(['f' => array_keys($payload)]);
+            ->data(['f' => array_keys($payload)])
+            ->build();
     }
 
     public function assign(AssignTeacherRequest $request, int $teacherId, int $courseId)
     {
-        $this->throwErrorIf(422, "You can't put since after until",
-            $request->getSince() >= $request->getUntil());
-
         $teacher = $this->teachers->get($teacherId);
         $course = $this->courses->get($courseId);
 
 
-        if ($this->teachers->hasAssignmentDuring($teacher, $course, $request->getSince(), $request->getUntil()))
+        if ($this->teachers->hasAssignment($teacher, $course))
         {
-            $this->throwError(409, "This teacher already has overlapping assignment for this course");
+            $this->throwError(409, "This teacher already has assignment for this course");
         }
 
-        $assignment = $this->teachers->assign($teacher, $course, $request->getSince(), $request->getUntil());
+        $assignment = $this->teachers->assign($teacher, $course);
 
         AuditRecord::make($request->user(), $request, Audit::TEACHER_ASSIGNED)
-            ->subject($teacher->id)->data(['c' => $course->id]);
+            ->subject($teacher->id)->data(['c' => $course->id])->build();
 
         return new TeacherAssignmentDto($assignment);
     }
@@ -88,13 +91,12 @@ class TeacherController extends Controller
     {
         $teacher = $this->teachers->get($teacherId);
         $course = $this->courses->get($courseId);
-        $assignment = $this->teachers->getAssignmentFor($teacher, $course);
-        $assignment->delete();
+        $this->teachers->revoke($teacher, $course);
 
         AuditRecord::make($request->user(), $request, Audit::TEACHER_REVOKED)
             ->subject($teacher->id)->data([
-                'c' => $course->id,
-                'a' => $assignment->id
-            ]);
+                'c' => $course->id
+            ])
+            ->build();
     }
 }
