@@ -1,12 +1,12 @@
 <template>
     <loader v-if="!profile" />
     <div v-else class="profile container">
-        <header class="profile__heading user-heading">
+        <header class="profile__heading user-heading hero--phead">
             <div class="user-heading__avatar avatar">
                 <img src="https://cdn.eso.org/images/thumb300y/eso1907a.jpg" alt="">
             </div>
 
-            <div class="user-heading__about">
+            <div class="user-heading__about rest">
                 <div>
                     <span class="usrinf--username username">{{ profile.user.name }}</span><br>
                     <span class="usrinf--since">Joined at {{ joinedAt }}</span>
@@ -26,12 +26,13 @@
                 </div>
 
                 <div class="user-heading__tabs" v-if="store.auth.isAuthenticated && profile.user.id === store.auth.user.id">
-                    <router-link :to="{name: 'profile_courses'}">All courses</router-link>
-                    <router-link :to="{name: 'profile_payments'}">Your payments</router-link>
+                    <router-link :to="{name: 'profile_courses'}">My courses</router-link>
+                    <router-link :to="{name: 'profile_payments'}">My payments</router-link>
                 </div>
             </div>
-            <component :is="editComponent" v-if="editComponent" :user="profile.user" />
         </header>
+
+        <component :is="editComp" v-if="editComp" :user="profile.user" />
 
         <div class="profile__about">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad animi consequuntur dolor doloribus dolorum ducimus, eius eos explicabo illo iure nam nemo numquam perferendis possimus quo sequi sit voluptas, voluptatibus.
@@ -42,7 +43,7 @@
         <div class="profile__courses">
             <h2>{{ profile.user.name }}'s courses</h2>
 
-            <table class="table">
+            <table class="table" v-if="profile.courses.length">
                 <tr v-for="c in profile.courses">
                     <td>
                         <router-link :to="{name: 'course', params: {id: c.course.id}}">{{ c.course.name }}</router-link>
@@ -51,6 +52,7 @@
                     <td><i>since</i> {{ new Date(c.since).toDateString() }}</td>
                 </tr>
             </table>
+            <p v-else>There's not courses yet</p>
         </div>
     </div>
 </template>
@@ -67,7 +69,7 @@
     })
     export default class Profile extends Vue {
         profile: dto.UserProfileDto = null;
-        editComponent = null;
+        editComp = null;
         setStatus: boolean = false;
         newStatus: string = null;
 
@@ -87,6 +89,7 @@
         }
 
         editStatus() {
+            this.newStatus = this.profile.user.status;
             this.setStatus = true;
         }
 
@@ -140,14 +143,8 @@
     }
 
     .profile {
-
         &__heading {
-            padding: 15px;
-            background: #f9f9f9;
             margin: 20px 0;
-
-            display: flex;
-            flex-wrap: wrap;
         }
     }
 
@@ -164,7 +161,8 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 10px 0 5px 20px;
+            padding: 10px 0 40px 20px;
+            min-width: 250px;
         }
 
         &__tabs {

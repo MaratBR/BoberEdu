@@ -1,10 +1,12 @@
 .hero {
-    display: flex;
+    &--phead {
+        display: flex;
+        flex-wrap: wrap;
+        background: #f9f9f9;
+        padding: 15px;
 
-    &--clnr {
-        // Centered Left Normal Right
-
-
-
+        & > .rest {
+            flex-grow: 1;
+        }
     }
 }

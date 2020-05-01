@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Lesson;
+use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IUserCoursesService;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -13,7 +14,7 @@ class LessonPolicy
 
     private $courseAttendanceService;
 
-    public function __construct(IUserCoursesService $courseAttendanceService)
+    public function __construct(IEnrollmentService $courseAttendanceService)
     {
         $this->courseAttendanceService = $courseAttendanceService;
     }
@@ -30,9 +31,9 @@ class LessonPolicy
 
     public function view(User $user, Lesson $lesson)
     {
-        return $this->courseAttendanceService->attendanceStatus(
+        return $this->courseAttendanceService->hasAccess(
             $lesson->unit->course_id, $user
-        )->hasAccess();
+        );
     }
 
     public function create(User $user)

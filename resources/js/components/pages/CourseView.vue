@@ -53,7 +53,8 @@
 
                                 <ul class="unit-item__lessons">
                                     <li class="lesson-item" v-for="lesson in unit.lessons">
-                                        <router-link :to="{name: 'lesson', params: {id: lesson.id}}" class="lesson-item__name">{{ lesson.title }}</router-link>
+                                        <router-link :to="{name: 'lesson', params: {v: lesson.id + '_' + course.id}}"
+                                                     class="lesson-item__name">{{ lesson.title }}</router-link>
                                     </li>
                                 </ul>
                             </div>

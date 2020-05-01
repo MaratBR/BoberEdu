@@ -93,7 +93,7 @@
 
     .category-view {
         &__head {
-            background: #00a6f9 linear-gradient(0deg, white 20%, transparent);
+            background: #00a6f9 ;
             color: white;
             padding-bottom: 140px;
         }
@@ -146,7 +146,6 @@
     .course-sm {
         color: black;
         margin: 4px;
-        border-radius: 15px;
         overflow: hidden;
         min-width: 200px;
         max-width: 300px;
@@ -170,7 +169,6 @@
     .course-w {
         margin-bottom: 13px;
         border: 2px solid #f0f0f0;
-        border-radius: 13px;
         overflow: hidden;
         display: flex;
         box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);

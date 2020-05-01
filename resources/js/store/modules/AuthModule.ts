@@ -1,6 +1,8 @@
 import StoreModuleBase from "./StoreModuleBase";
 import {Action, Getter, Mutation, State} from "vuex-simple";
 import {AxiosInstance} from "axios";
+import {dto} from "../dto";
+import UserDto = dto.UserDto;
 
 export type User = {
     id: number,
@@ -37,7 +39,7 @@ export type RegisterRequest = {
 }
 
 export class AuthModule extends StoreModuleBase {
-    @State() user: User | null = null;
+    @State() user: UserDto | null = null;
     @State() accessToken: string | null = null;
     @State() loggingIn: boolean = false;
 
@@ -45,7 +47,7 @@ export class AuthModule extends StoreModuleBase {
         this.loggingIn = val;
     }
 
-    @Mutation() SET_USER(user: User | null) {
+    @Mutation() SET_USER(user: UserDto | null) {
         this.user = user;
         console.log(user)
     }
@@ -63,6 +65,10 @@ export class AuthModule extends StoreModuleBase {
         return !!this.user
     }
 
+    @Getter() get isAdmin(): boolean {
+        return this.user && this.user.roles.includes('admin')
+    }
+
     @Action()
     async init() {
         this.setAuthorizationHeader();
@@ -73,7 +79,7 @@ export class AuthModule extends StoreModuleBase {
     async fetchCurrentUser(): Promise<void> {
         try
         {
-            let {data} = await this.client.get<User>('auth/user');
+            let {data} = await this.client.get<UserDto>('auth/user');
             this.SET_USER(data)
         }
         catch (e) {

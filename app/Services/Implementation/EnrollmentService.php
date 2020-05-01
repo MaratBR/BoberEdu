@@ -12,6 +12,7 @@ use App\Services\Abs\IEnrollmentService;
 use App\User;
 use Carbon\Carbon;
 use Carbon\CarbonTimeZone;
+use Illuminate\Database\Eloquent\Builder;
 use Lanin\Laravel\ApiExceptions\NotFoundApiException;
 
 class EnrollmentService implements IEnrollmentService
@@ -58,6 +59,18 @@ class EnrollmentService implements IEnrollmentService
     function hasEnrollment(int $courseId, User $user): bool
     {
         return $this->builder($courseId, $user)->exists();
+    }
+
+    function hasAccess(int $courseId, User $user): bool
+    {
+        return $this->builder($courseId, $user)
+            ->where('activated', '=', true)
+            ->orWhere(function (Builder $q) {
+                $q
+                    ->where("trial_ends_at", "!=", null)
+                    ->where("trial_ends_at", "<=", Carbon::now('UTC'));
+            })
+            ->exists();
     }
 
     function isEnrollmentTrashed(int $courseId, User $user): bool

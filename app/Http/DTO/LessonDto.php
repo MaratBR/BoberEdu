@@ -19,4 +19,9 @@ class LessonDto extends DtoBase
     {
         return $this->lesson->title;
     }
+
+    public function getId()
+    {
+        return $this->lesson->id;
+    }
 }

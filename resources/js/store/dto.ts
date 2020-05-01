@@ -64,6 +64,11 @@ export namespace dto {
 
     export type LessonDto = {
         title: string
+        id: number
+    };
+
+    export type LessonExDto = LessonDto & {
+        content: string
     };
 
     export type PaginationDto<T> = {

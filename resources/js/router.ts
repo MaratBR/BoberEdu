@@ -1,6 +1,9 @@
 import VueRouter from "vue-router";
+import {Store, store} from "./store";
+import {useStore} from "vuex-simple";
+import {RawLocation} from "vue-router/types/router";
 
-export default new VueRouter({
+let router = new VueRouter({
     routes: [
         {
             path: '/u/:id',
@@ -61,8 +64,65 @@ export default new VueRouter({
             path: '/c/:id/purchase',
             name: 'purchase_course',
             component: () => import(/* webpackChunkName: "purchase" */ './components/pages/PurchaseCourse.vue')
+        },
+        {
+            name: 'lesson',
+            path: '/lesson/:v',
+            component: () => import(/* webpackChunkName: "lesson" */ './components/pages/Lesson.vue'),
+            beforeEnter: (to, from, next) => {
+                if (to.params.v && /^[1-9]\d*_[1-9]\d*$/.test(to.params.v)) {
+                    next()
+                } else {
+                    next({
+                        name: 'oops',
+                        params: {
+                            kind: 'invalidLessonId'
+                        }
+                    })
+                }
+            },
+            props(opts) {
+                let v = opts.params.v.split('_');
+                return {
+                    courseId: +v[0],
+                    lessonId: +v[1],
+                }
+            }
+        },
+        {
+            name: 'oops',
+            path: '/oops/:kind',
+            component: null
+        },
+
+
+        {
+            path: "/admin",
+            name: "admin",
+            component: () => import('./components/admin/AdminPanel.vue'),
+            meta: {
+                requiresAdmin: true
+            }
         }
     ],
     mode: 'history'
 })
 
+
+router.beforeEach((to, from, next: (to?: RawLocation | void) => void) => {
+
+    let storeProxy = useStore<Store>(store);
+
+    if (to.matched.some(r => r.meta.requiresAdmin) && !storeProxy.auth.isAdmin) {
+        next({
+            name: 'oops',
+            params: {
+                kind: '403'
+            }
+        })
+    } else {
+        next()
+    }
+});
+
+export default router;

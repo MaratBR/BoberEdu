@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static findOrFail(int $id)
  * @property Unit unit
  * @property string title
+ * @property string content
  */
 class Lesson extends Model
 {

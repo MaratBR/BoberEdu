@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\DTO\LessonExDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Lessons\CreateNewLessonRequest;
 use App\Http\Requests\Lessons\DeleteLessonRequest;
@@ -22,7 +23,7 @@ class LessonsController extends Controller
     {
         $lesson = $this->lessons->get($request->lesson);
         $this->throwForbiddenIfNotAllowed('view', $lesson);
-        return $lesson;
+        return new LessonExDto($lesson);
     }
 
     public function store(CreateNewLessonRequest $request)

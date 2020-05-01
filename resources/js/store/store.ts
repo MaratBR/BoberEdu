@@ -11,6 +11,7 @@ import CoursesModule from "./modules/CoursesModule";
 import createPersistedState from "vuex-persistedstate";
 import PaymentsModule from "./modules/PaymentsModule";
 import UsersModule from "./modules/UsersModule";
+import LessonsModule from "./modules/LessonsModule";
 
 const ls = new SecureLS({ isCompression: false });
 
@@ -22,6 +23,7 @@ export class Store {
     @Module() public courses = new CoursesModule(client);
     @Module() public payments = new PaymentsModule(client);
     @Module() public users = new UsersModule(client);
+    @Module() public lessons = new LessonsModule(client);
 }
 
 const store = createVuexStore(new Store(), {
