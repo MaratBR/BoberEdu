@@ -56,6 +56,8 @@ interface IEnrollmentService
      */
     function hasEnrollment(int $courseId, User $user): bool;
 
+    function hasActivatedEnrollment(int $courseId, User $user): bool;
+
     function hasAccess(int $courseId, User $user): bool;
 
     function isEnrollmentTrashed(int $courseId, User $user): bool;

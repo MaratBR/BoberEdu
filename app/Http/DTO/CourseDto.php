@@ -25,10 +25,16 @@ class CourseDto extends DtoBase
         return $this->course->id;
     }
 
-    public function getRating(): float
+    public function getRating(): ?float
     {
-        return 3.5;
+        return $this->course->rating()->avg('value');
     }
+
+    public function getRatingVotes(): ?float
+    {
+        return $this->course->rating()->count();
+    }
+
 
     public function getName(): string
     {

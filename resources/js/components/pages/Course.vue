@@ -8,7 +8,7 @@
 
         <template v-else>
             <section class="course-view__hero-wrp">
-                <div class="course-view__hero container">
+                <div class="course-view__hero container hero--phead">
 
 
                     <div class="course-view__pic">
@@ -22,10 +22,11 @@
                             </div>
                             <span class="course-about__name">{{ course.name }}</span><br>
                             <span class="course-about__cap">by TODO Team | {{ unitsCount }} units | {{ lessonsCount }} lessons</span><br>
-                            <star-rating :rating="course.rating" :star-size="hasAccess ? 45 : 25"
+                            <star-rating :rating="course.rating || undefined" :star-size="hasAccess ? 45 : 25"
                                          :read-only="!this.hasAccess" :fixed-points="1" :max-rating="5"
                                          :round-start-rating="false" @rating-selected="rateCourse($event)" />
-                            <span v-if="hasAccess">You can rate this course if you want</span>
+                            <span v-if="!course.rating">No one rated this course yet, you can be first</span>
+                            <span v-else>{{ course.ratingVotes }} people voted</span>
                         </div>
 
                         <div class="course-view__actions">
@@ -53,7 +54,7 @@
 
                                 <ul class="unit-item__lessons">
                                     <li class="lesson-item" v-for="lesson in unit.lessons">
-                                        <router-link :to="{name: 'lesson', params: {v: lesson.id + '_' + course.id}}"
+                                        <router-link :to="{name: 'lesson', params: {v: course.id + '_' + lesson.id}}"
                                                      class="lesson-item__name">{{ lesson.title }}</router-link>
                                     </li>
                                 </ul>
@@ -280,6 +281,8 @@
     }
 
     .unit-item {
+        margin-bottom: 8px;
+
         &.active &__lessons {
             display: block;
         }
@@ -319,6 +322,12 @@
 
             list-style: none;
             padding-left: 10px;
+        }
+
+        &__about {
+            margin-left: 10px;
+            font-size: 0.9em;
+            color: gray;
         }
     }
 

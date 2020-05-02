@@ -42,12 +42,12 @@ let router = new VueRouter({
         },
         {
             path: '/c/new',
-            component: () => import(/* webpackChunkName: "course-form" */ './components/pages/CourseForm.vue'),
+            component: () => import(/* webpackChunkName: "course-form" */ './components/admin/CourseForm.vue'),
             name: 'create_course'
         },
         {
             path: '/c/:id',
-            component: () => import(/* webpackChunkName: "course-view" */ './components/pages/CourseView.vue'),
+            component: () => import(/* webpackChunkName: "course-view" */ './components/pages/Course.vue'),
             name: 'course'
         },
         {

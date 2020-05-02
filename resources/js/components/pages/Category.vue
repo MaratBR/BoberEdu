@@ -16,8 +16,9 @@
                             <div class="course-sm__about">
                                 <span class="course-sm__name">{{ c.name }}</span><br>
                                 <span class="course-sm__cap">by TODO Team</span>
-                                <star-rating :rating="c.rating" :fixed-points="1" :round-start-rating="false"
+                                <star-rating v-if="c.rating" :rating="c.rating" :fixed-points="1" :round-start-rating="false"
                                              :show-rating="false" :star-size="14" :read-only="false" />
+                                <div v-else>No rating</div>
                                 <span class="course-sm__price">$ {{ c.price }}</span>
                             </div>
                         </div>
@@ -43,9 +44,10 @@
                         </div>
 
                         <div class="course-w__r">
-                            <star-rating :star-size="15" :read-only="true" :rating="value.rating"
+                            <star-rating v-if="value.rating" :star-size="15" :read-only="true" :rating="value.rating"
                                          :round-start-rating="false" :fixed-points="1" />
-                            <span class="course-w__price">$ {{ value.price }}</span>
+                            <div v-else>No rating</div>
+                            <span class="course-w__price"><span class="fa fa-usd"></span> {{ value.price }}</span>
                         </div>
                     </div>
                 </pagination-control>

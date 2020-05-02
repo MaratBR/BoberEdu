@@ -86,6 +86,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 150px;
     }
 
     .sk-chase {

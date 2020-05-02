@@ -8,6 +8,8 @@ use App\Exceptions\ThrowUtils;
 use App\Lesson;
 use App\Services\Abs\ILessonsService;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use function Clue\StreamFilter\fun;
 
 class LessonsService implements ILessonsService
 {
@@ -17,6 +19,15 @@ class LessonsService implements ILessonsService
     function get(int $id): Lesson
     {
         $lesson = Lesson::findOrFail($id);
+        return $lesson;
+    }
+
+    function getOverview(int $id): Lesson
+    {
+        /** @var Lesson $lesson */
+        $lesson = Lesson::query()
+            ->with('unit.course.category')
+            ->findOrFail($id);
         return $lesson;
     }
 

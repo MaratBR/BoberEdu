@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-    import CourseForm from "./CourseForm.vue";
+    import CourseForm from "../admin/CourseForm.vue";
     import Page from "./Page.vue";
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";

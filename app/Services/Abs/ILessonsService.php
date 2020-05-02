@@ -18,6 +18,8 @@ interface ILessonsService
      */
     function get(int $id): Lesson;
 
+    function getOverview(int $id): Lesson;
+
     /**
      *
      * @param Lesson $lesson

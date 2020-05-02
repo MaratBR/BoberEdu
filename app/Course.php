@@ -70,6 +70,10 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function rating() {
+        return $this->hasMany(Rate::class);
+    }
+
     public function canBePurchased()
     {
         $now = Carbon::now();

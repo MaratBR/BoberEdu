@@ -12,11 +12,11 @@ class LessonPolicy
 {
     use HandlesAuthorization;
 
-    private $courseAttendanceService;
+    private $enrollments;
 
-    public function __construct(IEnrollmentService $courseAttendanceService)
+    public function __construct(IEnrollmentService $enrollments)
     {
-        $this->courseAttendanceService = $courseAttendanceService;
+        $this->enrollments = $enrollments;
     }
 
     /**
@@ -31,9 +31,9 @@ class LessonPolicy
 
     public function view(User $user, Lesson $lesson)
     {
-        return $this->courseAttendanceService->hasAccess(
-            $lesson->unit->course_id, $user
-        );
+        return $lesson->unit->is_preview ?
+            $this->enrollments->hasAccess($lesson->unit->course_id, $user) :
+            $this->enrollments->hasActivatedEnrollment($lesson->unit->course_id, $user);
     }
 
     public function create(User $user)

@@ -21,7 +21,7 @@ class LessonsController extends Controller
 
     public function show(AuthenticatedRequest $request)
     {
-        $lesson = $this->lessons->get($request->lesson);
+        $lesson = $this->lessons->getOverview($request->lesson);
         $this->throwForbiddenIfNotAllowed('view', $lesson);
         return new LessonExDto($lesson);
     }

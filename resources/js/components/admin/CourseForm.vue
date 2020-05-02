@@ -25,7 +25,7 @@
                 <div v-show="hasSignUpPeriod" class="d--flex fxw--wrap">
                     <div class="form__control mr--2">
                         <label class="form__label">Starts at</label>
-                        <input ref="signUpBeg" v-model="courseData.signUpBeg" class="input" output-format="YYYY-MM-DD" />
+                        <input ref="signUpBeg" v-model="courseData.signUpBeg" class="input" />
                     </div>
 
                     <div class="form__control">
@@ -46,9 +46,9 @@
 </template>
 
 <script lang="ts">
-    import Page from "./Page.vue";
+    import Page from "../pages/Page.vue";
     import Loader from "../misc/Loader.vue";
-    import UnitsEditor from "./UnitsEditor.vue";
+    import UnitsEditor from "../pages/UnitsEditor.vue";
     import MarkdownEditor from "../misc/MarkdownEditor.vue";
     import {Component, Prop, Vue, Watch} from "vue-property-decorator";
     import {useStore} from "vuex-simple";

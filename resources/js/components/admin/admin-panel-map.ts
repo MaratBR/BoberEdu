@@ -16,7 +16,7 @@ type AdminPanelMap = AdminPanelItem[];
 
 let map: AdminPanelMap = [
     i('c', 'Courses', import('./AdminPanel.vue'), [
-        i('new', 'New', import('../pages/CourseForm.vue'))
+        i('new', 'New', import('./CourseForm.vue'))
     ])
 ];
 

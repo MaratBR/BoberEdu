@@ -61,14 +61,23 @@ class EnrollmentService implements IEnrollmentService
         return $this->builder($courseId, $user)->exists();
     }
 
-    function hasAccess(int $courseId, User $user): bool
+    function hasActivatedEnrollment(int $courseId, User $user): bool
     {
         return $this->builder($courseId, $user)
             ->where('activated', '=', true)
-            ->orWhere(function (Builder $q) {
-                $q
-                    ->where("trial_ends_at", "!=", null)
-                    ->where("trial_ends_at", "<=", Carbon::now('UTC'));
+            ->exists();
+    }
+
+    function hasAccess(int $courseId, User $user): bool
+    {
+        return $this->builder($courseId, $user)
+            ->where(function (Builder $q) {
+                $q->where('activated', '=', true)
+                    ->orWhere(function (Builder $q) {
+                        $q
+                            ->where("trial_ends_at", "!=", null)
+                            ->where("trial_ends_at", ">=", Carbon::now('UTC'));
+                    });
             })
             ->exists();
     }

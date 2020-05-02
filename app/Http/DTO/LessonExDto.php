@@ -10,4 +10,24 @@ class LessonExDto extends LessonDto
     {
         return $this->lesson->content;
     }
+
+    public function getUnitName()
+    {
+        return $this->lesson->unit->name;
+    }
+
+    public function getUnitId()
+    {
+        return $this->lesson->unit->id;
+    }
+
+    public function getCourseId()
+    {
+        return $this->lesson->unit->course->id;
+    }
+
+    public function getCourseName()
+    {
+        return $this->lesson->unit->course->name;
+    }
 }

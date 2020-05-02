@@ -69,6 +69,10 @@ export namespace dto {
 
     export type LessonExDto = LessonDto & {
         content: string
+        courseId: number
+        courseName: string
+        unitId: number
+        unitName: string
     };
 
     export type PaginationDto<T> = {

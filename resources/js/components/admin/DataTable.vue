@@ -8,7 +8,7 @@
 
         <tbody>
             <tr v-for="r in data">
-                <td v-for="c in columnNames">d
+                <td v-for="c in columnNames">
                     {{ r[c] }}
                 </td>
             </tr>
@@ -18,7 +18,6 @@
 
 <script lang="ts">
     import {Component, Prop, Vue, Watch} from "vue-property-decorator";
-
     @Component
     export default class extends Vue {
         @Prop({ default: null }) data: object[];

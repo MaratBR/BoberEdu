@@ -4,7 +4,7 @@
 
 <script lang="ts">
     import Component from "vue-class-component";
-    import {Prop, Vue} from "vue-property-decorator";
+    import {Prop, Vue, Watch} from "vue-property-decorator";
     import * as DOMPurify from "dompurify";
     import * as marked from 'marked';
 
@@ -20,9 +20,17 @@
         }
 
         parse() {
-            this.parsed = this.value ? DOMPurify.sanitize(marked(this.value)) : '';
+            this.parsed = this.value ? DOMPurify.sanitize(marked(this.value, {
+                headerPrefix: 'Header_'
+            })) : '';
         }
+
         created() {
+            this.parse()
+        }
+
+        @Watch('value')
+        onChange() {
             this.parse()
         }
     }
