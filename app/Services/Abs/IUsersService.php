@@ -17,4 +17,6 @@ interface IUsersService
     function paginate(int $perPage = 15);
 
     function create(array $data): User;
+
+    function userNameTaken(string $username): bool;
 }

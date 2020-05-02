@@ -283,4 +283,5 @@ class CourseService implements ICourseService
         $rate /= 2;
         return $rate;
     }
+
 }

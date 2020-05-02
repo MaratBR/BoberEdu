@@ -16,13 +16,17 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property Carbon created_at
  * @property string sex
  * @property string name
+ * @property string normalized_name
+ * @property string normalized_email
+ * @property string email
+ * @property string about
  */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'sex', 'status'
+        'name', 'email', 'password', 'sex', 'status','normalized_name', 'normalized_email', 'about'
     ];
     protected $appends = [
         'roles_names'
@@ -102,7 +106,7 @@ class User extends Authenticatable implements JWTSubject
     public function addRole($role)
     {
         if (is_string($role))
-            $role = Role::getOrNull($role);
+            $role = Role::ensure($role);
 
         if ($role)
             $this->attachRole($role);

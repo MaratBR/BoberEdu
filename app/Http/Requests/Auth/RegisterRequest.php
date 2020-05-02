@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Http\Requests\IPayloadRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class RegisterRequest extends FormRequest implements IPayloadRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,5 +29,10 @@ class RegisterRequest extends FormRequest
             'email' => 'required|unique:users|email',
             'password' => 'required|min:8'
         ];
+    }
+
+    function getPayload(): array
+    {
+        return $this->validated();
     }
 }

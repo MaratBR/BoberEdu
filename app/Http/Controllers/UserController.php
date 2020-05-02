@@ -6,6 +6,7 @@ use App\Exceptions\ThrowUtils;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\UserDto;
 use App\Http\DTO\UserProfileDto;
+use App\Http\DTO\UserSettingsDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Users\EditUserRequest;
 use App\Http\Requests\Users\SetStatusRequest;
@@ -14,6 +15,7 @@ use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IUsersService;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -83,5 +85,14 @@ class UserController extends Controller
         ]);
 
         return $this->noContent();
+    }
+
+    public function settings(AuthenticatedRequest $request) {
+        $user = $request->user();
+        return new UserSettingsDto($user);
+    }
+
+    public function checkUsername(string $username) {
+        return response()->json($this->users->userNameTaken($username));
     }
 }

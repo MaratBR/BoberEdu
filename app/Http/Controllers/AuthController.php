@@ -6,17 +6,16 @@ use App\Http\DTO\UserDto;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\AuthenticatedRequest;
+use App\Services\Abs\IUsersService;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request, IUsersService $usersService)
     {
-        $credentials = $request->validated();
-        $credentials['password'] = Hash::make($credentials['password']);
-        $user = User::create($credentials);
-        $user->refresh();
+        $credentials = $request->getPayload();
+        $user = $usersService->create($credentials);
         return $this->created(new UserDto($user));
     }
 

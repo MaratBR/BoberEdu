@@ -27,7 +27,10 @@ Route::group([
     'prefix' => 'users'
 ], function () {
     Route::put('profile/status', 'UserController@setStatus');
+    Route::get('profile/settings', 'UserController@settings');
+    Route::get('username-taken/{username}', 'UserController@checkUsername');
     Route::get('{id}', 'UserController@get');
+    Route::patch('{id}', 'UserController@update');
     Route::get('{id}/profile', 'UserController@profile');
 });
 

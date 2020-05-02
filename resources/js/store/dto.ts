@@ -142,6 +142,14 @@ export namespace dto {
             }
         }[]
     }
+
+    export type UserSettingsDto = {
+        id: number,
+        about: string,
+        sex: Sex,
+        email: string,
+        name: string
+    };
 }
 
 export namespace requests {
@@ -177,6 +185,13 @@ export namespace requests {
         gateaway: string,
         data: any
     }
+
+    export type UpdateUser = {
+        name?: string,
+        status?: string,
+        about?: string,
+        sex?: dto.Sex
+    };
 }
 
 export type CreditCardData = {
