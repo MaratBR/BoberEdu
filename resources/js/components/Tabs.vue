@@ -1,24 +1,25 @@
 <template>
-    <div class="tabs">
-        <div class="tabs__headers">
-            <button @click="setTab(i)" class="tabs__header" :class="{'tabs__header--active': selected === i}"
+    <div :class="styleClass">
+        <div :class="styleClass + '__headers'">
+            <button @click="setTab(i)" :class="[styleClass + '__header', {active: selected === i}]"
                     v-for="(tab, i) in tabs">
                 {{ tab.name }}
             </button>
         </div>
 
-        <div class="tabs__body">
+        <div :class="styleClass + '__body'">
             <slot></slot>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from "vue-property-decorator";
+    import {Component, Prop, Vue} from "vue-property-decorator";
     import Tab from "./Tab.vue";
 
     @Component
     export default class Tabs extends Vue {
+        @Prop({ default: 'tabs' }) styleClass: string;
         tabs: (Tab & any)[] = [];
         selected: number = null;
 
@@ -73,12 +74,50 @@
                 outline: 1px dashed #999;
             }
 
-            &--active {
+            &.active {
                 border-color: $ss-primary;
                 color: $ss-primary;
                 background: #fafafa;
             }
 
+        }
+    }
+
+    .sidebar {
+        display: flex;
+
+        &__body {
+            padding-top: 50px;
+            flex-grow: 1;
+        }
+
+
+        &__headers {
+            min-width: 200px;
+            display: flex;
+            align-items: stretch;
+            margin-right: 20px;
+            flex-direction: column;
+            border-right: 1px solid #ddd;
+            min-height: 300px;
+        }
+
+        &__header {
+            cursor: pointer;
+            padding: 15px 0;
+            background: white;
+            text-align: center;
+            width: 100%;
+            margin: 5px 0;
+            border-width: 0 5px 0 0;
+            border-color: transparent;
+            transition: .2s;
+            outline: none;
+
+            &.active, &:hover {
+                background: #f9f9f9;
+                border-color: $ss-primary;
+            }
         }
     }
 </style>

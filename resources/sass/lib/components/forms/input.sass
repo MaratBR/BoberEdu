@@ -8,21 +8,21 @@
     margin-bottom: 2px
     font-size: 1.1em
 
-$ss-outline-size: 1px
 $ss-input-padding: 8px
-$ss-input-border: 1px solid whitesmoke
+$ss-input-border: 1px solid #b7b7b7
 
 @mixin input-style()
     padding: $ss-input-padding !important
     border: $ss-input-border !important
     border-radius: 3px
-    outline-offset: 1px
+    outline: none
+    transition: box-shadow .1s
 
     &:focus, &--focus
-        outline: $ss-outline-size dotted black !important
+        box-shadow: 0 0 0 3px whitesmoke
 
     &[aria-invalid]:not([aria-invalid=false])
-        outline: $ss-outline-size dotted red !important
+        box-shadow: 0 0 0 5px red
 
 .input
     @include input-style

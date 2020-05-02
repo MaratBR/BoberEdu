@@ -28,6 +28,7 @@
                 <div class="user-heading__tabs" v-if="store.auth.isAuthenticated && profile.user.id === store.auth.user.id">
                     <router-link :to="{name: 'profile_courses'}">My courses</router-link>
                     <router-link :to="{name: 'profile_payments'}">My payments</router-link>
+                    <router-link :to="{name: 'profile_settings'}">Settings</router-link>
                 </div>
             </div>
         </header>
@@ -59,10 +60,10 @@
 
 <script lang="ts">
     import {Component, Vue, Watch} from "vue-property-decorator";
-    import Loader from "../misc/Loader.vue";
-    import {Store} from "../../store";
+    import Loader from "../../misc/Loader.vue";
+    import {Store} from "../../../store";
     import {useStore} from "vuex-simple";
-    import {dto} from "../../store/dto";
+    import {dto} from "../../../store/dto";
 
     @Component({
         components: {Loader}
@@ -118,7 +119,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import "../../../sass/lib/config";
+    @import "../../../../sass/lib/config";
 
     .usrinf {
         &--username {

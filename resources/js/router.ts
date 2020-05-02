@@ -10,7 +10,14 @@ let router = new VueRouter({
             name: 'profile',
             component: () => import(
                 /* webpackChunkName: "profile" */
-                './components/pages/Profile.vue'),
+                './components/pages/profile/Profile.vue'),
+        },
+        {
+            path: '/me/settings',
+            name: 'profile_settings',
+            component: () => import(
+                /* webpackChunkName: "profile" */
+                './components/pages/profile/ProfileSettings.vue'),
         },
         {
             path: '/login',
