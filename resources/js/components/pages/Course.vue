@@ -30,9 +30,13 @@
                         </div>
 
                         <div class="course-view__actions">
-                            <button @click="join()" v-if="!enrolled" class="btn btn--primary" :disabled="joining">
+                            <button @click="enroll(true)" v-if="!enrolled" class="btn btn--primary" :disabled="joining">
                                 {{ joining ? '...' : 'Join' }}
                             </button>
+                            <button @click="enroll(false)" v-if="enrolled" class="btn btn--primary" :disabled="joining">
+                                {{ joining ? '...' : 'Leave' }}
+                            </button>
+
                             <button @click="buy()" v-if="!hasAccess" class="btn btn--primary">Buy</button>
                         </div>
                     </div>
@@ -124,6 +128,7 @@
 
             return v
         }
+
         created(): void {
             this.init()
         }
@@ -146,16 +151,19 @@
             this.enrolled = status.enrolled;
         }
 
-        async join() {
+        async enroll(enroll: boolean) {
             if (!this.store.auth.isAuthenticated) {
                 await this.$router.push({ name: 'login' });
                 return;
             }
 
             this.joining = true;
-            await this.store.courses.enroll(this.course.id);
-            this.joining = false;
+            if (enroll)
+                await this.store.courses.enroll(this.course.id);
+            else
+                await this.store.courses.disenroll(this.course.id);
             await this.updateStatus();
+            this.joining = false;
         }
 
         async buy() {
@@ -164,7 +172,7 @@
                 return;
             }
 
-            await this.join();
+            await this.enroll(true);
             await this.$router.push({name: 'purchase_course', params: {id: this.course.id+''}});
         }
 
