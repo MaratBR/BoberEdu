@@ -63,4 +63,5 @@ class UsersService implements IUsersService
     {
         return strtoupper($username);
     }
+
 }

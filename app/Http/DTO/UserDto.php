@@ -23,6 +23,17 @@ class UserDto extends DtoBase
         return $this->user->id;
     }
 
+    public function getAvatar()
+    {
+        $id = $this->user->avatar ? $this->user->avatar : 'default';
+        return $id;
+    }
+
+    public function getAbout()
+    {
+        return $this->user->about;
+    }
+
     public function getJoinedAt(): Carbon
     {
         return $this->user->created_at;

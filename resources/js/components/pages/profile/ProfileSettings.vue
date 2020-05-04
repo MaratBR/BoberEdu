@@ -11,24 +11,33 @@
         <tabs style-class="sidebar">
             <tab name="General">
                 <form @submit.prevent="saveGeneral" class="form">
+
+                    <div class="form__control upload-avatar">
+                        <div class="avatar s120">
+                            <img :src="'/storage/avatars/' + data.avatar" alt="">
+                        </div>
+                        <uploader max="10000000" @uploaded="data.avatar = $event" :uploader="avatarUploader" accept="image/*" />
+                    </div>
+
                     <div class="form__control">
                         <label class="form__label" for="UsernameInput">Username</label>
                         <input
                             id="UsernameInput" type="text" class="input" v-model="data.username"
                             @input="checkUsernameThrottled">
                         <template v-if="data.username !== originalUsername">
-                            <i class="fa fa-spinner fa-spin" v-if="data.usernameProgress"></i>
+                            <i class="fa fa-spinner fa-spin" v-if="usernameProgress"></i>
                             <i class="fa fa-times" v-else-if="data.taken"></i>
                             <i class="fa fa-check" v-else></i>
                             <button
-                                @click="saveUsername"
-                                class="btn btn--plain" v-show="!data.usernameProgress">Save</button>
+                                @click.prevent="saveUsername"
+                                class="btn btn--plain" v-show="!usernameProgress">Save</button>
                         </template>
                     </div>
 
                     <div class="form__control">
                         <label class="form__label" for="AboutInput">Tell people about yourself</label>
-                        <textarea id="AboutInput" type="text" class="input">{{ data.about }}</textarea>
+                        <textarea id="AboutInput" type="text" class="input" @input="showUpdateAboutButton = true" v-model="data.about"></textarea>
+                        <button class="btn" v-if="showUpdateAboutButton" @click.prevent="updateAbout">Update</button>
                     </div>
 
                     <div class="form__control">
@@ -49,6 +58,7 @@
     import {Store} from "../../../store";
     import {dto} from "../../../store/dto";
     import {throttle} from "../../../utils";
+    import Uploader from "../../misc/Uploader.vue";
 
     type ProfileSettingsData = {
         username?: string,
@@ -56,18 +66,20 @@
         email?: string,
         sex?: dto.Sex,
         taken?: boolean,
-        usernameProgress?: boolean
+        avatar?: string
     }
 
     @Component({
-        components: {Tab, Tabs}
+        components: {Uploader, Tab, Tabs}
     })
     export default class ProfileSettings extends Vue {
         store = useStore<Store>(this.$store)
-        settings: dto.UserSettingsDto = null;
         data: ProfileSettingsData = {}
         originalUsername: string = null;
         checkUsernameThrottled = throttle(this.checkUsername, 500)
+        usernameProgress: boolean = false;
+        showUpdateAboutButton = false;
+        avatarUploader = this.store.users.getAvatarUploader()
 
         async load() {
             let settings = await this.store.users.settings()
@@ -76,11 +88,9 @@
                 sex: settings.sex,
                 email: settings.email,
                 about: settings.about,
+                avatar: settings.avatar
             }
             this.originalUsername = settings.name
-        }
-
-        async saveGeneral() {
         }
 
         async saveUsername() {
@@ -88,21 +98,32 @@
             if (username.toLowerCase() == this.originalUsername.toLowerCase())
                 return;
 
-            Vue.set(this.data, 'usernameProgress', true)
+            this.usernameProgress = true
             await this.store.users.update({
                 id: this.store.auth.user.id,
                 req: {
                     name: username
                 }
             })
-            Vue.set(this.data, 'usernameProgress', false)
+            this.usernameProgress = false
+            this.originalUsername = this.data.username = username
+        }
+
+        async updateAbout() {
+            this.showUpdateAboutButton = false;
+            await this.store.users.update({
+                id: this.store.auth.user.id,
+                req: {
+                    about: this.data.about
+                }
+            })
         }
 
         async checkUsername() {
-            Vue.set(this.data, 'usernameProgress', true)
+            this.usernameProgress = true
             let username = this.data.username.trim()
             Vue.set(this.data, 'taken', await this.store.users.usernameIsTaken(username))
-            Vue.set(this.data, 'usernameProgress', false)
+            this.usernameProgress = false
         }
 
         mounted() {
@@ -111,12 +132,18 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .fa-times {
         color: red;
     }
 
     .fa-check {
         color: green;
+    }
+
+    .upload-avatar {
+        & > .avatar {
+            margin-bottom: 20px;
+        }
     }
 </style>

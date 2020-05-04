@@ -1,5 +1,13 @@
 import StoreModuleBase from "./StoreModuleBase";
 import {dto, requests} from "../dto";
+import {IUploader} from "../upload";
+
+type UploadAvatarData = {
+    file: File,
+    opts: {
+        progress?: (value: number) => any
+    }
+}
 
 export default class UsersModule extends StoreModuleBase {
     profile(id: number): Promise<dto.UserProfileDto> {
@@ -22,5 +30,43 @@ export default class UsersModule extends StoreModuleBase {
 
     update(d: {req: requests.UpdateUser, id: number}): Promise<void> {
         return this.client.patch('users/' + d.id, d.req).then(r => r.data)
+    }
+
+    getAvatarUploader(): IUploader<string> {
+        return {
+            upload: (file, fn) => this.uploadAvatar({file, opts: {progress: fn}})
+        }
+    }
+
+    uploadAvatar({file, opts}: UploadAvatarData): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            let reader = new FileReader()
+            reader.onabort = e => {
+                reject(e.target.error)
+            }
+            if (opts.progress) {
+                reader.onprogress = e => {
+                    console.log(e)
+                    opts.progress(Math.round(100 * e.loaded / e.total))
+                }
+            }
+
+            reader.onload = e => {
+                let data = e.target.result
+
+                this.client.put('users/profile/avatar', data, {
+                    headers: { 'Content-Type': file.type }
+                }).then(r => {
+                    resolve(r.data.id as string)
+                })
+            }
+            reader.readAsArrayBuffer(file)
+        })
+
+
+
+
+
+
     }
 }

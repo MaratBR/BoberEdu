@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IPaymentsService;
 use App\Services\Abs\ITeachersService;
+use App\Services\Abs\IUploadService;
 use App\Services\Implementation\EnrollmentService;
 use App\Services\Implementation\PaymentsService;
 use App\Services\Implementation\TeachersService;
+use App\Services\Implementation\UploadService;
 use App\Services\Implementation\UserCoursesService;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IExternalPaymentService;
@@ -76,6 +78,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             ITeachersService::class,
             TeachersService::class
+        );
+
+        $this->app->singleton(
+            IUploadService::class,
+            UploadService::class
         );
     }
 }

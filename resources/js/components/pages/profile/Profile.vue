@@ -3,7 +3,7 @@
     <div v-else class="profile container">
         <header class="profile__heading user-heading hero--phead">
             <div class="user-heading__avatar avatar">
-                <img src="https://cdn.eso.org/images/thumb300y/eso1907a.jpg" alt="">
+                <img :src="'/storage/avatars/' + profile.user.avatar" alt="">
             </div>
 
             <div class="user-heading__about rest">
@@ -36,9 +36,7 @@
         <component :is="editComp" v-if="editComp" :user="profile.user" />
 
         <div class="profile__about">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad animi consequuntur dolor doloribus dolorum ducimus, eius eos explicabo illo iure nam nemo numquam perferendis possimus quo sequi sit voluptas, voluptatibus.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias aut beatae consectetur earum eveniet itaque maxime minima neque, nulla placeat possimus quia quisquam quo repudiandae saepe tenetur voluptatibus voluptatum?
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias aut beatae consectetur earum eveniet itaque maxime minima neque, nulla placeat possimus quia quisquam quo repudiandae saepe tenetur voluptatibus voluptatum?
+            {{ profile.user.about }}
         </div>
 
         <div class="profile__courses">

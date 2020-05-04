@@ -28,6 +28,7 @@ Route::group([
 ], function () {
     Route::put('profile/status', 'UserController@setStatus');
     Route::get('profile/settings', 'UserController@settings');
+    Route::put('profile/avatar', 'UserController@uploadAvatar');
     Route::get('username-taken/{username}', 'UserController@checkUsername');
     Route::get('{id}', 'UserController@get');
     Route::patch('{id}', 'UserController@update');

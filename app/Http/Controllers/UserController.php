@@ -12,10 +12,13 @@ use App\Http\Requests\Users\EditUserRequest;
 use App\Http\Requests\Users\SetStatusRequest;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
+use App\Services\Abs\IUploadService;
 use App\Services\Abs\IUsersService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserController extends Controller
 {
@@ -94,5 +97,17 @@ class UserController extends Controller
 
     public function checkUsername(string $username) {
         return response()->json($this->users->userNameTaken($username));
+    }
+
+    public function uploadAvatar(AuthenticatedRequest $request, IUploadService $uploads) {
+        $user = $request->user();
+        $file = fopen('php://input', 'r');
+        if (!$file)
+            return response()->json(['message' => 'failed to open stream'], 500);
+        $id = $uploads->uploadAvatar($user, $file);
+
+        return [
+            'id' => $id
+        ];
     }
 }

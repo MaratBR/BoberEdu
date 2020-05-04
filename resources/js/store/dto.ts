@@ -127,7 +127,8 @@ export namespace dto {
         sex: Sex,
         name: string,
         roles: string[],
-        status: string
+        status: string,
+        about: string
     };
 
     export type UserProfileDto = {
@@ -148,7 +149,8 @@ export namespace dto {
         about: string,
         sex: Sex,
         email: string,
-        name: string
+        name: string,
+        avatar: string
     };
 }
 

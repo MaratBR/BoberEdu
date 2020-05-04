@@ -18,6 +18,9 @@ let router = new VueRouter({
             component: () => import(
                 /* webpackChunkName: "profile" */
                 './components/pages/profile/ProfileSettings.vue'),
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/login',
@@ -120,7 +123,13 @@ router.beforeEach((to, from, next: (to?: RawLocation | void) => void) => {
 
     let storeProxy = useStore<Store>(store);
 
-    if (to.matched.some(r => r.meta.requiresAdmin) && !storeProxy.auth.isAdmin) {
+    for (let match of to.matched)
+
+    if (to.matched.some(r => r.meta.requiresAuth) && !storeProxy.auth.isAuthenticated) {
+        next({
+            name: 'login'
+        })
+    } else if (to.matched.some(r => r.meta.requiresAdmin) && !storeProxy.auth.isAdmin) {
         next({
             name: 'oops',
             params: {

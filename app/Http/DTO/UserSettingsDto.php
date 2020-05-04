@@ -39,4 +39,10 @@ class UserSettingsDto extends DtoBase
     {
         return $this->user->sex;
     }
+
+    function getAvatar()
+    {
+        $id = $this->user->avatar ? $this->user->avatar : 'default';
+        return $id;
+    }
 }
