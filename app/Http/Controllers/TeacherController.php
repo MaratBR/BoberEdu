@@ -13,8 +13,6 @@ use App\Services\Abs\ICourseService;
 use App\Services\Abs\ITeachersService;
 use App\Services\Abs\IUsersService;
 use App\Utils\Audit\Audit;
-use App\Utils\Convert;
-use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {

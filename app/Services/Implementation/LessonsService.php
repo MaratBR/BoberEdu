@@ -4,12 +4,9 @@
 namespace App\Services\Implementation;
 
 
-use App\Exceptions\ThrowUtils;
 use App\Lesson;
 use App\Services\Abs\ILessonsService;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
-use function Clue\StreamFilter\fun;
 
 class LessonsService implements ILessonsService
 {

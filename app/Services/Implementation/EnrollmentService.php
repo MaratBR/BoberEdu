@@ -4,14 +4,12 @@
 namespace App\Services\Implementation;
 
 
-use App\Course;
 use App\Enrollment;
 use App\Exceptions\ThrowUtils;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
 use App\User;
 use Carbon\Carbon;
-use Carbon\CarbonTimeZone;
 use Illuminate\Database\Eloquent\Builder;
 use Lanin\Laravel\ApiExceptions\NotFoundApiException;
 

@@ -8,7 +8,6 @@ use App\AuditRecord;
 use App\Exceptions\Audit\InvalidAuditRecord;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class AuditRecordBuilder
 {

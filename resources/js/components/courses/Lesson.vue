@@ -58,13 +58,13 @@
 <script lang="ts">
     import {Component, Prop, Vue, Watch} from "vue-property-decorator";
     import {dto} from "../../store/dto";
-    import LessonExDto = dto.LessonExDto;
     import {useStore} from "vuex-simple";
     import {Store} from "../../store";
     import Loader from "../misc/Loader.vue";
     import NotFound from "./NotFound.vue";
-    import CourseExDto = dto.CourseExDto;
     import MarkdownViewer from "../misc/MarkdownViewer.vue";
+    import LessonExDto = dto.LessonExDto;
+    import CourseExDto = dto.CourseExDto;
     import EnrollmentStateDto = dto.EnrollmentStateDto;
     @Component({
         components: {MarkdownViewer, NotFound, Loader}

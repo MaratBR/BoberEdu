@@ -61,10 +61,10 @@
     import Container from "../Container.vue";
     import Loader from "../misc/Loader.vue";
     import {dto} from "../../store/dto";
-    import CategoryExDto = dto.CategoryExDto;
     import {Store} from "../../store";
     import {useStore} from "vuex-simple";
     import PaginationControl from "./PaginationControl.vue";
+    import CategoryExDto = dto.CategoryExDto;
 
     @Component({
         components: {PaginationControl, Loader, Container}

@@ -40,14 +40,14 @@ let router = new VueRouter({
             path: '/category/:id',
             component: () => import(
                 /* webpackChunkName: "category" */
-                './components/pages/Category.vue'),
+                './components/courses/Category.vue'),
             name: 'category'
         },
         {
             path: '/categories',
             component: () => import(
                 /* webpackChunkName: "categories" */
-                './components/pages/Categories.vue'),
+                './components/courses/Categories.vue'),
             name: 'courses'
         },
         {
@@ -57,7 +57,7 @@ let router = new VueRouter({
         },
         {
             path: '/c/:id',
-            component: () => import(/* webpackChunkName: "course-view" */ './components/pages/Course.vue'),
+            component: () => import(/* webpackChunkName: "course-view" */ './components/courses/Course.vue'),
             name: 'course'
         },
         {
@@ -73,12 +73,12 @@ let router = new VueRouter({
         {
             path: '/c/:id/purchase',
             name: 'purchase_course',
-            component: () => import(/* webpackChunkName: "purchase" */ './components/pages/PurchaseCourse.vue')
+            component: () => import(/* webpackChunkName: "purchase" */ './components/courses/PurchaseCourse.vue')
         },
         {
             name: 'lesson',
             path: '/lesson/:v',
-            component: () => import(/* webpackChunkName: "lesson" */ './components/pages/Lesson.vue'),
+            component: () => import(/* webpackChunkName: "lesson" */ './components/courses/Lesson.vue'),
             beforeEnter: (to, from, next) => {
                 if (to.params.v && /^[1-9]\d*_[1-9]\d*$/.test(to.params.v)) {
                     next()

@@ -2,9 +2,9 @@
 
 namespace App\Services\Implementation;
 
+use App\Enrollment;
 use App\Purchase;
 use App\Services\Abs\IAttendanceStatus;
-use App\Enrollment;
 use Carbon\Carbon;
 use const App\Services\Abs\ATTENDANCE_STATUS_AWAITING_PAYMENT;
 use const App\Services\Abs\ATTENDANCE_STATUS_CANCELLED;

@@ -3,6 +3,7 @@
 namespace App\Services\Abs;
 
 use Illuminate\Contracts\Support\Jsonable;
+
 const ATTENDANCE_STATUS_YES = 'yes'; // user has access to course
 const ATTENDANCE_STATUS_NO = 'no'; // user does not have access
 const ATTENDANCE_STATUS_CANCELLED = 'cancelled'; // user tried to pay for course but payment get cancelled

@@ -4,7 +4,6 @@ namespace App\Http\Requests\Users;
 
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\IPayloadRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
 class EditUserRequest extends AuthenticatedRequest implements IPayloadRequest
 {

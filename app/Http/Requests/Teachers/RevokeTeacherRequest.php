@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Teachers;
 
 use App\Http\Requests\AdminRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
 class RevokeTeacherRequest extends AdminRequest
 {

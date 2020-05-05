@@ -1,4 +1,4 @@
-import {AxiosInstance, AxiosRequestConfig} from "axios";
+import {AxiosInstance} from "axios";
 
 export default class StoreModuleBase {
     protected client: AxiosInstance;

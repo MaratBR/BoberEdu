@@ -10,6 +10,7 @@
     import Page from "./Page";
     import Loader from "../misc/Loader";
     import UnitsEditor from "./UnitsEditor";
+
     export default {
         name: "CourseUnitsForm",
         components: {UnitsEditor, Loader, Page},

@@ -10,15 +10,11 @@ use App\Http\DTO\UserSettingsDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Users\EditUserRequest;
 use App\Http\Requests\Users\SetStatusRequest;
-use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IUploadService;
 use App\Services\Abs\IUsersService;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserController extends Controller
 {

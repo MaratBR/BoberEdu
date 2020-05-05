@@ -26,6 +26,7 @@
     import {Component, Vue} from "vue-property-decorator";
     import map from "./admin-panel-map";
     import DataTable from "./DataTable.vue";
+
     @Component({
         components: {DataTable}
     })

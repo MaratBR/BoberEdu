@@ -46,7 +46,6 @@
 
 <script lang="ts">
     import Vue from "vue";
-    import {PropValidator} from "vue/types/options";
     import Error from "../misc/Error.vue";
 
     export default {

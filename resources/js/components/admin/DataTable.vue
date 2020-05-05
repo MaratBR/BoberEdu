@@ -18,6 +18,7 @@
 
 <script lang="ts">
     import {Component, Prop, Vue, Watch} from "vue-property-decorator";
+
     @Component
     export default class extends Vue {
         @Prop({ default: null }) data: object[];

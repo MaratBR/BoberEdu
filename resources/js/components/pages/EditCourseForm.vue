@@ -10,9 +10,9 @@
     import Loader from "../misc/Loader.vue";
     import Error from "../misc/Error.vue";
     import {Component, Vue, Watch} from "vue-property-decorator";
-    import {Course, CourseEx} from "../../store/modules/CoursesModule";
     import {Store} from "../../store";
     import {useStore} from "vuex-simple";
+    import {dto} from "../../store/dto";
 
 
     @Component({
@@ -20,7 +20,7 @@
     })
     export default class EditCourseForm extends Vue {
 
-        promise: Promise<CourseEx>;
+        promise: Promise<dto.CourseExDto>;
         store: Store = useStore(this.$store);
 
         init() {

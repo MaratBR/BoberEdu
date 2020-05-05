@@ -1,8 +1,5 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-
-Vue.use(Vuex);
-
 import * as SecureLS from "secure-ls";
 import axios from 'axios'
 import {AuthModule} from "./modules/AuthModule"
@@ -12,6 +9,8 @@ import createPersistedState from "vuex-persistedstate";
 import PaymentsModule from "./modules/PaymentsModule";
 import UsersModule from "./modules/UsersModule";
 import LessonsModule from "./modules/LessonsModule";
+
+Vue.use(Vuex);
 
 const ls = new SecureLS({ isCompression: false });
 

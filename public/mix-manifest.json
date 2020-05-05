@@ -1,17 +1,20 @@
 {
-    "/js/app.js": "/js/app.js?id=025804060747382b4693",
+    "/js/app.js": "/js/app.js?id=f146f2d0f56e714c0ad9",
     "/css/app.css": "/css/app.css?id=b38a57ffdff9e34ee890",
-    "/js/chunks/categories.js": "/js/chunks/categories.js?id=7a0bbbb200dc117e2dec",
-    "/js/chunks/category.js": "/js/chunks/category.js?id=8e2666403653fdc23c52",
+    "/js/chunks/categories.js": "/js/chunks/categories.js?id=9e2ea5fb3467a1b0df89",
+    "/js/chunks/category.js": "/js/chunks/category.js?id=860a610fd25ad71efc19",
     "/js/chunks/course-form.js": "/js/chunks/course-form.js?id=424845005f5535f5b43e",
     "/js/chunks/course-form~edit-course~edit-course-units.js": "/js/chunks/course-form~edit-course~edit-course-units.js?id=091b32b49a55d035d49d",
-    "/js/chunks/course-view.js": "/js/chunks/course-view.js?id=dc7c36106445b53308da",
+    "/js/chunks/course-view.js": "/js/chunks/course-view.js?id=c2a01e4264bdfaaad7c0",
     "/js/chunks/edit-course.js": "/js/chunks/edit-course.js?id=d8cab5040eddca44cfa1",
     "/js/chunks/edit-course-units.js": "/js/chunks/edit-course-units.js?id=c21eeee70d2c67509593",
-    "/js/chunks/lesson.js": "/js/chunks/lesson.js?id=752cce23ac0fe8e46afd",
+    "/js/chunks/lesson.js": "/js/chunks/lesson.js?id=755092b760427842f995",
     "/js/chunks/login.js": "/js/chunks/login.js?id=9a6850c754a33e7bd97e",
     "/js/chunks/profile.js": "/js/chunks/profile.js?id=29ef601311528faf858e",
-    "/js/chunks/purchase.js": "/js/chunks/purchase.js?id=68402e0d924cd57df034",
+    "/js/chunks/purchase.js": "/js/chunks/purchase.js?id=cb0f0a6d8d35fab69430",
     "/js/chunks/register.js": "/js/chunks/register.js?id=800b1399399d70bb7eeb",
-    "/js/chunks/vendors~course-form~course-view~edit-course~lesson~purchase.js": "/js/chunks/vendors~course-form~course-view~edit-course~lesson~purchase.js?id=7e575e953586b360cab6"
+    "/js/chunks/vendors~course-form~course-view~edit-course~lesson~purchase.js": "/js/chunks/vendors~course-form~course-view~edit-course~lesson~purchase.js?id=7e575e953586b360cab6",
+    "/js/chunks/vendors~course-form~edit-course~lesson~purchase.js": "/js/chunks/vendors~course-form~edit-course~lesson~purchase.js?id=9f8f4059ec89a34fbddc",
+    "/js/chunks/vendors~course-form~edit-course~purchase.js": "/js/chunks/vendors~course-form~edit-course~purchase.js?id=b1d0993678586f9cca0d",
+    "/js/chunks/vendors~course-form~edit-course.js": "/js/chunks/vendors~course-form~edit-course.js?id=3781de813a4d28fb0c90"
 }

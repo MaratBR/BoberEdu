@@ -1,6 +1,5 @@
 import StoreModuleBase from "./StoreModuleBase";
 import {Action, Getter, Mutation, State} from "vuex-simple";
-import {AxiosInstance} from "axios";
 import {dto} from "../dto";
 import UserDto = dto.UserDto;
 

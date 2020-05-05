@@ -7,7 +7,6 @@ namespace App\Http\DTO;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
-use function Clue\StreamFilter\fun;
 
 class UserDto extends DtoBase
 {

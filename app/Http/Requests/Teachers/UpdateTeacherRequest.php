@@ -5,7 +5,6 @@ namespace App\Http\Requests\Teachers;
 use App\Http\Requests\AdminRequest;
 use App\Http\Requests\IPayloadRequest;
 use App\Utils\Convert;
-use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTeacherRequest extends AdminRequest implements IPayloadRequest
 {

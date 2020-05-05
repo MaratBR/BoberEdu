@@ -24,7 +24,7 @@
 
 <script lang="ts">
     import Error from "./Error.vue";
-    import {Component, Model, Prop, Vue, Watch} from "vue-property-decorator";
+    import {Component, Prop, Vue, Watch} from "vue-property-decorator";
 
     @Component({
         name: 'Loader',

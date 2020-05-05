@@ -5,7 +5,6 @@ namespace App\Services\Implementation;
 
 
 use App\Course;
-use App\Enrollment;
 use App\Exceptions\Payment\PaymentFailed;
 use App\Exceptions\ThrowUtils;
 use App\Payment;
@@ -14,13 +13,8 @@ use App\Services\Abs\IPaymentsService;
 use App\Services\Abs\Payments\IPaymentGatewayHandler;
 use App\Services\Implementation\Payments\DummyGatewayHandler;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Omnipay\Common\CreditCard;
-use Omnipay\Common\Message\RedirectResponseInterface;
-use Omnipay\Omnipay;
-use Psy\Util\Json;
 
 class PaymentsService implements IPaymentsService
 {

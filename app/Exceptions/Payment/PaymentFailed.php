@@ -3,7 +3,6 @@
 namespace App\Exceptions\Payment;
 
 use App\Exceptions\ServiceException;
-use Exception;
 
 class PaymentFailed extends ServiceException
 {

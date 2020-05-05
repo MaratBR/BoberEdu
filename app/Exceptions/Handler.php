@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Lanin\Laravel\ApiExceptions\ApiException;
 use Symfony\Component\HttpFoundation\Response;
 

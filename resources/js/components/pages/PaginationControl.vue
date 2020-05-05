@@ -31,7 +31,6 @@
 </template>
 
 <script lang="ts">
-    import {PropOptions} from "vue/types/options";
     import Loader from "../misc/Loader.vue";
     import {Component, Prop, Vue} from "vue-property-decorator";
     import {dto} from "../../store/dto";

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
 use App\Http\DTO\CategoriesDto;
 use App\Http\DTO\CategoryExDto;
 use App\Http\DTO\CourseDto;
@@ -19,7 +18,6 @@ use App\Services\Abs\ICourseUnitsUpdateResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Lanin\Laravel\ApiExceptions\InternalServerErrorApiException;
 
 class CourseController extends Controller

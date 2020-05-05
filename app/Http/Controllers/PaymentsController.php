@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\DTO\PaymentDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Payments\CreatePaymentRequest;
-use App\Payment;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IPaymentsService;
-use Illuminate\Http\Request;
 
 class PaymentsController extends Controller
 {

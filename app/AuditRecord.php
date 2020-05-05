@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Http\DTO\TeacherDto;
 use App\Utils\Audit\AuditRecordBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;

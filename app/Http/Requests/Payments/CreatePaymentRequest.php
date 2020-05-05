@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Payments;
 
 use App\Http\Requests\AuthenticatedRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
 class CreatePaymentRequest extends AuthenticatedRequest
 {

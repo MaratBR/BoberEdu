@@ -4,10 +4,8 @@
 namespace App\Services\Abs;
 
 
-use App\Course;
 use App\Enrollment;
 use App\User;
-use Carbon\Carbon;
 
 interface IEnrollmentService
 {

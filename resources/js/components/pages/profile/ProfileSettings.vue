@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {Component, Vue} from "vue-property-decorator";
     import Tabs from "../../Tabs.vue";
     import Tab from "../../Tab.vue";
     import {useStore} from "vuex-simple";

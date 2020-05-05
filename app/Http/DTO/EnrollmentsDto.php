@@ -4,7 +4,6 @@
 namespace App\Http\DTO;
 
 
-use App\Enrollment;
 use Illuminate\Database\Eloquent\Collection;
 
 class EnrollmentsDto extends DtoBase

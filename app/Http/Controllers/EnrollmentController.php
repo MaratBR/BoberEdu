@@ -6,9 +6,7 @@ use App\Http\DTO\EnrollmentDto;
 use App\Http\DTO\EnrollmentsDto;
 use App\Http\DTO\EnrollmentStateDto;
 use App\Http\Requests\AuthenticatedRequest;
-use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
-use Illuminate\Http\Request;
 
 class EnrollmentController extends Controller
 {

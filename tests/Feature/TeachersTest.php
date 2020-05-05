@@ -4,9 +4,7 @@ namespace Tests\Feature;
 
 use App\Course;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Tests\TestWithAuthentication;
 
 class TeachersTest extends TestWithAuthentication

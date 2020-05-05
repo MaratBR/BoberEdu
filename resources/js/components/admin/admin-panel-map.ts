@@ -1,5 +1,3 @@
-import {Component} from "vue";
-
 type AdminPanelItem = {
     name: string
     display: string

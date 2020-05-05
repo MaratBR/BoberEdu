@@ -1,6 +1,6 @@
 import StoreModuleBase from "./StoreModuleBase";
 import {Action} from "vuex-simple";
-import {requests, dto} from "../dto";
+import {dto, requests} from "../dto";
 
 
 export default class CoursesModule extends StoreModuleBase {

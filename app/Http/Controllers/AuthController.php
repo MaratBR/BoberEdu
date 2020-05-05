@@ -7,8 +7,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Services\Abs\IUsersService;
-use App\User;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
