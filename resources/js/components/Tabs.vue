@@ -15,7 +15,7 @@
 
 <script lang="ts">
     import {Component, Prop, Vue} from "vue-property-decorator";
-    import Tab from "./Tab.vue";
+    import Tab from "@components/Tab.vue";
 
     @Component
     export default class Tabs extends Vue {
@@ -43,7 +43,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "../../sass/lib/config";
+    @import "sass/_config";
+
 
     .tabs {
         &__body {

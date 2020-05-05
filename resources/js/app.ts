@@ -9,7 +9,6 @@ import {ValidationProvider} from "vee-validate";
 import {useStore} from "vuex-simple";
 import StarRating from 'vue-star-rating';
 
-
 Vue.use(Router);
 Vue.component('star-rating', StarRating);
 Vue.component('validation-provider', ValidationProvider);

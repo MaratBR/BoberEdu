@@ -51,7 +51,7 @@
                     <td><i>since</i> {{ new Date(c.since).toDateString() }}</td>
                 </tr>
             </table>
-            <p v-else>There's not courses yet</p>
+            <p v-else>There's no courses yet</p>
         </div>
     </div>
 </template>
@@ -117,7 +117,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import "../../../../sass/lib/config";
+    @import "sass/_config";
 
     .usrinf {
         &--username {

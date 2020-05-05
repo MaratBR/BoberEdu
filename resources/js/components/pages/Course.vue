@@ -214,7 +214,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../sass/lib/config";
+    @import "sass/_config";
 
     .course-view {
         &__hero {

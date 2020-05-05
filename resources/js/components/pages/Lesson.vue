@@ -21,13 +21,19 @@
         </div>
 
         <div class="lesson__body">
-            <p v-if="showPurchase" class="notification purchase">
-                We are terribly sorry but this lesson is only available when you purchased the course and not included in free preview
+            <div v-if="showPurchase" class="notification purchase">
+                <p v-if="showPurchase === 1">
+                    It looks like your trial period has expired, please purchase course to have the access again
+                </p>
+                <p v-else>
+                    We are terribly sorry but this lesson is not available when you purchased the course and not
+                    included in free preview
+                </p>
 
                 <router-link
                     class="btn btn--primary"
                     :to="{name: 'course', params: {id: courseId}}">{{ showPurchase === 1 ? 'Purchase' : 'Join' }} course</router-link>
-            </p>
+            </div>
             <markdown-viewer v-else :value="content" />
         </div>
 
@@ -75,6 +81,7 @@
         notFound = false;
         loading = true;
         isTrial = false;
+        isTrialExpired = false;
         lessonLoading = false;
         enrolled = false;
         showPurchase = 0;
@@ -88,6 +95,7 @@
                 this.course = await this.store.courses.get(this.courseId)
                 let status = await this.store.courses.status(this.courseId)
                 this.isTrial = !status.hasAccess && status.enrolled
+                this.isTrialExpired = this.isTrial && (+new Date(status.trialEnd) < +new Date())
                 this.enrolled = status.enrolled
             } catch (e) {
                 this.notFound = true;
@@ -106,7 +114,7 @@
                 let lesson = unit.lessons.find(l => l.id == this.lessonId);
                 this.lessonName = lesson.title
 
-                if (this.isTrial && !unit.preview) {
+                if ((this.isTrial && !unit.preview) || this.isTrialExpired) {
                     this.showPurchase = 1;
                 } else if (!this.enrolled) {
                     this.showPurchase = 2;

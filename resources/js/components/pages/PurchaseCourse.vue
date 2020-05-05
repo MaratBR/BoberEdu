@@ -105,7 +105,7 @@
 </script>
 
 <style lang="sass" scoped>
-    @import "../../../sass/lib/config"
+    @import "sass/_config"
 
 
     .purchase

@@ -129,7 +129,8 @@ export namespace dto {
         name: string,
         roles: string[],
         status: string,
-        about: string
+        about: string,
+        avatar: string
     };
 
     export type UserProfileDto = {

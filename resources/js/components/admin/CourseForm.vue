@@ -9,13 +9,20 @@
 
         <form class="form" @submit.prevent="onSubmit">
             <div class="form__control">
+                <select id="CategoryInput">
+                    <option selected>Chose a category</option>
+                    <option :value="c.id" v-for="c in categories">{{ c.name }}</option>
+                </select>
+            </div>
+
+            <div class="form__control">
                 <label for="Name">Name</label>
                 <input type="text" class="input" id="Name" v-model="courseData.name">
                 <label for="Price">Price</label>
                 <input type="text" class="input" id="Price" ref="priceInput" v-model="courseData.price">
             </div>
 
-            <div>
+            <div class="form__control">
                 <input
                     id="HasSignupPeriod"
                     type="checkbox"
@@ -56,6 +63,7 @@
     import {getStagedChangeset, makeStagedProxy} from "../../models";
     import {dto, requests} from "../../store/dto";
     import IMask from "imask";
+    import CategoryDto = dto.CategoryDto;
 
     @Component({
         components: {MarkdownEditor, UnitsEditor, Loader, Page}
@@ -66,6 +74,7 @@
         hasSignUpPeriod = false;
         errors = null;
         submitting = false;
+        categories: CategoryDto[] = [];
 
         store: Store = useStore(this.$store);
 
@@ -113,7 +122,9 @@
             }
         }
 
-        init() {
+        async init() {
+            let categories = await this.store.courses.getCategories()
+            this.categories = categories.categories
             if (this.course) {
                 this.persistent = true;
                 let r: requests.UpdateCourse = {
