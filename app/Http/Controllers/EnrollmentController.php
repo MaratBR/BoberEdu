@@ -74,7 +74,8 @@ class EnrollmentController extends Controller
         return new EnrollmentStateDto(
             $hasAccess,
             $enrolled,
-            $paymentSuccessful
+            $paymentSuccessful,
+            $enrollment
         );
     }
 }

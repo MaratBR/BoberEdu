@@ -45,6 +45,9 @@
 
             <div class="course-body container">
                 <div class="course-body__about">
+                    <div class="notification notification--danger" v-if="isTrialExpired && !hasAccess">
+                        Please note that your trial period is over, please purchase to have access to course again.
+                    </div>
                     <markdown-viewer :value="course.about" />
 
                     <section class="course-body__units">
@@ -117,8 +120,10 @@
         enrolled: boolean = false;
         joining: boolean = false;
         err404: boolean = false;
+        isTrialExpired: boolean = false;
 
         get unitsCount() { return this.course.units.length }
+
         get lessonsCount() {
             let v = 0;
 
@@ -149,6 +154,7 @@
             let status = await this.store.courses.status(this.courseId);
             this.hasAccess = status.hasAccess;
             this.enrolled = status.enrolled;
+            this.isTrialExpired = status.trialEnd && +new Date(status.trialEnd) <= +new Date()
         }
 
         async enroll(enroll: boolean) {

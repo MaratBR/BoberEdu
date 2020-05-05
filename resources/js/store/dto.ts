@@ -59,7 +59,8 @@ export namespace dto {
     export type EnrollmentStateDto = {
         hasAccess: boolean,
         enrolled: boolean,
-        paymentSuccessful: boolean
+        paymentSuccessful: boolean,
+        trialEnd: string
     };
 
     export type LessonDto = {
