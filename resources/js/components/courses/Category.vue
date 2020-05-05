@@ -57,23 +57,18 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue, Watch} from "vue-property-decorator";
-    import Container from "../Container.vue";
-    import Loader from "../misc/Loader.vue";
-    import {dto} from "../../store/dto";
-    import {Store} from "../../store";
-    import {useStore} from "vuex-simple";
-    import PaginationControl from "./PaginationControl.vue";
-    import CategoryExDto = dto.CategoryExDto;
+    import {Component, Watch} from "vue-property-decorator";
+    import PaginationControl from "@components/utilities/PaginationControl.vue";
+    import Loader from "@components/misc/Loader.vue";
+
+    import {dto, StoreComponent} from "@app/store";
 
     @Component({
-        components: {PaginationControl, Loader, Container}
+        components: {PaginationControl, Loader}
     })
-    export default class Category extends Vue {
-        category: CategoryExDto = null;
+    export default class Category extends StoreComponent {
+        category: dto.CategoryExDto = null;
         courses: dto.PaginationDto<dto.CoursePageItemDto> = null;
-
-        store: Store = useStore(this.$store);
 
         async loadData() {
             this.category = await this.store.courses.getCategory(+this.$route.params.id);

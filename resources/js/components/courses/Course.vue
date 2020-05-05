@@ -98,23 +98,19 @@
 </template>
 
 <script lang="ts">
-    import Page from "./Page.vue";
-    import Loader from "../misc/Loader.vue";
-    import Error from "../misc/Error.vue";
-    import MarkdownViewer from "../misc/MarkdownViewer.vue";
-    import {Component, Vue, Watch} from "vue-property-decorator";
-    import {Store} from "../../store";
-    import {useStore} from "vuex-simple";
-    import {dto} from "../../store/dto";
-    import CourseExDto = dto.CourseExDto;
+    import Page from "@components/pages/Page.vue";
+    import Loader from "@components/misc/Loader.vue";
+    import Error from "@components/misc/Error.vue";
+    import MarkdownViewer from "@components/misc/MarkdownViewer.vue";
+    import {Component, Watch} from "vue-property-decorator";
+    import {dto, StoreComponent} from "@app/store";
 
     @Component({
         components: {MarkdownViewer, Error, Loader, Page}
     })
-    export default class CourseView extends Vue {
+    export default class CourseView extends StoreComponent {
         courseId: number | null = null;
-        course: CourseExDto | null = null;
-        store: Store = useStore(this.$store);
+        course: dto.CourseExDto | null = null;
         selectedUnits: number[] = [];
         hasAccess: boolean = false;
         enrolled: boolean = false;

@@ -3,7 +3,7 @@ import Vue from 'vue'
 import * as SecureLS from "secure-ls";
 import axios from 'axios'
 import {AuthModule} from "./modules/AuthModule"
-import {createVuexStore, Module} from "vuex-simple";
+import {createVuexStore, Module, useStore} from "vuex-simple";
 import CoursesModule from "./modules/CoursesModule";
 import createPersistedState from "vuex-persistedstate";
 import PaymentsModule from "./modules/PaymentsModule";
@@ -38,3 +38,8 @@ const store = createVuexStore(new Store(), {
 export {
     store
 };
+
+
+export class StoreComponent<TStore extends object = Store> extends Vue {
+    protected store = useStore<TStore>(this.$store)
+}

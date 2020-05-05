@@ -26,7 +26,7 @@
 
 <script lang="ts">
     import Page from "./Page.vue";
-    import Pagination from "./PaginationControl.vue";
+    import Pagination from "@components/utilities/PaginationControl.vue";
     import {CoursesPagination} from "../../store/modules/CoursesModule"
     import {Component, Vue, Watch} from "vue-property-decorator";
     import {Store} from "../../store";

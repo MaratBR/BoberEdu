@@ -1,3 +1,4 @@
-import {store, Store} from "./store"
+import {store, Store, StoreComponent} from "./store"
+import {dto, requests} from "./dto";
 
-export {store, Store}
+export {store, Store, dto, requests, StoreComponent}

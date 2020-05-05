@@ -52,13 +52,11 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
-    import Tabs from "../../Tabs.vue";
-    import Tab from "../../Tab.vue";
-    import {useStore} from "vuex-simple";
-    import {Store} from "../../../store";
-    import {dto} from "../../../store/dto";
-    import {throttle} from "../../../utils";
-    import Uploader from "../../misc/Uploader.vue";
+    import Tabs from "@components/Tabs.vue";
+    import Tab from "@components/Tab.vue";
+    import {dto, StoreComponent} from "@app/store";
+    import {throttle} from "@app/utils";
+    import Uploader from "@components/misc/Uploader.vue";
 
     type ProfileSettingsData = {
         username?: string,
@@ -72,8 +70,7 @@
     @Component({
         components: {Uploader, Tab, Tabs}
     })
-    export default class ProfileSettings extends Vue {
-        store = useStore<Store>(this.$store)
+    export default class ProfileSettings extends StoreComponent {
         data: ProfileSettingsData = {}
         originalUsername: string = null;
         checkUsernameThrottled = throttle(this.checkUsername, 500)

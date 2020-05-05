@@ -1,6 +1,6 @@
 import "./misc/Loader"
 import "./misc/Error"
 import "./pages/Page"
-import "./pages/PaginationControl.vue"
+import "./utilities/PaginationControl.vue"
 import "./Tab.vue"
 import "./Tabs.vue"

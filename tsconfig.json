@@ -14,7 +14,8 @@
         ],
         "baseUrl": "./resources",
         "paths": {
-            "@components/*": ["js/components/*"]
+            "@components/*": ["js/components/*"],
+            "@app/*": ["js/*"]
         }
     },
     "include": [

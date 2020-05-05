@@ -56,20 +56,16 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue, Watch} from "vue-property-decorator";
-    import {dto} from "../../store/dto";
-    import {useStore} from "vuex-simple";
-    import {Store} from "../../store";
-    import Loader from "../misc/Loader.vue";
-    import NotFound from "./NotFound.vue";
-    import MarkdownViewer from "../misc/MarkdownViewer.vue";
-    import LessonExDto = dto.LessonExDto;
-    import CourseExDto = dto.CourseExDto;
-    import EnrollmentStateDto = dto.EnrollmentStateDto;
+    import {Component, Prop, Watch} from "vue-property-decorator";
+    import {dto, StoreComponent} from "@app/store";
+    import Loader from "@components/misc/Loader.vue";
+    import NotFound from "@components/pages/NotFound.vue";
+    import MarkdownViewer from "@components/misc/MarkdownViewer.vue";
+
     @Component({
         components: {MarkdownViewer, NotFound, Loader}
     })
-    export default class Lesson extends Vue {
+    export default class Lesson extends StoreComponent {
         @Prop({ required: true }) lessonId: number;
         @Prop({ required: true }) courseId: number;
 
@@ -77,7 +73,7 @@
         lessonName: string = null;
         content: string = null;
 
-        course: CourseExDto = null;
+        course: dto.CourseExDto = null;
         notFound = false;
         loading = true;
         isTrial = false;
@@ -85,8 +81,6 @@
         lessonLoading = false;
         enrolled = false;
         showPurchase = 0;
-
-        store = useStore<Store>(this.$store)
 
         @Watch('courseId')
         async onCourseIdUpdated() {

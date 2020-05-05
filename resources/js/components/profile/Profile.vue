@@ -58,22 +58,17 @@
 
 <script lang="ts">
     import {Component, Vue, Watch} from "vue-property-decorator";
-    import Loader from "../../misc/Loader.vue";
-    import {Store} from "../../../store";
-    import {useStore} from "vuex-simple";
-    import {dto} from "../../../store/dto";
+    import Loader from "@components/misc/Loader.vue";
+    import {dto, StoreComponent} from "@app/store";
 
     @Component({
         components: {Loader}
     })
-    export default class Profile extends Vue {
+    export default class Profile extends StoreComponent {
         profile: dto.UserProfileDto = null;
         editComp = null;
         setStatus: boolean = false;
         newStatus: string = null;
-
-
-        store: Store = useStore(this.$store);
 
         async init() {
             this.profile = await this.store.users.profile(+this.$route.params.id)

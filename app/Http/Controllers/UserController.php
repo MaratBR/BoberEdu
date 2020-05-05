@@ -100,7 +100,9 @@ class UserController extends Controller
         $file = fopen('php://input', 'r');
         if (!$file)
             return response()->json(['message' => 'failed to open stream'], 500);
-        $id = $uploads->uploadAvatar($user, $file);
+
+        $size = $_SERVER['CONTENT_LENGTH'];
+        $id = $uploads->uploadAvatar($user, $size, $file);
 
         return [
             'id' => $id

@@ -14,17 +14,14 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
-    import {dto} from "../../store/dto";
-    import Loader from "../misc/Loader.vue";
-    import {Store} from "../../store";
-    import {useStore} from "vuex-simple";
-    import CategoryDto = dto.CategoryDto;
+    import Loader from "@components/misc/Loader.vue";
+    import {StoreComponent, dto} from "@app/store";
+
     @Component({
         components: {Loader}
     })
-    export default class Categories extends Vue {
-        categories: CategoryDto[] = null;
-        store: Store = useStore(this.$store);
+    export default class Categories extends StoreComponent {
+        categories: dto.CategoryDto[] = null;
 
         async created() {
             let categories = await this.store.courses.getCategories();

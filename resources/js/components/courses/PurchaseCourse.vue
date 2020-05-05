@@ -32,22 +32,20 @@
 </template>
 
 <script lang="ts">
-    import Page from "./Page.vue";
-    import Loader from "../misc/Loader.vue";
-    import Error from "../misc/Error.vue";
-    import MarkdownViewer from "../misc/MarkdownViewer.vue";
-    import {Component, Vue, Watch} from "vue-property-decorator";
-    import {Store} from "../../store";
-    import {useStore} from "vuex-simple";
-    import {dto} from "../../store/dto";
-    import Tabs from "../Tabs.vue";
-    import Tab from "../Tab.vue";
-    import DummyPayment from "../payments/DummyPayment.vue";
+    import Page from "@components/pages/Page.vue";
+    import Loader from "@components/misc/Loader.vue";
+    import Error from "@components/misc/Error.vue";
+    import MarkdownViewer from "@components/misc/MarkdownViewer.vue";
+    import {Component, Watch} from "vue-property-decorator";
+    import {StoreComponent, dto} from "@app/store";
+    import Tabs from "@components/Tabs.vue";
+    import Tab from "@components/Tab.vue";
+    import DummyPayment from "@components/payments/DummyPayment.vue";
 
     @Component({
         components: {DummyPayment, Tab, Tabs, MarkdownViewer, Error, Loader, Page}
     })
-    export default class PurchaseCourse extends Vue {
+    export default class PurchaseCourse extends StoreComponent {
         status: dto.EnrollmentStateDto = null;
         course: dto.CourseExDto = null;
         submitting = false;
@@ -61,8 +59,6 @@
                 component: DummyPayment
             }
         ];
-
-        store: Store = useStore(this.$store);
 
         setPaymentPayload(gateaway: string, data: any) {
             this.ready = true;
