@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name')->unique()->nullable(false);
             $table->string('normalized_name')->unique()->nullable(false);
             $table->string('status')->nullable();
@@ -23,10 +23,12 @@ class CreateUsersTable extends Migration
             $table->string('normalized_email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable(false);
+            $table->string('display_name')->nullable();
+            $table->unsignedTinyInteger('age')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-            $table->enum('sex', ['u', 'f', 'm'])->nullable(false)->default('u');
         });
     }
 

@@ -26,16 +26,6 @@ class CreateCoursesTable extends Migration
             $table->smallInteger('trial_length')->default(0);
             $table->softDeletes();
         });
-
-        if (config('database.default') !== 'sqlite') {
-            DB::statement('
-            ALTER TABLE courses
-                ADD CONSTRAINT chk_signup_period CHECK (
-                    (sign_up_beg IS NULL AND sign_up_end IS NULL) OR
-                    (sign_up_beg IS NOT NULL AND sign_up_end IS NOT NULL AND sign_up_beg < sign_up_end)
-            );
-            ');
-        }
     }
 
     /**
@@ -45,13 +35,6 @@ class CreateCoursesTable extends Migration
      */
     public function down()
     {
-        if (config('database.default') !== 'sqlite') {
-            DB::statement('
-                ALTER TABLE courses
-                DROP CHECK chk_signup_period;
-            ');
-        }
-
         Schema::dropIfExists('courses');
     }
 }

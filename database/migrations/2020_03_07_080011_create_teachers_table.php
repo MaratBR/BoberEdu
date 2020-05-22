@@ -20,6 +20,14 @@ class CreateTeachersTable extends Migration
             $table->string('passport_num');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->on('users')->references('id');
+
+            $table->string('link_web')->nullable();
+            $table->string('link_yt')->nullable();
+            $table->string('link_linked_in')->nullable();
+            $table->string('link_vk')->nullable();
+            $table->string('link_fb')->nullable();
+            $table->string('link_twitter')->nullable();
+
         });
     }
 

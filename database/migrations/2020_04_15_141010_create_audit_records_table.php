@@ -16,7 +16,7 @@ class CreateAuditRecordsTable extends Migration
         Schema::create('audit_records', function (Blueprint $table) {
             $table->id();
             $table->timestamp('created_at')->useCurrent();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id');
             $table->ipAddress('ip');
             $table->string('action');
             $table->string('user_agent');

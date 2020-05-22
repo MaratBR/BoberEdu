@@ -13,20 +13,22 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property Role[] roles
  * @property int id
  * @property Carbon created_at
- * @property string sex
+ * @property string|null display_name
  * @property string name
  * @property string normalized_name
  * @property string normalized_email
  * @property string email
  * @property string about
- * @property string avatar
+ * @property int|null avatar_id
+ * @property FileInfo|null avatar
  */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'sex', 'status','normalized_name', 'normalized_email', 'about', 'avatar'
+        'name', 'email', 'password', 'display_name', 'status','normalized_name', 'normalized_email', 'about',
+        'avatar_id'
     ];
     protected $appends = [
         'roles_names'

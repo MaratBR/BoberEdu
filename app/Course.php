@@ -24,23 +24,15 @@ use Illuminate\Database\Query\Builder;
  * @property string about
  * @property Carbon sign_up_beg
  * @property Carbon sign_up_end
+ * @property int|null uidata_image_id
+ * @property string uidata_color
  */
 class Course extends Model
 {
     use SoftDeletes;
-
-    public static $rules = [
-        'name' => 'required|min:1|max:255',
-        'price' => 'numeric|min:0|max:9999999999999999999.99',
-        'about' => 'required',
-        'sign_up_beg' => 'nullable|date_format:c',
-        'sign_up_end' => 'nullable|date_format:c',
-        'available' => 'boolean'
-    ];
-
     protected $fillable = [
         'name', 'price', 'about', 'sign_up_beg', 'sign_up_end',
-        'available', 'trial_length', 'category_id'
+        'available', 'trial_length', 'category_id', 'uidata_image_id', 'uidata_color'
     ];
     protected $casts = [
         'available' => 'boolean',
@@ -48,9 +40,7 @@ class Course extends Model
         'sign_up_beg' => 'datetime:Y-m-d',
         'sign_up_end' => 'datetime:Y-m-d',
     ];
-    protected $hidden = [
-        'deleted_at'
-    ];
+
     protected $dates = [
         'deleted_at', 'created_at', 'updated_at',
         'sign_up_beg', 'sign_up_end'
@@ -61,7 +51,6 @@ class Course extends Model
     }
 
     public function teachers() {
-        // TODO
         return $this->belongsToMany(Teacher::class, 'teaching_assignments');
     }
 

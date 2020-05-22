@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterUsersAddAvatarColumn extends Migration
+class AlterUsersAddAvatarIdColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,9 @@ class AlterUsersAddAvatarColumn extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('avatar')->nullable();
+            $table->foreignId('avatar_id')->nullable();
+            $table->foreign('avatar_id', 'fk_users_avatar_id_to_file_infos_id')
+                ->references('id')->on('users');
         });
     }
 
@@ -26,7 +28,9 @@ class AlterUsersAddAvatarColumn extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('avatar');
+            $table->dropForeign('fk_users_avatar_id_to_file_infos_id');
+            $table->dropColumn('avatar_id');
+
         });
     }
 }
