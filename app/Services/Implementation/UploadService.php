@@ -14,24 +14,23 @@ use function GuzzleHttp\Psr7\copy_to_stream;
 
 class UploadService implements IUploadService
 {
-    function generateId(): string
-    {
-        return bin2hex(openssl_random_pseudo_bytes(5)) . '_' . time();
-    }
-
     function generateIdForType(string $type): string
     {
-        return $type . '_' . bin2hex(openssl_random_pseudo_bytes(5)) . '_' . time();
+        return $type . '/' . bin2hex(openssl_random_pseudo_bytes(3)) . '_' . time();
     }
 
-    function getMimeType($file): string {
-        $id = $this->generateIdForType('ava');
-
+    function createTmpFile() {
         $tmpFilename = tempnam(sys_get_temp_dir(), 'bts');
 
         if (!$tmpFilename)
             throw new HttpException(500);
 
+        return $tmpFilename;
+    }
+
+    function putFile($file, $type = 'g', ?string $about = null, ?User $user = null) {
+        // Create tmp file
+        $tmpFilename = $this->createTmpFile();
         $tmp = fopen($tmpFilename, 'r+');
 
         if (is_resource($file))
@@ -45,32 +44,41 @@ class UploadService implements IUploadService
         $mime = finfo_file($finfo, $tmpFilename);
         finfo_close($finfo);
 
-        return $mime;
-    }
+        // Get size of the file
+        $size = filesize($tmpFilename);
 
-    function uploadAvatar(User $user, int $size, $file): string
-    {
-        $mime = $this->getMimeType($file);
-        $id = $this->generateIdForType('ava');
+        // Upload file
         $ext = MimeType::search($mime);
-        $id .= '.' . $ext;
-        FileInfo::create([
-            'sys_name' => $id,
-            'user_id' => $user->id,
-            'size' => $size,
-            'mime' => $mime
-        ]);
-
-        $success = Storage::disk('public')->put('avatars/' . $id, $file);
+        $ext = $ext ? $ext : 'bin';
+        $id = $this->generateIdForType($type) . '.' . $ext;
+        $success = Storage::disk('public')->put($id, $file);
 
         if (!$success)
             throw new HttpException(500);
 
+        // Create file info model
+        $fileInfo = new FileInfo([
+            'sys_name' => $id,
+            'user_id' => $user ? $user->id : null,
+            'size' => $size,
+            'mime' => $mime
+        ]);
+        $fileInfo->saveOrFail();
+        $fileInfo->refresh();
+
+
+        return $fileInfo;
+    }
+
+    function uploadAvatar(User $user, $file): string
+    {
+        $avatar = $this->putFile($file, 'a', null, $user);
+
         $user->update([
-            'avatar' => $id
+            'avatar_id' => $avatar->id
         ]);
 
-        return $id;
+        return $avatar->sys_name;
     }
 
     function getAvatarMimeType(string $id): string

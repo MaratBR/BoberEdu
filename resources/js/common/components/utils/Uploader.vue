@@ -10,7 +10,7 @@
                 <span class="input__error" v-if="error">{{ error }}</span>
             </div>
 
-            <button class="btn" :disabled="!!error || uploading" @click="upload">
+            <button class="btn" :disabled="!!error || uploading || value === null" @click.prevent="upload">
                 <i class="fa fa-upload" v-if="!uploading"></i>
                 <i class="fa fa-spin fa-spinner" v-else></i>
             </button>
@@ -33,9 +33,9 @@
     export default class Uploader extends Vue {
         filename: string = null;
         error: string = null;
-        uploading: boolean = null;
 
-        @Prop() value: File = null;
+        @Prop({ default: false }) uploading: boolean;
+        @Prop({ default: null }) value: File;
         @Prop({ default: () => 'Uploader' + Math.round(Math.random()*10000) }) id: string;
         @Prop({ default: -1 }) max: number;
         @Prop({ default: -1 }) min: number;
@@ -43,7 +43,7 @@
         @Prop({ default: 'Upload file' }) defaultText: string;
 
         get title() {
-            return this.filename || this.defaultText
+            return this.value ? this.value.name : this.defaultText
         }
 
         get size() {
@@ -60,9 +60,9 @@
         onFileChanged(e) {
             if (e.target.files.length === 0)
                 return;
-            this.value = e.target.files[0];
-            this.filename = this.value.name;
-            this.$emit('input', this.value)
+            let file = e.target.files[0];
+            this.filename = file.name;
+            this.$emit('input', file)
             this.validate()
         }
 
@@ -72,6 +72,9 @@
 
         validate() {
             this.error = null;
+
+            if (!this.value)
+                return;
 
             if (this.max != -1) {
                 if (this.max < this.value.size) {

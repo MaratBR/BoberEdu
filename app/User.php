@@ -73,6 +73,10 @@ class User extends Authenticatable implements JWTSubject
             ->wherePivot('deleted_at', '!=', null);
     }
 
+    public function avatar() {
+        return $this->belongsTo(FileInfo::class, 'avatar_id');
+    }
+
     /**
      * @inheritDoc
      */

@@ -16,7 +16,7 @@ class AlterCoursesAddUiDataColumns extends Migration
         Schema::table('teachers', function (Blueprint $table) {
             $table->foreignId('uidata_image_id')->nullable();
             $table->foreign('uidata_image_id', 'fk_courses_image_id_to_file_infos_id')
-                ->references('id')->on('users');
+                ->references('id')->on('file_infos');
             $table->char('uidata_color', 6)->default('ffffff');
         });
     }

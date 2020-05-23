@@ -102,7 +102,7 @@ class UserController extends Controller
             return response()->json(['message' => 'failed to open stream'], 500);
 
         $size = $_SERVER['CONTENT_LENGTH'];
-        $id = $uploads->uploadAvatar($user, $size, $file);
+        $id = $uploads->uploadAvatar($user, $file);
 
         return [
             'id' => $id

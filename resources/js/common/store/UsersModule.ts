@@ -1,13 +1,6 @@
 import StoreModuleBase from "./StoreModuleBase";
 import {dto, requests} from "@common";
 
-type UploadAvatarData = {
-    file: File,
-    opts: {
-        progress?: (value: number) => any
-    }
-}
-
 export default class UsersModule extends StoreModuleBase {
     profile(id: number): Promise<dto.UserProfileDto> {
         return this.client.get('users/' + id + '/profile').then(r => r.data)
@@ -32,17 +25,11 @@ export default class UsersModule extends StoreModuleBase {
     }
 
 
-    uploadAvatar({file, opts}: UploadAvatarData): Promise<string> {
+    uploadAvatar(file: File): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             let reader = new FileReader()
             reader.onabort = e => {
                 reject(e.target.error)
-            }
-            if (opts.progress) {
-                reader.onprogress = e => {
-                    console.log(e)
-                    opts.progress(Math.round(100 * e.loaded / e.total))
-                }
             }
 
             reader.onload = e => {

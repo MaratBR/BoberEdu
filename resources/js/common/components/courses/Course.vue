@@ -99,9 +99,8 @@
 
 <script lang="ts">
     import {Component, Watch} from "vue-property-decorator";
-    import MarkdownViewer from "@components/misc/MarkdownViewer.vue";
     import {dto} from "@common";
-    import {Loader, StoreComponent, Error} from "@common/components/utils";
+    import {Loader, StoreComponent, Error, MarkdownViewer} from "@common/components/utils";
 
     @Component({
         components: {MarkdownViewer, Error, Loader}

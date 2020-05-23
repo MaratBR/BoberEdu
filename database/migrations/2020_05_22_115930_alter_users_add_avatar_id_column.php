@@ -16,7 +16,7 @@ class AlterUsersAddAvatarIdColumn extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('avatar_id')->nullable();
             $table->foreign('avatar_id', 'fk_users_avatar_id_to_file_infos_id')
-                ->references('id')->on('users');
+                ->references('id')->on('file_infos');
         });
     }
 
