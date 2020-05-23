@@ -109,7 +109,7 @@ let router = new VueRouter({
         {
             path: "/admin",
             name: "admin",
-            component: () => import('./components/admin/AdminPanel.vue'),
+            component: () => import('@admin/components/AdminPanel.vue'),
             meta: {
                 requiresAdmin: true
             }

@@ -1,8 +1,17 @@
 <template>
     <div class="admin-panel">
         <div class="admin-panel__sidebar">
-
+            <admin-sidebar>
+                <sidebar-group header="Courses">
+                    <sidebar-link to="categories" header="Categories" icon="list-alt" />
+                    <sidebar-link to="categories" header="Categories" icon="list-alt" />
+                    <sidebar-link to="categories" header="Categories" icon="list-alt" />
+                    <sidebar-link to="categories" header="Categories" icon="list-alt" />
+                </sidebar-group>
+            </admin-sidebar>
         </div>
+
+        <div class="admin-panel__nav"></div>
 
         <div class="admin-panel__body">
             <router-view></router-view>
@@ -12,8 +21,13 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
+    import AdminSidebar from "@admin/components/layout/AdminSidebar.vue";
+    import SidebarGroup from "@admin/components/layout/SidebarGroup.vue";
+    import SidebarLink from "@admin/components/layout/SidebarLink.vue";
 
-    @Component
+    @Component({
+        components: {SidebarLink, SidebarGroup, AdminSidebar}
+    })
     export default class AdminPanel extends Vue {
     }
 </script>
@@ -21,41 +35,15 @@
 <style scoped lang="scss">
     .admin-panel {
         display: grid;
-        grid-template-columns: 300px 1fr;
-        min-height: 500px;
-    }
+        grid-template: 50px 1fr / 300px 1fr;
+        height: 100vh;
 
-    .sidebar-menu {
-        border-right: 1px solid #eee;
-        height: 100%;
-
-        button {
-            background: transparent;
-            border: none;
-            text-align: left;
-            padding: 6px 10px;
-            width: 100%;
-            cursor: pointer;
-
-            &:hover {
-                outline-offset: -1px;
-                outline: 1px dotted #666;
-            }
+        &__sidebar {
+            grid-area: 1 / 1 / 3 / 2;
         }
 
-        .item {
-            & > .item-name {
-                width: 100%;
-                border: 1px solid #f9f9f9;
-                font-size: 1.2em;
-                background: #f9f9f9;
-            }
-
-            .item-sub {
-                margin-left: 20px;
-            }
+        &__body {
+            background: #ededef;
         }
-
-
     }
 </style>

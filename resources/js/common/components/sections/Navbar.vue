@@ -47,9 +47,6 @@
 </script>
 
 <style scoped>
-    nav {
-        background: whitesmoke;
-    }
 
     .nav__links__a {
         background: rgba(255,255,255,0.25);
