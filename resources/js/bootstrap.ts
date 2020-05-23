@@ -1,11 +1,13 @@
-import axios from "axios"
-
-import "./models"
-import "./components/bootstrap"
 import Vuex from 'vuex'
 import Vue from 'vue'
 import 'imask';
+import Router from "vue-router";
+import client from "@common/axios";
 
 Vue.use(Vuex);
+Vue.use(Router);
+Vue.component('star-rating', require("vue-star-rating").default);
 
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+client.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
+client.defaults.withCredentials = true
+

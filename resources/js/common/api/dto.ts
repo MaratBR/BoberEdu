@@ -1,3 +1,5 @@
+import {Sex} from "@app/store/modules/AuthModule";
+
 export namespace dto {
     export type CategoryDto = {
         id: number,
@@ -122,6 +124,12 @@ export namespace dto {
         Unknown = 'u'
     }
 
+    export const sexes: {[key: string]: string} = {
+        [Sex.Unknown]: 'Unknown',
+        [Sex.Female]: 'Female',
+        [Sex.Male]: 'Male'
+    };
+
     export type UserDto = {
         id: number,
         joinedAt: string,
@@ -196,6 +204,18 @@ export namespace requests {
         about?: string,
         sex?: dto.Sex
     };
+
+    export type Login = {
+        name: string,
+        password: string
+    }
+
+    export type Register = {
+        name: string,
+        password: string,
+        email: string,
+        sex?: dto.Sex
+    }
 }
 
 export type CreditCardData = {

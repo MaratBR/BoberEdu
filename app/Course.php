@@ -34,6 +34,7 @@ class Course extends Model
         'name', 'price', 'about', 'sign_up_beg', 'sign_up_end',
         'available', 'trial_length', 'category_id', 'uidata_image_id', 'uidata_color'
     ];
+
     protected $casts = [
         'available' => 'boolean',
         'price' => 'float',

@@ -4,6 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class FileInfo
+ * @package App
+ * @property string original_name
+ * @property string sys_name
+ * @property int user_id
+ * @property int size
+ * @property string mime
+ * @property string about
+ */
 class FileInfo extends Model
 {
     protected $fillable = [

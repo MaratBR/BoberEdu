@@ -1,109 +1,109 @@
 import VueRouter from "vue-router";
-import {Store, store} from "./store";
 import {useStore} from "vuex-simple";
 import {RawLocation} from "vue-router/types/router";
+
+import App from "@common/components/sections/App.vue";
+import {getCommonStore} from "@common/store";
 
 let router = new VueRouter({
     routes: [
         {
-            path: '/u/:id',
-            name: 'profile',
-            component: () => import(
-                /* webpackChunkName: "profile" */
-                './components/profile/Profile.vue'),
-        },
-        {
-            path: '/me/settings',
-            name: 'profile_settings',
-            component: () => import(
-                /* webpackChunkName: "profile" */
-                './components/profile/ProfileSettings.vue'),
-            meta: {
-                requiresAuth: true
-            }
-        },
-        {
-            path: '/login',
-            component: () => import(
-                /* webpackChunkName: "login" */
-                './components/pages/LoginPage.vue'),
-            name: 'login'
-        },
-        {
-            path: '/register',
-            component: () => import(
-                /* webpackChunkName: "register" */
-                './components/pages/RegisterPage.vue'),
-            name: 'register'
-        },
-        {
-            path: '/category/:id',
-            component: () => import(
-                /* webpackChunkName: "category" */
-                './components/courses/Category.vue'),
-            name: 'category'
-        },
-        {
-            path: '/categories',
-            component: () => import(
-                /* webpackChunkName: "categories" */
-                './components/courses/Categories.vue'),
-            name: 'courses'
-        },
-        {
-            path: '/c/new',
-            component: () => import(/* webpackChunkName: "course-form" */ './components/admin/CourseForm.vue'),
-            name: 'create_course'
-        },
-        {
-            path: '/c/:id',
-            component: () => import(/* webpackChunkName: "course-view" */ './components/courses/Course.vue'),
-            name: 'course'
-        },
-        {
-            path: '/c/:id/edit',
-            component: () => import(/* webpackChunkName: "edit-course" */ './components/pages/EditCourseForm.vue'),
-            name: 'edit_course'
-        },
-        {
-            path: '/c/:id/edit/units',
-            component: () => import(/* webpackChunkName: "edit-course-units" */ './components/pages/CourseUnitsForm.vue'),
-            name: 'edit_course_units'
-        },
-        {
-            path: '/c/:id/purchase',
-            name: 'purchase_course',
-            component: () => import(/* webpackChunkName: "purchase" */ './components/courses/PurchaseCourse.vue')
-        },
-        {
-            name: 'lesson',
-            path: '/lesson/:v',
-            component: () => import(/* webpackChunkName: "lesson" */ './components/courses/Lesson.vue'),
-            beforeEnter: (to, from, next) => {
-                if (to.params.v && /^[1-9]\d*_[1-9]\d*$/.test(to.params.v)) {
-                    next()
-                } else {
-                    next({
-                        name: 'oops',
-                        params: {
-                            kind: 'invalidLessonId'
+            path: '*',
+            component: App,
+            children: [
+                {
+                    path: '/u/:id',
+                    name: 'profile',
+                    component: () => import(
+                        /* webpackChunkName: "profile" */
+                        '@common/components/profile/Profile.vue'),
+                },
+                {
+                    path: '/me/settings',
+                    name: 'profile_settings',
+                    component: () => import(
+                        /* webpackChunkName: "profile-settings" */
+                        "@common/components/profile/ProfileSettings.vue"),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/login',
+                    component: () => import(
+                        /* webpackChunkName: "login" */
+                        "@common/components/pages/LoginPage.vue"),
+                    name: 'login'
+                },
+                {
+                    path: '/register',
+                    component: () => import(
+                        /* webpackChunkName: "register" */
+                        "@common/components/pages/RegisterPage.vue"),
+                    name: 'register'
+                },
+                {
+                    path: '/category/:id',
+                    component: () => import(
+                        /* webpackChunkName: "category" */
+                        '@common/components/courses/Category.vue'),
+                    name: 'category'
+                },
+                {
+                    path: '/categories',
+                    component: () => import(
+                        /* webpackChunkName: "categories" */
+                        '@common/components/courses/Categories.vue'),
+                    name: 'courses'
+                },
+                {
+                    path: '/course/:id',
+                    component: () => import(
+                        /* webpackChunkName: "course-view" */
+                        '@common/components/courses/Course.vue'),
+                    name: 'course'
+                },
+                {
+                    path: '/course/:id/purchase',
+                    name: 'purchase_course',
+                    component: () => import(
+                        /* webpackChunkName: "purchase" */
+                        '@common/components/courses/PurchaseCourse.vue')
+                },
+                {
+                    name: 'lesson',
+                    path: '/lesson/:v',
+                    component: () => import(
+                        /* webpackChunkName: "lesson" */
+                        '@common/components/courses/Lesson.vue'),
+                    beforeEnter: (to, from, next) => {
+                        if (to.params.v && /^[1-9]\d*_[1-9]\d*$/.test(to.params.v)) {
+                            next()
+                        } else {
+                            next({
+                                name: 'oops',
+                                params: {
+                                    kind: 'invalidLessonId'
+                                }
+                            })
                         }
-                    })
+                    },
+                    props(opts) {
+                        let v = opts.params.v.split('_');
+                        return {
+                            courseId: +v[0],
+                            lessonId: +v[1],
+                        }
+                    }
+                },
+                {
+                    name: 'oops',
+                    path: '/oops/:kind',
+                    component: null
                 }
-            },
-            props(opts) {
-                let v = opts.params.v.split('_');
-                return {
-                    courseId: +v[0],
-                    lessonId: +v[1],
-                }
-            }
+            ]
         },
-        {
-            name: 'oops',
-            path: '/oops/:kind',
-            component: null
-        },
+
 
 
         {
@@ -121,7 +121,7 @@ let router = new VueRouter({
 
 router.beforeEach((to, from, next: (to?: RawLocation | void) => void) => {
 
-    let storeProxy = useStore<Store>(store);
+    let storeProxy = getCommonStore();
 
     for (let match of to.matched)
 

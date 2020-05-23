@@ -1,28 +1,10 @@
-import "./bootstrap"
-import Vue from "vue"
-import Router from "vue-router"
-import router from "./router";
+let $app = document.getElementById('app')
+let $loader = document.createElement('div')
+$loader.id = 'AppLoader'
+$app.append($loader)
 
-import App from "./App.vue"
-import {Store, store} from "./store";
-import {ValidationProvider} from "vee-validate";
-import {useStore} from "vuex-simple";
-import StarRating from 'vue-star-rating';
-
-Vue.use(Router);
-Vue.component('star-rating', StarRating);
-Vue.component('validation-provider', ValidationProvider);
-
-
-const app = new Vue({
-    el: '#app',
-    render: h => h(App),
-    router,
-    store,
-    async created() {
-        let store = useStore<Store>(this.$store);
-        await store.auth.init()
-    }
-});
-
-
+import('@app/createApp').then(m => {
+    let app = m.default;
+    $loader.remove()
+    app.$mount('#app')
+})

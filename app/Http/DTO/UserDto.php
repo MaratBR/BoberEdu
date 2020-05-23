@@ -24,8 +24,7 @@ class UserDto extends DtoBase
 
     public function getAvatar()
     {
-        $id = $this->user->avatar ? $this->user->avatar : 'default';
-        return $id;
+        return $this->user->avatar_id !== null ? $this->user->avatar->sys_name : 'default';
     }
 
     public function getAbout()
@@ -38,9 +37,9 @@ class UserDto extends DtoBase
         return $this->user->created_at;
     }
 
-    public function getSex(): string
+    public function getDisplayName(): ?string
     {
-        return $this->user->sex;
+        return $this->user->display_name;
     }
 
     public function getName(): string

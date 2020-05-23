@@ -1,17 +1,13 @@
 {
-    "/js/app.js": "/js/app.js?id=72371d4af4447c702784",
+    "/js/app.js": "/js/app.js?id=3520666a10ef872e2b8f",
     "/css/app.css": "/css/app.css?id=b38a57ffdff9e34ee890",
-    "/js/chunks/categories.js": "/js/chunks/categories.js?id=359f4ba0e80abd16c4b7",
-    "/js/chunks/category.js": "/js/chunks/category.js?id=61a27b065e7351af1934",
-    "/js/chunks/course-form.js": "/js/chunks/course-form.js?id=b148eec7c8d733f020ee",
-    "/js/chunks/course-form~edit-course~edit-course-units.js": "/js/chunks/course-form~edit-course~edit-course-units.js?id=76e4bd19d3b7678f3b0f",
-    "/js/chunks/course-view.js": "/js/chunks/course-view.js?id=dba70849e6f55038b0f8",
-    "/js/chunks/edit-course.js": "/js/chunks/edit-course.js?id=42f05b31a5656356d1fe",
-    "/js/chunks/edit-course-units.js": "/js/chunks/edit-course-units.js?id=c21eeee70d2c67509593",
-    "/js/chunks/lesson.js": "/js/chunks/lesson.js?id=06ecfd41cbc99b20a6e9",
-    "/js/chunks/login.js": "/js/chunks/login.js?id=bd4396941c847b15a051",
-    "/js/chunks/profile.js": "/js/chunks/profile.js?id=8eceab3cf46086bf735c",
-    "/js/chunks/purchase.js": "/js/chunks/purchase.js?id=f475dc22fb76d7ab373d",
-    "/js/chunks/register.js": "/js/chunks/register.js?id=34165ca377bdce844ad6",
-    "/js/chunks/vendors~course-form~course-view~edit-course~lesson~purchase.js": "/js/chunks/vendors~course-form~course-view~edit-course~lesson~purchase.js?id=7e575e953586b360cab6"
+    "/js/chunks/categories.js": "/js/chunks/categories.js?id=fe6caee312e6ecf727f0",
+    "/js/chunks/category.js": "/js/chunks/category.js?id=e1c344322cd04822e96b",
+    "/js/chunks/course-view.js": "/js/chunks/course-view.js?id=feee4730b22d86e80cdf",
+    "/js/chunks/lesson.js": "/js/chunks/lesson.js?id=25189b336cbe0c8f01b1",
+    "/js/chunks/login.js": "/js/chunks/login.js?id=129503d0e098449a3cc3",
+    "/js/chunks/profile.js": "/js/chunks/profile.js?id=4ac85f512fe2c8ba4f71",
+    "/js/chunks/profile-settings.js": "/js/chunks/profile-settings.js?id=d8b63320811a327d81bc",
+    "/js/chunks/purchase.js": "/js/chunks/purchase.js?id=7ffac9a5df2b72add9ae",
+    "/js/chunks/register.js": "/js/chunks/register.js?id=2c3d75e44ef481beb566"
 }

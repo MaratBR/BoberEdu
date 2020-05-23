@@ -1,0 +1,6 @@
+export {default as Categories} from "./Categories.vue"
+export {default as Category} from "./Category.vue"
+export {default as Course} from "./Course.vue"
+export {default as CoursesList} from "./CoursesList.vue"
+export {default as Lesson} from "./Lesson.vue"
+export {default as PurchaseCourse} from "./PurchaseCourse.vue"

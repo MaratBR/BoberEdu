@@ -25,7 +25,24 @@ class LoginRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'password' => 'required|max:255'
+            'password' => 'required|max:255',
+            'remember' => 'boolean'
         ];
+    }
+
+    public function getUsername(): string
+    {
+        return $this->validated()['name'];
+    }
+
+
+    public function getUserPassword(): string
+    {
+        return $this->validated()['password'];
+    }
+
+    public function getRememberMe(): bool
+    {
+        return $this->validated()['remember'] ?? false;
     }
 }

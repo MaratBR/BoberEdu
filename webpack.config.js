@@ -18,6 +18,8 @@ module.exports = {
             '@styles': path.resolve(__dirname, 'resources/sass'),
             '@app': path.resolve(__dirname, 'resources/js'),
             '@components': path.resolve(__dirname, 'resources/js/components'),
+            '@common': path.resolve(__dirname, 'resources/js/common'),
+            '@admin': path.resolve(__dirname, 'resources/js/admin'),
             'vue$': 'vue/dist/vue.esm.js',
         }
     }

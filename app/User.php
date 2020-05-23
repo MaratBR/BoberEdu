@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -18,13 +19,14 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string normalized_name
  * @property string normalized_email
  * @property string email
+ * @property string status
  * @property string about
  * @property int|null avatar_id
  * @property FileInfo|null avatar
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
 
     protected $fillable = [
         'name', 'email', 'password', 'display_name', 'status','normalized_name', 'normalized_email', 'about',

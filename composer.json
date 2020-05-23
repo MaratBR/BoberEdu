@@ -9,20 +9,19 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "ext-fileinfo": "*",
+        "ext-pdo": "*",
+        "barryvdh/laravel-omnipay": "^0.2.2",
         "fideloper/proxy": "^4.2",
-        "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
+        "laravel/sanctum": "^2.3",
         "laravel/tinker": "^2.0",
-
-        "barryvdh/laravel-omnipay": "^0.2.2",
         "league/omnipay": "*",
+        "nunomaduro/collision": "^4.1",
         "omnipay/dummy": "*",
         "omnipay/paypal": "*",
-        "tymon/jwt-auth": "*",
-        "nunomaduro/collision": "^4.1",
-        "ext-pdo": "*",
-        "ext-fileinfo": "*"
+        "tymon/jwt-auth": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

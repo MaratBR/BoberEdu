@@ -1,6 +1,0 @@
-import "./misc/Loader"
-import "./misc/Error"
-import "./pages/Page"
-import "./utilities/PaginationControl.vue"
-import "./Tab.vue"
-import "./Tabs.vue"
