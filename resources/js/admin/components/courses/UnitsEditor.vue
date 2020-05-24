@@ -22,6 +22,7 @@
     import AdminSection from "@admin/components/layout/AdminSection.vue";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import Error from "@common/components/utils/Error.vue";
+    import {getError} from "@common/utils";
 
     type Unit = {
         unit: dto.UnitExDto,
@@ -131,7 +132,7 @@
                 })
                 this.$emit('saved')
             } catch (e) {
-                this.error = e.response.data
+                this.error = getError(e)
             } finally {
                 this.inProgress = false
             }

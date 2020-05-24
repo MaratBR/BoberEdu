@@ -34,7 +34,43 @@ function b64Decode(str) {
 let router = new VueRouter({
     routes: [
         {
-            path: '*',
+            path: "/admin",
+            name: "admin",
+            component: () => import('@admin/components/AdminPanel.vue'),
+            meta: {
+                requiresAdmin: true
+            },
+            children: [
+                {
+                    path: 'courses/new',
+                    name: 'admin__courses_new',
+                    component: () => import(
+                        /* webpackChunkName: "admin-course-form" */
+                        '@admin/components/courses/CourseForm.vue')
+                },
+                {
+                    path: 'courses/:id',
+                    name: 'admin__courses_edit',
+                    component: () => import(
+                        /* webpackChunkName: "admin-course-form" */
+                        '@admin/components/courses/CourseForm.vue'),
+                    props({params}) {
+                        return {
+                            id: +params.id
+                        }
+                    }
+                },
+                {
+                    path: 'categories',
+                    name: 'admin__categories',
+                    component: () => import(
+                        /* webpackChunkName: "admin-categories" */
+                        '@admin/components/courses/Categories.vue')
+                },
+            ]
+        },
+        {
+            path: '',
             component: App,
             children: [
                 {
@@ -127,34 +163,6 @@ let router = new VueRouter({
                     path: '/oops/:kind',
                     component: null
                 }
-            ]
-        },
-
-
-
-        {
-            path: "/admin",
-            name: "admin",
-            component: () => import('@admin/components/AdminPanel.vue'),
-            meta: {
-                requiresAdmin: true
-            },
-            children: [
-                {
-                    path: 'courses/:id',
-                    name: 'admin__courses_edit',
-                    component: () => import('@admin/components/courses/CourseForm.vue'),
-                    props({params}) {
-                        return {
-                            id: +params.id
-                        }
-                    }
-                },
-                {
-                    path: 'courses/new',
-                    name: 'admin__courses_new',
-                    component: () => import('@admin/components/courses/CourseForm.vue')
-                },
             ]
         }
     ],

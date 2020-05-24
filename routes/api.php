@@ -49,6 +49,8 @@ Route::group([
     Route::group([
         'prefix' => 'categories'
     ], function () {
+        Route::post('', 'CourseController@createCategory');
+        Route::put('{category}', 'CourseController@updateCategory');
         Route::get('', 'CourseController@categories');
         Route::get('{category}', 'CourseController@category');
         Route::get('{category}/courses', 'CourseController@categoryCourses');

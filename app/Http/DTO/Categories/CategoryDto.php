@@ -31,4 +31,13 @@ class CategoryDto extends DtoBase
     {
         return $this->category->about;
     }
+
+    public function getColor()
+    {
+        return $this->category->uidata_color;
+    }
+
+    public function getBgImage() {
+        return $this->category->uidata_image_id === null ? null : $this->category->image->sys_name;
+    }
 }

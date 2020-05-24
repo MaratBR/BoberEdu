@@ -42,6 +42,7 @@ import {Sex} from "../../api";
     import {StoreComponent} from "@common/components/utils";
     import {dto} from "@common";
     import {sexes} from "@common/store/AuthModule";
+    import {getError} from "@common/utils";
 
 
 
@@ -70,7 +71,7 @@ import {Sex} from "../../api";
                 await this.$router.push({ name: 'login' })
             }
             catch (e) {
-                this.errors = e.response.data
+                this.errors = getError(e)
             }
             finally {
                 this.submitting = true;

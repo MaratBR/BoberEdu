@@ -1,6 +1,6 @@
 <template>
     <sections>
-        <admin-section>
+        <admin-section :in-progress="submitting">
             <template v-slot:header>
                 <ul class="breadcrumb">
                     <li>Courses</li>
@@ -9,6 +9,13 @@
             </template>
 
             <form class="form" @submit.prevent="onSubmit">
+                <div class="form__control">
+                    <label>
+                        <input class="input" v-model="available" type="checkbox">
+                        Available for purchase
+                    </label>
+                </div>
+
                 <div class="form__control">
                     <select id="CategoryInput" v-model="categoryId" required>
                         <option :value="null" disabled>Chose a category</option>
@@ -61,10 +68,7 @@
                 <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
             </form>
         </admin-section>
-
-        <admin-section header="Units" v-if="persistent">
-            <units-editor :course="course" @saved="onIdChanged" />
-        </admin-section>
+        <units-editor :course="course" @saved="onIdChanged" v-if="persistent" />
     </sections>
 </template>
 
@@ -76,6 +80,7 @@
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import AdminSection from "@admin/components/layout/AdminSection.vue";
     import Sections from "@admin/components/layout/Sections.vue";
+    import {getError} from "@common/utils";
 
     @Component({
         components: {Sections, AdminSection, MarkdownEditor, UnitsEditor, Loader, Page}
@@ -123,6 +128,14 @@
         @Watch('id')
         async onIdChanged() {
             this.submitting = true
+
+            if (this.id === null) {
+                this.name = this.summary = this.about = this.signUpBeg = this.signUpEnd = this.course = null
+                this.available = false
+                this.submitting = false
+                return
+            }
+
             try {
                 let c = await this.store.courses.get(this.id)
                 this.name = c.name
@@ -157,6 +170,7 @@
                 price: this.priceAsNumber,
                 summary: this.summary,
                 about: this.about,
+                available: this.available,
                 categoryId: this.categoryId
             }
 
@@ -176,14 +190,42 @@
                     }
                 })
             } catch (e) {
-                this.error = e.response.data
+                this.error = getError(e)
             } finally {
                 this.submitting = false
             }
         }
 
         async update() {
+            if (!this.persistent)
+                return
 
+            let r: requests.UpdateCourse = {
+                name: this.name,
+                price: this.priceAsNumber,
+                summary: this.summary,
+                about: this.about,
+                available: this.available,
+            }
+
+            if (this.hasSignUpPeriod) {
+                r.signUpBeg = this.signUpBeg
+                r.signUpEnd = this.signUpEnd
+            }
+
+            this.submitting = true
+
+            try {
+                await this.admin.courses.update({
+                    id: this.id,
+                    data: r
+                })
+                await this.onIdChanged()
+            } catch (e) {
+                this.error = getError(e)
+            } finally {
+                this.submitting = false
+            }
         }
 
         async init() {

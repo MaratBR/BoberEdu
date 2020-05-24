@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\DTO\CategoriesDto;
+use App\Http\DTO\CategoryDto;
 use App\Http\DTO\CategoryExDto;
 use App\Http\DTO\CourseDto;
 use App\Http\DTO\CourseExDto;
 use App\Http\DTO\CoursePageItemDto;
 use App\Http\DTO\PaginationDto;
 use App\Http\Requests\AuthenticatedRequest;
+use App\Http\Requests\Courses\CreateCategoryRequest;
 use App\Http\Requests\Courses\CreateNewCourseRequest;
 use App\Http\Requests\Courses\SetRateRequest;
+use App\Http\Requests\Courses\UpdateCategoryRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Http\Requests\Courses\UpdateCourseUnitsRequest;
 use App\Services\Abs\ICourseService;
@@ -156,6 +159,21 @@ class CourseController extends Controller
     {
         $course = $this->courses->get($courseId);
         return $this->courses->updateCourseUnits($course, $request);
+    }
+
+    public function updateCategory(UpdateCategoryRequest $request, int $categoryId) {
+        $category = $this->courses->getCategory($categoryId);
+        $d = $request->getPayload();
+        $category->update($d);
+
+        return $this->noContent();
+    }
+
+    public function createCategory(CreateCategoryRequest $request) {
+        $d = $request->getPayload();
+        $category = $this->courses->createCategory($d);
+
+        return $this->created(new CategoryDto($category));
     }
 }
 

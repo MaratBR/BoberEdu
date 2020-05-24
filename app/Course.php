@@ -24,15 +24,13 @@ use Illuminate\Database\Query\Builder;
  * @property string about
  * @property Carbon sign_up_beg
  * @property Carbon sign_up_end
- * @property int|null uidata_image_id
- * @property string uidata_color
  */
 class Course extends Model
 {
     use SoftDeletes;
     protected $fillable = [
         'name', 'price', 'about', 'sign_up_beg', 'sign_up_end',
-        'available', 'trial_length', 'category_id', 'uidata_image_id', 'uidata_color'
+        'available', 'trial_length', 'category_id'
     ];
 
     protected $casts = [

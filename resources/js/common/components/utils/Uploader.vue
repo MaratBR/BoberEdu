@@ -6,16 +6,15 @@
                     {{ title }}
                     <span class="filesize" v-if="value"> | {{ size }}</span>
                 </label>
-                <input :accept="accept" type="file" :id="id" @change="onFileChanged" ref="input">
+                <input :disabled="disabled" :accept="accept" type="file" :id="id" @change="onFileChanged" ref="input">
                 <span class="input__error" v-if="error">{{ error }}</span>
             </div>
 
-            <button class="btn" :disabled="!!error || uploading || value === null" @click.prevent="upload">
+            <button class="btn" :disabled="disabled || !!error || uploading || value === null" @click.prevent="upload">
                 <i class="fa fa-upload" v-if="!uploading"></i>
                 <i class="fa fa-spin fa-spinner" v-else></i>
             </button>
         </div>
-        <div class="upload-progress" v-if="uploading"></div>
     </div>
 </template>
 
@@ -35,6 +34,7 @@
         error: string = null;
 
         @Prop({ default: false }) uploading: boolean;
+        @Prop({ default: false }) disabled: boolean;
         @Prop({ default: null }) value: File;
         @Prop({ default: () => 'Uploader' + Math.round(Math.random()*10000) }) id: string;
         @Prop({ default: -1 }) max: number;

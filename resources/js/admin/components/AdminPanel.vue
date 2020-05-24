@@ -4,9 +4,7 @@
             <admin-sidebar>
                 <sidebar-group header="Courses">
                     <sidebar-link to="categories" header="Categories" icon="list-alt" />
-                    <sidebar-link to="categories" header="Categories" icon="list-alt" />
-                    <sidebar-link to="categories" header="Categories" icon="list-alt" />
-                    <sidebar-link to="categories" header="Categories" icon="list-alt" />
+                    <sidebar-link to="courses_new" header="Create new course" icon="plus" />
                 </sidebar-group>
             </admin-sidebar>
         </div>

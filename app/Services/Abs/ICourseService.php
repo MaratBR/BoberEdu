@@ -80,6 +80,8 @@ interface ICourseService
 
     function getCategory(int $categoryId): Category;
 
+    function createCategory(array $data): Category;
+
     function getPopular(int $categoryId);
 
     function getAllCategories();

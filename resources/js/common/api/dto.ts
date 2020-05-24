@@ -1,10 +1,11 @@
-import {Sex} from "@app/store/modules/AuthModule";
 
 export namespace dto {
     export type CategoryDto = {
         id: number,
         about: string,
-        name: string
+        name: string,
+        bgImage: string | null,
+        color: string
     };
 
     export type CategoryExDto = CategoryDto & {
@@ -174,7 +175,7 @@ export namespace requests {
         summary: string,
         signUpBeg?: string,
         signUpEnd?: string,
-        available?: string,
+        available?: boolean,
     };
 
     export type UpdateCourse = {
@@ -184,7 +185,7 @@ export namespace requests {
         summary?: string,
         signUpBeg?: string,
         signUpEnd?: string,
-        available?: string
+        available?: boolean
     };
 
     export type NewUnitPayload = {
@@ -229,6 +230,14 @@ export namespace requests {
         email: string,
         sex?: dto.Sex
     }
+
+    export type CreateCategory = {
+        name: string,
+        about: string,
+        color?: string
+    }
+
+    export type UpdateCategory = Partial<CreateCategory>;
 }
 
 export type CreditCardData = {

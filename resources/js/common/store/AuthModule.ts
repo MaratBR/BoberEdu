@@ -3,29 +3,6 @@ import {Action, Getter, Mutation, State} from "vuex-simple";
 import {dto, requests} from "@common";
 import UserDto = dto.UserDto;
 
-export type User = {
-    id: number,
-    name: string
-}
-
-export enum Sex {
-    Unknown = 'u',
-    Male = 'm',
-    Female = 'f'
-}
-
-export const sexes: {[key: string]: string} = {
-    [Sex.Unknown]: 'Unknown',
-    [Sex.Female]: 'Female',
-    [Sex.Male]: 'Male'
-};
-
-export type RegisterRequest = {
-    name: string,
-    password: string,
-    email: string,
-    sex?: Sex
-}
 
 export default class AuthModule extends StoreModuleBase {
     @State() user: UserDto | null = null;
@@ -78,7 +55,7 @@ export default class AuthModule extends StoreModuleBase {
     }
 
     @Action()
-    async register(request: RegisterRequest) {
+    async register(request: requests.Register) {
         if (this.isAuthenticated)
             throw new Error('You are already logged in! You can\'t register a new account, log out first please');
 

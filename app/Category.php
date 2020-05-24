@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static findOrFail(int $categoryId)
+ * @property string about
+ * @property int|null uidata_image_id
+ * @property string uidata_color
+ * @property FileInfo|null image
  */
 class Category extends Model
 {
@@ -15,8 +19,12 @@ class Category extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'about'
+        'name', 'about', 'uidata_image_id', 'uidata_color'
     ];
+
+    public function image() {
+        return $this->belongsTo(FileInfo::class, 'uidata_image_id');
+    }
 
     public function courses() {
         return $this->belongsToMany(Course::class, 'course_categories');

@@ -209,13 +209,7 @@ class CourseService implements ICourseService
         return $course->trial_length;
     }
 
-    function paginateInCategory(Category $category, int $size = 15): LengthAwarePaginator
-    {
-        return $this->paginationModifier(
-            Course::query()->where('category_id', '=', $category->id),
-            $size
-        );
-    }
+
 
     private function paginationModifier(Builder $builder, int $size)
     {
@@ -227,6 +221,8 @@ class CourseService implements ICourseService
             ->paginate($size);
     }
 
+    //#region Categories
+
     function getCategory(int $categoryId): Category
     {
         return Category::findOrFail($categoryId);
@@ -236,6 +232,25 @@ class CourseService implements ICourseService
     {
         return Course::query()->inRandomOrder()->limit(5)->get();
     }
+
+    function createCategory(array $data): Category
+    {
+        $cat = Category::create($data);
+        $cat->refresh();
+        return $cat;
+    }
+
+    function paginateInCategory(Category $category, int $size = 15): LengthAwarePaginator
+    {
+        return $this->paginationModifier(
+            Course::query()->where('category_id', '=', $category->id),
+            $size
+        );
+    }
+
+    //#endregion
+
+    //#region Course rates
 
     function getAllCategories()
     {
@@ -286,4 +301,5 @@ class CourseService implements ICourseService
         return $rate;
     }
 
+    //#endregion
 }

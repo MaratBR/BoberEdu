@@ -1,9 +1,10 @@
 import {Action} from "vuex-simple";
 import StoreModuleBase from "@common/store/StoreModuleBase";
 import {dto, requests} from "@common";
+import {UpdatePayload} from "@common/store/utils";
 
 
-export default class CoursesModule extends StoreModuleBase {
+export default class CoursesAdminModule extends StoreModuleBase {
     @Action()
     update({id, data}: {id: number, data: requests.UpdateCourse}): Promise<void> {
         return this.client.put('courses/' + id, data).then(r => r.data)
@@ -25,22 +26,12 @@ export default class CoursesModule extends StoreModuleBase {
     }
 
     @Action()
-    enroll(id: number): Promise<void> {
-        return this.client.patch('enrollment/' + id + '/enroll').then(r => r.data)
+    createCategory(d: requests.CreateCategory): Promise<dto.CategoryDto> {
+        return this.client.post('courses/categories', d).then(r => r.data)
     }
 
     @Action()
-    disenroll(id: number): Promise<void> {
-        return this.client.patch('enrollment/' + id + '/disenroll').then(r => r.data)
-    }
-
-    @Action()
-    status(id: number): Promise<dto.EnrollmentStateDto> {
-        return this.client.get('enrollment/' + id + '/status').then(r => r.data)
-    }
-
-    @Action()
-    getEnrolls(): Promise<dto.EnrollmentsDto> {
-        return this.client.get('enrollment/yours').then(r => r.data)
+    updateCategory(d: UpdatePayload<requests.UpdateCategory>): Promise<void> {
+        return this.client.put('courses/categories/' + d.id, d.data).then(r => r.data)
     }
 }

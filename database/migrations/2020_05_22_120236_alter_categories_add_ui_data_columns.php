@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterCoursesAddUiDataColumns extends Migration
+class AlterCategoriesAddUiDataColumns extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AlterCoursesAddUiDataColumns extends Migration
      */
     public function up()
     {
-        Schema::table('teachers', function (Blueprint $table) {
+        Schema::table('categories', function (Blueprint $table) {
             $table->foreignId('uidata_image_id')->nullable();
-            $table->foreign('uidata_image_id', 'fk_courses_image_id_to_file_infos_id')
+            $table->foreign('uidata_image_id', 'fk_categories_image_id_to_file_infos_id')
                 ->references('id')->on('file_infos');
             $table->char('uidata_color', 6)->default('ffffff');
         });
@@ -28,8 +28,8 @@ class AlterCoursesAddUiDataColumns extends Migration
      */
     public function down()
     {
-        Schema::table('teachers', function (Blueprint $table) {
-            $table->dropForeign('fk_courses_image_id_to_file_infos_id');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropForeign('fk_categories_image_id_to_file_infos_id');
             $table->dropColumn([
                 'uidata_image_id',
                 'uidata_color'
