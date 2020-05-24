@@ -8,7 +8,7 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import CreditCard from "./CreditCard.vue";
-    import {CreditCardData} from "../../../store/dto";
+    import {CreditCardData} from "@common/api/dto";
 
     type DummyPaymentRequest = {
         card: {

@@ -10,7 +10,7 @@
             <div class="category-view__popular">
                 <h3>Here is some popular courses for you</h3>
                 <div class="category-view__popular__list">
-                    <router-link :to="{name: 'course', params: {id: c.id}}" v-for="c in category.popular">
+                    <router-link :to="{name: 'course', params: {id: c.id}}" v-for="c in category.popular" :key="c.id">
                         <div class="course-sm">
                             <img class="course-sm__img" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
                             <div class="course-sm__about">
@@ -34,7 +34,7 @@
 
                 </div>
 
-                <pagination-control :pagination="courses" v-slot="value">
+                <pagination-control @requestPage="page = $event && loadCourses()" :pagination="courses" v-slot="value">
                     <div class="course-w">
                         <img class="course-w__pic" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
 
@@ -59,18 +59,27 @@
 <script lang="ts">
     import {Component, Watch} from "vue-property-decorator";
     import {Loader, PaginationControl, StoreComponent} from "@common/components/utils";
-    import {dto} from "@common";
+    import {dto, Prop} from "@common";
 
     @Component({
         components: {PaginationControl, Loader}
     })
     export default class Category extends StoreComponent {
+        @Prop({required: true, type: Number}) categoryId: number;
         category: dto.CategoryExDto = null;
         courses: dto.PaginationDto<dto.CoursePageItemDto> = null;
+        page = 1;
 
         async loadData() {
-            this.category = await this.store.courses.getCategory(+this.$route.params.id);
-            this.courses = await this.store.courses.getCoursesFromCategory(+this.$route.params.id)
+            this.category = await this.store.courses.getCategory(this.categoryId);
+            await this.loadCourses()
+        }
+
+        async loadCourses() {
+            this.courses = await this.store.courses.getCoursesFromCategory({
+                id: this.categoryId,
+                page: this.page
+            })
         }
 
         created() {

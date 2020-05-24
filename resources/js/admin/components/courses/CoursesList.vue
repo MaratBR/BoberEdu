@@ -14,7 +14,7 @@
                             <th>Info</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="c in items">
+                        <tr v-for="c in items" :key="c.id">
                             <td>{{ c.id }}</td>
                             <td>{{ c.name }}</td>
                             <td>{{ c.summary }}</td>
@@ -61,7 +61,7 @@
                     page: this.page
                 })
             else
-                this.pagination = await this.store.courses.paginate()
+                this.pagination = await this.store.courses.paginate(this.page)
         }
 
         @Watch('category')

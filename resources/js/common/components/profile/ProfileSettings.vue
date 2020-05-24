@@ -63,7 +63,6 @@
         about: string = null;
         email: string = null;
         avatar: string = null;
-        sex: dto.Sex = null;
 
         avatarFile: File = null;
         usernameTaken: boolean = null;
@@ -75,7 +74,6 @@
         async load() {
             let settings = await this.store.users.settings()
             this.username = settings.name
-            this.sex = settings.sex
             this.about = settings.about
             this.avatar = settings.avatar
 

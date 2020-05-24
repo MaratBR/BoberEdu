@@ -35,9 +35,9 @@ class UserSettingsDto extends DtoBase
         return $this->user->about;
     }
 
-    function getSex()
+    function getDisplayName()
     {
-        return $this->user->sex;
+        return $this->user->display_name ? $this->user->display_name : $this->getName();
     }
 
 

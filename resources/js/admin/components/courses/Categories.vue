@@ -8,7 +8,7 @@
                     Select category
                     <select v-model="category">
                         <option :value="null" disabled>Chose name from the list</option>
-                        <option :value="c" v-for="c in categories">{{ c.name }}</option>
+                        <option :value="c" :key="c.id" v-for="c in categories">{{ c.name }}</option>
                     </select>
                 </label><br>
                 <button @click.prevent="addNew" class="btn"><i class="fa fa-plus"></i> add new</button>

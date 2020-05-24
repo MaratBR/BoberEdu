@@ -19,7 +19,7 @@
                 <div class="form__control">
                     <select id="CategoryInput" v-model="categoryId" required>
                         <option :value="null" disabled>Chose a category</option>
-                        <option :value="c.id" v-for="c in categories">{{ c.name }}</option>
+                        <option :value="c.id" :key="c.id" v-for="c in categories">{{ c.name }}</option>
                     </select>
                 </div>
 

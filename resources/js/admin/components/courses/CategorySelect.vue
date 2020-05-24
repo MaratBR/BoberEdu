@@ -1,7 +1,7 @@
 <template>
     <select :required="required"  v-model="category" @change="$emit('input', category)">
         <option :value="null" v-if="defaultText">{{ defaultText }}</option>
-        <option :value="cat" v-for="cat in categories">#{{ cat.id }} {{ cat.name }}</option>
+        <option :value="cat" :key="cat.id" v-for="cat in categories">#{{ cat.id }} {{ cat.name }}</option>
     </select>
 </template>
 

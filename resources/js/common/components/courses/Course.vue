@@ -52,7 +52,7 @@
 
                     <section class="course-body__units">
                         <div class="units-list">
-                            <div v-for="unit in course.units" class="unit-item" :class="{'active': isUnitOpen(unit.id)}">
+                            <div v-for="unit in course.units" :key="unit.id" class="unit-item" :class="{'active': isUnitOpen(unit.id)}">
                                 <div class="unit-item__header" @click="toggleUnit(unit.id)">
                                     <span class="unit-item__name">{{ unit.name }}</span>
                                     <span class="unit-item__about">{{ unit.lessons.length }} lessons</span>
@@ -60,7 +60,7 @@
                                 </div>
 
                                 <ul class="unit-item__lessons">
-                                    <li class="lesson-item" v-for="lesson in unit.lessons">
+                                    <li class="lesson-item" v-for="lesson in unit.lessons" :key="lesson.id">
                                         <router-link :to="{name: 'lesson', params: {v: course.id + '_' + lesson.id}}"
                                                      class="lesson-item__name">{{ lesson.title }}</router-link>
                                     </li>
@@ -72,7 +72,7 @@
                     <section class="course-body__teachers">
                         <h2>Teachers</h2>
                         <div class="d--flex">
-                            <router-link v-for="t in course.teachers" :to="{name: 'teacher', params: {id: t.id}}">
+                            <router-link v-for="t in course.teachers" :key="t.id" :to="{name: 'teacher', params: {id: t.id}}">
                                 <div class="teacher">
                                     <div class="avatar s90">
                                         <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
@@ -84,7 +84,7 @@
                     </section>
                 </div>
                 <div class="course-body__opinions">
-                    <div class="opinion" v-for="i in 2">
+                    <div class="opinion" v-for="i in 2" :key="i">
                         <cite class="opinion__text">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi dignissimos doloremque eveniet exercitationem iure iusto tenetur voluptas? Facere in labore natus, neque omnis optio possimus repellat reprehenderit tempora ullam.
                         </cite>
@@ -207,7 +207,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "sass/_config";
+    @import "../../../../sass/config";
 
     .course-view {
         &__hero {

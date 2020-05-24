@@ -57,10 +57,9 @@
 
 <script lang="ts">
     import {Component, Prop, Watch} from "vue-property-decorator";
-    import {dto, StoreComponent} from "@app/store";
-    import Loader from "@components/misc/Loader.vue";
-    import NotFound from "@components/pages/NotFound.vue";
-    import MarkdownViewer from "@components/misc/MarkdownViewer.vue";
+    import {Loader, MarkdownViewer, StoreComponent} from "@common/components/utils";
+    import {dto} from "@common";
+    import NotFound from "@common/components/pages/NotFound.vue";
 
     @Component({
         components: {MarkdownViewer, NotFound, Loader}

@@ -1,6 +1,6 @@
 <template>
     <page title="Courses List">
-        <pagination :pagination="pagination" v-slot="c" @requestPage="load($event)">
+        <pagination-control :pagination="pagination" v-slot="c" @requestPage="load($event)">
             <div class="card course">
                 <header class="course__name">
                     <h3>{{c.name}}</h3>
@@ -20,20 +20,19 @@
             </div>
 
             <pre style="border: 1px solid red;">{{c}}</pre>
-        </pagination>
+        </pagination-control>
     </page>
 </template>
 
 <script lang="ts">
-    import {PaginationControl, StoreComponent} from "@common/components";
-    import * as asd from "@common/components";
     import {Component, dto, Watch} from "@common";
+    import {PaginationControl, StoreComponent} from "@common/components/utils";
+    import Page from "@common/components/pages/Page.vue";
 
     // TODO make use of router's 'props' method
-    console.log(asd)
 
     @Component({
-        components: {PaginationControl}
+        components: {Page, PaginationControl}
     })
     export default class CoursesList extends StoreComponent {
         pagination: dto.PaginationDto<dto.CoursePageItemDto> = null;

@@ -3,6 +3,7 @@
         <ul class="pagination__pages" v-if="pagination">
             <li
                 v-for="i in size"
+                :key="i"
                 class="pagination-item"
                 :class="{active: i + leftCorner - 1 === pagination.meta.page}">
                 <button class="btn" @click.prevent="page(i + leftCorner - 1)">{{i + leftCorner - 1}}</button>
@@ -12,7 +13,7 @@
         <loader v-if="!pagination" />
         <slot v-else name="body" :items="pagination.data">
             <div class="pagination__items" v-if="pagination">
-                <div class="page-item" v-for="item in pagination.data">
+                <div class="page-item" v-for="(item, index) in pagination.data" :key="index">
                     <slot v-bind="item"></slot>
                 </div>
             </div>
@@ -22,6 +23,7 @@
         <ul class="pagination__pages" v-if="pagination">
             <li
                 v-for="i in size"
+                :key="i"
                 class="pagination-item"
                 :class="{active: i + leftCorner - 1 === pagination.meta.page}">
                 <button class="btn" @click.prevent="page(i + leftCorner - 1)">{{i + leftCorner - 1}}</button>

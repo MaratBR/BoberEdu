@@ -111,7 +111,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import "sass/_config";
+    @import "../../../../sass/config";
 
     .usrinf {
         &--username {

@@ -14,7 +14,7 @@
 
         <div class="payment" v-else>
             <tabs>
-                <tab v-for="gateway in availableGateways" :name="gateway.name">
+                <tab v-for="gateway in availableGateways" :key="gateaway.name" :name="gateway.name">
                     <component :is="gateway.component" :inline-template="true"
                                @invalid="ready = false"
                                @input="setPaymentPayload(gateway.name, $event)" />
@@ -97,7 +97,7 @@
 </script>
 
 <style lang="sass" scoped>
-    @import "sass/_config"
+    @import "../../../../sass/config"
 
 
     .purchase

@@ -15,7 +15,7 @@
 
             <div class="unit__lessons" v-if="showLessons">
                 <ul>
-                    <li v-for="l in unit.lessons">
+                    <li v-for="l in unit.lessons" :key="l.id">
                         {{ l.title }}
                     </li>
                 </ul>

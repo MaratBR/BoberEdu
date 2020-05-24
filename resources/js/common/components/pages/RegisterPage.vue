@@ -18,13 +18,6 @@ import {Sex} from "../../api";
                 <input class="input" id="InputPwd" type="password" v-model="password">
             </div>
 
-            <div class="form__control">
-                <label for="InputSex">Sex</label>
-                <select v-once name="sex" id="InputSex" v-model="sex">
-                    <option v-for="(v, s) in sexes" :value="s">{{v}}</option>
-                </select>
-            </div>
-
             <error v-if="errors" :error="errors" />
 
             <div class="form__control">
@@ -40,8 +33,6 @@ import {Sex} from "../../api";
     import {Component} from "vue-property-decorator";
     import Error from "@common/components/utils/Error.vue";
     import {StoreComponent} from "@common/components/utils";
-    import {dto} from "@common";
-    import {sexes} from "@common/store/AuthModule";
     import {getError} from "@common/utils";
 
 
@@ -54,10 +45,9 @@ import {Sex} from "../../api";
         email = '';
         password = '';
         name = '';
-        sex = dto.Sex.Unknown;
+        displayName = null
         errors = null;
         submitting = false;
-        sexes = sexes;
 
 
         async onSubmit() {
@@ -65,7 +55,7 @@ import {Sex} from "../../api";
                 await this.store.auth.register({
                     name: this.name,
                     email: this.email,
-                    sex: this.sex,
+                    displayName: this.displayName,
                     password: this.password
                 })
                 await this.$router.push({ name: 'login' })

@@ -27,6 +27,7 @@ export namespace dto {
     export type CourseDto = {
         id: number,
         rating: number,
+        ratingVotes: number,
         price: number,
         name: string,
         available: boolean,
@@ -120,27 +121,16 @@ export namespace dto {
         about: string
     };
 
-    export enum Sex {
-        Male = 'm',
-        Female = 'f',
-        Unknown = 'u'
-    }
-
-    export const sexes: {[key: string]: string} = {
-        [Sex.Unknown]: 'Unknown',
-        [Sex.Female]: 'Female',
-        [Sex.Male]: 'Male'
-    };
 
     export type UserDto = {
         id: number,
         joinedAt: string,
-        sex: Sex,
         name: string,
         roles: string[],
         status: string,
         about: string,
-        avatar: string
+        avatar: string,
+        displayName?: string
     };
 
     export type UserProfileDto = {
@@ -159,7 +149,7 @@ export namespace dto {
     export type UserSettingsDto = {
         id: number,
         about: string,
-        sex: Sex,
+        displayName: string,
         email: string,
         name: string,
         avatar: string
@@ -216,7 +206,7 @@ export namespace requests {
         name?: string,
         status?: string,
         about?: string,
-        sex?: dto.Sex
+        displayName?: string
     };
 
     export type Login = {
@@ -228,7 +218,7 @@ export namespace requests {
         name: string,
         password: string,
         email: string,
-        sex?: dto.Sex
+        displayName?: string
     }
 
     export type CreateCategory = {

@@ -2,7 +2,9 @@
     <div class="container">
         <loader v-if="!categories" />
         <div v-else class="categories">
-            <router-link v-for="cat in categories" class="cat" :to="{name: 'category', params: {id: cat.id}}">
+            <router-link v-for="cat in categories" class="cat"
+                         :key="cat.id"
+                         :to="{name: 'category', params: {id: cat.id}}">
                 <div>
                     <div class="cat__name">{{cat.name}}</div>
                     <div class="cat__about">{{cat.about}}</div>

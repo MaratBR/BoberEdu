@@ -2,7 +2,7 @@
     <div :class="styleClass">
         <div :class="styleClass + '__headers'">
             <button @click="setTab(i)" :class="[styleClass + '__header', {active: selected === i}]"
-                    v-for="(tab, i) in tabs">
+                    v-for="(tab, i) in tabs" :key="i">
                 {{ tab.name }}
             </button>
         </div>
@@ -42,7 +42,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import "sass/_config";
+    @import "../../../../sass/config";
 
 
     .tabs {
