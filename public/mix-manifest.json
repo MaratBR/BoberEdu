@@ -1,6 +1,10 @@
 {
-    "/js/app.js": "/js/app.js?id=d05c4252a2ee37f4b5ee",
+    "/js/app.js": "/js/app.js?id=cb94e5e37102d7d8d062",
     "/css/app.css": "/css/app.css?id=4de60f17e07550679d43",
+    "/js/chunks/admin-categories.js": "/js/chunks/admin-categories.js?id=97c687efa3b11865c594",
+    "/js/chunks/admin-categories~admin-course-form~admin-courses.js": "/js/chunks/admin-categories~admin-course-form~admin-courses.js?id=2d5e7cc57958c0a909e8",
+    "/js/chunks/admin-course-form.js": "/js/chunks/admin-course-form.js?id=b63152b98024e770f9ca",
+    "/js/chunks/admin-courses.js": "/js/chunks/admin-courses.js?id=06923332780e9b26d132",
     "/js/chunks/categories.js": "/js/chunks/categories.js?id=8f57fec2513717b0217a",
     "/js/chunks/category.js": "/js/chunks/category.js?id=5723dca2f82f5dff72f0",
     "/js/chunks/course-view.js": "/js/chunks/course-view.js?id=1f05d1c8233b469dbb04",
@@ -10,10 +14,5 @@
     "/js/chunks/profile-settings.js": "/js/chunks/profile-settings.js?id=592387d56ab0651cdfc1",
     "/js/chunks/purchase.js": "/js/chunks/purchase.js?id=3a26f1f179ba2713c4df",
     "/js/chunks/register.js": "/js/chunks/register.js?id=e71451af8eaab835fa9d",
-    "/js/chunks/admin-categories~admin-course-form.js": "/js/chunks/admin-categories~admin-course-form.js?id=6d2351538e2113e23d96",
-    "/js/chunks/vendors~admin-course-form.js": "/js/chunks/vendors~admin-course-form.js?id=0babfad7396251b84331",
-    "/js/chunks/admin-course-form.js": "/js/chunks/admin-course-form.js?id=a05e43d009d328de533e",
-    "/js/chunks/admin-categories.js": "/js/chunks/admin-categories.js?id=76bdb30b7b5cced50f6b",
-    "/js/chunks/admin-categories~admin-course-form~admin-courses.js": "/js/chunks/admin-categories~admin-course-form~admin-courses.js?id=d19068f65cecef49c92c",
-    "/js/chunks/admin-courses.js": "/js/chunks/admin-courses.js?id=06923332780e9b26d132"
+    "/js/chunks/vendors~admin-course-form.js": "/js/chunks/vendors~admin-course-form.js?id=c35e8dd72e898043fefb"
 }

@@ -116,7 +116,12 @@ let router = new VueRouter({
                     component: () => import(
                         /* webpackChunkName: "category" */
                         '@common/components/courses/Category.vue'),
-                    name: 'category'
+                    name: 'category',
+                    props({params}) {
+                        return {
+                            categoryId: +params.id || 0
+                        }
+                    }
                 },
                 {
                     path: '/categories',
