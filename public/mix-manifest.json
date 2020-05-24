@@ -1,18 +1,18 @@
 {
-    "/js/app.js": "/js/app.js?id=cb94e5e37102d7d8d062",
+    "/js/app.js": "/js/app.js?id=78d546741c891814fcb3",
     "/css/app.css": "/css/app.css?id=4de60f17e07550679d43",
-    "/js/chunks/admin-categories.js": "/js/chunks/admin-categories.js?id=97c687efa3b11865c594",
+    "/js/chunks/admin-categories.js": "/js/chunks/admin-categories.js?id=54185b8bf32c0d7ffdfc",
     "/js/chunks/admin-categories~admin-course-form~admin-courses.js": "/js/chunks/admin-categories~admin-course-form~admin-courses.js?id=2d5e7cc57958c0a909e8",
-    "/js/chunks/admin-course-form.js": "/js/chunks/admin-course-form.js?id=b63152b98024e770f9ca",
+    "/js/chunks/admin-course-form.js": "/js/chunks/admin-course-form.js?id=4632255dfb019d854b8e",
     "/js/chunks/admin-courses.js": "/js/chunks/admin-courses.js?id=06923332780e9b26d132",
     "/js/chunks/categories.js": "/js/chunks/categories.js?id=8f57fec2513717b0217a",
-    "/js/chunks/category.js": "/js/chunks/category.js?id=5723dca2f82f5dff72f0",
+    "/js/chunks/category.js": "/js/chunks/category.js?id=db800386299cccc4debf",
     "/js/chunks/course-view.js": "/js/chunks/course-view.js?id=1f05d1c8233b469dbb04",
     "/js/chunks/lesson.js": "/js/chunks/lesson.js?id=5a44d527a32d372cd179",
     "/js/chunks/login.js": "/js/chunks/login.js?id=129503d0e098449a3cc3",
     "/js/chunks/profile.js": "/js/chunks/profile.js?id=4ac85f512fe2c8ba4f71",
     "/js/chunks/profile-settings.js": "/js/chunks/profile-settings.js?id=592387d56ab0651cdfc1",
     "/js/chunks/purchase.js": "/js/chunks/purchase.js?id=3a26f1f179ba2713c4df",
-    "/js/chunks/register.js": "/js/chunks/register.js?id=e71451af8eaab835fa9d",
+    "/js/chunks/register.js": "/js/chunks/register.js?id=c72217b285a502aaebb7",
     "/js/chunks/vendors~admin-course-form.js": "/js/chunks/vendors~admin-course-form.js?id=c35e8dd72e898043fefb"
 }

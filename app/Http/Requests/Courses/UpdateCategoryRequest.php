@@ -28,10 +28,9 @@ class UpdateCategoryRequest extends AdminRequest implements IPayloadRequest
         $d = $this->validated();
 
         if (array_key_exists('color', $d)) {
-            $array['uidata_color'] = $d['color'];
+            $d['uidata_color'] = $d['color'];
             unset($d['color']);
         }
-
         return $d;
     }
 }

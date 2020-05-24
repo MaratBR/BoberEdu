@@ -1,6 +1,9 @@
 <template>
     <div class="category-view">
         <loader v-if="!category" />
+        <category-header v-else :name="category.name" :about="category.about" :color="'#' + category.color" :image-id="category.bgImage" />
+        <!--
+
         <header v-else class="category-view__head">
             <div class="category-view__cat container">
                 <span class="category-view__title">{{ category.name }}</span><br>
@@ -26,6 +29,8 @@
                 </div>
             </div>
         </header>
+
+        -->
 
         <div class="container">
 
@@ -60,9 +65,10 @@
     import {Component, Watch} from "vue-property-decorator";
     import {Loader, PaginationControl, StoreComponent} from "@common/components/utils";
     import {dto, Prop} from "@common";
+    import CategoryHeader from "@common/components/courses/CategoryHeader.vue";
 
     @Component({
-        components: {PaginationControl, Loader}
+        components: {CategoryHeader, PaginationControl, Loader}
     })
     export default class Category extends StoreComponent {
         @Prop({required: true, type: Number}) categoryId: number;

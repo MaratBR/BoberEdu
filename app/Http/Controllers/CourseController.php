@@ -166,7 +166,7 @@ class CourseController extends Controller
         $d = $request->getPayload();
         $category->update($d);
 
-        return $this->noContent();
+
     }
 
     public function createCategory(CreateCategoryRequest $request) {
