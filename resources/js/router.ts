@@ -42,6 +42,13 @@ let router = new VueRouter({
             },
             children: [
                 {
+                    path: 'courses',
+                    name: 'admin__courses',
+                    component: () => import(
+                        /* webpackChunkName: "admin-courses" */
+                        '@admin/components/courses/CoursesList.vue')
+                },
+                {
                     path: 'courses/new',
                     name: 'admin__courses_new',
                     component: () => import(

@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=c96c655188ffa0a3a59f",
+    "/js/app.js": "/js/app.js?id=0b5ea3a90c650d4e4827",
     "/css/app.css": "/css/app.css?id=4de60f17e07550679d43",
     "/js/chunks/categories.js": "/js/chunks/categories.js?id=fe6caee312e6ecf727f0",
     "/js/chunks/category.js": "/js/chunks/category.js?id=e1c344322cd04822e96b",
@@ -12,6 +12,8 @@
     "/js/chunks/register.js": "/js/chunks/register.js?id=e5733edba8e410f2509f",
     "/js/chunks/admin-categories~admin-course-form.js": "/js/chunks/admin-categories~admin-course-form.js?id=6d2351538e2113e23d96",
     "/js/chunks/vendors~admin-course-form.js": "/js/chunks/vendors~admin-course-form.js?id=0babfad7396251b84331",
-    "/js/chunks/admin-course-form.js": "/js/chunks/admin-course-form.js?id=4c31dc89ac6dbb253c0e",
-    "/js/chunks/admin-categories.js": "/js/chunks/admin-categories.js?id=2e5fdc0ffa2c124d3d44"
+    "/js/chunks/admin-course-form.js": "/js/chunks/admin-course-form.js?id=1fded23722d91ba79aa4",
+    "/js/chunks/admin-categories.js": "/js/chunks/admin-categories.js?id=7ab88b454f24f967508b",
+    "/js/chunks/admin-categories~admin-course-form~admin-courses.js": "/js/chunks/admin-categories~admin-course-form~admin-courses.js?id=d19068f65cecef49c92c",
+    "/js/chunks/admin-courses.js": "/js/chunks/admin-courses.js?id=f2e347c06894bca022a3"
 }

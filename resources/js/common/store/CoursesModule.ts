@@ -2,6 +2,11 @@ import StoreModuleBase from "./StoreModuleBase";
 import {Action} from "vuex-simple";
 import {dto, requests} from "@common"
 
+type CategoryCoursesPayload = {
+    id: number,
+    page: number
+}
+
 
 export default class CoursesModule extends StoreModuleBase {
     @Action()
@@ -20,8 +25,12 @@ export default class CoursesModule extends StoreModuleBase {
     }
 
     @Action()
-    getCoursesFromCategory(id: number): Promise<dto.PaginationDto<dto.CoursePageItemDto>>  {
-        return this.client.get('courses/categories/' + id + '/courses').then(r => r.data)
+    getCoursesFromCategory({id, page}: CategoryCoursesPayload): Promise<dto.PaginationDto<dto.CoursePageItemDto>>  {
+        return this.client.get('courses/categories/' + id + '/courses', {
+            params: {
+                page
+            }
+        }).then(r => r.data)
     }
 
     @Action()

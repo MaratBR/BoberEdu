@@ -9,15 +9,15 @@
             </li>
         </ul>
 
-        <loader :loading="!pagination" :promise-mode="false">
+        <loader v-if="!pagination" />
+        <slot v-else name="body" :items="pagination.data">
             <div class="pagination__items" v-if="pagination">
                 <div class="page-item" v-for="item in pagination.data">
-                    <slot v-bind="item">
-                        <pre>{{item}}</pre>
-                    </slot>
+                    <slot v-bind="item"></slot>
                 </div>
             </div>
-        </loader>
+        </slot>
+
 
         <ul class="pagination__pages" v-if="pagination">
             <li
