@@ -10,7 +10,7 @@ class UnitsTableSeeder extends Seeder
     {
         Unit::create([
             'name' => 'Unit #1',
-            'is_preview' => true,
+            'preview' => true,
             'course_id' => 1,
             'about' => 'In this unit you will learn nothing because it\'s just an example'
         ]);

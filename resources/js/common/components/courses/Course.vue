@@ -195,7 +195,7 @@
         }
 
         hasFreePreview(course): boolean {
-            return course.units.some(u => u.is_preview)
+            return course.units.some(u => u.preview)
         }
 
         @Watch('$route')

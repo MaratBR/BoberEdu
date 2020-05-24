@@ -17,7 +17,7 @@ class CreateUnitsTable extends Migration
             $table->integerIncrements('id');
             $table->timestamps();
             $table->string('name');
-            $table->boolean('is_preview')->default(false);
+            $table->boolean('preview')->default(false);
             $table->text('about');
             $table->smallInteger('order_num')->default(0);
             $table->softDeletes();

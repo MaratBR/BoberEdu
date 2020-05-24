@@ -1,13 +1,13 @@
 {
-    "/js/app.js": "/js/app.js?id=bfa0413fd0d87ed051ac",
-    "/css/app.css": "/css/app.css?id=b3404fe2baf16e35a77a",
+    "/js/app.js": "/js/app.js?id=08b044ac15a805395c47",
+    "/css/app.css": "/css/app.css?id=4de60f17e07550679d43",
     "/js/chunks/categories.js": "/js/chunks/categories.js?id=fe6caee312e6ecf727f0",
     "/js/chunks/category.js": "/js/chunks/category.js?id=e1c344322cd04822e96b",
-    "/js/chunks/course-view.js": "/js/chunks/course-view.js?id=b67420310125b1049935",
+    "/js/chunks/course-view.js": "/js/chunks/course-view.js?id=17140f3708fff2eb7649",
     "/js/chunks/lesson.js": "/js/chunks/lesson.js?id=25189b336cbe0c8f01b1",
     "/js/chunks/login.js": "/js/chunks/login.js?id=129503d0e098449a3cc3",
     "/js/chunks/profile.js": "/js/chunks/profile.js?id=4ac85f512fe2c8ba4f71",
     "/js/chunks/profile-settings.js": "/js/chunks/profile-settings.js?id=722c74abb6a6eeba0f2e",
-    "/js/chunks/purchase.js": "/js/chunks/purchase.js?id=7ffac9a5df2b72add9ae",
+    "/js/chunks/purchase.js": "/js/chunks/purchase.js?id=a203d1e812815dc87fbe",
     "/js/chunks/register.js": "/js/chunks/register.js?id=2c3d75e44ef481beb566"
 }

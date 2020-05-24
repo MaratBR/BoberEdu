@@ -135,40 +135,10 @@
 <script lang="ts">
 
     import {Component, Vue} from "vue-property-decorator";
-    import IMask from 'imask';
-    import {CreditCardData} from "../../../../resources/js/store/dto";
+    import {CreditCardData} from "@common/api/dto";
 
     const DEFAULT_HOLDER = 'John Doe';
     const DEFAULT_CARD = '#### #### #### ####';
-
-    type CreditCardType = {
-        name: string,
-        pattern: string | string[]
-    }
-
-    const CC_TYPES: CreditCardType[] = [
-        {
-            name: 'American Express',
-            pattern: [
-                '3400 0000 0000 000',
-                '3700 0000 0000 000',
-            ]
-        },
-        {
-            name: 'Visa',
-            pattern: '4000 0000 0000 0000'
-        },
-        {
-            name: 'MasterCard',
-            pattern: [
-                '5100 0000 0000 0000',
-                '5200 0000 0000 0000',
-                '5300 0000 0000 0000',
-                '5400 0000 0000 0000',
-                '5500 0000 0000 0000'
-            ]
-        }
-    ];
 
     @Component
     export default class CreditCard extends Vue {
@@ -235,24 +205,6 @@
         }
 
         mounted() {
-            let $ccNum = this.$refs.ccNumber as IMask.MaskElement & HTMLInputElement;
-            let $ccExpiration = this.$refs.ccExpiration as IMask.MaskElement & HTMLInputElement;
-            let $ccCvv = this.$refs.ccCvv as IMask.MaskElement & HTMLInputElement;
-
-            IMask($ccNum, {
-                mask: '00000000000000[00000]',
-                lazy: false,
-            });
-
-            IMask($ccExpiration, {
-                mask: '00/00',
-                lazy: false,
-            });
-
-            IMask($ccCvv, {
-                mask: '000',
-                lazy: false,
-            });
         }
     }
 </script>

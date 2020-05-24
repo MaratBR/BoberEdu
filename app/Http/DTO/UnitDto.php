@@ -27,6 +27,6 @@ class UnitDto extends DtoBase
 
     public function isPreview(): bool
     {
-        return $this->unit->is_preview;
+        return $this->unit->preview;
     }
 }

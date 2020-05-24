@@ -31,7 +31,7 @@ class LessonPolicy
 
     public function view(User $user, Lesson $lesson)
     {
-        return $lesson->unit->is_preview ?
+        return $lesson->unit->preview ?
             $this->enrollments->hasAccess($lesson->unit->course_id, $user) :
             $this->enrollments->hasActivatedEnrollment($lesson->unit->course_id, $user);
     }

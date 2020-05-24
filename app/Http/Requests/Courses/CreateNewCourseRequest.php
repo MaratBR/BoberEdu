@@ -33,7 +33,8 @@ class CreateNewCourseRequest extends AuthenticatedRequest implements IPayloadReq
             'about' => 'required',
             'signUpBeg' => 'nullable|date_format:Y-m-d',
             'signUpEnd' => 'nullable|date_format:Y-m-d',
-            'available' => 'boolean'
+            'available' => 'boolean',
+            'categoryId' => 'numeric|required|exists:categories,id'
         ];
     }
 

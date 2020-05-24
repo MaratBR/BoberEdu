@@ -24,7 +24,6 @@ export default class UsersModule extends StoreModuleBase {
         return this.client.patch('users/' + d.id, d.req).then(r => r.data)
     }
 
-
     uploadAvatar(file: File): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             let reader = new FileReader()
@@ -43,11 +42,5 @@ export default class UsersModule extends StoreModuleBase {
             }
             reader.readAsArrayBuffer(file)
         })
-
-
-
-
-
-
     }
 }

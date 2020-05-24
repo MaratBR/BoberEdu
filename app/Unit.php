@@ -13,28 +13,15 @@ use Illuminate\Database\Query\Builder;
  * @property string name
  * @property string about
  * @property int id
- * @property bool is_preview
+ * @property bool preview
  * @property Lesson[] lessons
  */
 class Unit extends Model
 {
     use SoftDeletes;
 
-    public static $rules = [
-        'name' => 'required|min:1|max:255',
-        'is_preview' => 'required|boolean',
-        'about' => 'required',
-        'order_num' => 'integer',
-        'course_id' => 'integer|required'
-    ];
-    public static $updateRules = [
-        'name' => 'min:1|max:255',
-        'is_preview' => 'boolean',
-        'about' => 'string',
-        'order_num' => 'integer'
-    ];
     protected $fillable = [
-        'name', 'is_preview', 'about', 'course_id',
+        'name', 'preview', 'about', 'course_id',
         'order_num'
     ];
     protected $hidden = [
@@ -42,7 +29,7 @@ class Unit extends Model
     ];
     protected $casts = [
         'order_num' => 'integer',
-        'is_preview' => 'boolean'
+        'preview' => 'boolean'
     ];
 
     public static function scopeForUser(User $user)

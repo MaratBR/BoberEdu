@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Courses;
 
+use App\Http\Requests\AdminRequest;
 use App\Http\Requests\IPayloadRequest;
 use App\Utils\Convert;
 
-class UpdateCourseRequest extends CourseRequest implements IPayloadRequest
+class UpdateCourseRequest extends AdminRequest implements IPayloadRequest
 {
     /**
      * Get the validation rules that apply to the request.

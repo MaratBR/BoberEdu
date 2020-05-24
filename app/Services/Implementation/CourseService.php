@@ -76,7 +76,9 @@ class CourseService implements ICourseService
      */
     function create($data): Course
     {
-        return Course::create($data);
+        $course = Course::create($data);
+        $course->refresh();
+        return $course;
     }
 
     /**
@@ -162,7 +164,7 @@ class CourseService implements ICourseService
     {
         $course = Course::with([
             'units' => function (HasMany $b) {
-                $b->select('name', 'id', 'course_id', 'about', 'order_num', 'is_preview');
+                $b->select('name', 'id', 'course_id', 'about', 'order_num', 'preview');
                 $b->orderBy('order_num');
                 $b->with([
                     'lessons' => function (HasMany $b) {
@@ -186,7 +188,7 @@ class CourseService implements ICourseService
     {
         return Course::with([
             'units' => function (HasMany $b) {
-                $b->select('name', 'id', 'course_id', 'about', 'order_num', 'is_preview');
+                $b->select('name', 'id', 'course_id', 'about', 'order_num', 'preview');
                 $b->orderBy('order_num');
                 $b->with([
                     'lessons' => function (HasMany $b) {

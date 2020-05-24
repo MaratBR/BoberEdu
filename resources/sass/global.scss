@@ -1,0 +1,37 @@
+@import "config";
+
+body {
+    margin: 0;
+    font-family: $ss-font-family;
+    color: $ss-fg;
+    background: $ss-bg;
+}
+
+hr {
+
+    border: 1px solid whitesmoke;
+    margin: 20px 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+pre {
+    max-width: 100%;
+    overflow: auto;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

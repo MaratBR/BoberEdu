@@ -5,6 +5,32 @@ import {RawLocation} from "vue-router/types/router";
 import App from "@common/components/sections/App.vue";
 import {getCommonStore} from "@common/store";
 
+type ValidationResult = {
+    to: string,
+    params?: any
+}
+
+type RouteParamsValidator<T = object> = (v: T) => ValidationResult | null | undefined;
+
+//#region b64 utility functions
+
+// https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
+function b64Encode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+            return String.fromCharCode(+p1);
+        }));
+}
+
+function b64Decode(str) {
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
+//#endregion
+
+
 let router = new VueRouter({
     routes: [
         {
@@ -112,7 +138,24 @@ let router = new VueRouter({
             component: () => import('@admin/components/AdminPanel.vue'),
             meta: {
                 requiresAdmin: true
-            }
+            },
+            children: [
+                {
+                    path: 'courses/:id',
+                    name: 'admin__courses_edit',
+                    component: () => import('@admin/components/courses/CourseForm.vue'),
+                    props({params}) {
+                        return {
+                            id: +params.id
+                        }
+                    }
+                },
+                {
+                    path: 'courses/new',
+                    name: 'admin__courses_new',
+                    component: () => import('@admin/components/courses/CourseForm.vue')
+                },
+            ]
         }
     ],
     mode: 'history'

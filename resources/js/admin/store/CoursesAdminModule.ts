@@ -10,7 +10,7 @@ export default class CoursesModule extends StoreModuleBase {
     }
 
     @Action()
-    create(data: requests.CreateCourse): Promise<dto.CourseDto> {
+    create(data: requests.CreateCourse): Promise<dto.CourseExDto> {
         return this.client.post('courses', data).then(r => r.data)
     }
 

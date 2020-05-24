@@ -10,4 +10,9 @@ class UnitExDto extends UnitDto
     {
         return collect($this->unit->lessons)->mapInto(LessonDto::class);
     }
+
+    public function getAbout()
+    {
+        return $this->unit->about;
+    }
 }

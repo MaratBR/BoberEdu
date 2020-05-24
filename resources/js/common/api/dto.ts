@@ -115,7 +115,8 @@ export namespace dto {
     };
 
     export type UnitExDto = UnitDto & {
-        lessons: LessonDto[]
+        lessons: LessonDto[],
+        about: string
     };
 
     export enum Sex {
@@ -166,31 +167,43 @@ export namespace dto {
 
 export namespace requests {
     export type CreateCourse = {
+        categoryId: number,
         name: string,
         price?: number,
         about: string,
+        summary: string,
         signUpBeg?: string,
         signUpEnd?: string,
-        available?: string
+        available?: string,
     };
 
     export type UpdateCourse = {
         name?: string,
         price?: number,
         about?: string,
+        summary?: string,
         signUpBeg?: string,
         signUpEnd?: string,
         available?: string
     };
 
+    export type NewUnitPayload = {
+        name: string,
+        about: string,
+        preview?: boolean
+    }
+
+    export type UpdateUnitPayload = {
+        id: number,
+        name?: string,
+        about?: string
+    }
+
     export type UpdateCourseUnits = {
         delete: number[],
         order: string[],
-        upd: {
-            id: number,
-            name?: string,
-            about?: string
-        }[]
+        upd: UpdateUnitPayload[],
+        new: NewUnitPayload[]
     };
 
     export type CreatePayment = {

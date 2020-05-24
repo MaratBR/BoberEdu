@@ -18,7 +18,7 @@ class Convert
 
             foreach ($value as $key => $v)
             {
-                $newValue[self::toSnakeCase($key)] = self::toSnakeCase($v);
+                $newValue[self::toSnakeCase($key)] = is_array($v) ? self::toSnakeCase($v) : $v;
             }
 
             return $newValue;
