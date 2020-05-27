@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Lessons;
 
 
 class LessonExDto extends LessonDto

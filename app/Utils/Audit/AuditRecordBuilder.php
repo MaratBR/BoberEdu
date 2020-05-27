@@ -70,7 +70,7 @@ class AuditRecordBuilder
 
     public function request(Request $request): self
     {
-        return $this->userAgent($request->userAgent())->ip($request->ip());
+        return $this->userAgent($request->userAgent())->ip($request->ip())->actor($request->user());
     }
 
     public function build(): AuditRecord

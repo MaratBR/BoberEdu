@@ -2,19 +2,11 @@
 
 namespace App\Http\Requests\Lessons;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\AuthenticatedRequest;
+use App\Http\Requests\IPayloadRequest;
 
-class UpdateLessonRequest extends FormRequest
+class UpdateLessonRequest extends AuthenticatedRequest implements IPayloadRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +16,14 @@ class UpdateLessonRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'string',
+            'content' => 'string',
+            'summary' => 'string'
         ];
+    }
+
+    function getPayload(): array
+    {
+        return $this->validated();
     }
 }

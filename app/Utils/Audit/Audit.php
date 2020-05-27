@@ -14,4 +14,8 @@ class Audit
     public const TEACHER_NEW = 'Tnew';
     public const TEACHER_UPDATED = 'Tupd';
 
+    public const LESSON_UPDATE = 'Lupd';
+    public const LESSON_CREATE = 'Lnew';
+    public const LESSON_DELETE = 'Ldel';
+
 }

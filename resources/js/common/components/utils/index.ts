@@ -1,6 +1,6 @@
 import Error from "@common/components/utils/Error.vue";
 import Loader from "@common/components/utils/Loader.vue";
-import MarkdownEditor from "@common/components/utils/MarkdownEditor.vue";
+import MarkdownEditor from "@common/components/forms/MarkdownEditor.vue";
 import MarkdownViewer from "@common/components/utils/MarkdownViewer.vue";
 import StoreComponent from "@common/components/utils/StoreComponent";
 import Tab from "@common/components/utils/Tab.vue";

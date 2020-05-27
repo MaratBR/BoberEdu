@@ -60,6 +60,13 @@ Route::group([
 
 Route::resource('courses', 'CourseController')->only(['destroy', 'update', 'show', 'store', 'index']);
 Route::resource('users', 'UserController')->only(['update', 'show', 'index']);
+
+
+Route::group([
+    'prefix' => 'lessons'
+], function () {
+    Route::get('{lesson}/admin', 'LessonsController@showAdmin');
+});
 Route::resource('lessons', 'LessonsController')->only(['store', 'update', 'show', 'destroy']);
 
 Route::group([
@@ -87,5 +94,18 @@ Route::group([
     Route::post('', 'TeacherController@create');
     Route::post('assignment/{teacher}/{course}', 'TeacherController@assign');
     Route::delete('assignment/{teacher}/{course}', 'TeacherController@revoke');
+});
+
+Route::group([
+    'middleware' => 'admin',
+    'prefix' => 'admin'
+], function () {
+    Route::group([
+        'prefix' => 'lessons'
+    ], function () {
+        Route::get('{id}', 'Admin\LessonsController@get');
+        Route::put('{id}', 'Admin\LessonsController@update');
+        Route::delete('{id}', 'Admin\LessonsController@delete');
+    });
 });
 

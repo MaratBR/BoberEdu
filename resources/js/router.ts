@@ -89,6 +89,18 @@ let router = new VueRouter({
                     }
                 },
                 {
+                    path: 'lessons/:id',
+                    name: 'admin__lessons',
+                    component: () => import(
+                        /* webpackChunkName: "admin-lesson-form" */
+                        '@admin/components/courses/LessonForm.vue'),
+                    props({params, query}) {
+                        return {
+                            id: +params.id
+                        }
+                    }
+                },
+                {
                     path: 'categories',
                     name: 'admin__categories',
                     component: () => import(

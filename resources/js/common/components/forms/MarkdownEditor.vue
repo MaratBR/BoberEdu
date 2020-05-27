@@ -1,8 +1,9 @@
 <template>
     <div class="md-editor" :class="{'v': vertical}">
         <div class="md-editor__text">
+            <label :for="id">{{ label }}</label>
             <textarea class="input" name="md" id="md-editor" cols="30" rows="10"
-                      :value="value"
+                      :value="value" :id="id"
                       @input="onInput($event.target.value)"
             ></textarea>
         </div>
@@ -26,13 +27,16 @@
     import * as marked from "marked";
     import * as DOMPurify from 'dompurify'
     import {Component, Prop, Vue, Watch} from "@common";
+    import {inputId} from "@common/components/forms/utils";
 
     @Component
     export default class MarkdownEditor extends Vue {
         vertical: boolean = localStorage['md-editor-vmode'] === 'true';
         marked: string = '';
+        id = inputId()
 
         @Prop({ type: String }) value: string;
+        @Prop({ type: String }) label: string;
 
         onInput(val: string) {
             this.$emit('input', val)

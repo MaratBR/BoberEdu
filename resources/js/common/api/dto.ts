@@ -69,7 +69,8 @@ export namespace dto {
 
     export type LessonDto = {
         title: string
-        id: number
+        id: number,
+        summary: string
     };
 
     export type LessonExDto = LessonDto & {
@@ -240,6 +241,12 @@ export namespace requests {
             id: number,
             order: number[]
         }[]
+    }
+
+    export type UpdateLesson = {
+        title?: string,
+        summary?: string,
+        content?: string
     }
 }
 

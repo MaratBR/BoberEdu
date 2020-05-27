@@ -4,6 +4,8 @@
 namespace App\Http\DTO;
 
 
+use App\Http\DTO\Lessons\LessonDto;
+
 class UnitExDto extends UnitDto
 {
     public function getLessons()

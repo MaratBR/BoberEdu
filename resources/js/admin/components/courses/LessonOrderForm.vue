@@ -54,12 +54,13 @@
         async load() {
             let d = await this.store.courses.getUnits(this.courseId)
             this.courseName = d.courseName
-            this.units  = d.units.map(u => ({
+            this.units = d.units.map(u => ({
                 id: u.id,
                 name: u.name,
                 lessons: u.lessons.map(l => ({
                     id: l.id,
-                    title: l.title
+                    title: l.title,
+                    summary: l.summary
                 })),
                 order: null,
                 changed: false

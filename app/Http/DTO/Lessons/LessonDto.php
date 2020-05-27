@@ -1,9 +1,10 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Lessons;
 
 
+use App\Http\DTO\DtoBase;
 use App\Lesson;
 
 class LessonDto extends DtoBase
@@ -18,6 +19,11 @@ class LessonDto extends DtoBase
     public function getTitle()
     {
         return $this->lesson->title;
+    }
+
+    public function getSummary()
+    {
+        return $this->lesson->summary;
     }
 
     public function getId()
