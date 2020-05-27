@@ -15,11 +15,11 @@
                         <div v-else class="edit-status">
                             <textarea v-model="newStatus" class="edit-status__input input" />
                         </div>
-                        <button @click="editStatus"
+                        <button @click="editStatus" class="button-clear"
                                 v-if="store.auth.isAuthenticated && profile.user.id === store.auth.user.id && !setStatus">
                             <i class="fa fa-edit"></i> edit
                         </button>
-                        <button v-else-if="setStatus" @click="updateStatus">
+                        <button v-else-if="setStatus" class="button-clear" @click="updateStatus">
                             <i class="fa fa-check"></i> done
                         </button>
                     </div>
@@ -126,12 +126,6 @@
         &--status {
             color: #555;
             padding-left: 10px;
-
-            & > button {
-                border: none;
-                background: none;
-                cursor: pointer;
-            }
         }
     }
 

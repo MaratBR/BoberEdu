@@ -1,0 +1,25 @@
+@import "./config";
+
+@function is-dark($color) {
+    @return lightness($color) < 50%;
+}
+
+@function get-text-color-based-on-background($bg) {
+    @if (is-dark($bg)) {
+        @return $light-text-color;
+    } @else {
+        @return $dark-text-color;
+    }
+}
+
+@function get-border-color-based-on-background($bg) {
+    @return shift-color-brightness($bg, 10%);
+}
+
+@function shift-color-brightness($color, $amount) {
+    @if (is-dark($color)) {
+        @return lighten($color, $amount)
+    } @else {
+        @return darken($color, $amount)
+    }
+}

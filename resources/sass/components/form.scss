@@ -1,0 +1,23 @@
+.form {
+
+    &__control {
+        margin: 8px 0 14px 0;
+    }
+
+    &__label, label {
+        vertical-align: text-bottom;
+
+        & > input, & > textarea {
+            display: block;
+        }
+
+        & + input {
+            display: inline-block;
+        }
+    }
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+}

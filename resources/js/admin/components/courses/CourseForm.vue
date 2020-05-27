@@ -9,18 +9,18 @@
             </template>
 
             <form class="form" @submit.prevent="onSubmit">
+                <div class="form__control" v-if="!persistent">
+                    <select id="CategoryInput" v-model="categoryId" required>
+                        <option :value="null" disabled>Chose a category</option>
+                        <option :value="c.id" :key="c.id" v-for="c in categories">{{ c.name }}</option>
+                    </select>
+                </div>
+
                 <div class="form__control">
                     <label>
                         <input class="input" v-model="available" type="checkbox">
                         Available for purchase
                     </label>
-                </div>
-
-                <div class="form__control">
-                    <select id="CategoryInput" v-model="categoryId" required>
-                        <option :value="null" disabled>Chose a category</option>
-                        <option :value="c.id" :key="c.id" v-for="c in categories">{{ c.name }}</option>
-                    </select>
                 </div>
 
                 <div class="form__control">
@@ -31,7 +31,7 @@
                 <div class="form__control">
                     <label for="Summary" class="form__label">Short summary</label>
                     <small>In a few words: what is this about?</small><br>
-                    <textarea type="text" class="input" id="Summary" v-model="summary"></textarea>
+                    <textarea class="input" id="Summary" v-model="summary"></textarea>
                 </div>
 
                 <div class="form__control">
@@ -40,13 +40,15 @@
                 </div>
 
                 <div class="form__control">
-                    <input
-                        id="HasSignupPeriod"
-                        type="checkbox"
-                        class="input"
-                        v-model="hasSignUpPeriod">
 
-                    <label for="HasSignupPeriod">Has sign up period</label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            class="input"
+                            v-model="hasSignUpPeriod">
+                        Has sign up period
+                    </label>
                     <div v-show="hasSignUpPeriod" class="d--flex">
                         <div class="form__control mr--2">
                             <label for="SignUpBeg" class="form__label">Starts at</label>

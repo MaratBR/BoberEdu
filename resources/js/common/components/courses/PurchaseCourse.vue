@@ -14,7 +14,7 @@
 
         <div class="payment" v-else>
             <tabs>
-                <tab v-for="gateway in availableGateways" :key="gateaway.name" :name="gateway.name">
+                <tab v-for="gateway in availableGateways" :key="gateway.name" :name="gateway.name">
                     <component :is="gateway.component" :inline-template="true"
                                @invalid="ready = false"
                                @input="setPaymentPayload(gateway.name, $event)" />
@@ -48,7 +48,7 @@
         error = null;
         ready = false;
         paymentData: any = null;
-        gateaway: any = null;
+        gateway: any = null;
         availableGateways = [
             {
                 name: 'Dummy',
@@ -56,9 +56,9 @@
             }
         ];
 
-        setPaymentPayload(gateaway: string, data: any) {
+        setPaymentPayload(gateway: string, data: any) {
             this.ready = true;
-            this.gateaway = gateaway;
+            this.gateway = gateway;
             this.paymentData = data;
         }
 
@@ -67,7 +67,7 @@
             let payment = await this.store.payments.pay({
                 courseId: +this.$route.params.id,
                 data: this.paymentData,
-                gateway: this.gateaway
+                gateway: this.gateway
             });
             this.submitting = false;
 

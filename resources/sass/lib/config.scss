@@ -1,0 +1,17 @@
+// note: from now on - "light" or "dark" refers to the color, "dt" and "lt" stands for "dark/light theme"
+
+// text colors
+
+$light-text-color: white;
+$dark-text-color: black;
+
+$lt-text-color: $dark-text-color;
+$dt-text-color: $light-text-color;
+
+$lt-background-color: white;
+$dt-background-color: black;
+
+$lt-table-background-color: white;
+$dt-table-background-color: #131313;
+
+$lt-palette-color: #0384fc;

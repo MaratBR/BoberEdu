@@ -34,9 +34,17 @@ function b64Decode(str) {
 let router = new VueRouter({
     routes: [
         {
+            path: '/playground',
+            component: () => import(
+                /* webpackChunkName: "playground" */
+                '@app/dev/Playground.vue'),
+        },
+        {
             path: "/admin",
             name: "admin",
-            component: () => import('@admin/components/AdminPanel.vue'),
+            component: () => import(
+                /* webpackChunkName: "admin-panel" */
+                '@admin/components/AdminPanel.vue'),
             meta: {
                 requiresAdmin: true
             },

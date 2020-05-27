@@ -6,7 +6,7 @@
             <pagination-control :pagination="pagination" @requestPage="page = $event && load()">
                 <template v-slot:body="{items}">
                     <table>
-                        <tr>
+                        <tr class="hs">
                             <th>#</th>
                             <th>Name</th>
                             <th>Summary</th>

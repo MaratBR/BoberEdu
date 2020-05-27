@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-    import {Vue, Component, Prop} from "@common";
+    import {Vue, Component, Prop, Watch} from "@common";
     import {getBrightness, hexToRgb} from "@common/utils";
 
     @Component({
@@ -31,12 +31,14 @@
         fg = null;
         border = null;
 
+        @Watch('color')
         updatePalette() {
             let rgb = hexToRgb(this.color)
             let b = getBrightness(rgb)
             this.fg = b > 125 ? 'black' : 'white';
             this.border = b > 125 ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)';
         }
+
 
         created() {
             this.updatePalette()
