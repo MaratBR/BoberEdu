@@ -3,7 +3,7 @@
         <admin-section header="Courses">
             <category-select v-model="category" default-text="All" />
 
-            <pagination-control :pagination="pagination" @requestPage="page = $event && load()">
+            <pagination-control :pagination="pagination" @requestPage="(page = $event) && load()">
                 <template v-slot:body="{items}">
                     <table>
                         <tr class="hs">

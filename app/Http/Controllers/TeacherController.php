@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AuditRecord;
+use App\Http\DTO\PaginationDto;
 use App\Http\DTO\TeacherAssignmentDto;
 use App\Http\DTO\TeacherDto;
 use App\Http\Requests\AdminRequest;
@@ -96,5 +97,11 @@ class TeacherController extends Controller
                 'c' => $course->id
             ])
             ->build();
+    }
+
+    public function paginate(AdminRequest $request) {
+        $paginator = $this->teachers->paginate();
+
+        return new PaginationDto($paginator, TeacherDto::class);
     }
 }

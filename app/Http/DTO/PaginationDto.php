@@ -31,8 +31,6 @@ class PaginationDto extends DtoBase
 
     public function getMeta()
     {
-
-
         return [
             'total' => $this->paginator->total(),
             'perPage' => $this->paginator->perPage(),

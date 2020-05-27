@@ -8,6 +8,7 @@ use App\Course;
 use App\Services\Abs\ITeachersService;
 use App\Teacher;
 use App\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class TeachersService implements ITeachersService
@@ -48,5 +49,10 @@ class TeachersService implements ITeachersService
             ->where('teacher_id', '=', $teacher->id)
             ->where('course_id', '=', $course->id)
             ->delete();
+    }
+
+    function paginate(): LengthAwarePaginator
+    {
+        return Teacher::query()->paginate();
     }
 }

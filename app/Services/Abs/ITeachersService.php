@@ -6,8 +6,8 @@ namespace App\Services\Abs;
 
 use App\Course;
 use App\Teacher;
-use App\TeachingAssignment;
 use App\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ITeachersService
 {
@@ -22,4 +22,6 @@ interface ITeachersService
     function revoke(Teacher $teacher, Course $course);
 
     function hasAssignment(Teacher $teacher, Course $course): bool;
+
+    function paginate(): LengthAwarePaginator;
 }

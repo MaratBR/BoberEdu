@@ -7,6 +7,7 @@ namespace App\Services\Implementation;
 use App\Category;
 use App\Course;
 use App\Exceptions\ThrowUtils;
+use App\Lesson;
 use App\Rate;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\ICourseUnitsUpdateResponse;
@@ -18,8 +19,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use function Clue\StreamFilter\fun;
 
 
 class CourseService implements ICourseService
@@ -31,15 +34,11 @@ class CourseService implements ICourseService
      */
     function get(int $id, bool $extra = false): Course
     {
+        /** @var Course $course */
         $course = $extra ? Course::with(['units' => function (HasMany $q) {
             $q->orderBy('order_num');
         }])->find($id) : Course::find($id);
 
-        $this->throwNotFoundIfNull($course, "Course not found");
-
-        if (!Gate::allows('view', $course) && !Gate::allows('viewAny', Course::class)) {
-            throw new ForbiddenApiException("You are not allowed to view this course");
-        }
         return $course;
     }
 
@@ -160,23 +159,60 @@ class CourseService implements ICourseService
         );
     }
 
-    function getWithUnitsAndLessonsNames(int $id)
+    function putLessonsOrder(int $id, array $data)
     {
-        $course = Course::with([
-            'units' => function (HasMany $b) {
-                $b->select('name', 'id', 'course_id', 'about', 'order_num', 'preview');
-                $b->orderBy('order_num');
-                $b->with([
-                    'lessons' => function (HasMany $b) {
-                        $b->orderBy('order_num');
-                        $b->select('id', 'unit_id', 'title', 'order_num');
-                    }
-                ]);
-            }
-        ])->find($id);
-        $this->throwNotFoundIfNull($course, "Course not found");
+        /** @var Course $course */
+        $course = Course::query()
+            ->select(['id'])
+            ->with([
+                'units' => function (HasMany $q) {
+                    $q->select(['id', 'course_id'])->with([
+                        'lessons' => function (HasMany $q) {
+                            $q->orderBy('order_num')->select(['order_num', 'id', 'unit_id']);
+                        }
+                    ]);
+                }
+            ])
+            ->findOrFail($id);
+        $d = $data['units'] ?? null;
+        $units = [];
+        foreach ($d as $dd) {
+            $units[$dd['id']] = $dd['order'];
+        }
 
-        return $course;
+        $this->throwErrorIf(500, "Invalid request payload", $units === null);
+
+        if (count($units) === 0)
+            return;
+
+        DB::beginTransaction();
+
+        foreach ($course->units as $unit) {
+            $order = $units[$unit->id] ?? null;
+            if ($order === null)
+                continue;
+
+            $lessonsIds = collect($unit->lessons)->map(function (Lesson $l) { return $l->id; });
+            $order = $units[$unit->id];
+            $order = array_filter($order, function (int $id) use ($lessonsIds) { return $lessonsIds->contains($id); });
+            if (count($order) !== count($lessonsIds)) {
+                DB::rollBack();
+                $this->throwError(422, "Inconsistent count of lessons in request");
+            }
+
+            foreach($lessonsIds as $lessonId) {
+                if (array_search($lessonId, $order) === false)
+                    $order[] = $lessonId;
+            }
+
+            for ($i = 0; $i < count($order); $i++) {
+                Lesson::query()
+                    ->where('id', '=', $order[$i])
+                    ->update(['order_num' => $i]);
+            }
+        }
+
+        DB::commit();
     }
 
     function getWithUnits(int $id)

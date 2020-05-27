@@ -2,9 +2,19 @@
     <div class="admin-panel">
         <div class="admin-panel__sidebar">
             <admin-sidebar>
+                <sidebar-group header="Site">
+                    <sidebar-link to="overview" header="Overview" icon="tachometer" />
+                </sidebar-group>
+
                 <sidebar-group header="Courses">
+                    <sidebar-link to="courses" header="Courses" icon="list" />
+                    <sidebar-link to="courses_new" header="Add new course" icon="plus" />
                     <sidebar-link to="categories" header="Categories" icon="list-alt" />
-                    <sidebar-link to="courses_new" header="Create new course" icon="plus" />
+                </sidebar-group>
+
+                <sidebar-group header="Teachers">
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
                 </sidebar-group>
             </admin-sidebar>
         </div>

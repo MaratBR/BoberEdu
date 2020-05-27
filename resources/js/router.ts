@@ -50,7 +50,7 @@ let router = new VueRouter({
             },
             children: [
                 {
-                    path: 'courses',
+                    path: 'courses/all',
                     name: 'admin__courses',
                     component: () => import(
                         /* webpackChunkName: "admin-courses" */
@@ -72,6 +72,19 @@ let router = new VueRouter({
                     props({params}) {
                         return {
                             id: +params.id
+                        }
+                    }
+                },
+                {
+                    path: 'courses/:id/units',
+                    name: 'admin__courses_edit_courses',
+                    component: () => import(
+                        /* webpackChunkName: "admin-course-units-form" */
+                        '@admin/components/courses/LessonOrderForm.vue'),
+                    props({params, query}) {
+                        return {
+                            courseId: +params.id,
+                            selectedId: +query.i || null
                         }
                     }
                 },

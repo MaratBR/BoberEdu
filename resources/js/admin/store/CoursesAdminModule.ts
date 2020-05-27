@@ -1,7 +1,7 @@
 import {Action} from "vuex-simple";
 import StoreModuleBase from "@common/store/StoreModuleBase";
 import {dto, requests} from "@common";
-import {UpdatePayload} from "@common/store/utils";
+import {DeletePayload, UpdatePayload} from "@common/store/utils";
 
 
 export default class CoursesAdminModule extends StoreModuleBase {
@@ -21,8 +21,8 @@ export default class CoursesAdminModule extends StoreModuleBase {
     }
 
     @Action()
-    deleteCourse(id: number): Promise<void> {
-        return this.client.delete('courses/' + id).then(r => r.data)
+    deleteCourse({id, reason}: DeletePayload): Promise<void> {
+        return this.client.delete('courses/' + id, {data: {reason}}).then(r => r.data)
     }
 
     @Action()
@@ -33,5 +33,10 @@ export default class CoursesAdminModule extends StoreModuleBase {
     @Action()
     updateCategory(d: UpdatePayload<requests.UpdateCategory>): Promise<void> {
         return this.client.put('courses/categories/' + d.id, d.data).then(r => r.data)
+    }
+
+    @Action()
+    updateLessonsOrder(d: UpdatePayload<requests.UpdateLessonsOrder>): Promise<void> {
+        return this.client.put('courses/' + d.id + '/ordnung-muss-sein', d.data).then(r => r.data)
     }
 }

@@ -38,9 +38,10 @@ Route::group([
 Route::group([
     'prefix' => 'courses'
 ], function () {
+    Route::get('{course}/units', 'CourseController@getUnits');
     Route::put('{course}/units', 'CourseController@updateUnits');
+    Route::put('{course}/ordnung-muss-sein', 'CourseController@updateLessonsOrder');
     Route::get('{course}/lessons', 'CourseController@lessons');
-    Route::get('{course}/units', 'CourseController@units');
 
     Route::delete('{course}/rate', 'CourseController@removeRate');
     Route::put('{course}/rate', 'CourseController@setRate');

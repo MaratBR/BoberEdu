@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Unit unit
  * @property string title
  * @property string content
+ * @property int id
  */
 class Lesson extends Model
 {

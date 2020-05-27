@@ -154,6 +154,12 @@ export namespace dto {
         name: string,
         avatar: string
     };
+
+    export type CourseUnitsDto = {
+        courseId: number,
+        courseName: string,
+        units: dto.UnitExDto[]
+    }
 }
 
 export namespace requests {
@@ -228,6 +234,13 @@ export namespace requests {
     }
 
     export type UpdateCategory = Partial<CreateCategory>;
+
+    export type UpdateLessonsOrder = {
+        units: {
+            id: number,
+            order: number[]
+        }[]
+    }
 }
 
 export type CreditCardData = {

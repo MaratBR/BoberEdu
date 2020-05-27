@@ -68,7 +68,7 @@ interface ICourseService
      */
     function updateCourseUnits(Course $course, ICourseUnitsPayload $payload): ICourseUnitsUpdateResponse;
 
-    function getWithUnitsAndLessonsNames(int $id);
+    function putLessonsOrder(int $id, array $data);
 
     function getWithUnits(int $id);
 

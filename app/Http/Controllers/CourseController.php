@@ -8,10 +8,12 @@ use App\Http\DTO\CategoryExDto;
 use App\Http\DTO\CourseDto;
 use App\Http\DTO\CourseExDto;
 use App\Http\DTO\CoursePageItemDto;
+use App\Http\DTO\Courses\CourseUnitsDto;
 use App\Http\DTO\PaginationDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\CreateCategoryRequest;
 use App\Http\Requests\Courses\CreateNewCourseRequest;
+use App\Http\Requests\Courses\OrdnungMussSeinRequest;
 use App\Http\Requests\Courses\SetRateRequest;
 use App\Http\Requests\Courses\UpdateCategoryRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
@@ -42,6 +44,12 @@ class CourseController extends Controller
     {
         $course = $this->courses->getWithOverview($courseId);
         return new CourseExDto($course);
+    }
+
+    public function getUnits(int $courseId)
+    {
+        $course = $this->courses->getWithOverview($courseId);
+        return new CourseUnitsDto($course);
     }
 
     /**
@@ -128,7 +136,7 @@ class CourseController extends Controller
     public function getRate(AuthenticatedRequest $request, int $courseId)
     {
         $user = $request->user();
-        $rate = $this->courses->getRate();
+        $rate = $this->courses->getRate($user);
     }
 
     public function setRate(SetRateRequest $request, int $courseId)
@@ -161,12 +169,15 @@ class CourseController extends Controller
         return $this->courses->updateCourseUnits($course, $request);
     }
 
+    public function updateLessonsOrder(OrdnungMussSeinRequest $request, int $courseId)
+    {
+        $this->courses->putLessonsOrder($courseId, $request->getPayload());
+    }
+
     public function updateCategory(UpdateCategoryRequest $request, int $categoryId) {
         $category = $this->courses->getCategory($categoryId);
         $d = $request->getPayload();
         $category->update($d);
-
-
     }
 
     public function createCategory(CreateCategoryRequest $request) {
