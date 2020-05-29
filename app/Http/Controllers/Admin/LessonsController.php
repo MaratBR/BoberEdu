@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\AuditRecord;
 use App\Http\Controllers\Controller;
 use App\Http\DTO\Lessons\LessonExDto;
+use App\Http\Requests\Lessons\CreateNewLessonRequest;
 use App\Http\Requests\Lessons\DeleteLessonRequest;
 use App\Http\Requests\Lessons\UpdateLessonRequest;
 use App\Services\Abs\ILessonsService;
@@ -23,6 +24,12 @@ class LessonsController extends Controller
     public function get(int $lessonId)
     {
         return new LessonExDto($this->repo->getOverview($lessonId));
+    }
+
+    public function create(CreateNewLessonRequest $request)
+    {
+        $lessons = $this->repo->create($request->getPayload());
+        return new LessonExDto($lessons);
     }
 
     public function update(int $lessonId, UpdateLessonRequest $request)

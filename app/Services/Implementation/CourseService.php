@@ -338,4 +338,16 @@ class CourseService implements ICourseService
     }
 
     //#endregion
+
+    //#region Units
+
+    public function getUnit(int $unitId): Unit
+    {
+        /** @var Unit $u */
+        $u = Unit::query($unitId)->with('course')->findOrFail($unitId);
+        return $u;
+    }
+
+
+    //#endregion
 }

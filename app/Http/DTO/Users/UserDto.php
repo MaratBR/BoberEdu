@@ -1,16 +1,18 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Users;
 
 
+use App\Http\DTO\DtoBase;
+use App\Http\DTO\Teachers\TeacherDto;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
 
 class UserDto extends DtoBase
 {
-    private $user;
+    protected $user;
 
     public function __construct(User $user)
     {

@@ -3,25 +3,9 @@
 namespace App\Http\Requests\Teachers;
 
 use App\Http\Requests\AdminRequest;
+use App\Http\Requests\AuthenticatedRequest;
 
-class AssignTeacherRequest extends AdminRequest
+class AssignTeacherRequest extends AuthenticatedRequest
 {
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            'comment' => 'string|required'
-        ];
-    }
-
-    public function getComment(): string
-    {
-        return $this->validated()['comment'];
-    }
 }
 

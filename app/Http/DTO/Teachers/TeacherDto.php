@@ -1,14 +1,15 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Teachers;
 
 
+use App\Http\DTO\DtoBase;
 use App\Teacher;
 
 class TeacherDto extends DtoBase
 {
-    private $teacher;
+    protected $teacher;
 
     public function __construct(Teacher $teacher)
     {
@@ -25,8 +26,8 @@ class TeacherDto extends DtoBase
         return $this->teacher->full_name;
     }
 
-    function getAvatar(): string
+    function getAvatar(): ?string
     {
-        return "5f6b0239cfb94072cfe42b790c63b7db";
+        return $this->teacher->avatar_id === null ? null : $this->teacher->avatar->sys_name;
     }
 }

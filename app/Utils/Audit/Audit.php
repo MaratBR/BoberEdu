@@ -12,6 +12,7 @@ class Audit
     public const TEACHER_ASSIGNED = 'Tassign';
     public const TEACHER_REVOKED = 'Trevoke';
     public const TEACHER_NEW = 'Tnew';
+    const TEACHER_DELETED = 'Tdel';
     public const TEACHER_UPDATED = 'Tupd';
 
     public const LESSON_UPDATE = 'Lupd';

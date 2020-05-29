@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Teachers;
 
 
-use App\TeachingAssignment;
+use App\Http\DTO\DtoBase;
 use Carbon\Carbon;
 
 class TeacherAssignmentDto extends DtoBase

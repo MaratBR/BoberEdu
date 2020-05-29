@@ -26,6 +26,8 @@ class DtoBase implements Arrayable
         foreach ($props as $prop)
         {
             $data[$prop->name] = $prop->getValue($this);
+            if ($data[$prop->name] instanceof Arrayable)
+                $data[$prop->name] = $data[$prop->name]->toArray();
         }
 
         foreach ($methods as $method)
@@ -45,6 +47,8 @@ class DtoBase implements Arrayable
 
 
                 $data[$prop] = $method->invoke($this);
+                if ($data[$prop] instanceof Arrayable)
+                    $data[$prop] = $data[$prop]->toArray();
             }
         }
 

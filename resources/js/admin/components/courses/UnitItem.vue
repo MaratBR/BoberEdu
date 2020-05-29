@@ -16,12 +16,13 @@
             <div class="unit__lessons" v-if="showLessons">
                 <ul>
                     <li v-for="l in unit.lessons" :key="l.id">
-                        {{ l.title }}
+                        <router-link :to="{name: 'admin__lessons_edit', params: {id: l.id}}">{{ l.title }}</router-link>
                     </li>
                 </ul>
 
-                <div>
-
+                <div class="control">
+                    <router-link class="button" :to="{name: 'admin__courses_edit_units', params: {id: courseId}}"><i class="fa fa-edit"></i> order</router-link>
+                    <router-link class="button" :to="{name: 'admin__lessons_new', params: {id: unit.id}}"><i class="fa fa-plus"></i> add</router-link>
                 </div>
             </div>
         </div>
@@ -42,6 +43,7 @@
     export default class UnitItem extends Vue {
         @Prop() unit: dto.UnitExDto;
         @Prop() deleted: boolean;
+        @Prop({required: true}) courseId: number;
         @Prop({default: false}) last: boolean;
         @Prop({default: false}) first: boolean;
         @Prop({default: false}) changed: boolean;

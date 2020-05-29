@@ -70,19 +70,8 @@ class UploadService implements IUploadService
         return $fileInfo;
     }
 
-    function uploadAvatar(User $user, $file): string
+    function uploadAvatar(User $user, $file): FileInfo
     {
-        $avatar = $this->putFile($file, 'a', null, $user);
-
-        $user->update([
-            'avatar_id' => $avatar->id
-        ]);
-
-        return $avatar->sys_name;
-    }
-
-    function getAvatarMimeType(string $id): string
-    {
-        return Storage::disk('public');
+        return  $this->putFile($file, 'a', null, $user);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Teachers;
 
-use App\Http\Requests\AdminRequest;
+use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\IPayloadRequest;
 
-class CreateTeacherRequest extends AdminRequest implements IPayloadRequest
+class CreateTeacherRequest extends AuthenticatedRequest implements IPayloadRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,6 +17,7 @@ class CreateTeacherRequest extends AdminRequest implements IPayloadRequest
         return [
             'passNum' => 'required',
             'fullName' => 'required',
+            'about' => 'required',
             'userId' => 'numeric|required',
             'comment' => 'required'
         ];
@@ -31,7 +32,8 @@ class CreateTeacherRequest extends AdminRequest implements IPayloadRequest
     {
         return [
             'full_name' => $this->validated()['fullName'],
-            'passport_num' => $this->validated()['passNum']
+            'passport_num' => $this->validated()['passNum'],
+            'about' => $this->validated()['about'],
         ];
     }
 

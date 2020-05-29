@@ -42,4 +42,8 @@ trait ControllerUtils
             "Failed to update the record"
         );
     }
+
+    protected function openInput() {
+        return fopen('php://input', 'r');
+    }
 }

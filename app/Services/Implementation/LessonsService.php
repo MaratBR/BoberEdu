@@ -50,6 +50,9 @@ class LessonsService implements ILessonsService
      */
     function create(array $data): Lesson
     {
+        if (!array_key_exists('order_num', $data)) {
+            $data['order_num'] = Lesson::query()->where('unit_id', '=', $data['unit_id'])->max('order_num') + 1;
+        }
         return Lesson::create($data);
     }
 }

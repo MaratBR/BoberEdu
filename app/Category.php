@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static findOrFail(int $categoryId)
+ * @method static Category create(array $data)
  * @property string about
  * @property int|null uidata_image_id
  * @property string uidata_color

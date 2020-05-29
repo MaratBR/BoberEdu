@@ -39,4 +39,9 @@ export default class CoursesAdminModule extends StoreModuleBase {
     updateLessonsOrder(d: UpdatePayload<requests.UpdateLessonsOrder>): Promise<void> {
         return this.client.put('courses/' + d.id + '/ordnung-muss-sein', d.data).then(r => r.data)
     }
+
+    @Action()
+    async getUnit(unitId: number): Promise<dto.StandaloneUnitDto> {
+        return this.client.get('admin/courses/units/' + unitId).then(this._g)
+    }
 }

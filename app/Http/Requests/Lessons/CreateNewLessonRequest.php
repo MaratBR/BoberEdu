@@ -3,8 +3,10 @@
 namespace App\Http\Requests\Lessons;
 
 use App\Http\Requests\AuthenticatedRequest;
+use App\Http\Requests\IPayloadRequest;
+use App\Utils\Convert;
 
-class CreateNewLessonRequest extends AuthenticatedRequest
+class CreateNewLessonRequest extends AuthenticatedRequest implements IPayloadRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,10 +16,15 @@ class CreateNewLessonRequest extends AuthenticatedRequest
     public function rules()
     {
         return [
-            'unit_id' => 'numeric|required',
+            'unitId' => 'numeric|required',
             'title' => 'string|required',
             'content' => 'string',
-            'order_num' => 'numeric'
+            'summary' => 'string|required'
         ];
+    }
+
+    function getPayload(): array
+    {
+        return Convert::toSnakeCase($this->validated());
     }
 }

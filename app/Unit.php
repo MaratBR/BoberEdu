@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
 
 /**
- * @method static create(array $array)
+ * @method static Unit create(array $array)
+ * @method static Unit findOrFail(int $unitId)
  * @property Course course
  * @property int course_id
  * @property string name

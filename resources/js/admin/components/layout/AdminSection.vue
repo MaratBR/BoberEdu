@@ -1,6 +1,6 @@
 <template>
     <section class="a-section" :class="{progress: inProgress}">
-        <div class="a-section__header">
+        <div class="a-section__header" v-if="$slots.header">
             <slot name="header">
                 <h3>{{ header }}</h3>
             </slot>
@@ -20,6 +20,7 @@
     export default class AdminSection extends Vue {
         @Prop({ default: '' }) header: string;
         @Prop({ default: false }) inProgress: boolean;
+        @Prop({ default: false }) notFound: boolean;
     }
 </script>
 

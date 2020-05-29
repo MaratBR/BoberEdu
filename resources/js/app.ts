@@ -1,14 +1,21 @@
 
-let $app = document.getElementById('app')
-let $loader = document.createElement('div')
-$loader.id = 'AppLoader'
-$app.append($loader)
+import "@app/bootstrap"
 
-import(
-    '@app/createApp'
-    /* webpackChunkName: "create-app" */
-    ).then(async m => {
-    await m.init()
-    $loader.remove()
-    m.createApp().$mount('#app')
+import Vue from "vue";
+import router from "@app/router";
+import {getCommonStore, vuexStore} from "@common/store";
+
+export function createApp() {
+    return new Vue({
+        render: h => h('router-view'),
+        router,
+        store: vuexStore
+    })
+}
+export function init(): Promise<void> {
+    return getCommonStore().auth.init()
+}
+
+init().then(() => {
+    createApp().$mount('#app')
 })

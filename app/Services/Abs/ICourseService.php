@@ -7,6 +7,7 @@ namespace App\Services\Abs;
 use App\Category;
 use App\Course;
 use App\Services\Implementation\ICourseUnitsPayload;
+use App\Unit;
 use App\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -91,4 +92,6 @@ interface ICourseService
     function setRate(Course $course, User $user, float $value);
 
     function getRate(User $user, int $courseId): ?float;
+
+    function getUnit(int $unitId): Unit;
 }

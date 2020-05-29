@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ThrowUtils;
 use App\Http\DTO\PaginationDto;
-use App\Http\DTO\UserDto;
+use App\Http\DTO\Users\UserDto;
 use App\Http\DTO\UserProfileDto;
 use App\Http\DTO\UserSettingsDto;
 use App\Http\Requests\AuthenticatedRequest;

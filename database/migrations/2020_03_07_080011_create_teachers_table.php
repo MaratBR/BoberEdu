@@ -17,6 +17,7 @@ class CreateTeachersTable extends Migration
             $table->integerIncrements('id');
             $table->timestamps();
             $table->string('full_name');
+            $table->text('about');
             $table->string('passport_num');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->on('users')->references('id');

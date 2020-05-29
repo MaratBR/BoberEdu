@@ -96,13 +96,21 @@
 </script>
 
 <style scoped lang="scss">
+    @import "sass/lib/config";
+    @import "sass/lib/functions";
+
     input {
         display: none;
     }
 
     .uploader {
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        background: $lt-background-color;
+        border: 1px solid get-border-color-based-on-background($lt-background-color);
+        padding: 8px;
+        border-radius: 5px;
+
 
         & > button {
             margin-left: 6px;

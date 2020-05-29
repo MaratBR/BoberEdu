@@ -6,7 +6,7 @@
                 <transition-group>
                     <unit-item :key="u.unit.id" :unit="u.unit" :deleted="u.deleted" v-for="u in units"
                                @delete="u.deleted = true" @restore="u.deleted = false" :changed="u.changed"
-                               @change="updateChanged(u)" />
+                               @change="updateChanged(u)" :course-id="course.id" />
                 </transition-group>
             </draggable>
 

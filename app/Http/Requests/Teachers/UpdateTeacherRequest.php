@@ -3,10 +3,11 @@
 namespace App\Http\Requests\Teachers;
 
 use App\Http\Requests\AdminRequest;
+use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\IPayloadRequest;
 use App\Utils\Convert;
 
-class UpdateTeacherRequest extends AdminRequest implements IPayloadRequest
+class UpdateTeacherRequest extends AuthenticatedRequest implements IPayloadRequest
 {
 
     /**
@@ -18,12 +19,18 @@ class UpdateTeacherRequest extends AdminRequest implements IPayloadRequest
     {
         return [
             'fullName' => 'string',
+            'about' => 'string',
             'passNum' => 'string'
         ];
     }
 
     function getPayload(): array
     {
-        return Convert::toSnakeCase($this->validated());
+        $d = $this->validated();
+        return [
+            'passport_num' => $d['passNum'],
+            'about' => $d['about'],
+            'full_name' => $d['fullName'],
+        ];
     }
 }

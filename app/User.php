@@ -23,6 +23,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string about
  * @property int|null avatar_id
  * @property FileInfo|null avatar
+ * @property Teacher|null teacher
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -75,6 +76,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function avatar() {
         return $this->belongsTo(FileInfo::class, 'avatar_id');
+    }
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class, 'user_id');
     }
 
     /**

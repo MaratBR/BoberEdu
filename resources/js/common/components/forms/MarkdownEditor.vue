@@ -4,7 +4,7 @@
             <label :for="id">{{ label }}</label>
             <textarea class="input" name="md" id="md-editor" cols="30" rows="10"
                       :value="value" :id="id"
-                      @input="onInput($event.target.value)"
+                      @input="onInput($event.target.value)" v-bind="$attrs"
             ></textarea>
         </div>
 

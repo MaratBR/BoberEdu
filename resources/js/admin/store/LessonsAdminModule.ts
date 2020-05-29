@@ -15,6 +15,11 @@ export default class LessonsAdminModule extends StoreModuleBase {
     }
 
     @Action()
+    create(d: requests.CreateLesson): Promise<dto.LessonExDto> {
+        return this.client.post('admin/lessons', d).then(this._g)
+    }
+
+    @Action()
     delete(id: number): Promise<void> {
         return this.client.delete('admin/lessons/' + id).then(this._g)
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\DTO\UserDto;
+use App\Http\DTO\Users\UserDto;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\AuthenticatedRequest;

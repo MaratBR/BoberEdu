@@ -77,7 +77,7 @@ let router = new VueRouter({
                 },
                 {
                     path: 'courses/:id/units',
-                    name: 'admin__courses_edit_courses',
+                    name: 'admin__courses_edit_units',
                     component: () => import(
                         /* webpackChunkName: "admin-course-units-form" */
                         '@admin/components/courses/LessonOrderForm.vue'),
@@ -89,12 +89,24 @@ let router = new VueRouter({
                     }
                 },
                 {
-                    path: 'lessons/:id',
-                    name: 'admin__lessons',
+                    path: 'lessons/new/:id',
+                    name: 'admin__lessons_new',
                     component: () => import(
                         /* webpackChunkName: "admin-lesson-form" */
                         '@admin/components/courses/LessonForm.vue'),
-                    props({params, query}) {
+                    props({params}) {
+                        return {
+                            unitId: +params.id
+                        }
+                    }
+                },
+                {
+                    path: 'lessons/:id',
+                    name: 'admin__lessons_edit',
+                    component: () => import(
+                        /* webpackChunkName: "admin-lesson-form" */
+                        '@admin/components/courses/LessonForm.vue'),
+                    props({params}) {
                         return {
                             id: +params.id
                         }
@@ -106,6 +118,44 @@ let router = new VueRouter({
                     component: () => import(
                         /* webpackChunkName: "admin-categories" */
                         '@admin/components/courses/Categories.vue')
+                },
+
+                {
+                    path: 'teachers/all',
+                    name: 'admin__teachers',
+                    component: () => import(
+                        /* webpackChunkName: "admin-teachers" */
+                        '@admin/components/teachers/TeachersList.vue'),
+                    props({query}) {
+                        return {
+                            page: +query.p || 0
+                        }
+                    }
+                },
+
+                {
+                    path: 'teachers/new/:id',
+                    name: 'admin__teachers_new',
+                    component: () => import(
+                        /* webpackChunkName: "admin-teachers-form" */
+                        '@admin/components/teachers/TeacherForm.vue'),
+                    props({params}) {
+                        return {
+                            userId: +params.id
+                        }
+                    }
+                },
+                {
+                    path: 'teachers/:id',
+                    name: 'admin__teachers_edit',
+                    component: () => import(
+                        /* webpackChunkName: "admin-teachers-form" */
+                        '@admin/components/teachers/TeacherForm.vue'),
+                    props({params}) {
+                        return {
+                            id: +params.id
+                        }
+                    }
                 },
             ]
         },

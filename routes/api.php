@@ -100,12 +100,45 @@ Route::group([
     'middleware' => 'admin',
     'prefix' => 'admin'
 ], function () {
+
+    Route::group([
+        'prefix' => 'users'
+    ], function () {
+        Route::get('{id}', 'Admin\UsersController@get');
+    });
+
+    Route::group([
+        'prefix' => 'courses'
+    ], function () {
+        Route::post('', 'Admin\CoursesController@create');
+        Route::put('{id}', 'Admin\CoursesController@update');
+        Route::delete('{id}', 'Admin\CoursesController@delete');
+
+        Route::get('units/{id}', 'Admin\CoursesController@unit');
+    });
+
     Route::group([
         'prefix' => 'lessons'
     ], function () {
+        Route::post('', 'Admin\LessonsController@create');
         Route::get('{id}', 'Admin\LessonsController@get');
         Route::put('{id}', 'Admin\LessonsController@update');
         Route::delete('{id}', 'Admin\LessonsController@delete');
+    });
+
+
+    Route::group([
+        'prefix' => 'teachers'
+    ], function () {
+        Route::get('', 'Admin\TeachersController@paginate');
+        Route::post('', 'Admin\TeachersController@create');
+        Route::get('{id}', 'Admin\TeachersController@get');
+        Route::put('{id}', 'Admin\TeachersController@update');
+        Route::delete('{id}', 'Admin\TeachersController@delete');
+        Route::put('{id}/avatar', 'Admin\TeachersController@uploadAvatar');
+
+        Route::post('{id}/course/{courseId}', 'Admin\LessonsController@assign');
+        Route::delete('{id}/course/{courseId}', 'Admin\LessonsController@revoke');
     });
 });
 

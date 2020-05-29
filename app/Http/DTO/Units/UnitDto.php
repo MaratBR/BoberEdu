@@ -1,9 +1,10 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Units;
 
 
+use App\Http\DTO\DtoBase;
 use App\Unit;
 
 class UnitDto extends DtoBase
