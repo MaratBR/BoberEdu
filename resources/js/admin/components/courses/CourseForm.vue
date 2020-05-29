@@ -110,7 +110,7 @@
 
         hasSignUpPeriod = false;
         error = null;
-        submitting = false;
+        submitting = true;
 
 
         set priceAsNumber(v: number) {
@@ -240,6 +240,8 @@
             await this.init()
             if (this.id !== null)
                 await this.onIdChanged()
+            else
+                this.submitting = false
         }
 
         mounted() {

@@ -1,13 +1,21 @@
 <template>
-    <section class="a-section" :class="{progress: inProgress}">
+    <section class="a-section">
         <div class="a-section__header" v-if="$slots.header">
-            <slot name="header">
+            <slot name="header" v-if="!inProgress">
                 <h3>{{ header }}</h3>
             </slot>
+            <div class="pulse s1" v-else></div>
         </div>
 
         <div class="a-section__body">
-            <slot></slot>
+            <slot v-if="!inProgress"></slot>
+            <div v-else>
+                <div class="pulse s1" v-for="_ in 6"></div>
+
+                <br><br><br>
+
+                <div class="pulse pulse--button"></div>
+            </div>
         </div>
     </section>
 </template>
@@ -31,28 +39,6 @@
         margin: 10px;
         border-radius: 4px;
         position: relative;
-
-        &.progress::after {
-            content: '';
-            background: repeating-linear-gradient(135deg, rgba(white, 0.1) 0, rgba(white, 0.1) 19px, rgba(blue, 0.2) 20px, rgba(blue, 0.2) 40px) fixed;
-            display: block;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-
-            @keyframes bg {
-                0% {
-                    background-position-x: 0;
-                }
-                100% {
-                    background-position-x: 40px * 1.41421356;
-                }
-            }
-
-            animation: bg 1s infinite linear;
-        }
 
         &__body {
             padding: 15px;

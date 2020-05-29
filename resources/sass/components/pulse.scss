@@ -1,0 +1,44 @@
+@keyframes pulse {
+    0% {
+        background-color: rgba(165, 165, 165, 0.2);
+    }
+    50% {
+        background-color: rgba(165, 165, 165, 0.4);
+    }
+    100% {
+        background-color: rgba(165, 165, 165, 0.2);
+    }
+}
+
+.pulse {
+    animation: pulse 1s infinite ease-in-out;
+    height: 1.1em;
+    min-width: 1.1em;
+    border-radius: 2px;
+    background-color: red;
+    margin: 0.2em;
+
+    &--button {
+        height: 25px;
+        width: 100px;
+    }
+
+    @for $i from 1 to 5 {
+        &.s#{$i} {
+            height: 1.1em + 1em * $i;
+            min-width: 1.1em + 1em * $i;
+            margin: (0.2em * $i + 0.2em);
+        }
+    }
+
+    &--dot {
+        width: 1.1em;
+        border-radius: 10000px;
+
+        @for $i from 1 to 5 {
+            &.s#{$i} {
+                width: 1.1em + 1em * $i;
+            }
+        }
+    }
+}

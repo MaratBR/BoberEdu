@@ -10,7 +10,20 @@
             </li>
         </ul>
 
-        <loader v-if="!pagination" />
+        <div v-if="!pagination">
+            <slot name="pulse">
+                <div class="flex">
+                    <div class="pulse inline-block s1" v-for="_ in 5"></div>
+                </div>
+                <div class="pulse s2" v-for="_ in 5"></div>
+                <br>
+                <div class="flex justify-center">
+                    <div class="pulse s2 pulse--dot"></div>
+                    <div class="pulse s2 pulse--dot"></div>
+                    <div class="pulse s2 pulse--dot"></div>
+                </div>
+            </slot>
+        </div>
         <slot v-else name="body" :items="pagination.data">
             <div class="pagination__items" v-if="pagination">
                 <div class="page-item" v-for="(item, index) in pagination.data" :key="index">

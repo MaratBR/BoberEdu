@@ -8,7 +8,10 @@
 
             <div class="user-heading__about rest">
                 <div>
-                    <span class="usrinf--username username">{{ profile.user.name }}</span><br>
+                    <span class="usrinf--username username">
+                        {{ profile.user.name }}
+                    </span>
+                    <br>
                     <span class="usrinf--since">Joined at {{ joinedAt }}</span>
                     <div class="usrinf--status">
                         <p v-if="!setStatus">{{ profile.user.status || 'no status set' }}</p>
