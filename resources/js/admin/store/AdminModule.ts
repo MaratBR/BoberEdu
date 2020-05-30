@@ -20,8 +20,27 @@ export class AdminModule {
     //#region Users
 
     @Action()
+    async uploadUserAvatar({id, data}: UpdatePayload<File>): Promise<string> {
+        return client.put('admin/users/' + id + '/avatar', data, {
+            headers: {
+                'Content-Type': data.type
+            }
+        }).then(r => r.data.id)
+    }
+
+    @Action()
+    createUser(data: requests.Register): Promise<dto.AdminUserDto> {
+        return client.post('admin/users', data).then(this._get)
+    }
+
+    @Action()
     async getUser(userId: number): Promise<dto.AdminUserDto> {
         return client.get('admin/users/' + userId).then(this._get)
+    }
+
+    @Action()
+    async updateUser({id, data}: UpdatePayload<requests.UpdateUser>): Promise<dto.AdminUserDto> {
+        return client.put('admin/users/' + id, data).then(this._get)
     }
 
     @Action()
@@ -60,7 +79,6 @@ export class AdminModule {
     }
 
     //#endregion
-
 
 }
 

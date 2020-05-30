@@ -106,6 +106,9 @@ Route::group([
     ], function () {
         Route::get('', 'Admin\UsersController@paginate');
         Route::get('{id}', 'Admin\UsersController@get');
+        Route::put('{id}', 'Admin\UsersController@update');
+        Route::put('{id}/avatar', 'Admin\UsersController@uploadAvatar');
+        Route::post('', 'Admin\UsersController@create');
     });
 
     Route::group([

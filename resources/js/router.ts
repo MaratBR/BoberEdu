@@ -159,11 +159,27 @@ let router = new VueRouter({
                 },
                 {
                     path: 'users/all',
-                    name: 'admin__teachers',
+                    name: 'admin__users',
                     component: () => import(
                         /* webpackChunkName: "admin-users" */
                         '@admin/components/users/UsersList.vue')
                 },
+                {
+                    path: 'users/new',
+                    name: 'admin__users_new',
+                    component: () => import(
+                        /* webpackChunkName: "admin-user-form" */
+                        '@admin/components/users/UserForm.vue')
+                },
+                {
+                    path: 'users/:id',
+                    name: 'admin__users_edit',
+                    component: () => import(
+                        /* webpackChunkName: "admin-user-form" */
+                        '@admin/components/users/UserForm.vue'),
+                    props: ({params}) => ({id: +params.id})
+                },
+
             ]
         },
         {

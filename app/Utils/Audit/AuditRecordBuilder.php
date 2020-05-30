@@ -7,6 +7,7 @@ namespace App\Utils\Audit;
 use App\AuditRecord;
 use App\Exceptions\Audit\InvalidAuditRecord;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class AuditRecordBuilder
@@ -50,6 +51,8 @@ class AuditRecordBuilder
 
     public function subject($subject): self
     {
+        if ($subject instanceof Model)
+            $subject = $subject->getTable() . '/' . strval($subject->getKey());
         if (!is_string($subject))
             $subject = strval($subject);
         $this->subject = $subject;

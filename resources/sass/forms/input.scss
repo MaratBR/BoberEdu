@@ -22,14 +22,12 @@ $ss-input-border: 1px solid #b7b7b7;
     outline: none;
     transition: box-shadow .1s;
 
-
-
     &:focus, &--focus {
         box-shadow: 0 0 0 3px whitesmoke;
     }
 
 
-    &[aria-invalid]:not([aria-invalid=false]) {
+    &[aria-invalid]:not([aria-invalid="false"]), &:invalid, &:user-invalid {
         box-shadow: 0 0 0 1px red;
     }
 }

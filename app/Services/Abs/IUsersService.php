@@ -4,6 +4,7 @@
 namespace App\Services\Abs;
 
 
+use App\Role;
 use App\User;
 
 interface IUsersService
@@ -19,4 +20,11 @@ interface IUsersService
     function create(array $data): User;
 
     function userNameTaken(string $username): bool;
+
+    function setAvatar(User $user, \App\FileInfo $avatar);
+
+    /**
+     * @return Role[]
+     */
+    function getRoles(): array;
 }

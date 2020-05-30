@@ -82,6 +82,11 @@ $overrides--inputs-border-color: shift-color-brightness($lt-background-color, 20
     border-radius: 4px;
     border: 1px solid $overrides--inputs-border-color;
 
+    &[aria-invalid="true"] {
+        box-shadow: 0 0 0 1px red;
+        border-color: red;
+    }
+
     &:focus {
         outline: none;
         border-color: black;

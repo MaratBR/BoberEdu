@@ -1,6 +1,6 @@
 <template>
     <section class="a-section">
-        <div class="a-section__header" v-if="$slots.header || header">
+        <div class="a-section__header" v-if="!notFound && ($slots.header || header)">
             <slot name="header" v-if="!inProgress">
                 <h3>{{ header }}</h3>
             </slot>
@@ -9,6 +9,7 @@
 
         <div class="a-section__body">
             <slot v-if="!inProgress"></slot>
+            <not-found v-else-if="notFound" />
             <div v-else>
                 <div class="pulse s1" v-for="_ in 6"></div>
 
@@ -23,8 +24,10 @@
 <script lang="ts">
     import {Component, Prop} from "vue-property-decorator";
     import {Vue} from "@common";
-
-    @Component
+    import NotFound from "@common/components/pages/NotFound.vue";
+    @Component({
+        components: {NotFound}
+    })
     export default class AdminSection extends Vue {
         @Prop({ default: '' }) header: string;
         @Prop({ default: false }) inProgress: boolean;

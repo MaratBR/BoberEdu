@@ -5,6 +5,7 @@ namespace App\Services\Implementation;
 
 
 use App\Exceptions\ThrowUtils;
+use App\Role;
 use App\Services\Abs\IUsersService;
 use App\User;
 use Illuminate\Support\Facades\Hash;
@@ -62,7 +63,20 @@ class UsersService implements IUsersService
         return User::query()->where('normalized_name', '=', $username)->exists();
     }
 
-    function normalize(string $username)
+    function setAvatar(User $user, \App\FileInfo $avatar)
+    {
+        $user->update([
+            'avatar_id' => $avatar->id
+        ]);
+    }
+
+    function getRoles(): array
+    {
+        return Role::all();
+    }
+
+
+    private function normalize(string $username)
     {
         return strtoupper($username);
     }

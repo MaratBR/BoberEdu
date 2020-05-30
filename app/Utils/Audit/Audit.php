@@ -19,4 +19,8 @@ class Audit
     public const LESSON_CREATE = 'Lnew';
     public const LESSON_DELETE = 'Ldel';
 
+    const USER_UPDATE = 'Uupd';
+    const USER_NEW = 'Unew';
+    const USER_BLOCK = 'Ublock';
+
 }

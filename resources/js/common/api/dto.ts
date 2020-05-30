@@ -229,7 +229,8 @@ export namespace requests {
         name?: string,
         status?: string,
         about?: string,
-        displayName?: string
+        displayName?: string,
+        email?: string
     };
 
     export type Login = {

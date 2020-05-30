@@ -1,7 +1,18 @@
 import {AxiosResponse} from "axios";
 
+function isObject(v: any): v is { [key: string]: any } {
+    return typeof v === 'object' && v !== null
+}
+
 export function getError(from: any) {
     console.error(from)
+
+    if (isObject(from)) {
+        if (isObject(from.response)) {
+            return from.response.data
+        }
+    }
+
     return 'Unexpected error'
 }
 
