@@ -1,6 +1,6 @@
 <template>
     <section class="a-section">
-        <div class="a-section__header" v-if="$slots.header">
+        <div class="a-section__header" v-if="$slots.header || header">
             <slot name="header" v-if="!inProgress">
                 <h3>{{ header }}</h3>
             </slot>

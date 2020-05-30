@@ -14,7 +14,7 @@ interface IUsersService
 
     function update(User $user, array $data);
 
-    function paginate(int $perPage = 15);
+    function paginate(int $perPage = 15, ?string $order = null);
 
     function create(array $data): User;
 

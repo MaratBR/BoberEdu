@@ -12,4 +12,9 @@ class AdminUserDto extends UserDto
     {
         return $this->user->teacher === null ? null : new AdminTeacherDto($this->user->teacher);
     }
+
+    public function getEmail()
+    {
+        return $this->user->email;
+    }
 }

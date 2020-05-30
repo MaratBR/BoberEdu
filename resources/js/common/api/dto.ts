@@ -138,7 +138,7 @@ export namespace dto {
         status: string,
         about: string,
         avatar: string,
-        displayName?: string
+        displayName: string | null
     };
 
     export type UserProfileDto = {
@@ -158,7 +158,6 @@ export namespace dto {
         id: number,
         about: string,
         displayName: string,
-        email: string,
         name: string,
         avatar: string
     };
@@ -175,7 +174,8 @@ export namespace dto {
     }
 
     export type AdminUserDto = UserDto & {
-        teacher: AdminTeacherDto
+        teacher: AdminTeacherDto,
+        email: string,
     }
 }
 

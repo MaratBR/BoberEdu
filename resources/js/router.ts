@@ -157,6 +157,13 @@ let router = new VueRouter({
                         }
                     }
                 },
+                {
+                    path: 'users/all',
+                    name: 'admin__teachers',
+                    component: () => import(
+                        /* webpackChunkName: "admin-users" */
+                        '@admin/components/users/UsersList.vue')
+                },
             ]
         },
         {

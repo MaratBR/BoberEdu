@@ -27,9 +27,12 @@ class UsersService implements IUsersService
         return $user;
     }
 
-    function paginate(int $perPage = 15)
+    function paginate(int $perPage = 15, ?string $order = null)
     {
-        return User::query()->paginate();
+        $q = User::query();
+        if ($order != null)
+            $q = $q->orderBy($order);
+        return $q->paginate();
     }
 
     function create(array $data): User

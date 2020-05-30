@@ -24,6 +24,11 @@ export class AdminModule {
         return client.get('admin/users/' + userId).then(this._get)
     }
 
+    @Action()
+    async paginateUsers(d: { page: number, order?: string }): Promise<dto.PaginationDto<dto.AdminUserDto>> {
+        return client.get('admin/users', {params: {page: d.page, order: d.order}}).then(this._get)
+    }
+
     //#endregions
 
     //#region Teachers

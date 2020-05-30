@@ -104,6 +104,7 @@ Route::group([
     Route::group([
         'prefix' => 'users'
     ], function () {
+        Route::get('', 'Admin\UsersController@paginate');
         Route::get('{id}', 'Admin\UsersController@get');
     });
 
