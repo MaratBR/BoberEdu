@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('display_name')->nullable();
             $table->unsignedTinyInteger('age')->nullable();
             $table->boolean('activated')->default(true);
+            $table->boolean('is_admin')->default(false);
             $table->timestamp('blocked_until')->nullable();
 
             $table->rememberToken();

@@ -134,7 +134,7 @@ export namespace dto {
         id: number,
         joinedAt: string,
         name: string,
-        roles: string[],
+        admin: boolean,
         status: string,
         about: string,
         avatar: string,

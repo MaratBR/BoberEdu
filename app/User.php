@@ -11,7 +11,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 /**
  * @method static User create(array $data)
  * @method static User findOrFail(int|null $id)
- * @property Role[] roles
+ *
+ * @property boolean is_admin
  * @property int id
  * @property Carbon created_at
  * @property string|null display_name
@@ -31,10 +32,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $fillable = [
         'name', 'email', 'password', 'display_name', 'status','normalized_name', 'normalized_email', 'about',
-        'avatar_id'
-    ];
-    protected $appends = [
-        'roles_names'
+        'avatar_id', 'is_admin'
     ];
 
     /**
@@ -53,20 +51,6 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function getRolesNamesAttribute()
-    {
-        $names = [];
-        foreach ($this->roles as $role) {
-            $names[] = $role->name;
-        }
-        return $names;
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_roles');
-    }
 
     public function courses()
     {
@@ -101,41 +85,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function isAdmin()
     {
-        return $this->hasRole('admin');
-    }
-
-    public function hasRole(string $name): bool
-    {
-        foreach ($this->roles as $role) {
-            if (!$role)
-                continue;
-            if ($role->name === $name) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function addRole($role)
-    {
-        if (is_string($role))
-            $role = Role::ensure($role);
-
-        if ($role)
-            $this->attachRole($role);
-    }
-
-    public function ensureRole($role)
-    {
-        if (is_string($role))
-            $role = Role::ensure($role);
-
-        $this->attachRole($role);
-    }
-
-    private function attachRole(Role $role)
-    {
-        $this->roles()->attach($role);
+        return $this->is_admin;
     }
 }

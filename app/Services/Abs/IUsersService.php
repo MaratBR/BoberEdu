@@ -4,14 +4,11 @@
 namespace App\Services\Abs;
 
 
-use App\Role;
 use App\User;
 
 interface IUsersService
 {
     function get(int $id): User;
-
-    function getWithRoles(int $id): User;
 
     function update(User $user, array $data);
 
@@ -22,11 +19,4 @@ interface IUsersService
     function userNameTaken(string $username): bool;
 
     function setAvatar(User $user, \App\FileInfo $avatar);
-
-    /**
-     * @return Role[]
-     */
-    function getRoles();
-
-    function ensureRoles(User $user, array $roles);
 }

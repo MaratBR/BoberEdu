@@ -34,11 +34,6 @@ export class AdminModule {
     }
 
     @Action()
-    async ensureUserRoles({id, data}: UpdatePayload<string[]>): Promise<void> {
-        return client.put('admin/users/' + id + '/roles', {roles: data}).then(this._get)
-    }
-
-    @Action()
     async getUser(userId: number): Promise<dto.AdminUserDto> {
         return client.get('admin/users/' + userId).then(this._get)
     }
@@ -51,11 +46,6 @@ export class AdminModule {
     @Action()
     async paginateUsers(d: { page: number, order?: string }): Promise<dto.PaginationDto<dto.AdminUserDto>> {
         return client.get('admin/users', {params: {page: d.page, order: d.order}}).then(this._get)
-    }
-
-    @Action()
-    async getRoles(): Promise<string[]> {
-        return client.get('admin/users/roles').then(r => r.data.items);
     }
 
     //#endregions

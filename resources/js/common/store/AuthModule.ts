@@ -23,7 +23,7 @@ export default class AuthModule extends StoreModuleBase {
     }
 
     @Getter() get isAdmin(): boolean {
-        return this.user && this.user.roles.indexOf('admin') !== -1
+        return this.user && this.user.admin
     }
 
     @Action()

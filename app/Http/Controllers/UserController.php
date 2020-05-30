@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function get(Request $request, int $id)
     {
-        $user = $this->users->getWithRoles($id);
+        $user = $this->users->get($id);
 
         return new UserDto($user);
     }

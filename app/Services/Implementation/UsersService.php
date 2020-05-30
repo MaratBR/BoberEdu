@@ -20,14 +20,6 @@ class UsersService implements IUsersService
         return User::findOrFail($id);
     }
 
-    function getWithRoles(int $id): User
-    {
-        // It's fine, IDEA, calm down
-        /** @var User $user */
-        $user = User::with('roles')->findOrFail($id);
-        return $user;
-    }
-
     function paginate(int $perPage = 15, ?string $order = null)
     {
         $q = User::query();
@@ -70,23 +62,8 @@ class UsersService implements IUsersService
         ]);
     }
 
-    function getRoles()
-    {
-        return Role::all();
-    }
-
-    function ensureRoles(User $user, array $roles)
-    {
-        $userRoles = $user->roles;
-        $roles = Role::query()->whereIn('name', $roles)->get();
-
-        $user->roles()->attach();
-    }
-
-
     private function normalize(string $username)
     {
         return strtoupper($username);
     }
-
 }

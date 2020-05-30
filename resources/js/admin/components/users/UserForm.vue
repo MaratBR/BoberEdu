@@ -30,15 +30,6 @@
             <input-textarea v-model="about" label="About" v-if="!isNew" />
             <input-textarea v-model="status" label="Status" v-if="!isNew" />
 
-            <div class="roles" v-if="!isNew">
-                <div class="role" v-for="(r, i) in allRoles" :key="i">
-                    <label>
-                        <input type="checkbox" :checked="roles.includes(r)" @input="setRole(r, $event.target.checked)">
-                        {{ r }}
-                    </label>
-                </div>
-            </div>
-
             <error :error="error" v-if="error" />
 
             <div class="control">
@@ -88,7 +79,6 @@
 
         @Watch('id')
         async load() {
-            this.allRoles = await this.admin.getRoles()
             let user: dto.AdminUserDto
             try {
                 user = await this.admin.getUser(this.id)
@@ -97,8 +87,6 @@
                 return
             }
 
-            this.roles = user.roles
-            this.originalRoles = [...user.roles]
             this.name = user.name
             this.about = user.about
             this.status = user.status
@@ -163,11 +151,6 @@
                     try
                     {
                         user = await this.admin.createUser(data)
-                        if (this.roles.length != 0)
-                            await this.admin.ensureUserRoles({
-                                id: user.id,
-                                data: this.roles
-                            })
 
                         if (this.avatarFile)
                             await this.uploadAvatar(user.id)

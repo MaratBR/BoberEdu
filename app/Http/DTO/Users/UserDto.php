@@ -54,10 +54,8 @@ class UserDto extends DtoBase
         return $this->user->status;
     }
 
-    public function getRoles()
+    public function isAdmin()
     {
-        return collect($this->user->roles)->map(function (Role $r) {
-            return $r->name;
-        });
+        return $this->user->is_admin;
     }
 }
