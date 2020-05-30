@@ -30,6 +30,15 @@
             <input-textarea v-model="about" label="About" v-if="!isNew" />
             <input-textarea v-model="status" label="Status" v-if="!isNew" />
 
+            <div class="roles" v-if="!isNew">
+                <div class="role" v-for="(r, i) in allRoles" :key="i">
+                    <label>
+                        <input type="checkbox" :checked="roles.includes(r)" @input="setRole(r, $event.target.checked)">
+                        {{ r }}
+                    </label>
+                </div>
+            </div>
+
             <error :error="error" v-if="error" />
 
             <div class="control">
@@ -48,10 +57,11 @@
     import InputTextarea from "@common/components/forms/InputTextarea.vue";
     import Error from "@common/components/utils/Error.vue";
     import {getError} from "@common/utils";
+    import draggable from "vuedraggable";
 
     @Component({
         name: "UserForm",
-        components: {Error, InputTextarea, InputText, Uploader, AdminSection}
+        components: {Error, InputTextarea, InputText, Uploader, AdminSection, draggable}
     })
     export default class UserForm extends AdminStoreComponent {
         @Prop({type: Number}) id: number;
@@ -72,8 +82,13 @@
         notFound = false
         inProgress = true
 
+        originalRoles: string[]
+        roles: string[] = []
+        allRoles: string[] = []
+
         @Watch('id')
         async load() {
+            this.allRoles = await this.admin.getRoles()
             let user: dto.AdminUserDto
             try {
                 user = await this.admin.getUser(this.id)
@@ -82,6 +97,8 @@
                 return
             }
 
+            this.roles = user.roles
+            this.originalRoles = [...user.roles]
             this.name = user.name
             this.about = user.about
             this.status = user.status
@@ -114,7 +131,15 @@
             this.avatarIsUploading = false
         }
 
+        setRole(r: string, v: boolean) {
+            if (v && !this.roles.includes(r))
+                this.roles.push(r)
+            else if (!v && this.roles.includes(r))
+                this.roles.splice(this.roles.indexOf(r))
+        }
+
         created() {
+
             if (typeof this.id === 'number' && !isNaN(this.id)) {
                 this.load()
             } else {
@@ -138,6 +163,11 @@
                     try
                     {
                         user = await this.admin.createUser(data)
+                        if (this.roles.length != 0)
+                            await this.admin.ensureUserRoles({
+                                id: user.id,
+                                data: this.roles
+                            })
 
                         if (this.avatarFile)
                             await this.uploadAvatar(user.id)
@@ -180,5 +210,24 @@
 </script>
 
 <style scoped lang="scss">
+    .roles {
+        display: flex;
+    }
 
+    .role {
+        display: inline-block;
+        padding: 5px 5px 0 5px;
+        border-radius: 4px;
+        font-size: 1.06em;
+        margin: 5px;
+        border: 1px solid #ccc;
+
+        & > label {
+            cursor: pointer;
+        }
+
+        &:hover {
+            background: rgba(black, 0.04);
+        }
+    }
 </style>

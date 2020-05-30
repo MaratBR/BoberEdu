@@ -80,4 +80,9 @@ class UsersController extends Controller
             return $role->name;
         });
     }
+
+    public function updateRoles()
+    {
+
+    }
 }

@@ -26,5 +26,7 @@ interface IUsersService
     /**
      * @return Role[]
      */
-    function getRoles(): array;
+    function getRoles();
+
+    function ensureRoles(User $user, array $roles);
 }

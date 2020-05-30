@@ -70,9 +70,17 @@ class UsersService implements IUsersService
         ]);
     }
 
-    function getRoles(): array
+    function getRoles()
     {
         return Role::all();
+    }
+
+    function ensureRoles(User $user, array $roles)
+    {
+        $userRoles = $user->roles;
+        $roles = Role::query()->whereIn('name', $roles)->get();
+
+        $user->roles()->attach();
     }
 
 

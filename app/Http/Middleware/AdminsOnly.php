@@ -22,6 +22,8 @@ class AdminsOnly
         $user = $request->user();
         if ($user && $user->isAdmin())
             return $next($request);
-        return response()->withException(new HttpException(401, "Access denied"));
+        return response()->json([
+            'message' => 'Access denied'
+        ])->setStatusCode(401);
     }
 }
