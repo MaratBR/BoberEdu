@@ -29,6 +29,13 @@
 
             <input-textarea v-model="about" label="About" v-if="!isNew" />
             <input-textarea v-model="status" label="Status" v-if="!isNew" />
+            <input-checkbox v-model="isAdmin" label="Has admin permissions" />
+            <input-textarea v-model="promotionReason" v-if="isNew ? isAdmin : isAdmin !== isAdminOriginal"
+                label="Provide explanation for promotion/demotion" required />
+
+            <error v-if="id === store.auth.user.id && (isAdminOriginal === true) && !isAdmin"
+                   error="Warning: you will remove your own administrator permissions you will not be able to access admin panel anymore" />
+
 
             <error :error="error" v-if="error" />
 
@@ -49,10 +56,11 @@
     import Error from "@common/components/utils/Error.vue";
     import {getError} from "@common/utils";
     import draggable from "vuedraggable";
+    import InputCheckbox from "@common/components/forms/InputCheckbox.vue";
 
     @Component({
         name: "UserForm",
-        components: {Error, InputTextarea, InputText, Uploader, AdminSection, draggable}
+        components: {InputCheckbox, Error, InputTextarea, InputText, Uploader, AdminSection, draggable}
     })
     export default class UserForm extends AdminStoreComponent {
         @Prop({type: Number}) id: number;
@@ -62,6 +70,9 @@
         email: string = null
         actualEmail: string = null
         displayName: string = null
+        isAdmin: boolean = null
+        isAdminOriginal: boolean = null
+        promotionReason: string = null
         password: string = null
         avatar: string = null
         avatarFile: File = null
@@ -72,10 +83,6 @@
         isNew: boolean = false
         notFound = false
         inProgress = true
-
-        originalRoles: string[]
-        roles: string[] = []
-        allRoles: string[] = []
 
         @Watch('id')
         async load() {
@@ -93,6 +100,8 @@
             this.actualEmail = user.email
             this.avatar = user.avatar
             this.displayName = user.displayName
+            this.isAdmin = this.isAdminOriginal = user.admin
+
 
             this.inProgress = false
         }
@@ -119,15 +128,7 @@
             this.avatarIsUploading = false
         }
 
-        setRole(r: string, v: boolean) {
-            if (v && !this.roles.includes(r))
-                this.roles.push(r)
-            else if (!v && this.roles.includes(r))
-                this.roles.splice(this.roles.indexOf(r))
-        }
-
         created() {
-
             if (typeof this.id === 'number' && !isNaN(this.id)) {
                 this.load()
             } else {
@@ -154,6 +155,9 @@
 
                         if (this.avatarFile)
                             await this.uploadAvatar(user.id)
+
+                        if (this.isAdmin)
+                            await this.admin.promoteUser({id: user.id, data: {admin: true, reason: this.promotionReason}})
                     }
                     catch (e) {
                         this.error = getError(e)
@@ -175,8 +179,11 @@
                         status: this.status
                     }
                     if ((this.$refs.emailEditor as Vue).$data.unlocked) {
-                        data.email = this.email
+
                     }
+
+                    if (this.isAdminOriginal !== this.isAdmin)
+                        await this.admin.promoteUser({id: this.id, data: {admin: this.isAdmin, reason: this.promotionReason}})
 
                     await this.admin.updateUser({
                         id: this.id,

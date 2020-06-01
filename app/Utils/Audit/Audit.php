@@ -20,6 +20,8 @@ class Audit
     public const LESSON_DELETE = 'Ldel';
 
     const USER_UPDATE = 'Uupd';
+    const USER_PROMOTE = 'Upromote';
+    const USER_DEMOTE = 'Udemote';
     const USER_NEW = 'Unew';
     const USER_BLOCK = 'Ublock';
 

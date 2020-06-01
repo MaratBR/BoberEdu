@@ -34,17 +34,22 @@ export class AdminModule {
     }
 
     @Action()
-    async getUser(userId: number): Promise<dto.AdminUserDto> {
+    getUser(userId: number): Promise<dto.AdminUserDto> {
         return client.get('admin/users/' + userId).then(this._get)
     }
 
     @Action()
-    async updateUser({id, data}: UpdatePayload<requests.UpdateUser>): Promise<dto.AdminUserDto> {
+    updateUser({id, data}: UpdatePayload<requests.UpdateUser>): Promise<dto.AdminUserDto> {
         return client.put('admin/users/' + id, data).then(this._get)
     }
 
     @Action()
-    async paginateUsers(d: { page: number, order?: string }): Promise<dto.PaginationDto<dto.AdminUserDto>> {
+    promoteUser({id, data}: UpdatePayload<requests.PromoteRequest>): Promise<dto.AdminUserDto> {
+        return client.put('admin/users/' + id + '/admin', data).then(this._get)
+    }
+
+    @Action()
+    paginateUsers(d: { page: number, order?: string }): Promise<dto.PaginationDto<dto.AdminUserDto>> {
         return client.get('admin/users', {params: {page: d.page, order: d.order}}).then(this._get)
     }
 

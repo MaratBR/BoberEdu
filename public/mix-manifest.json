@@ -1,18 +1,18 @@
 {
-    "/js/app.js": "/js/app.js?id=ec9aeaa5cebf54f91ebd",
+    "/js/app.js": "/js/app.js?id=6d51278a5bc76a01d077",
     "/css/app.css": "/css/app.css?id=20da66ca80c0c5f0422c",
     "/js/chunks/admin-categories.js": "/js/chunks/admin-categories.js?id=c67c4b2aa55e4663d40b",
-    "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-pan~346b45a6.js": "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-pan~346b45a6.js?id=982190d4a08c3983f88d",
+    "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-pan~346b45a6.js": "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-pan~346b45a6.js?id=e4ee47c23339e05e22f5",
     "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-tea~027e38a2.js": "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-tea~027e38a2.js?id=bfbfe6e1897bd6b0b91a",
     "/js/chunks/admin-course-form.js": "/js/chunks/admin-course-form.js?id=fbfefccc772440c1254d",
     "/js/chunks/admin-course-units-form.js": "/js/chunks/admin-course-units-form.js?id=eff684a2861bb1fabd58",
     "/js/chunks/admin-courses.js": "/js/chunks/admin-courses.js?id=25395ee603345df0242c",
     "/js/chunks/admin-lesson-form.js": "/js/chunks/admin-lesson-form.js?id=a5ac6ca27ab262e6cbe3",
-    "/js/chunks/admin-lesson-form~admin-teachers-form~admin-user-form.js": "/js/chunks/admin-lesson-form~admin-teachers-form~admin-user-form.js?id=f99ee58899107d4f10cc",
+    "/js/chunks/admin-lesson-form~admin-teachers-form~admin-user-form.js": "/js/chunks/admin-lesson-form~admin-teachers-form~admin-user-form.js?id=4d51acb53794ec749ce9",
     "/js/chunks/admin-panel.js": "/js/chunks/admin-panel.js?id=b9a997d40bb8e8bb25bf",
     "/js/chunks/admin-teachers.js": "/js/chunks/admin-teachers.js?id=68deeae01c62919d1054",
     "/js/chunks/admin-teachers-form.js": "/js/chunks/admin-teachers-form.js?id=d1adaa94ab4bc6f866c5",
-    "/js/chunks/admin-user-form.js": "/js/chunks/admin-user-form.js?id=29ea91293b32413eccca",
+    "/js/chunks/admin-user-form.js": "/js/chunks/admin-user-form.js?id=49cb33bff7b7bba66339",
     "/js/chunks/admin-users.js": "/js/chunks/admin-users.js?id=11f748388c7bbddeff6a",
     "/js/chunks/categories.js": "/js/chunks/categories.js?id=8f57fec2513717b0217a",
     "/js/chunks/category.js": "/js/chunks/category.js?id=43c60de68d5102993d25",
@@ -24,5 +24,9 @@
     "/js/chunks/profile-settings.js": "/js/chunks/profile-settings.js?id=592387d56ab0651cdfc1",
     "/js/chunks/purchase.js": "/js/chunks/purchase.js?id=bbad9ef7a4b262e3914c",
     "/js/chunks/register.js": "/js/chunks/register.js?id=ad242e9de10f371e909b",
-    "/js/chunks/vendors~admin-course-form~admin-course-units-form~admin-user-form.js": "/js/chunks/vendors~admin-course-form~admin-course-units-form~admin-user-form.js?id=369e0b06c1f6ee1b848a"
+    "/js/chunks/vendors~admin-course-form~admin-course-units-form~admin-user-form.js": "/js/chunks/vendors~admin-course-form~admin-course-units-form~admin-user-form.js?id=369e0b06c1f6ee1b848a",
+    "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-pan~10b492fd.js": "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-pan~10b492fd.js?id=270e0b0b891f0b1b422c",
+    "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-tea~aa4ac101.js": "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-tea~aa4ac101.js?id=9baa72a9e7d9c6d2b58e",
+    "/js/chunks/admin-lesson-form~admin-teachers-form.js": "/js/chunks/admin-lesson-form~admin-teachers-form.js?id=f8cbb607df948ca3ca65",
+    "/js/chunks/vendors~admin-course-form~admin-course-units-form.js": "/js/chunks/vendors~admin-course-form~admin-course-units-form.js?id=c7e3d30f7d8cdd21d770"
 }

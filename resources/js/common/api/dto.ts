@@ -229,8 +229,7 @@ export namespace requests {
         name?: string,
         status?: string,
         about?: string,
-        displayName?: string,
-        email?: string
+        displayName?: string
     };
 
     export type Login = {
@@ -285,6 +284,11 @@ export namespace requests {
         passNum?: string,
         fullName?: string,
         about?: string
+    }
+
+    export type PromoteRequest = {
+        admin: boolean,
+        reason: string
     }
 }
 

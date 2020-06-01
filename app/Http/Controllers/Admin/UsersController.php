@@ -10,6 +10,7 @@ use App\Http\DTO\Users\UserDto;
 use App\Http\DTO\Utils\ItemsDto;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Users\EditUserRequest;
+use App\Http\Requests\Users\PromoteUserRequest;
 use App\Role;
 use App\Services\Abs\IUploadService;
 use App\Services\Abs\IUsersService;
@@ -74,15 +75,20 @@ class UsersController extends Controller
         return new PaginationDto($this->repo->paginate(50, $order), AdminUserDto::class);
     }
 
-    public function roles()
+    public function promote(PromoteUserRequest $request, int $userId)
     {
-        return new ItemsDto($this->repo->getRoles(), function (Role $role) {
-            return $role->name;
-        });
-    }
+        $user = $this->repo->get($userId);
 
-    public function updateRoles()
-    {
+        if ($user->is_admin != $request->isAdmin())
+        {
+            AuditRecord::make($request->user(), $request, Audit::USER_UPDATE)
+                ->subject($user)->comment($request->getComment())->build();
 
+            $user->update([
+                'is_admin' => $request->isAdmin()
+            ]);
+        }
+
+        return $this->noContent();
     }
 }

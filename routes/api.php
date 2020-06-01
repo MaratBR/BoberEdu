@@ -109,6 +109,7 @@ Route::group([
         Route::get('{id}', 'Admin\UsersController@get');
         Route::put('{id}', 'Admin\UsersController@update');
         Route::put('{id}/avatar', 'Admin\UsersController@uploadAvatar');
+        Route::put('{id}/admin', 'Admin\UsersController@promote');
         Route::post('', 'Admin\UsersController@create');
     });
 

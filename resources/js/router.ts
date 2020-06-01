@@ -300,7 +300,6 @@ router.beforeEach((to, from, next: (to?: RawLocation | void) => void) => {
             name: 'login'
         })
     } else if (to.matched.some(r => r.meta.requiresAdmin) && !storeProxy.auth.isAdmin) {
-        debugger
         next({
             name: 'oops',
             params: {
