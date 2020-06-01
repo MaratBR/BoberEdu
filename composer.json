@@ -21,7 +21,8 @@
         "nunomaduro/collision": "^4.1",
         "omnipay/dummy": "*",
         "omnipay/paypal": "*",
-        "tymon/jwt-auth": "*"
+        "tymon/jwt-auth": "*",
+        "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

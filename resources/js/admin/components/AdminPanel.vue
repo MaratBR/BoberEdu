@@ -6,6 +6,15 @@
                     <sidebar-link to="overview" header="Overview" icon="tachometer" />
                 </sidebar-group>
 
+                <sidebar-group header="Audit">
+                    <sidebar-link to="audit" header="View log" icon="history" />
+                </sidebar-group>
+
+                <sidebar-group header="Users">
+                    <sidebar-link to="users" header="All users" icon="list" />
+                    <sidebar-link to="users_new" header="Register new user" icon="plus" />
+                </sidebar-group>
+
                 <sidebar-group header="Courses">
                     <sidebar-link to="courses" header="Courses" icon="list" />
                     <sidebar-link to="courses_new" header="Add new course" icon="plus" />

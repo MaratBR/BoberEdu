@@ -102,6 +102,12 @@ Route::group([
 ], function () {
 
     Route::group([
+        'prefix' => 'audit'
+    ], function () {
+        Route::get('all', 'Admin\AuditController@paginate');
+    });
+
+    Route::group([
         'prefix' => 'users'
     ], function () {
         Route::get('', 'Admin\UsersController@paginate');

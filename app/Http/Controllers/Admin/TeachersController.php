@@ -46,7 +46,7 @@ class TeachersController extends Controller
         $payload = $request->getPayload();
         $teacher->update($payload);
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_UPDATED)
+        AuditRecord::make($request->user(), $request, Audit::UPDATE)
             ->subject($teacher->id)
             ->data(['f' => array_keys($payload)])
             ->build();
@@ -67,7 +67,7 @@ class TeachersController extends Controller
 
         $this->repo->assign($teacher, $course);
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_ASSIGNED)
+        AuditRecord::make($request->user(), $request, Audit::ASSIGN_TEACHER)
             ->subject($teacher->id)->data(['c' => $course->id])->build();
     }
 
@@ -77,7 +77,7 @@ class TeachersController extends Controller
         $course = $this->courses->get($courseId);
         $this->repo->revoke($teacher, $course);
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_REVOKED)
+        AuditRecord::make($request->user(), $request, Audit::REVOKE_TEACHER)
             ->subject($teacher->id)->data([
                 'c' => $course->id
             ])
@@ -101,7 +101,7 @@ class TeachersController extends Controller
         $teacher = $this->repo->create($user, $request->getPayload());
 
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_NEW)
+        AuditRecord::make($request->user(), $request, Audit::CREATE)
             ->subject($teacher->id)
             ->data(['u' => $user->id])
             ->comment($request->getComment())
@@ -114,7 +114,7 @@ class TeachersController extends Controller
     {
         $teacher = $this->repo->get($teacherId);
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_DELETED)
+        AuditRecord::make($request->user(), $request, Audit::DELETE)
             ->subject($teacher->id)
             ->build();
 

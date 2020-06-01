@@ -4,25 +4,39 @@
 namespace App\Utils\Audit;
 
 
+use Illuminate\Database\Eloquent\Model;
+
 class Audit
 {
     private const TEACHER_PREFIX = 1 << 16;
 
-    public const NEW_TEACHER = self::TEACHER_PREFIX | 1;
-    public const TEACHER_ASSIGNED = 'Tassign';
-    public const TEACHER_REVOKED = 'Trevoke';
-    public const TEACHER_NEW = 'Tnew';
-    const TEACHER_DELETED = 'Tdel';
-    public const TEACHER_UPDATED = 'Tupd';
+    public const UPDATE = 1;
+    public const CREATE = 2;
+    public const DELETE = 3;
+    public const RESTORE = 4;
 
-    public const LESSON_UPDATE = 'Lupd';
-    public const LESSON_CREATE = 'Lnew';
-    public const LESSON_DELETE = 'Ldel';
+    public const PROMOTE = 10;
+    public const DEMOTE = 11;
+    public const BLOCK = 12;
+    public const UPLOAD_AVATAR= 13;
 
-    const USER_UPDATE = 'Uupd';
-    const USER_PROMOTE = 'Upromote';
-    const USER_DEMOTE = 'Udemote';
-    const USER_NEW = 'Unew';
-    const USER_BLOCK = 'Ublock';
+    public const ASSIGN_TEACHER = 20;
+    public const REVOKE_TEACHER = 21;
+
+    public static function subjectId($subject) {
+        if ($subject instanceof Model) {
+            return strval($subject->getKey());
+        } else {
+            return strval($subject);
+        }
+    }
+
+    public static function subjectType($subject) {
+        if ($subject instanceof Model) {
+            return class_basename($subject);
+        } else {
+            return null;
+        }
+    }
 
 }

@@ -18,6 +18,7 @@ class AuditRecordBuilder
     private $ip = null;
     private $action = null;
     private $subject = null;
+    private $subjectType = null;
     private $userAgent = null;
 
 
@@ -51,15 +52,17 @@ class AuditRecordBuilder
 
     public function subject($subject): self
     {
-        if ($subject instanceof Model)
-            $subject = $subject->getTable() . '/' . strval($subject->getKey());
-        if (!is_string($subject))
-            $subject = strval($subject);
-        $this->subject = $subject;
+        if ($subject instanceof Model) {
+            $this->subject = strval($subject->getKey());
+            $this->subjectType = class_basename($subject);
+        }else if (!is_string($subject)) {
+            $this->subjectType = null;
+            $this->subject = strval($subject);
+        }
         return $this;
     }
 
-    public function action(string $action): self
+    public function action(int $action): self
     {
         $this->action = $action;
         return $this;
@@ -91,6 +94,7 @@ class AuditRecordBuilder
 
         return AuditRecord::create([
             'subject' => $this->subject,
+            'subject_type' => $this->subjectType,
             'user_id' => $this->actorId,
             'ip' => $this->ip,
             'action' => $this->action,

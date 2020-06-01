@@ -11,7 +11,6 @@ use App\Http\DTO\Utils\ItemsDto;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Users\EditUserRequest;
 use App\Http\Requests\Users\PromoteUserRequest;
-use App\Role;
 use App\Services\Abs\IUploadService;
 use App\Services\Abs\IUsersService;
 use App\Utils\Audit\Audit;
@@ -38,7 +37,7 @@ class UsersController extends Controller
             $userRequest->getPayload()
         );
 
-        AuditRecord::make($userRequest->user(), $userRequest, Audit::USER_UPDATE)->subject($user)->build();
+        AuditRecord::make($userRequest->user(), $userRequest, Audit::UPDATE)->subject($user)->build();
 
         return new AdminUserDto($user);
     }
@@ -56,6 +55,7 @@ class UsersController extends Controller
         $avatar = $uploadService->uploadAvatar($userRequest->user(), $this->openInput());
 
         $this->repo->setAvatar($user, $avatar);
+        AuditRecord::make($userRequest->user(), $userRequest, Audit::UPLOAD_AVATAR)->subject($user)->build();
 
         return [
             'id' => $avatar->sys_name
@@ -81,7 +81,7 @@ class UsersController extends Controller
 
         if ($user->is_admin != $request->isAdmin())
         {
-            AuditRecord::make($request->user(), $request, Audit::USER_UPDATE)
+            AuditRecord::make($request->user(), $request, Audit::PROMOTE)
                 ->subject($user)->comment($request->getComment())->build();
 
             $user->update([
