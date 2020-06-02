@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Courses;
 
 
 use App\Course;
+use App\Http\DTO\DtoBase;
 use App\Http\DTO\Teachers\TeacherDto;
 
 class CourseDto extends DtoBase

@@ -9,6 +9,7 @@ use App\Http\DTO\Users\AdminUserDto;
 use App\Http\DTO\Users\UserDto;
 use App\Http\DTO\Utils\ItemsDto;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\Users\EditUserRequest;
 use App\Http\Requests\Users\PromoteUserRequest;
 use App\Services\Abs\IUploadService;
@@ -90,5 +91,22 @@ class UsersController extends Controller
         }
 
         return $this->noContent();
+    }
+
+    private const USER_SEARCH_PARAMS = ['id', 'email', 'name'];
+    public function search(SearchRequest $request)
+    {
+        if ($request->getQuery() === null)
+            return $this->paginate($request);
+
+
+        if ($request->hasParametricSearch() && in_array($request->getParameter(), self::USER_SEARCH_PARAMS)) {
+            $val = $request->getQuery();
+            $results = [$this->repo->getBy($request->getParameter(), $val)];
+        } else {
+            $results = $this->repo->search($request->getQuery());
+        }
+
+        return new PaginationDto($results, AdminUserDto::class);
     }
 }

@@ -111,7 +111,7 @@ Route::group([
         'prefix' => 'users'
     ], function () {
         Route::get('', 'Admin\UsersController@paginate');
-        Route::get('roles', 'Admin\UsersController@roles');
+        Route::get('search', 'Admin\UsersController@search');
         Route::get('{id}', 'Admin\UsersController@get');
         Route::put('{id}', 'Admin\UsersController@update');
         Route::put('{id}/avatar', 'Admin\UsersController@uploadAvatar');

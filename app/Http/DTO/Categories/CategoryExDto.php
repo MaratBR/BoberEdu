@@ -6,7 +6,7 @@ namespace App\Http\DTO\Categories;
 
 use App\Category;
 use App\Http\DTO\Categories\CategoryDto;
-use App\Http\DTO\CourseDto;
+use App\Http\DTO\Courses\CourseDto;
 
 class CategoryExDto extends CategoryDto
 {

@@ -1,9 +1,10 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Courses;
 
 
+use App\Http\DTO\Courses\CourseDto;
 use App\Http\DTO\Units\UnitExDto;
 
 class CourseExDto extends CourseDto

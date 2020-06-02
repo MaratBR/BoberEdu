@@ -8,6 +8,7 @@ use App\Exceptions\ThrowUtils;
 use App\Role;
 use App\Services\Abs\IUsersService;
 use App\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 
 class UsersService implements IUsersService
@@ -18,6 +19,14 @@ class UsersService implements IUsersService
     public function get(int $id): User
     {
         return User::findOrFail($id);
+    }
+
+    function getBy(string $col, $val): User
+    {
+        /** @var User $user */
+        $user = User::query()->where($col, '=', $val)->firstOrFail();
+
+        return $user;
     }
 
     function paginate(int $perPage = 15, ?string $order = null)
@@ -60,6 +69,11 @@ class UsersService implements IUsersService
         $user->update([
             'avatar_id' => $avatar->id
         ]);
+    }
+
+    function search(string $query): LengthAwarePaginator
+    {
+        return User::search($query)->paginate();
     }
 
     private function normalize(string $username)
