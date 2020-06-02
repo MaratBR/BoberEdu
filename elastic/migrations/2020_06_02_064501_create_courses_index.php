@@ -6,18 +6,18 @@ use ElasticAdapter\Indices\Settings;
 use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
-final class CreateUsersIndex implements MigrationInterface
+final class CreateCoursesIndex implements MigrationInterface
 {
     /**
      * Run the migration.
      */
     public function up(): void
     {
-        Index::create('users', function (Mapping $mapping, Settings $settings) {
-            $mapping->keyword('email');
-            $mapping->searchAsYouType('name');
-            $mapping->searchAsYouType('display_name');
+        Index::create('courses', function (Mapping $mapping, Settings $settings) {
+            $mapping->text('name');
             $mapping->text('about');
+            $mapping->text('summary');
+            $mapping->text('tags');
         });
     }
 
@@ -26,6 +26,6 @@ final class CreateUsersIndex implements MigrationInterface
      */
     public function down(): void
     {
-        Index::dropIfExists('users');
+        Index::dropIfExists('courses');
     }
 }

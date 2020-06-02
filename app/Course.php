@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
+use Laravel\Scout\Searchable;
 
 /**
  * @method static Course create(array $data)
@@ -22,15 +23,17 @@ use Illuminate\Database\Query\Builder;
  * @property bool available
  * @property int trial_length
  * @property string about
+ * @property string summary
  * @property Carbon sign_up_beg
  * @property Carbon sign_up_end
  */
 class Course extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
+
     protected $fillable = [
         'name', 'price', 'about', 'sign_up_beg', 'sign_up_end',
-        'available', 'trial_length', 'category_id'
+        'available', 'trial_length', 'category_id', 'summary'
     ];
 
     protected $casts = [
@@ -44,6 +47,16 @@ class Course extends Model
         'deleted_at', 'created_at', 'updated_at',
         'sign_up_beg', 'sign_up_end'
     ];
+
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'about' => $this->about,
+            'summary' => $this->summary,
+            'tags' => '' // TODO
+        ];
+    }
 
     public function units() {
         return $this->hasMany(Unit::class);
