@@ -2,8 +2,8 @@
     <div class="control">
         <label :for="id">{{ label }}</label>
         <input :aria-invalid="invalid ? 'true' : 'false'" @input="$emit('input', $event.target.value)" :value="value"
-               :type="type" :id="id" :required="required" v-bind="$attrs"
-                :disabled="$attrs.disabled || (!unlocked && protected)" @blur="validate" />
+               :type="type" :id="id" :required="required" :disabled="$attrs.disabled || (!unlocked && protected)"
+               @blur="validate" v-bind="$attrs" />
         <small v-show="protected && !unlocked">
             This control is temporarily disabled to avoid accident changes. <button @click.prevent="(unlocked = true) && $emit('unlocked')">Unlock?</button>
         </small><br>
@@ -24,7 +24,8 @@
         invalid = false
 
         validate() {
-            console.log('VALIDATE')
+            console.log(this.$attrs)
+            console.log(this.$props)
             if (this.min > -1 && this.value.length < this.min) {
                 this.invalid = true
                 return

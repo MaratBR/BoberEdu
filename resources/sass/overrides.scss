@@ -94,6 +94,7 @@ $overrides--inputs-border-color: shift-color-brightness($lt-background-color, 20
     }
 }
 
+
 select {
     @include input-style-1;
 }
