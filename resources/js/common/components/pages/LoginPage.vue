@@ -1,6 +1,6 @@
 <template>
     <page title="Login">
-        <form class="form" @submit.prevent="onSubmit" v-if="!store.auth.isAuthenticated">
+        <form class="form" @submit.prevent="onSubmit" v-if="!store.isAuthenticated">
             <div class="form__control">
                 <label class="form__label" for="InputLogin">Login</label>
                 <input class="input" id="InputLogin" type="text" v-model="name">
@@ -12,7 +12,7 @@
             <div v-show="failed" class="notification notification--danger">Credentials doesn't match</div>
 
             <div class="form__control">
-                <button class="btn btn--primary" :disabled="store.auth.loggingIn">Log in</button>
+                <button class="btn btn--primary" :disabled="store.loggingIn">Log in</button>
             </div>
 
         </form>
@@ -37,7 +37,7 @@
         failed = false;
 
         async onSubmit() {
-            if (this.store.auth.isAuthenticated) {
+            if (this.store.isAuthenticated) {
                 await this.$router.push('/');
                 return;
             }
@@ -46,7 +46,7 @@
 
             try
             {
-                await this.store.auth.login({
+                await this.store.login({
                     name: this.name,
                     password: this.password
                 });

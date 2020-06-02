@@ -36,3 +36,14 @@ export function getBrightness({r, g, b}: RGB): number {
     return Math.round((r * 299 + g * 587 + b * 11) / 1000)
 }
 
+
+export function randomId(length) {
+    // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+    let result           = '';
+    let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}

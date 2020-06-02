@@ -135,7 +135,7 @@
             this.courseId = +this.$route.params.id || null;
             try {
                 this.course = await this.store.courses.get(this.courseId);
-                if (this.store.auth.isAuthenticated) {
+                if (this.store.isAuthenticated) {
                     await this.updateStatus();
                 }
             } catch (e) {
@@ -151,7 +151,7 @@
         }
 
         async enroll(enroll: boolean) {
-            if (!this.store.auth.isAuthenticated) {
+            if (!this.store.isAuthenticated) {
                 await this.$router.push({ name: 'login' });
                 return;
             }
@@ -166,7 +166,7 @@
         }
 
         async buy() {
-            if (!this.store.auth.isAuthenticated) {
+            if (!this.store.isAuthenticated) {
                 await this.$router.push({ name: 'login' });
                 return;
             }

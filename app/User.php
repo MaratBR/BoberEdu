@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -28,7 +29,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable, HasApiTokens, Searchable;
 
     protected $fillable = [
         'name', 'email', 'password', 'display_name', 'status','normalized_name', 'normalized_email', 'about',
@@ -53,6 +54,15 @@ class User extends Authenticatable implements JWTSubject
         'is_admin' => 'boolean',
         'activated' => 'boolean'
     ];
+
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'display_name' => $this->display_name,
+            'email' => $this->email
+        ];
+    }
 
     public function courses()
     {

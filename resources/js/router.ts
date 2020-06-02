@@ -211,6 +211,13 @@ let router = new VueRouter({
                     name: 'login'
                 },
                 {
+                    path: '/logout',
+                    component: () => import(
+                        /* webpackChunkName: "logout" */
+                        "@common/components/pages/LogoutPage.vue"),
+                    name: 'logout'
+                },
+                {
                     path: '/register',
                     component: () => import(
                         /* webpackChunkName: "register" */
@@ -295,11 +302,11 @@ router.beforeEach((to, from, next: (to?: RawLocation | void) => void) => {
     for (let match of to.matched)
 
 
-    if (to.matched.some(r => r.meta.requiresAuth) && !storeProxy.auth.isAuthenticated) {
+    if (to.matched.some(r => r.meta.requiresAuth) && !storeProxy.isAuthenticated) {
         next({
             name: 'login'
         })
-    } else if (to.matched.some(r => r.meta.requiresAdmin) && !storeProxy.auth.isAdmin) {
+    } else if (to.matched.some(r => r.meta.requiresAdmin) && !storeProxy.isAdmin) {
         next({
             name: 'oops',
             params: {

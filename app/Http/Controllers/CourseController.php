@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\DTO\CategoriesDto;
-use App\Http\DTO\CategoryDto;
-use App\Http\DTO\CategoryExDto;
+use App\Http\DTO\Categories\CategoriesDto;
+use App\Http\DTO\Categories\CategoryDto;
+use App\Http\DTO\Categories\CategoryExDto;
 use App\Http\DTO\CourseDto;
 use App\Http\DTO\CourseExDto;
 use App\Http\DTO\CoursePageItemDto;

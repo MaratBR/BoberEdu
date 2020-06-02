@@ -13,7 +13,7 @@ export function createApp() {
     })
 }
 export function init(): Promise<void> {
-    return getCommonStore().auth.init()
+    return getCommonStore().init()
 }
 
 init().then(() => {

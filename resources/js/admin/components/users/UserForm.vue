@@ -33,7 +33,7 @@
             <input-textarea v-model="promotionReason" v-if="isNew ? isAdmin : isAdmin !== isAdminOriginal"
                 label="Provide explanation for promotion/demotion" required />
 
-            <error v-if="id === store.auth.user.id && (isAdminOriginal === true) && !isAdmin"
+            <error v-if="id === store.user.id && (isAdminOriginal === true) && !isAdmin"
                    error="Warning: you will remove your own administrator permissions you will not be able to access admin panel anymore" />
 
 

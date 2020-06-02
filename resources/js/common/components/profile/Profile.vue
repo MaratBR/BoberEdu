@@ -19,7 +19,7 @@
                             <textarea v-model="newStatus" class="edit-status__input input" />
                         </div>
                         <button @click="editStatus" class="button-clear"
-                                v-if="store.auth.isAuthenticated && profile.user.id === store.auth.user.id && !setStatus">
+                                v-if="store.isAuthenticated && profile.user.id === store.user.id && !setStatus">
                             <i class="fa fa-edit"></i> edit
                         </button>
                         <button v-else-if="setStatus" class="button-clear" @click="updateStatus">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <div class="user-heading__tabs" v-if="store.auth.isAuthenticated && profile.user.id === store.auth.user.id">
+                <div class="user-heading__tabs" v-if="store.isAuthenticated && profile.user.id === store.user.id">
                     <router-link :to="{name: 'profile_courses'}">My courses</router-link>
                     <router-link :to="{name: 'profile_payments'}">My payments</router-link>
                     <router-link :to="{name: 'profile_settings'}">Settings</router-link>

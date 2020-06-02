@@ -1,10 +1,12 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Categories;
 
 
 use App\Category;
+use App\Http\DTO\Categories\CategoryDto;
+use App\Http\DTO\CourseDto;
 
 class CategoryExDto extends CategoryDto
 {

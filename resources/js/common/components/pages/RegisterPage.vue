@@ -52,7 +52,7 @@ import {Sex} from "../../api";
 
         async onSubmit() {
             try {
-                await this.store.auth.register({
+                await this.store.register({
                     name: this.name,
                     email: this.email,
                     displayName: this.displayName,

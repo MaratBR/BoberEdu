@@ -13,14 +13,14 @@
             </section>
 
             <section class="nav__right">
-                <router-link :to="{name: 'profile', params: {id: store.auth.user.id}}" class="btn"
-                             v-if="store.auth.isAuthenticated">{{store.auth.user.name}}</router-link>
-                <span v-if="store.auth.loggingIn">Loading...</span>
+                <router-link :to="{name: 'profile', params: {id: store.user.id}}" class="btn"
+                             v-if="store.isAuthenticated">{{store.user.name}}</router-link>
+                <span v-if="store.loggingIn">Loading...</span>
                 <router-link
-                    v-if="!store.auth.isAuthenticated && !store.auth.loggingIn"
+                    v-if="!store.isAuthenticated && !store.loggingIn"
                     to="/login" class="btn btn--primary btn--inverted">Login</router-link>
                 <router-link
-                    v-if="!store.auth.isAuthenticated && !store.auth.loggingIn"
+                    v-if="!store.isAuthenticated && !store.loggingIn"
                         to="/register" class="btn btn--primary btn--inverted">Sign Up</router-link>
             </section>
 

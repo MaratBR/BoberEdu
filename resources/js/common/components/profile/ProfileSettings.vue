@@ -87,7 +87,7 @@
 
             this.usernameProgress = true
             await this.store.users.update({
-                id: this.store.auth.user.id,
+                id: this.store.user.id,
                 req: {
                     name: username
                 }
@@ -99,7 +99,7 @@
         async updateAbout() {
             this.showUpdateAboutButton = false;
             await this.store.users.update({
-                id: this.store.auth.user.id,
+                id: this.store.user.id,
                 req: {
                     about: this.about
                 }
