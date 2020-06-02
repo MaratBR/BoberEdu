@@ -33,6 +33,7 @@ export namespace dto {
         available: boolean,
         about: string,
         trialDays: number,
+        summary: string,
         requirements: CourseRequirements,
         teachers: TeacherDto[]
     };

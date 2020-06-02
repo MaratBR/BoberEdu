@@ -22,7 +22,8 @@ class UpdateCourseRequest extends AuthenticatedRequest implements IPayloadReques
             'about' => 'string',
             'signUpBeg' => 'nullable|date_format:Y-m-d',
             'signUpEnd' => 'nullable|date_format:Y-m-d',
-            'available' => 'boolean'
+            'available' => 'boolean',
+            'summary' => 'string|nullable'
         ];
     }
 

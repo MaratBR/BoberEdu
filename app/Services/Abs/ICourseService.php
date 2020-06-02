@@ -96,7 +96,7 @@ interface ICourseService
 
     function getUnit(int $unitId): Unit;
 
-    function search(string $query): LengthAwarePaginator;
+    function search(string $query, ?int $categoryId): LengthAwarePaginator;
 
-    function getBy(string $col, $value): Course;
+    function getBy(array $params): Course;
 }

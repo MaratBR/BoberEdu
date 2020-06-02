@@ -4,7 +4,7 @@
             <category-select v-model="category" default-text="All" />
 
 
-            <courses-search />
+            <courses-search :category-id="category ? category.id : null" />
             <pagination-control :pagination="pagination" @requestPage="(page = $event) && load()">
                 <template v-slot:body="{items}">
                     <table>

@@ -3,10 +3,12 @@
         <admin-section :in-progress="submitting">
             <template v-slot:header>
                 <ul class="breadcrumb">
-                    <li>Courses</li>
+                    <li><router-link :to="{name:'admin__courses'}">Courses</router-link></li>
                     <li>{{ name || 'new' }}</li>
                 </ul>
             </template>
+
+            <error :error="error" v-if="error" />
 
             <form class="form" @submit.prevent="onSubmit">
                 <div class="form__control" v-if="!persistent">
@@ -83,9 +85,10 @@
     import AdminSection from "@admin/components/layout/AdminSection.vue";
     import Sections from "@admin/components/layout/Sections.vue";
     import {getError} from "@common/utils";
+    import Error from "@common/components/utils/Error.vue";
 
     @Component({
-        components: {Sections, AdminSection, MarkdownEditor, UnitsEditor, Loader, Page}
+        components: {Error, Sections, AdminSection, MarkdownEditor, UnitsEditor, Loader, Page}
     })
     export default class CourseForm extends AdminStoreComponent {
         @Prop({default: null}) id: number;
@@ -147,6 +150,7 @@
                 this.available = c.available
                 this.signUpBeg = c.requirements.signUp.beg
                 this.signUpEnd = c.requirements.signUp.end
+                this.summary = c.summary
                 this.priceAsNumber = c.price
                 this.course = c
             } catch (e) {

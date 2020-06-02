@@ -73,4 +73,9 @@ class CourseDto extends DtoBase
     {
         return collect($this->course->teachers)->mapInto(TeacherDto::class);
     }
+
+    public function getSummary()
+    {
+        return $this->course->summary;
+    }
 };

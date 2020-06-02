@@ -39,17 +39,17 @@ class CourseService implements ICourseService
         return $course;
     }
 
-    function search(string $query): LengthAwarePaginator
+    function search(string $query, ?int $categoryId = null): LengthAwarePaginator
     {
         /** @var LengthAwarePaginator $p */
         $p = Course::search($query)->paginate();
         return $p;
     }
 
-    function getBy(string $col, $value): Course
+    function getBy(array $params): Course
     {
         /** @var Course $c */
-        $c = Course::query()->where($col, $value)->firstOrFail();
+        $c = Course::query()->where($params)->firstOrFail();
         return $c;
     }
 

@@ -49,13 +49,28 @@ class CoursesController extends Controller
     private const COURSE_SEARCH_FIELDS = ['id', 'name'];
     public function search(SearchRequest $request)
     {
+        $categoryId = $request->input('c');
+        $categoryId = !is_string($categoryId) ? null : intval($categoryId, 10);
+        $categoryId = $categoryId === 0 ? null : $categoryId;
+
         if ($request->getQuery() === null) {
-            return new PaginationDto($this->repo->paginateWithExtra(), CoursePageItemDto::class);
+            if ($categoryId === null) {
+                return new PaginationDto($this->repo->paginateWithExtra(), CoursePageItemDto::class);
+            } else {
+                $category = $this->repo->getCategory($categoryId);
+                return new PaginationDto($this->repo->paginateInCategory($category), CoursePageItemDto::class);
+            }
         }
 
         if ($request->hasParametricSearch() &&
             in_array($request->getParameter(), self::COURSE_SEARCH_FIELDS)) {
-            $result = [$this->repo->getBy($request->getParameter(), $request->getQuery())];
+            $params = [
+                $request->getParameter() => $request->getQuery()
+            ];
+
+            if ($categoryId !== null)
+                $params['category_id'] = $categoryId;
+            $result = [$this->repo->getBy($params)];
         } else {
             $result = $this->repo->search($request->getQuery());
         }
