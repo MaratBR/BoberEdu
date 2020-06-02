@@ -1,5 +1,5 @@
 <template>
-    <data-presenter
+    <data-presenter @requestPage="(page = $event) && load()"
         searchable :selectable="selectable" :pagination="pagination" @search="query = $event">
         <template v-slot:table-header>
             <th>#</th>

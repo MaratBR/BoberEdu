@@ -3,6 +3,8 @@
         <admin-section header="Courses">
             <category-select v-model="category" default-text="All" />
 
+
+            <courses-search />
             <pagination-control :pagination="pagination" @requestPage="(page = $event) && load()">
                 <template v-slot:body="{items}">
                     <table>
@@ -43,10 +45,11 @@
     import CategorySelect from "@admin/components/courses/CategorySelect.vue";
     import PaginationControl from "@common/components/utils/PaginationControl.vue";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
+    import CoursesSearch from "@admin/components/courses/CoursesSearch.vue";
 
     @Component({
         name: "CoursesList",
-        components: {PaginationControl, CategorySelect, AdminSection, Sections}
+        components: {CoursesSearch, PaginationControl, CategorySelect, AdminSection, Sections}
     })
     export default class CoursesList extends AdminStoreComponent {
         category: dto.CategoryDto = null

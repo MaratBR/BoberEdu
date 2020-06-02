@@ -6,7 +6,7 @@ import LessonsAdminModule from "@admin/store/LessonsAdminModule";
 import TeachersAdminModule from "@admin/store/TeachersAdminModule";
 import {AxiosResponse} from "axios";
 import {dto, requests} from "@common";
-import {UpdatePayload} from "@common/store/utils";
+import {DeletePayload, UpdatePayload} from "@common/store/utils";
 
 export class AdminModule {
     @Module() courses = new CoursesAdminModule(client);
@@ -90,6 +90,63 @@ export class AdminModule {
 
     //#endregion
 
+    //#region Courses
+
+    @Action()
+    searchCourses(d: {query: any; page: number, category?: number}): Promise<dto.PaginationDto<dto.CoursePageItemDto>> {
+        return client.get('admin/courses/search', {params: {page: d.page, q: d.query, c: d.category}})
+            .then(this._get);
+    }
+
+    @Action()
+    updateCourse({id, data}: {id: number, data: requests.UpdateCourse}): Promise<void> {
+        return client.put('courses/' + id, data).then(this._get)
+    }
+
+    @Action()
+    createCourse(data: requests.CreateCourse): Promise<dto.CourseExDto> {
+        return client.post('courses', data).then(this._get)
+    }
+
+    @Action()
+    updateCourseUnits({id, data}: {id: number, data: requests.UpdateCourseUnits}): Promise<void> {
+        return client.put('courses/' + id + '/units', data).then(this._get)
+    }
+
+    @Action()
+    deleteCourse({id, reason}: DeletePayload): Promise<void> {
+        return client.delete('courses/' + id, {data: {reason}}).then(this._get)
+    }
+
+    @Action()
+    updateLessonsOrder(d: UpdatePayload<requests.UpdateLessonsOrder>): Promise<void> {
+        return client.put('courses/' + d.id + '/ordnung-muss-sein', d.data).then(this._get)
+    }
+
+    //#endregion
+
+    //#region Units
+
+    @Action()
+    async getUnit(unitId: number): Promise<dto.StandaloneUnitDto> {
+        return client.get('admin/courses/units/' + unitId).then(this._get)
+    }
+
+    //#endregion
+
+    //#region Categories
+
+    @Action()
+    createCategory(d: requests.CreateCategory): Promise<dto.CategoryDto> {
+        return client.post('courses/categories', d).then(this._get)
+    }
+
+    @Action()
+    updateCategory(d: UpdatePayload<requests.UpdateCategory>): Promise<void> {
+        return client.put('courses/categories/' + d.id, d.data).then(this._get)
+    }
+
+    //#endregion
 }
 
 registerModule(vuexStore, ['dyn_admin'], new AdminModule());

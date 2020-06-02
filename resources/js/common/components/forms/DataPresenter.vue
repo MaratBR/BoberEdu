@@ -2,7 +2,7 @@
     <div class="data-presenter" :class="{selectable}">
         <search-bar v-if="searchable" v-model="query" @search="$emit('search', query)" />
 
-        <pagination-control :pagination="pagination" @requestPage="page = $event">
+        <pagination-control :pagination="pagination" @requestPage="$emit('requestPage', $event)">
             <template v-slot:body="{items}">
                 <table>
                     <tr>

@@ -122,6 +122,7 @@ Route::group([
     Route::group([
         'prefix' => 'courses'
     ], function () {
+        Route::get('search', 'Admin\CoursesController@search');
         Route::post('', 'Admin\CoursesController@create');
         Route::put('{id}', 'Admin\CoursesController@update');
         Route::delete('{id}', 'Admin\CoursesController@delete');
