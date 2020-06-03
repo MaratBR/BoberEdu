@@ -144,6 +144,7 @@
 
             try {
                 await Promise.all(promises)
+                this.$emit('updated')
             } catch (e) {
                 this.error = getError(e)
             } finally {

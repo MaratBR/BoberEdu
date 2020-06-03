@@ -5,11 +5,11 @@
             <draggable v-model="units" handle=".handle" @end="onDragEnd">
                 <div class="unit-item" :class="{changed: u.changed}" v-for="(u, index) in units" :key="index">
                     <div class="unit" v-if="!u.deleted">
-                        <input required @input="$emit('change')" type="text" v-model="u.name" class="input unit__name"
-                               placeholder="Unit name" />
+                        <input required type="text" v-model="u.name" class="input unit__name"
+                               placeholder="Unit name" @input="updateChanged(u)" />
 
                         <div class="unit__act">
-                            <button @click.prevent="$emit('delete')"><i class="fa fa-trash"></i></button>
+                            <button @click.prevent="u.deleted = true"><i class="fa fa-trash"></i></button>
                             <button :disabled="u.lessons.length === 0"
                                     @click.prevent="u.showLessons = !u.showLessons"><i class="fa fa-list"></i></button>
                         </div>
@@ -17,7 +17,7 @@
                         <div class="handle">
                             <i></i><i></i><i></i><i></i><i></i>
                         </div>
-                        <textarea required @input="$emit('change')" class="unit__about input" v-model="u.about" />
+                        <textarea required @input="updateChanged(u)" class="unit__about input" v-model="u.about" />
 
                         <div class="unit__lessons" v-if="u.showLessons">
                             <ul>
@@ -35,7 +35,7 @@
                     <div class="deleted" v-else>
                         <i class="fa fa-info"></i>
                         <span>This unit has been deleted</span>
-                        <button @click.prevent="$emit('restore')">Restore</button>
+                        <button @click.prevent="u.deleted = false">Restore</button>
                     </div>
                 </div>
             </draggable>
