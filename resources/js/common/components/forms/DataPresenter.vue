@@ -7,9 +7,11 @@
                 <table>
                     <tr>
                         <slot name="table-header">
-                            <th v-if="items.length" v-for="k of Object.keys(items[0]).sort()">
-                                {{ toSentence(k) }}
-                            </th>
+                            <template v-if="items.length !== 0">
+                                <th v-for="k of Object.keys(items[0]).sort()">
+                                    {{ toSentence(k) }}
+                                </th>
+                            </template>
                         </slot>
                     </tr>
 

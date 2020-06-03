@@ -10,6 +10,7 @@ use App\Http\DTO\Teachers\TeacherAssignmentDto;
 use App\Http\DTO\Teachers\TeacherDto;
 use App\Http\Requests\AdminRequest;
 use App\Http\Requests\AuthenticatedRequest;
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\Teachers\AssignTeacherRequest;
 use App\Http\Requests\Teachers\CreateTeacherRequest;
 use App\Http\Requests\Teachers\UpdateTeacherRequest;
@@ -133,5 +134,14 @@ class TeachersController extends Controller
         return [
             'id' => $avatar->sys_name
         ];
+    }
+
+    public function search(SearchRequest $request)
+    {
+        if ($request->getQuery() === null) {
+            return $this->paginate();
+        }
+
+        return new PaginationDto($this->repo->search($request->getQuery()), TeacherDto::class);
     }
 }

@@ -1,6 +1,24 @@
 <template>
     <data-presenter searchable :selectable="selectable" :pagination="pagination" @requestPage="page = $event"
-        @search="search" />
+        @search="search">
+        <template v-slot:table-header>
+            <th>#</th>
+            <th>Avatar</th>
+            <th>Full name</th>
+            <th>Other</th>
+        </template>
+
+        <template v-slot="{id, avatar, fullName}">
+            <td>{{id}}</td>
+            <td>
+                <div class="avatar s30">
+                    <img :src="'/storage/' + avatar" alt="">
+                </div>
+            </td>
+            <td>{{ fullName }}</td>
+            <td></td>
+        </template>
+    </data-presenter>
 </template>
 
 <script lang="ts">
@@ -32,6 +50,10 @@
             this.page = 1
             this.query = query
             return this.load()
+        }
+
+        created() {
+            this.load()
         }
     }
 </script>

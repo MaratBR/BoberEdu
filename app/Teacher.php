@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 /**
  * @method static Teacher findOrFail(int $id)
@@ -17,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Teacher extends Model
 {
+    use SoftDeletes, Searchable;
+
     protected $fillable = [
         'full_name', 'passport_num', 'user_id', 'avatar_id', 'about',
 

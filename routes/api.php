@@ -144,6 +144,7 @@ Route::group([
         'prefix' => 'teachers'
     ], function () {
         Route::get('', 'Admin\TeachersController@paginate');
+        Route::get('search', 'Admin\TeachersController@search');
         Route::post('', 'Admin\TeachersController@create');
         Route::get('{id}', 'Admin\TeachersController@get');
         Route::put('{id}', 'Admin\TeachersController@update');

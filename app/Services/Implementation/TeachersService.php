@@ -55,4 +55,12 @@ class TeachersService implements ITeachersService
     {
         return Teacher::query()->paginate();
     }
+
+    function search(string $query): LengthAwarePaginator
+    {
+        /** @var LengthAwarePaginator $p */
+        $p = Teacher::search($query)->paginate();
+
+        return $p;
+    }
 }

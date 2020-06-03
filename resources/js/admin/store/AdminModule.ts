@@ -62,13 +62,14 @@ export class AdminModule {
 
     //#region Teachers
 
+    @Action()
     async searchTeachers(d: { query: any; page: number }): Promise<dto.PaginationDto<dto.TeacherDto>> {
         return client.get('admin/teachers/search', {
             params: {
                 page: d.page,
                 q: d.query
             }
-        });
+        }).then(this._get);
     }
 
     @Action()

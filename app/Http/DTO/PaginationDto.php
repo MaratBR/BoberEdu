@@ -4,8 +4,7 @@
 namespace App\Http\DTO;
 
 
-use Illuminate\Pagination\AbstractPaginator;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class PaginationDto extends DtoBase
@@ -27,7 +26,7 @@ class PaginationDto extends DtoBase
     public function getData()
     {
         if ($this->paginator instanceof LengthAwarePaginator) {
-            $data = $this->paginator->getCollection();
+            $data = collect($this->paginator->items());
         } elseif ($this->paginator instanceof Collection) {
             $data = $this->paginator;
         } else {

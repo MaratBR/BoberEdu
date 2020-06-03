@@ -24,4 +24,6 @@ interface ITeachersService
     function hasAssignment(Teacher $teacher, Course $course): bool;
 
     function paginate(): LengthAwarePaginator;
+
+    function search(string $query): LengthAwarePaginator;
 }
