@@ -1,21 +1,29 @@
 <template>
-    <section class="a-section">
+    <section class="a-section" :class="{hidden}">
         <div class="a-section__header" v-if="!notFound && ($slots.header || header)">
-            <slot name="header" v-if="!inProgress">
-                <h3>{{ header }}</h3>
-            </slot>
-            <div class="pulse s1" v-else></div>
+            <div class="a-section__header__body">
+                <slot name="header" v-if="!inProgress">
+                    <h3>{{ header }}</h3>
+                </slot>
+                <div class="pulse s1" v-else></div>
+            </div>
+
+            <div class="chevron" @click.prevent="hidden = !hidden">
+                <i class="fa fa-chevron-up"></i>
+            </div>
         </div>
 
-        <div class="a-section__body">
-            <slot v-if="!inProgress"></slot>
-            <not-found v-else-if="notFound" />
-            <div v-else>
-                <div class="pulse s1" v-for="_ in 6"></div>
+        <div class="a-section__body-wrapper">
+            <div class="a-section__body">
+                <slot v-if="!inProgress"></slot>
+                <not-found v-else-if="notFound" />
+                <div v-else>
+                    <div class="pulse s1" v-for="_ in 6"></div>
 
-                <br><br><br>
+                    <br><br><br>
 
-                <div class="pulse pulse--button"></div>
+                    <div class="pulse pulse--button"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -32,6 +40,9 @@
         @Prop({ default: '' }) header: string;
         @Prop({ default: false }) inProgress: boolean;
         @Prop({ default: false }) notFound: boolean;
+        @Prop({ default: true }) spoiler: boolean;
+
+        hidden = false;
     }
 </script>
 
@@ -43,8 +54,23 @@
         border-radius: 4px;
         position: relative;
 
+        &.hidden &__body-wrapper {
+            max-height: 0;
+        }
+
+        &.hidden .chevron {
+            max-height: 0;
+            transform: rotate(180deg);
+        }
+
         &__body {
             padding: 15px;
+        }
+
+        &__body-wrapper {
+            max-height: 10000px;
+            transition: .3s;
+            overflow: hidden;
         }
 
         &__header {
@@ -52,6 +78,27 @@
             font-size: 1.2em;
             border-bottom: 1px solid #eee;
             padding: 10px;
+            display: flex;
+
+            &__body {
+                flex-grow: 1;
+            }
+
+            & > .chevron {
+                align-self: center;
+                margin-right: 15px;
+                height: 35px;
+                width: 35px;
+                border-radius: 1000px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+
+                &:hover {
+                    background: rgba(black, 0.05);
+                }
+            }
         }
     }
 </style>

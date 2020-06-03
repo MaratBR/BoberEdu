@@ -1,5 +1,6 @@
 <template>
-    <data-presenter searchable :selectable="selectable" :pagination="pagination" @requestPage="page = $event"
+    <data-presenter searchable :filter="filter" :selectable="selectable" :pagination="pagination"
+                    @requestPage="page = $event" v-on="$listeners"
         @search="search">
         <template v-slot:table-header>
             <th>#</th>
@@ -32,6 +33,7 @@
     })
     export default class TeachersSearch extends AdminStoreComponent {
         @Prop({default: Boolean}) selectable: boolean;
+        @Prop() filter;
 
         pagination: dto.PaginationDto<dto.TeacherDto> = null
         page = 1

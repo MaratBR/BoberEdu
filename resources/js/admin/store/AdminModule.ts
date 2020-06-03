@@ -63,7 +63,17 @@ export class AdminModule {
     //#region Teachers
 
     @Action()
-    async searchTeachers(d: { query: any; page: number }): Promise<dto.PaginationDto<dto.TeacherDto>> {
+    assignTeacher(d: { teacherId: number, courseId: number, reason: string }): Promise<void> {
+        return client.put('admin/assignments/' + d.teacherId + '/' + d.courseId + '/assign', {reason: d.reason}).then(this._get)
+    }
+
+    @Action()
+    revokeTeacher(d: { teacherId: number, courseId: number, reason: string }): Promise<void> {
+        return client.delete('admin/assignments/' + d.teacherId + '/' + d.courseId + '/assign', {reason: d.reason}).then(this._get)
+    }
+
+    @Action()
+    searchTeachers(d: { query: any; page: number }): Promise<dto.PaginationDto<dto.TeacherDto>> {
         return client.get('admin/teachers/search', {
             params: {
                 page: d.page,

@@ -73,10 +73,7 @@
             </form>
         </admin-section>
         <units-editor :course="course" @saved="onIdChanged" v-if="persistent" />
-
-        <admin-section header="Teachers">
-            <course-teachers-form :course="course" />
-        </admin-section>
+        <course-teachers-form :course="course" />
     </sections>
 </template>
 

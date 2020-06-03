@@ -174,11 +174,6 @@ input {
 
     &.action {
         padding: 13px 19px;
-
-        &:hover {
-            border-color: shift-color-brightness($lt-background-color, 50%);
-            background-color: $lt-background-color;
-        }
     }
 
     &.flat {

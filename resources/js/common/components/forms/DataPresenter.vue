@@ -15,7 +15,8 @@
                         </slot>
                     </tr>
 
-                    <tr class="item" v-for="u in items" @click="selectable ? $emit('selected', u) : null">
+                    <tr class="item" :class="{disabled: filter ? !filter(u) : false}"
+                        v-for="u in items" @click="(selectable && (!filter || filter(u))) ? $emit('selected', u) : null">
                         <slot v-bind="u">
                             <td v-for="k in Object.keys(u).sort()">
                                 <bool-presenter v-if="typeof u[k] === 'boolean'" :value="u[k]" />
@@ -46,6 +47,7 @@
         @Prop({type: Boolean, default: false}) selectable: boolean;
         @Prop({type: Boolean, default: false}) searchable: boolean;
         @Prop() pagination: dto.PaginationDto<dto.UserDto>
+        @Prop() filter: (v: any) => boolean
 
         query = null;
 
@@ -67,5 +69,10 @@
                 }
             }
         }
+    }
+
+    .item.disabled {
+        filter: grayscale(1) brightness(0.9);
+        cursor: not-allowed !important;
     }
 </style>
