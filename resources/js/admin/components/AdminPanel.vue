@@ -57,10 +57,12 @@
 
         &__sidebar {
             grid-area: 1 / 1 / 3 / 2;
+            overflow: sh;
         }
 
         &__body {
             background: #ededef;
+            overflow: auto;
         }
     }
 </style>
