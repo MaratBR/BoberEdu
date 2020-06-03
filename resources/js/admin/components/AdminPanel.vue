@@ -25,14 +25,27 @@
                     <sidebar-link to="teachers" header="Teachers" icon="list" />
                     <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
                 </sidebar-group>
+
+                <sidebar-group header="Teachers">
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
+                </sidebar-group>
             </admin-sidebar>
         </div>
 
         <div class="admin-panel__nav"></div>
 
-        <div class="admin-panel__body">
+        <scrollbar scrollbar-color="rgba(0,0,0,0.4)" class="admin-panel__body">
             <router-view></router-view>
-        </div>
+        </scrollbar>
     </div>
 </template>
 
@@ -57,12 +70,13 @@
 
         &__sidebar {
             grid-area: 1 / 1 / 3 / 2;
-            overflow: sh;
+            height: inherit;
         }
 
         &__body {
             background: #ededef;
-            overflow: auto;
+            overflow: hidden;
+            height: initial;
         }
     }
 </style>
