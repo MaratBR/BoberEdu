@@ -62,6 +62,15 @@ export class AdminModule {
 
     //#region Teachers
 
+    async searchTeachers(d: { query: any; page: number }): Promise<dto.PaginationDto<dto.TeacherDto>> {
+        return client.get('admin/teachers/search', {
+            params: {
+                page: d.page,
+                q: d.query
+            }
+        });
+    }
+
     @Action()
     getTeacher(id: number): Promise<dto.AdminTeacherDto> {
         return client.get('admin/teachers/' + id).then(this._get)
@@ -147,6 +156,7 @@ export class AdminModule {
     }
 
     //#endregion
+
 }
 
 registerModule(vuexStore, ['dyn_admin'], new AdminModule());

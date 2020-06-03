@@ -73,6 +73,10 @@
             </form>
         </admin-section>
         <units-editor :course="course" @saved="onIdChanged" v-if="persistent" />
+
+        <admin-section header="Teachers">
+            <course-teachers-form :course="course" />
+        </admin-section>
     </sections>
 </template>
 
@@ -86,9 +90,10 @@
     import Sections from "@admin/components/layout/Sections.vue";
     import {getError} from "@common/utils";
     import Error from "@common/components/utils/Error.vue";
+    import CourseTeachersForm from "@admin/components/courses/CourseTeachersForm.vue";
 
     @Component({
-        components: {Error, Sections, AdminSection, MarkdownEditor, UnitsEditor, Loader, Page}
+        components: {CourseTeachersForm, Error, Sections, AdminSection, MarkdownEditor, UnitsEditor, Loader, Page}
     })
     export default class CourseForm extends AdminStoreComponent {
         @Prop({default: null}) id: number;

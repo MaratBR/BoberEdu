@@ -168,14 +168,17 @@ input {
     border: 1px solid ;
     border-radius: 4px;
     padding: 6px 12px;
-    background: $lt-background-color;
     cursor: pointer;
 
     @include button-style-focus-outline;
 
-    &.big {
-        font-size: 1.5em;
+    &.action {
         padding: 13px 19px;
+
+        &:hover {
+            border-color: shift-color-brightness($lt-background-color, 50%);
+            background-color: $lt-background-color;
+        }
     }
 
     &.flat {
@@ -239,6 +242,10 @@ input[type="reset"]
 
     &-primary {
         @include button-style-primary;
+    }
+
+    &:hover {
+        text-decoration: none;
     }
 }
 
