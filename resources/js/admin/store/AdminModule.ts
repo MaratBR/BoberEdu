@@ -64,12 +64,14 @@ export class AdminModule {
 
     @Action()
     assignTeacher(d: { teacherId: number, courseId: number, reason: string }): Promise<void> {
-        return client.put('admin/assignments/' + d.teacherId + '/' + d.courseId + '/assign', {reason: d.reason}).then(this._get)
+        return client.put('admin/assignments/' + d.teacherId + '/' + d.courseId + '/assignment', {reason: d.reason}).then(this._get)
     }
 
     @Action()
     revokeTeacher(d: { teacherId: number, courseId: number, reason: string }): Promise<void> {
-        return client.delete('admin/assignments/' + d.teacherId + '/' + d.courseId + '/assign', {reason: d.reason}).then(this._get)
+        return client.delete('admin/assignments/' + d.teacherId + '/' + d.courseId + '/assignment', {
+            data: {reason: d.reason}
+        }).then(this._get)
     }
 
     @Action()

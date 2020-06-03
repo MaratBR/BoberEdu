@@ -153,6 +153,17 @@ Route::group([
 
         Route::post('{id}/course/{courseId}', 'Admin\LessonsController@assign');
         Route::delete('{id}/course/{courseId}', 'Admin\LessonsController@revoke');
+
+
+    });
+
+    Route::group([
+        'prefix' => 'assignments'
+    ], function () {
+        Route::delete('{teacherId}/{courseId}/assignment', 'Admin\TeacherAssignmentController@revoke');
+        Route::put('{teacherId}/{courseId}/assignment', 'Admin\TeacherAssignmentController@assign');
+
+
     });
 });
 

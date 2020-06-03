@@ -35,11 +35,14 @@ class TeachersService implements ITeachersService
         $course->teachers()->attach($teacher->id);
     }
 
-    function hasAssignment(Teacher $teacher, Course $course): bool
+    function hasAssignment($teacher, $course): bool
     {
+        $teacher = $teacher instanceof Teacher ? $teacher->id : $teacher;
+        $course = $course instanceof Course ? $course->id : $course;
+
         return DB::table('teaching_assignments')
-            ->where('teacher_id', '=', $teacher->id)
-            ->where('course_id', '=', $course->id)
+            ->where('teacher_id', '=', $teacher)
+            ->where('course_id', '=', $course)
             ->exists();
     }
 

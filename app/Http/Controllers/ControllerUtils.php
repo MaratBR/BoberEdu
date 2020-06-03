@@ -46,4 +46,18 @@ trait ControllerUtils
     protected function openInput() {
         return fopen('php://input', 'r');
     }
+
+    protected function noChanges()
+    {
+        return response()->json([
+            'done' => false
+        ]);
+    }
+
+    protected function done()
+    {
+        return response()->json([
+            'done' => true
+        ]);
+    }
 }
