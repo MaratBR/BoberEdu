@@ -26,6 +26,7 @@
         "nunomaduro/collision": "^4.1",
         "omnipay/dummy": "*",
         "omnipay/paypal": "*",
+        "staudenmeir/eloquent-has-many-deep": "^1.12",
         "tymon/jwt-auth": "*"
     },
     "require-dev": {

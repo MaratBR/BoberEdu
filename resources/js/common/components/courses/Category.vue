@@ -1,36 +1,8 @@
 <template>
     <div class="category-view">
-        <loader v-if="!category" />
-        <category-header v-else :name="category.name" :about="category.about" :color="'#' + category.color" :image-id="category.bgImage" />
-        <!--
-
-        <header v-else class="category-view__head">
-            <div class="category-view__cat container">
-                <span class="category-view__title">{{ category.name }}</span><br>
-                <span class="category-view__about">{{ category.about }}</span>
-            </div>
-
-            <div class="category-view__popular">
-                <h3>Here is some popular courses for you</h3>
-                <div class="category-view__popular__list">
-                    <router-link :to="{name: 'course', params: {id: c.id}}" v-for="c in category.popular" :key="c.id">
-                        <div class="course-sm">
-                            <img class="course-sm__img" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
-                            <div class="course-sm__about">
-                                <span class="course-sm__name">{{ c.name }}</span><br>
-                                <span class="course-sm__cap">by TODO Team</span>
-                                <star-rating v-if="c.rating" :rating="c.rating" :fixed-points="1" :round-start-rating="false"
-                                             :show-rating="false" :star-size="14" :read-only="false" />
-                                <div v-else>No rating</div>
-                                <span class="course-sm__price">$ {{ c.price }}</span>
-                            </div>
-                        </div>
-                    </router-link>
-                </div>
-            </div>
-        </header>
-
-        -->
+        <category-header
+            :name="name" :about="about" :color="'#' + color" :image-id="bgImage" :students="studentsCount"
+            :courses="coursesCount" :id="categoryId" />
 
         <div class="container">
 
@@ -40,21 +12,7 @@
                 </div>
 
                 <pagination-control @requestPage="page = $event && loadCourses()" :pagination="courses" v-slot="value">
-                    <div class="course-w">
-                        <img class="course-w__pic" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
-
-                        <div class="course-w__l">
-                            <router-link :to="{name: 'course', params: {id: value.id}}" class="course-w__name">{{ value.name }}</router-link><br>
-                            <span class="course-w__cap">by TODO Team | {{ value.info.uc }} units | {{ value.info.lc }} lessons</span>
-                        </div>
-
-                        <div class="course-w__r">
-                            <star-rating v-if="value.rating" :star-size="15" :read-only="true" :rating="value.rating"
-                                         :round-start-rating="false" :fixed-points="1" />
-                            <div v-else>No rating</div>
-                            <span class="course-w__price"><span class="fa fa-usd"></span> {{ value.price }}</span>
-                        </div>
-                    </div>
+                    <course-wide-card :course="value" />
                 </pagination-control>
             </section>
         </div>
@@ -66,18 +24,34 @@
     import {Loader, PaginationControl, StoreComponent} from "@common/components/utils";
     import {dto, Prop} from "@common";
     import CategoryHeader from "@common/components/courses/CategoryHeader.vue";
+    import CourseWideCard from "@common/components/courses/CourseWideCard.vue";
 
     @Component({
-        components: {CategoryHeader, PaginationControl, Loader}
+        components: {CourseWideCard, CategoryHeader, PaginationControl, Loader}
     })
     export default class Category extends StoreComponent {
         @Prop({required: true, type: Number}) categoryId: number;
         category: dto.CategoryExDto = null;
+
+        name: string = null
+        about: string = null
+        studentsCount: number = null
+        coursesCount: number = null
+        color: string = null
+        bgImage: string = null
+
+
         courses: dto.PaginationDto<dto.CoursePageItemDto> = null;
         page = 1;
 
         async loadData() {
-            this.category = await this.store.courses.getCategory(this.categoryId);
+            let category = await this.store.courses.getCategory(this.categoryId);
+            this.name = category.name
+            this.about = category.about
+            this.bgImage = category.bgImage
+            this.coursesCount = category.coursesCount
+            this.studentsCount = category.studentsCount
+            this.color = category.color
             await this.loadCourses()
         }
 

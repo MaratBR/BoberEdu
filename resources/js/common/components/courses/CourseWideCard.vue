@@ -12,7 +12,7 @@
                     {{ course.name }}
                     <small class="name__info">{{ course.info.lc }} lessons | {{ course.info.uc }} units</small>
                 </header>
-                <span class="summary">{{ course.summary }}</span>
+                <span class="summary">{{ course.summary || '(no summary provided)' }}</span>
             </div>
 
             <div class="course-w__about--right">
@@ -54,6 +54,7 @@
     }
 
     .course-w {
+        margin: 7px 0;
         border: 1px solid #f5f5f5;
         padding: 15px;
         border-radius: 20px;
@@ -67,6 +68,10 @@
             .name {
                 text-decoration: underline !important;
             }
+        }
+
+        &__image {
+            padding-right: 10px;
         }
 
         &__about {

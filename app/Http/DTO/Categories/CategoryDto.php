@@ -22,6 +22,17 @@ class CategoryDto extends DtoBase
     }
 
 
+    public function getCoursesCount()
+    {
+        return $this->category->courses_count;
+    }
+
+
+    public function getStudentsCount()
+    {
+        return $this->category->students_count;
+    }
+
     public function getName()
     {
         return $this->category->name;

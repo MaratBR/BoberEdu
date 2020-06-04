@@ -10,7 +10,9 @@ export namespace dto {
     export type CategoryExDto = CategoryDto & {
         about: string,
         bgImage: string | null,
-        color: string
+        color: string,
+        coursesCount: number,
+        studentsCount: number
     };
 
     export type CategoriesDto = {
