@@ -93,7 +93,7 @@ export default class CommonStore {
 
     //#region Teachers
 
-    getTeacher(id: number): Promise<dto.TeacherExDto> {
+    getTeacher(id: number): Promise<dto.TeacherProfileDto> {
         return client.get('teachers/' + id).then(r => r.data)
     }
 

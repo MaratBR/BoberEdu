@@ -4,27 +4,39 @@
 
 
 
+//#region Links
+
+a {
+    color: black;
+
+    &.clear {
+        text-decoration: none;
+    }
+}
+
+//#enregion
+
 //#region Body
 
 body {
     margin: 0;
-    color: $lt-text-color;
-    background: $lt-background-color;
+    color: black;
+    background: white;
 }
 
 //#endregion
 
 //#region Tables
 
-$overrides--table-border-color: get-border-color-based-on-background($lt-table-background-color);
-$overrides--table-text-color: get-text-color-based-on-background($lt-table-background-color);
+$overrides--table-border-color: get-border-color-based-on-background(white);
+$overrides--table-text-color: get-text-color-based-on-background(white);
 
-$overrides--table-header-border-color: shift-color-brightness($lt-table-background-color, 30%);
-$overrides--table-header-background-color: shift-color-brightness($lt-table-background-color, 3%);
+$overrides--table-header-border-color: shift-color-brightness(white, 30%);
+$overrides--table-header-background-color: shift-color-brightness(white, 3%);
 
-$overrides--table-hover-cell-color: shift-color-brightness($lt-table-background-color, 5%);
-$overrides--table-hover-cell-vertical-border-color: shift-color-brightness($lt-table-background-color, 3%);
-$overrides--table-active-cell-outline-color: shift-color-brightness($lt-table-background-color, 100%);
+$overrides--table-hover-cell-color: shift-color-brightness(white, 5%);
+$overrides--table-hover-cell-vertical-border-color: shift-color-brightness(white, 3%);
+$overrides--table-active-cell-outline-color: shift-color-brightness(white, 100%);
 
 $overrides--cell-padding: 7px;
 
@@ -68,11 +80,9 @@ table {
 
 //#endregion
 
-
 //#region Typography
 
 //#endregion
-
 
 //#region Inputs (except for buttons)
 
@@ -253,3 +263,4 @@ input[type="reset"]
 }
 
 //#endregion
+

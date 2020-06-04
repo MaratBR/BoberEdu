@@ -22,6 +22,8 @@ use Laravel\Scout\Searchable;
  * @property float price
  * @property bool available
  * @property int trial_length
+ * @property int lessons_count
+ * @property int units_count
  * @property string about
  * @property string summary
  * @property Carbon sign_up_beg
@@ -58,8 +60,22 @@ class Course extends Model
         ];
     }
 
+    public function getUnitsCountAttribute()
+    {
+        return $this->units()->count();
+    }
+
+    public function getLessonsCountAttribute()
+    {
+        return $this->lessons()->count();
+    }
+
     public function units() {
         return $this->hasMany(Unit::class);
+    }
+
+    public function lessons() {
+        return $this->hasManyThrough(Lesson::class, Unit::class);
     }
 
     public function teachers() {

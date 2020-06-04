@@ -10,7 +10,7 @@
             <h3>Courses by {{ name }}</h3>
 
             <div class="courses">
-                <course-wide-card v-for="course in courses" />
+                <course-wide-card v-for="course in courses" :course="course" />
             </div>
         </div>
 
@@ -64,6 +64,7 @@
             this.name = teacher.fullName
             this.avatar = teacher.avatar
             this.about = teacher.about
+            this.courses = teacher.courses
             this.inProgress = false
         }
 

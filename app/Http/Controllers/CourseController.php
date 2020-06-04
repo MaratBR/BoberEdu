@@ -67,9 +67,7 @@ class CourseController extends Controller
     public function category(Request $request, int $categoryId)
     {
         $category = $this->courses->getCategory($categoryId);
-        $popular = $this->courses->getPopular($categoryId);
-        // $paginator = $this->courses->paginateInCategory($category);
-        return new CategoryExDto($category, $popular);
+        return new CategoryExDto($category);
     }
 
     public function categoryCourses(Request $request, int $categoryId)

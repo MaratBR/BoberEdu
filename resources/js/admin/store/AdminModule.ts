@@ -120,27 +120,27 @@ export class AdminModule {
 
     @Action()
     updateCourse({id, data}: {id: number, data: requests.UpdateCourse}): Promise<void> {
-        return client.put('courses/' + id, data).then(this._get)
+        return client.put('admin/courses/' + id, data).then(this._get)
     }
 
     @Action()
     createCourse(data: requests.CreateCourse): Promise<dto.CourseExDto> {
-        return client.post('courses', data).then(this._get)
+        return client.post('admin/courses', data).then(this._get)
     }
 
     @Action()
     updateCourseUnits({id, data}: {id: number, data: requests.UpdateCourseUnits}): Promise<void> {
-        return client.put('courses/' + id + '/units', data).then(this._get)
+        return client.put('admin/courses/' + id + '/units', data).then(this._get)
     }
 
     @Action()
     deleteCourse({id, reason}: DeletePayload): Promise<void> {
-        return client.delete('courses/' + id, {data: {reason}}).then(this._get)
+        return client.delete('admin/courses/' + id, {data: {reason}}).then(this._get)
     }
 
     @Action()
     updateLessonsOrder(d: UpdatePayload<requests.UpdateLessonsOrder>): Promise<void> {
-        return client.put('courses/' + d.id + '/ordnung-muss-sein', d.data).then(this._get)
+        return client.put('admin/courses/' + d.id + '/ordnung-muss-sein', d.data).then(this._get)
     }
 
     //#endregion

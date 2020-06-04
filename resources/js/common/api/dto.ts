@@ -40,11 +40,11 @@ export namespace dto {
         trialDays: number,
         summary: string,
         requirements: CourseRequirements,
-        teachers: TeacherDto[]
     };
 
     export type CourseExDto = CourseDto & {
         units: UnitExDto[],
+        teachers: TeacherDto[],
         category: dto.CategoryDto
     };
 
@@ -142,6 +142,10 @@ export namespace dto {
             linkedIn: string | null,
             web: string | null
         }
+    }
+
+    export type TeacherProfileDto = TeacherExDto & {
+        courses: dto.CoursePageItemDto[]
     }
 
     export type AdminTeacherDto = TeacherExDto & {

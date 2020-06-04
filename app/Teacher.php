@@ -41,4 +41,9 @@ class Teacher extends Model
     function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'teaching_assignments');
+    }
 }

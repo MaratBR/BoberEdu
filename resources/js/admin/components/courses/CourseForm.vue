@@ -34,7 +34,7 @@
                             v-model="hasSignUpPeriod">
                         Has sign up period
                     </label>
-                    <div v-show="hasSignUpPeriod">
+                    <div v-if="hasSignUpPeriod">
                         <input-text label="Stars at" type="date" v-model="signUpBeg" required />
                         <input-text label="Ends at" type="date" v-model="signUpEnd" required />
                     </div>

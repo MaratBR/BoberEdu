@@ -5,6 +5,7 @@ namespace App\Http\DTO\Courses;
 
 
 use App\Http\DTO\Courses\CourseDto;
+use App\Http\DTO\Teachers\TeacherDto;
 use App\Http\DTO\Units\UnitExDto;
 
 class CourseExDto extends CourseDto
@@ -20,5 +21,10 @@ class CourseExDto extends CourseDto
             'id' => $this->course->category->id,
             'name' => $this->course->category->name,
         ];
+    }
+
+    public function getTeachers()
+    {
+        return collect($this->course->teachers)->mapInto(TeacherDto::class);
     }
 }

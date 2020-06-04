@@ -272,10 +272,8 @@ class CourseService implements ICourseService
     private function paginationModifier(Builder $builder, int $size)
     {
         return $builder
-            ->select('courses.*', DB::raw('COUNT(units.id) as units_count'), DB::raw('COUNT(lessons.id) as lessons_count'))
-            ->leftJoin('units', 'units.course_id', '=', 'courses.id')
-            ->leftJoin('lessons', 'lessons.unit_id', '=', 'units.id')
-            ->groupBy('courses.id')
+            ->select('courses.*')
+            ->with('units.lessons')
             ->paginate($size);
     }
 
