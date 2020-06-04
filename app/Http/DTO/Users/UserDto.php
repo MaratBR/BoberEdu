@@ -26,7 +26,7 @@ class UserDto extends DtoBase
 
     public function getAvatar()
     {
-        return $this->user->avatar_id !== null ? $this->user->avatar->sys_name : 'default';
+        return $this->user->avatar_id !== null ? $this->user->avatar->getRootUrl() : 'default';
     }
 
     public function getAbout()

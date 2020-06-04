@@ -8,6 +8,7 @@ use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Teachers\AdminTeacherDto;
 use App\Http\DTO\Teachers\TeacherAssignmentDto;
 use App\Http\DTO\Teachers\TeacherDto;
+use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\Requests\AdminRequest;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\SearchRequest;
@@ -129,9 +130,7 @@ class TeachersController extends Controller
             'avatar_id' => $avatar->id
         ]);
 
-        return [
-            'id' => $avatar->sys_name
-        ];
+        return new UploadedDto($avatar);
     }
 
     public function search(SearchRequest $request)

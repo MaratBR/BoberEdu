@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\AuditRecord;
 use App\Http\Controllers\Controller;
 use App\Http\DTO\PaginationDto;
+use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\DTO\Users\AdminUserDto;
 use App\Http\DTO\Users\UserDto;
 use App\Http\DTO\Utils\ItemsDto;
@@ -58,9 +59,7 @@ class UsersController extends Controller
         $this->repo->setAvatar($user, $avatar);
         AuditRecord::make($userRequest->user(), $userRequest, Audit::UPLOAD_AVATAR)->subject($user)->build();
 
-        return [
-            'id' => $avatar->sys_name
-        ];
+        return new UploadedDto($avatar);
     }
 
     public function paginate(Request $request)

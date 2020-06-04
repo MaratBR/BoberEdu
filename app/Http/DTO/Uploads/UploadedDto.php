@@ -18,6 +18,6 @@ class UploadedDto extends DtoBase
 
     public function getId()
     {
-        return $this->fileInfo->sys_name;
+        return $this->fileInfo->getRootUrl();
     }
 }

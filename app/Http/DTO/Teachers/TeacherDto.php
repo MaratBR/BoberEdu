@@ -28,6 +28,6 @@ class TeacherDto extends DtoBase
 
     function getAvatar(): ?string
     {
-        return $this->teacher->avatar_id === null ? null : $this->teacher->avatar->sys_name;
+        return $this->teacher->avatar_id === null ? null : $this->teacher->avatar->getRootUrl();
     }
 }

@@ -9,10 +9,12 @@ use App\Http\DTO\Courses\CoursePageItemDto;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Units\StandaloneUnitDto;
 use App\Http\DTO\Units\UnitDto;
+use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Http\Requests\SearchRequest;
 use App\Services\Abs\ICourseService;
+use App\Services\Abs\IUploadService;
 use App\Utils\Audit\Audit;
 use Illuminate\Http\Request;
 
@@ -75,5 +77,16 @@ class CoursesController extends Controller
             $result = $this->repo->search($request->getQuery());
         }
         return new PaginationDto($result, CoursePageItemDto::class);
+    }
+
+    public function uploadImage(AuthenticatedRequest $request, int $courseId, IUploadService $uploadService)
+    {
+        $course = $this->repo->get($courseId);
+        $file = $this->openInput();
+
+        $fileInfo = $uploadService->uploadImage($request->user(), 'course_image', $file);
+        $course->update([ 'image_id' => $fileInfo->id ]);
+
+        return new UploadedDto($fileInfo);
     }
 }

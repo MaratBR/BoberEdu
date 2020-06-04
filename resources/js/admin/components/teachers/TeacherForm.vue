@@ -15,7 +15,7 @@
             <template v-if="username">
                 <div class="user-card">
                     <div class="avatar s60">
-                        <img :src="'/storage/' + userAvatar" alt="" v-if="userAvatar">
+                        <img :src="userAvatar" alt="" v-if="userAvatar">
                     </div>
                     <header>
                         <b><router-link :to="{name: 'admin__users_edit', params: {id: actualUserId}}">{{ username }}</router-link></b>
@@ -29,7 +29,7 @@
             <form @submit.prevent="submit" v-show="username">
                 <div class="control">
                     <div class="avatar">
-                        <img :src="'/storage/' + avatar" alt="">
+                        <img :src="avatar" alt="">
                     </div>
                 </div>
 

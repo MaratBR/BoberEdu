@@ -112,6 +112,10 @@ export class AdminModule {
 
     //#region Courses
 
+    uploadCourseImage(d: UpdatePayload<File>): Promise<string> {
+        return client.put('admin/courses/' + d.id + '/image', d.data).then(r => r.data.id);
+    }
+
     @Action()
     searchCourses(d: {query: any; page: number, category?: number}): Promise<dto.PaginationDto<dto.CoursePageItemDto>> {
         return client.get('admin/courses/search', {params: {page: d.page, q: d.query, c: d.category}})
@@ -172,7 +176,6 @@ export class AdminModule {
     }
 
     //#endregion
-
 }
 
 registerModule(vuexStore, ['dyn_admin'], new AdminModule());

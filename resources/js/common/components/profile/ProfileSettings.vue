@@ -12,7 +12,7 @@
 
                     <div class="form__control upload-avatar">
                         <div class="avatar s120">
-                            <img :src="'/storage/' + avatar" alt="">
+                            <img :src="avatar" alt="">
                         </div>
                         <uploader max="10000000" accept="image/*" v-model="avatarFile" @upload="uploadAvatar" />
                     </div>

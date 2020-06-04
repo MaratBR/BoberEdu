@@ -10,7 +10,7 @@
 
         <form @submit.prevent="submit">
             <div class="avatar">
-                <img :src="'/storage/' + avatar" alt="">
+                <img :src="avatar" alt="">
             </div>
             <div class="control">
                 <uploader accept="image/*" max="1000000" default-text="Upload avatar"

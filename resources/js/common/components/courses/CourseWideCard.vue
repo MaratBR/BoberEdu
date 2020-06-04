@@ -3,7 +3,7 @@
         <div class="course-w">
             <div class="course-w__image" v-if="course.image">
                 <div class="avatar s60">
-                    <img :src="'/storage/' + course.image" alt="">
+                    <img :src="course.image" alt="">
                 </div>
             </div>
 

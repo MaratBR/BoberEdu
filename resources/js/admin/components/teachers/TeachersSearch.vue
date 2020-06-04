@@ -13,7 +13,7 @@
             <td>{{id}}</td>
             <td>
                 <div class="avatar s30">
-                    <img :src="'/storage/' + avatar" alt="">
+                    <img :src="avatar" alt="">
                 </div>
             </td>
             <td>{{ fullName }}</td>

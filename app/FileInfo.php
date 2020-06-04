@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class FileInfo
@@ -21,4 +22,8 @@ class FileInfo extends Model
         'original_name', 'sys_name', 'user_id', 'size',
         'mime', 'about'
     ];
+
+    public function getRootUrl(): string {
+        return Storage::url($this->sys_name);
+    }
 }

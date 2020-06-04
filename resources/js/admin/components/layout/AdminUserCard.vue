@@ -1,7 +1,7 @@
 <template>
     <div class="user-card">
         <div class="avatar s90">
-            <img :src="'/storage/' + store.user.avatar" alt="">
+            <img :src="store.user.avatar" alt="">
         </div>
         <span>{{ store.user.name }}</span>
     </div>

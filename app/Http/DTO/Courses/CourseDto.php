@@ -60,7 +60,7 @@ class CourseDto extends DtoBase
 
     public function getImage()
     {
-        return $this->course->image_id === null ? null : $this->course->image->sys_name;
+        return $this->course->image_id === null ? null : $this->course->image->getRootUrl();
     }
 
     public function getRequirements(): ?array

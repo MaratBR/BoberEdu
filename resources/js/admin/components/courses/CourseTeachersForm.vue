@@ -12,7 +12,7 @@
                     </div>
                     <template v-else>
                         <div class="avatar s60">
-                            <img :src="'/storage/' + teacher.avatar" alt="">
+                            <img :src="teacher.avatar" alt="">
                         </div>
 
                         <div class="about">

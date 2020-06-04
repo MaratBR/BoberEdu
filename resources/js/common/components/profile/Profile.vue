@@ -3,7 +3,7 @@
     <div v-else class="profile container">
         <header class="profile__heading user-heading hero--phead">
             <div class="user-heading__avatar avatar">
-                <img :src="'/storage/avatars/' + profile.user.avatar" alt="">
+                <img :src="profile.user.avatar" alt="">
             </div>
 
             <div class="user-heading__about rest">

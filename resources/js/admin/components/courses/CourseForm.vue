@@ -16,6 +16,17 @@
                 </div>
 
                 <div class="control">
+                    <div class="avatar">
+                        <img :src="image" alt="">
+                    </div>
+                </div>
+
+                <div class="control">
+                    <uploader :uploading="uploading" v-model="imageFile" accept="image/*" default-text="Upload image" @upload="uploadImage()" />
+                    <small v-if="showUploadHint">Image will be uploaded on save</small>
+                </div>
+
+                <div class="control">
                     <label>
                         <input class="input" v-model="available" type="checkbox">
                         Available for purchase
@@ -70,9 +81,11 @@
     import CategorySelect from "@admin/components/courses/CategorySelect.vue";
     import InputText from "@common/components/forms/InputText.vue";
     import InputTextarea from "@common/components/forms/InputTextarea.vue";
+    import Uploader from "@common/components/utils/Uploader.vue";
 
     @Component({
         components: {
+            Uploader,
             InputTextarea,
             InputText,
             CategorySelect,
@@ -97,7 +110,11 @@
         signUpInvalid: boolean = false;
         category: dto.CategoryDto = null;
         price: string = null;
+        image: string = null
+        imageFile: File = null
         notFound: boolean = false;
+        showUploadHint: boolean = false
+        uploading = false
 
         hasSignUpPeriod = false;
         error = null;
@@ -110,6 +127,25 @@
 
         get priceAsNumber(): number {
             return +(this.price.charAt(0) === '$' ? this.price.substr(1) : this.price).replace(',', '')
+        }
+
+        async uploadImage(id?: number) {
+            if (typeof id === 'undefined') {
+                if (this.persistent) {
+                    id = this.id
+                } else {
+                    this.showUploadHint = true
+                    return
+                }
+            }
+
+            this.uploading = true
+
+            this.image = await this.admin.uploadCourseImage({
+                id, data: this.imageFile
+            })
+
+            this.uploading = false
         }
 
         @Watch('signUpBeg')
@@ -139,6 +175,7 @@
                 this.signUpBeg = c.requirements.signUp.beg
                 this.signUpEnd = c.requirements.signUp.end
                 this.summary = c.summary
+                this.image = c.image
                 this.priceAsNumber = c.price
                 this.course = c
             } catch (e) {
