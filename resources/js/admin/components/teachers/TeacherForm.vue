@@ -44,6 +44,16 @@
                 <input-text required label="Document (passport) ID" v-model="passNum" />
                 <input-textarea required label="About" v-model="about" />
 
+                <fieldset>
+                    <legend>Links</legend>
+                    <input-text label="LinkedIn link (optional)" v-model="linkLinkedIn" />
+                    <input-text label="YouTube link (optional)" v-model="linkYt" />
+                    <input-text label="Website link (optional)" v-model="linkWeb" />
+                    <input-text label="Facebook profile link (optional)" v-model="linkFb" />
+                    <input-text label="VK profile link (optional)" v-model="linkVk" />
+                    <input-text label="Twitter link (optional)" v-model="linkTwitter" />
+                </fieldset>
+
                 <template v-if="isNew">
                     <hr>
                     <input-textarea required label="Reason for creating new teacher" v-model="comment" />
@@ -89,6 +99,13 @@
         oldId = null;
         notFound = false;
 
+        linkYt = null
+        linkVk = null
+        linkFb = null
+        linkLinkedIn = null
+        linkTwitter = null
+        linkWeb = null
+
         username: string = null
         userAvatar: string = null
         actualUserId: number = null;
@@ -123,6 +140,13 @@
             this.username = teacher.user.name
             this.userAvatar = teacher.user.avatar
             this.actualUserId = teacher.user.id
+
+            this.linkFb = teacher.links.fb
+            this.linkYt = teacher.links.yt
+            this.linkVk = teacher.links.vk
+            this.linkWeb = teacher.links.web
+            this.linkLinkedIn = teacher.links.linkedIn
+            this.linkTwitter = teacher.links.twitter
         }
 
         onUpload() {

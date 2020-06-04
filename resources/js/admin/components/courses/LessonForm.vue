@@ -60,7 +60,7 @@
         @Watch('id')
         async load() {
             if (this.isNew) {
-                let unit = await this.admin.courses.getUnit(this.unitId)
+                let unit = await this.admin.getUnit(this.unitId)
                 this.unitName = unit.name
                 this.unitId = unit.id
                 this.courseId = unit.courseId

@@ -104,6 +104,7 @@ select {
 
 textarea {
     @include input-style-1;
+    font-family: inherit;
 }
 
 input {
@@ -153,6 +154,10 @@ input {
             content: '\f00c';
         }
     }
+}
+
+fieldset {
+    border: 1px solid $overrides--inputs-border-color;
 }
 
 //#endregion

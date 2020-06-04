@@ -48,9 +48,7 @@ class TeachersController extends Controller
         $teacher->update($payload);
 
         AuditRecord::make($request->user(), $request, Audit::UPDATE)
-            ->subject($teacher->id)
-            ->data(['f' => array_keys($payload)])
-            ->build();
+            ->subject($teacher)->build();
 
         return new AdminTeacherDto($teacher);
     }

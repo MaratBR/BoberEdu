@@ -16,6 +16,13 @@ use Laravel\Scout\Searchable;
  * @property int|null avatar_id
  * @property FileInfo|null avatar
  * @property User user
+ * @property string about
+ * @property string link_yt
+ * @property string link_vk
+ * @property string link_fb
+ * @property string link_web
+ * @property string link_twitter
+ * @property string link_linked_in
  */
 class Teacher extends Model
 {

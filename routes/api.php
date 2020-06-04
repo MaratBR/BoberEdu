@@ -120,13 +120,20 @@ Route::group([
     });
 
     Route::group([
+        'prefix' => 'categories'
+    ], function () {
+        Route::put('{id}/image', 'Admin\CategoriesController@uploadImage');
+        Route::post('', 'Admin\CategoriesController@create');
+        Route::put('{id}', 'Admin\CategoriesController@update');
+    });
+
+    Route::group([
         'prefix' => 'courses'
     ], function () {
         Route::get('search', 'Admin\CoursesController@search');
         Route::post('', 'Admin\CoursesController@create');
         Route::put('{id}', 'Admin\CoursesController@update');
         Route::delete('{id}', 'Admin\CoursesController@delete');
-
         Route::get('units/{id}', 'Admin\CoursesController@unit');
     });
 

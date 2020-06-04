@@ -1,6 +1,5 @@
 import {Action, Module, registerModule, useModule} from "vuex-simple";
 import {vuexStore} from "@common/store";
-import CoursesAdminModule from "@admin/store/CoursesAdminModule";
 import client from "@common/axios";
 import LessonsAdminModule from "@admin/store/LessonsAdminModule";
 import TeachersAdminModule from "@admin/store/TeachersAdminModule";
@@ -9,7 +8,6 @@ import {dto, requests} from "@common";
 import {DeletePayload, UpdatePayload} from "@common/store/utils";
 
 export class AdminModule {
-    @Module() courses = new CoursesAdminModule(client);
     @Module() lessons = new LessonsAdminModule(client);
     @Module() teachers = new TeachersAdminModule(client);
 
@@ -160,12 +158,17 @@ export class AdminModule {
 
     @Action()
     createCategory(d: requests.CreateCategory): Promise<dto.CategoryDto> {
-        return client.post('courses/categories', d).then(this._get)
+        return client.post('admin/categories', d).then(this._get)
     }
 
     @Action()
     updateCategory(d: UpdatePayload<requests.UpdateCategory>): Promise<void> {
-        return client.put('courses/categories/' + d.id, d.data).then(this._get)
+        return client.put('admin/categories/' + d.id, d.data).then(this._get)
+    }
+
+    @Action()
+    uploadCategoryImage(d: UpdatePayload<File>): Promise<void> {
+        return client.put('admin/categories/' + d.id + '/image', d.data).then(this._get)
     }
 
     //#endregion

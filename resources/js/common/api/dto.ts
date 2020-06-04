@@ -114,6 +114,23 @@ export namespace dto {
         avatar: string | null
     };
 
+    export type TeacherExDto = TeacherDto & {
+        about: string,
+        links: {
+            yt: string | null,
+            vk: string | null,
+            fb: string | null,
+            twitter: string | null,
+            linkedIn: string | null,
+            web: string | null
+        }
+    }
+
+    export type AdminTeacherDto = TeacherExDto & {
+        docId: string,
+        user: UserDto
+    }
+
     export type UnitDto = {
         id: number,
         name: string,
@@ -167,11 +184,6 @@ export namespace dto {
         courseId: number,
         courseName: string,
         units: dto.UnitExDto[]
-    }
-
-    export type AdminTeacherDto = TeacherDto & {
-        docId: string,
-        user: UserDto
     }
 
     export type AdminUserDto = UserDto & {

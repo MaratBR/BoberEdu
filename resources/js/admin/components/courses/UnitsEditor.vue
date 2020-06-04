@@ -180,7 +180,7 @@
             this.error = null
             try {
                 debugger
-                await this.admin.courses.updateUnits({
+                await this.admin.updateCourseUnits({
                     id: this.course.id,
                     data: r
                 })

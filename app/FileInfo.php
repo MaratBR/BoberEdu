@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int size
  * @property string mime
  * @property string about
+ * @property int id
  */
 class FileInfo extends Model
 {

@@ -18,7 +18,7 @@
                     <hr>
                     <h3 v-if="category">Edit: {{ name }}</h3>
                     <h3 v-if="isNew">New category</h3>
-                    <div class="form__control">
+                    <div class="control">
                         <label>
                             Name
                             <input required type="text" v-model="name" class="input" :disabled="!category && !isNew">
@@ -26,21 +26,21 @@
                     </div>
 
 
-                    <div class="form__control">
+                    <div class="control">
                         <label>
                             About
                             <textarea type="text" v-model="about" class="input" :disabled="!category && !isNew" />
                         </label>
                     </div>
 
-                    <div class="form__control">
+                    <div class="control">
                         <label>
                             Color<br>
                             <input required type="color" v-model="color" class="input" :disabled="!category && !isNew">
                         </label>
                     </div>
 
-                    <div class="form__control" v-if="!isNew && category">
+                    <div class="control" v-if="!isNew && category">
                         <label>Background image</label><br>
                         <uploader v-model="bgImage" @upload="uploadImage" :uploading="uploading" accept="image/*" />
                     </div>
@@ -118,13 +118,13 @@
             this.loading = true
             try {
                 if (this.isNew) {
-                    this.category = await this.admin.courses.createCategory({
+                    this.category = await this.admin.createCategory({
                         name: this.name,
                         about: this.name,
                         color: this.color.substr(1)
                     })
                 } else {
-                    await this.admin.courses.updateCategory({
+                    await this.admin.updateCategory({
                         id: this.category.id,
                         data: {
                             name: this.name,
@@ -147,6 +147,10 @@
         }
 
         uploadImage() {
+            this.admin.uploadCategoryImage({
+                id: this.category.id,
+                data: this.bgImage
+            })
         }
     }
 </script>

@@ -190,7 +190,7 @@
             this.submitting = true
 
             try {
-                this.course = await this.admin.courses.create(r)
+                this.course = await this.admin.createCourse(r)
                 await this.$router.replace({
                     name: 'admin__courses_edit',
                     params: {
@@ -224,7 +224,7 @@
             this.submitting = true
 
             try {
-                await this.admin.courses.update({
+                await this.admin.updateCourse({
                     id: this.id,
                     data: r
                 })

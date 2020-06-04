@@ -42,19 +42,6 @@ class UserController extends Controller
     }
 
     /**
-     * Updates a user
-     *
-     * @param EditUserRequest $request
-     * @param int $id
-     */
-    public function update(EditUserRequest $request, int $id)
-    {
-        $user = $this->users->get($id);
-        $this->throwForbiddenIfNotAllowed('edit', $user);
-        $this->users->update($user, $request->validated());
-    }
-
-    /**
      * Returns list (pagination) of users
      *
      * @param AuthenticatedRequest $request
@@ -101,8 +88,7 @@ class UserController extends Controller
         if (!$file)
             return response()->json(['message' => 'failed to open stream'], 500);
 
-        $size = $_SERVER['CONTENT_LENGTH'];
-        $id = $uploads->uploadAvatar($user, $file);
+        $id = $uploads->uploadAvatar($user, $file)->sys_name;
 
         return [
             'id' => $id

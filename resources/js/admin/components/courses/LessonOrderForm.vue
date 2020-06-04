@@ -84,7 +84,7 @@
 
             this.inProgress = false
             try {
-                await this.admin.courses.updateLessonsOrder({
+                await this.admin.updateLessonsOrder({
                     id: this.courseId,
                     data: r
                 })
