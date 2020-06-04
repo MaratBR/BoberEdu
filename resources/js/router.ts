@@ -288,6 +288,19 @@ let router = new VueRouter({
                     }
                 },
                 {
+                    name: 'teacher',
+                    component: () => import(
+                        /* webpackChunkName: "teacher" */
+                        '@common/components/teacher/Teacher.vue'
+                        ),
+                    path: '/teacher/:id',
+                    props({params}) {
+                        return {
+                            id: +params.id
+                        }
+                    }
+                },
+                {
                     name: 'oops',
                     path: '/oops/:kind',
                     component: null

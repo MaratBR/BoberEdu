@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=188b9dcc99be46a62ca9",
+    "/js/app.js": "/js/app.js?id=cfca7ce393b24dfc93eb",
     "/css/app.css": "/css/app.css?id=228d88a35bc91bff5def",
     "/js/chunks/admin-categories.js": "/js/chunks/admin-categories.js?id=17782ddcc9faa56f7d19",
     "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-pan~346b45a6.js": "/js/chunks/admin-categories~admin-course-form~admin-course-units-form~admin-courses~admin-lesson-form~admin-pan~346b45a6.js?id=6ae346d897c5bb83ebf0",
@@ -40,5 +40,6 @@
     "/js/chunks/a-teachers-form.js": "/js/chunks/a-teachers-form.js?id=b6c2ddf11d046cca304b",
     "/js/chunks/vendors~a-course-form~a-course-units-form~admin-user-form.js": "/js/chunks/vendors~a-course-form~a-course-units-form~admin-user-form.js?id=e65ce664ac3e5bdd0dd3",
     "/js/chunks/a-course-form~a-courses.js": "/js/chunks/a-course-form~a-courses.js?id=510e8a0e249fbdead9a7",
-    "/js/chunks/a-course-form~a-lesson-form~a-teachers-form~admin-user-form.js": "/js/chunks/a-course-form~a-lesson-form~a-teachers-form~admin-user-form.js?id=46d14eb87d1b40e55ee6"
+    "/js/chunks/a-course-form~a-lesson-form~a-teachers-form~admin-user-form.js": "/js/chunks/a-course-form~a-lesson-form~a-teachers-form~admin-user-form.js?id=46d14eb87d1b40e55ee6",
+    "/js/chunks/teacher.js": "/js/chunks/teacher.js?id=32a2e15330097ad839fc"
 }
