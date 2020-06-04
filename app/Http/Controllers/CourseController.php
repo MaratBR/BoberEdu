@@ -53,53 +53,6 @@ class CourseController extends Controller
     }
 
     /**
-     * Updates course data
-     *
-     * @param UpdateCourseRequest $request
-     * @param int $courseId
-     * @return Response
-     */
-    public function update(UpdateCourseRequest $request, int $courseId)
-    {
-        $course = $this->courses->get($courseId);
-
-        $this->courses->update(
-            $course,
-            $request->getPayload()
-        );
-
-        return $this->noContent();
-    }
-
-    /**
-     * Deletes course
-     *
-     * @param AuthenticatedRequest $request
-     * @param int $courseId
-     * @return Response 204 No Content
-     */
-    public function destroy(AuthenticatedRequest $request, int $courseId)
-    {
-        $course = $this->courses->get($courseId);
-        $success = $this->courses->delete($course);
-        $this->throwErrorIf(500, "Failed to delete course", !$success);
-
-        return response()->noContent();
-    }
-
-    /**
-     * Creates new course
-     *
-     * @param CreateNewCourseRequest $request
-     * @return JsonResponse 201 Created
-     */
-    public function store(CreateNewCourseRequest $request)
-    {
-        $course = $this->courses->create($request->getPayload());
-        return response()->json(new CourseDto($course), 201);
-    }
-
-    /**
      * Returns list of course and also some useful info such as count of units and lessons
      *
      * @param Request $request

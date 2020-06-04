@@ -17,6 +17,6 @@ class CategoriesDto extends DtoBase
 
     public function getCategories()
     {
-        return collect($this->categories)->mapInto(CategoryDto::class);
+        return collect($this->categories)->mapInto(CategoryExDto::class);
     }
 }
