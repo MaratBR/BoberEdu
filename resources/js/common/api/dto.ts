@@ -39,6 +39,7 @@ export namespace dto {
         about: string,
         trialDays: number,
         summary: string,
+        image: string,
         requirements: CourseRequirements,
     };
 

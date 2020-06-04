@@ -18,6 +18,7 @@ use Laravel\Scout\Searchable;
  * @property Category category
  *
  * @property int id
+ * @property int|null image_id
  * @property string name
  * @property float price
  * @property bool available
@@ -28,6 +29,7 @@ use Laravel\Scout\Searchable;
  * @property string summary
  * @property Carbon sign_up_beg
  * @property Carbon sign_up_end
+ * @property FileInfo|null image
  */
 class Course extends Model
 {
@@ -88,6 +90,10 @@ class Course extends Model
 
     public function rating() {
         return $this->hasMany(Rate::class);
+    }
+
+    public function image() {
+        return $this->belongsTo(FileInfo::class, 'image_id');
     }
 
     public function canBePurchased()
