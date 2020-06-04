@@ -1,17 +1,18 @@
 <template>
-    <scrollbar class="a-sidebar" ref="c" scrollbar-color="rgba(255, 255, 255, 0.3)">
+    <aside class="a-sidebar" ref="c">
         <admin-user-card />
 
-        <div class="a-sidebar__children">
+        <scrollbar class="a-sidebar__children">
             <slot></slot>
-        </div>
-    </scrollbar>
+        </scrollbar>
+    </aside>
 </template>
 
 <script lang="ts">
     import {Vue, Component} from "@common";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import AdminUserCard from "@admin/components/layout/AdminUserCard.vue";
+
 
     @Component({
         name: "AdminSidebar",
@@ -26,10 +27,12 @@
         background: #262626;
         height: 100%;
         color: #eee;
-        overflow: hidden;
+        display: flex;
+        flex-direction: column;
 
         &__children {
-            margin: 7px 0 10px 7px;
+            margin: 7px;
+            overflow: auto;
         }
 
         .ss-scroll {

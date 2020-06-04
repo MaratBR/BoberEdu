@@ -25,16 +25,19 @@
                     <sidebar-link to="teachers" header="Teachers" icon="list" />
                     <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
                 </sidebar-group>
-
                 <sidebar-group header="Teachers">
                     <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
+                </sidebar-group>
+                <sidebar-group header="Teachers">
                     <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
+                </sidebar-group>
+                <sidebar-group header="Teachers">
                     <sidebar-link to="teachers" header="Teachers" icon="list" />
-                    <sidebar-link to="teachers" header="Teachers" icon="list" />
-                    <sidebar-link to="teachers" header="Teachers" icon="list" />
-                    <sidebar-link to="teachers" header="Teachers" icon="list" />
-                    <sidebar-link to="teachers" header="Teachers" icon="list" />
-                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
+                </sidebar-group>
+                <sidebar-group header="Teachers">
                     <sidebar-link to="teachers" header="Teachers" icon="list" />
                     <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
                 </sidebar-group>
@@ -43,7 +46,7 @@
 
         <div class="admin-panel__nav"></div>
 
-        <scrollbar scrollbar-color="rgba(0,0,0,0.4)" class="admin-panel__body">
+        <scrollbar class="admin-panel__body">
             <router-view></router-view>
         </scrollbar>
     </div>

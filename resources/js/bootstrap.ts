@@ -15,7 +15,7 @@ Vue.use(VueCurrencyInput, {
 Vue.use(Router);
 Vue.component('star-rating', require("vue-star-rating").default);
 Vue.component('masked-input', require("vue-masked-input").default);
-Vue.component('scrollbar', require("vue-simple-scrollbar"));
+Vue.component('scrollbar', require("vue-custom-scrollbar"));
 
 client.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
 client.defaults.withCredentials = true

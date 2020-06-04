@@ -19,13 +19,13 @@
         name: "InputText"
     })
     export default class InputText extends Vue {
+        @Prop() validator: (v: any) => boolean
+
         id = inputId()
         unlocked = false;
         invalid = false
 
         validate() {
-            console.log(this.$attrs)
-            console.log(this.$props)
             if (this.min > -1 && this.value.length < this.min) {
                 this.invalid = true
                 return
@@ -41,7 +41,12 @@
                 return
             }
 
-            this.invalid = false
+
+
+            if (this.validator)
+                this.invalid = this.validator(this.value)
+            else
+                this.invalid = false
         }
 
         @Prop() label: string;

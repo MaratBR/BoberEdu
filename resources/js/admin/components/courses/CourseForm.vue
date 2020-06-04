@@ -11,39 +11,22 @@
             <error :error="error" v-if="error" />
 
             <form class="form" @submit.prevent="onSubmit">
-                <div class="form__control" v-if="!persistent">
-                    <select id="CategoryInput" v-model="categoryId" required>
-                        <option :value="null" disabled>Chose a category</option>
-                        <option :value="c.id" :key="c.id" v-for="c in categories">{{ c.name }}</option>
-                    </select>
+                <div class="control" v-if="!persistent">
+                    <category-select v-model="category" />
                 </div>
 
-                <div class="form__control">
+                <div class="control">
                     <label>
                         <input class="input" v-model="available" type="checkbox">
                         Available for purchase
                     </label>
                 </div>
 
-                <div class="form__control">
-                    <label for="Name" class="form__label">Name</label>
-                    <input type="text" class="input" id="Name" v-model="name">
-                </div>
+                <input-text required label="Name" v-model="name" />
+                <input-textarea required label="Summary" v-model="summary" />
+                <input-text v-currency required label="Price" v-model="price" />
 
-                <div class="form__control">
-                    <label for="Summary" class="form__label">Short summary</label>
-                    <small>In a few words: what is this about?</small><br>
-                    <textarea class="input" id="Summary" v-model="summary"></textarea>
-                </div>
-
-                <div class="form__control">
-                    <label for="Price" class="form__label">Price</label>
-                    <input v-currency type="text" class="input" id="Price" v-model="price" />
-                </div>
-
-                <div class="form__control">
-
-
+                <div class="control">
                     <label>
                         <input
                             type="checkbox"
@@ -51,29 +34,25 @@
                             v-model="hasSignUpPeriod">
                         Has sign up period
                     </label>
-                    <div v-show="hasSignUpPeriod" class="d--flex">
-                        <div class="form__control mr--2">
-                            <label for="SignUpBeg" class="form__label">Starts at</label>
-                            <input id="SignUpBeg" type="date" v-model="signUpBeg" class="input" :aria-invalid="signUpInvalid" />
-                        </div>
-
-                        <div class="form__control">
-                            <label for="SignUpEnd" class="form__label">Ends at</label>
-                            <input id="SignUpEnd" type="date" v-model="signUpEnd" class="input" :aria-invalid="signUpInvalid" />
-                        </div>
+                    <div v-show="hasSignUpPeriod">
+                        <input-text label="Stars at" type="date" v-model="signUpBeg" required />
+                        <input-text label="Ends at" type="date" v-model="signUpEnd" required />
                     </div>
                 </div>
 
-                <div class="form__control">
+                <div class="control">
                     <label>Summary</label>
                     <markdown-editor v-model="about" />
                 </div>
 
                 <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
+                <p v-if="!persistent">
+                    You can edit units and assign teachers after you save the course
+                </p>
             </form>
         </admin-section>
         <units-editor :course="course" @saved="onIdChanged" v-if="persistent" />
-        <course-teachers-form :course="course" @updated="onIdChanged" />
+        <course-teachers-form :course="course" @updated="onIdChanged" v-if="persistent" />
     </sections>
 </template>
 
@@ -88,9 +67,16 @@
     import {getError} from "@common/utils";
     import Error from "@common/components/utils/Error.vue";
     import CourseTeachersForm from "@admin/components/courses/CourseTeachersForm.vue";
+    import CategorySelect from "@admin/components/courses/CategorySelect.vue";
+    import InputText from "@common/components/forms/InputText.vue";
+    import InputTextarea from "@common/components/forms/InputTextarea.vue";
 
     @Component({
-        components: {CourseTeachersForm, Error, Sections, AdminSection, MarkdownEditor, UnitsEditor, Loader, Page}
+        components: {
+            InputTextarea,
+            InputText,
+            CategorySelect,
+            CourseTeachersForm, Error, Sections, AdminSection, MarkdownEditor, UnitsEditor, Loader, Page}
     })
     export default class CourseForm extends AdminStoreComponent {
         @Prop({default: null}) id: number;
@@ -109,7 +95,7 @@
         signUpBeg: string = null;
         signUpEnd: string = null;
         signUpInvalid: boolean = false;
-        categoryId: number = null;
+        category: dto.CategoryDto = null;
         price: string = null;
         notFound: boolean = false;
 
@@ -146,7 +132,7 @@
             try {
                 let c = await this.store.courses.get(this.id)
                 this.name = c.name
-                this.categoryId = c.category.id
+                this.category = c.category
                 this.summary = ''
                 this.about = c.about
                 this.available = c.available
@@ -179,7 +165,7 @@
                 summary: this.summary,
                 about: this.about,
                 available: this.available,
-                categoryId: this.categoryId
+                categoryId: this.category.id
             }
 
             if (this.hasSignUpPeriod) {

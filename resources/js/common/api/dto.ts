@@ -1,20 +1,25 @@
 
 export namespace dto {
+    //#region Categories
+
     export type CategoryDto = {
         id: number,
-        about: string,
-        name: string,
-        bgImage: string | null,
-        color: string
+        name: string
     };
 
     export type CategoryExDto = CategoryDto & {
-        popular: CourseDto[]
+        about: string,
+        bgImage: string | null,
+        color: string
     };
 
     export type CategoriesDto = {
         categories: CategoryDto[]
     };
+
+    //#endregion
+
+    //#region Courses
 
     type CourseRequirements = {
         signUp: {
@@ -40,10 +45,7 @@ export namespace dto {
 
     export type CourseExDto = CourseDto & {
         units: UnitExDto[],
-        category: {
-            id: number,
-            name: string
-        }
+        category: dto.CategoryDto
     };
 
     export type CoursePageItemDto = CourseDto & {
@@ -52,6 +54,10 @@ export namespace dto {
             lc: number
         }
     };
+
+    //#endregion
+
+    //#region Enrollments
 
     export type EnrollmentDto = {
         courseId: number,
@@ -68,6 +74,10 @@ export namespace dto {
         trialEnd: string
     };
 
+    //#endregion
+
+    //#region Lessons
+
     export type LessonDto = {
         title: string
         id: number,
@@ -82,6 +92,10 @@ export namespace dto {
         unitName: string
     };
 
+    //#endregion
+
+    //#region Utils
+
     export type PaginationDto<T> = {
         data: T[],
         meta: {
@@ -93,6 +107,8 @@ export namespace dto {
             prev: string | null
         }
     };
+
+    //#endregion
 
     export type PaymentDto = {
         success: boolean,
@@ -106,6 +122,8 @@ export namespace dto {
         since: string | null,
         until: string | null
     };
+
+    //#region Teachers
 
     export type TeacherDto = {
         id: number,
@@ -131,6 +149,10 @@ export namespace dto {
         user: UserDto
     }
 
+    //#endregion
+
+    //#region Units
+
     export type UnitDto = {
         id: number,
         name: string,
@@ -147,6 +169,9 @@ export namespace dto {
         about: string
     };
 
+    //#endregion
+
+    //#region Users
 
     export type UserDto = {
         id: number,
@@ -179,6 +204,8 @@ export namespace dto {
         name: string,
         avatar: string
     };
+
+    //#endregion
 
     export type CourseUnitsDto = {
         courseId: number,
