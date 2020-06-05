@@ -1,36 +1,66 @@
 <template>
     <section id="NavWrapper" v-if="active">
-        <nav :class="['nav', {'nav--active': mobileExpanded}]" role="navigation">
-            <div class="nav__brand">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" role="navigation">
+            <div class="navbar-brand">
                 <h2>Bober.Edu</h2>
             </div>
-            <section class="nav__links">
-                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
-                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
-                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
-                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
-                <router-link :to="{name: 'courses'}" class="nav__links__a">Courses</router-link>
-            </section>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-            <section class="nav__right">
-                <router-link :to="{name: 'profile', params: {id: store.user.id}}" class="btn"
-                             v-if="store.isAuthenticated">{{store.user.name}}</router-link>
-                <span v-if="store.loggingIn">Loading...</span>
-                <router-link
-                    v-if="!store.isAuthenticated && !store.loggingIn"
-                    to="/login" class="btn btn--primary btn--inverted">Login</router-link>
-                <router-link
-                    v-if="!store.isAuthenticated && !store.loggingIn"
-                        to="/register" class="btn btn--primary btn--inverted">Sign Up</router-link>
-            </section>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
 
-            <div :class="['nav__burger', {'nav__burger--active': mobileExpanded}]" @click="mobileExpanded = !mobileExpanded">
-                <i></i>
-                <i></i>
-                <i></i>
+                    <li class="nav-item dropdown" v-if="store.isAuthenticated">
+                        <a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Hello
+                        </a>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="nav-item dropdown" v-if="store.isAuthenticated">
+                    <a href="#" class="nav-link dropdown-toggle flex-row" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <img class="s60 img-thumbnail rounded-circle" :src="store.user.avatar">
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <router-link class="dropdown-item btn btn-light" :to="{name: 'profile', params: {id: store.user.id}}">Profile</router-link>
+
+                    </div>
+                </div>
+                <div class="flex-row" v-else>
+                    <router-link :to="{name: 'login'}" class="btn btn-success" type="submit">Sign up</router-link>
+                    <small class="text-muted">or</small>
+                    <router-link :to="{name: 'login'}" class="btn btn-outline-success" type="submit">Log in</router-link>
+                </div>
             </div>
         </nav>
-        <div class="nav-placeholder"></div>
     </section>
 </template>
 

@@ -15,9 +15,7 @@
         </div>
 
         <aside class="teacher__about">
-            <div class="avatar">
-                <img src="'/storage/' + avatar" alt="">
-            </div>
+            <img class="img-thumbnail rounded-circle s210" :src="avatar" alt="">
 
             <div class="links">
                 <social-link v-if="linkWeb" type="web" :href="linkWeb">Web-site</social-link>

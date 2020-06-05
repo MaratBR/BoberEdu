@@ -1,43 +1,41 @@
 <template>
     <div class="container">
         <div class="hero--phead">
-            <ul class="breadcrumb">
-                <li>Account</li>
-                <li>Settings</li>
+            <ul class="breadcrumb breadcrumb-clear">
+                <li class="breadcrumb-item">Account</li>
+                <li class="breadcrumb-item active">Settings</li>
             </ul>
         </div>
         <tabs style-class="sidebar">
             <tab name="General">
                 <form class="form">
 
-                    <div class="control upload-avatar">
-                        <div class="avatar s120">
-                            <img :src="avatar" alt="">
-                        </div>
+                    <div class="form-group upload-avatar">
+                        <img class="img-thumbnail rounded-circle s210" :src="avatar" alt="">
                         <uploader max="10000000" accept="image/*" v-model="avatarFile" @upload="uploadAvatar" />
                     </div>
 
-                    <div class="control">
+                    <div class="form-group">
                         <label for="UsernameInput">Username</label>
                         <input
-                            id="UsernameInput" type="text" class="input" v-model="username"
+                            id="UsernameInput" type="text" class="form-control" v-model="username"
                             @input="checkUsernameThrottled">
                         <template v-if="username !== originalUsername">
-                            <i class="fa fa-spinner fa-spin" v-if="usernameProgress"></i>
-                            <i class="fa fa-times" v-else-if="usernameTaken"></i>
-                            <i class="fa fa-check" v-else></i>
+                            <i class="fas fa-spinner fa-spin" v-if="usernameProgress"></i>
+                            <i class="fas fa-times" v-else-if="usernameTaken"></i>
+                            <i class="fas fa-check" v-else></i>
                             <button
                                 @click.prevent="saveUsername"
-                                class="btn btn--plain" v-show="!usernameProgress">Save</button>
+                                class="btn" v-show="!usernameProgress">Save</button>
                         </template>
                     </div>
 
-                    <div class="control">
+                    <div class="form-group">
                         <input-textarea v-model="about" label="Tell people about yourself" @input="showUpdateAboutButton = true" />
                         <button class="btn" v-if="showUpdateAboutButton" @click.prevent="updateAbout">Update</button>
                     </div>
 
-                    <div class="control">
+                    <div class="form-group">
                         <input-text v-model="email" protected />
                     </div>
                 </form>

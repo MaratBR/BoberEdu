@@ -1,5 +1,5 @@
 <template>
-    <div class="control">
+    <div class="form-group">
         <label>
             <input type="checkbox" :checked="value" @input="$emit('input', $event.target.checked)">
             {{ label }}

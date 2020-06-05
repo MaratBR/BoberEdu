@@ -1,10 +1,10 @@
 <template>
     <admin-section :in-progress="inProgress">
         <template v-slot:header v-if="units">
-            <ul class="breadcrumb">
-                <li>Courses</li>
-                <li><router-link :to="{name: 'admin__course_edit', params: {id: courseId}}">{{ courseName }}</router-link></li>
-                <li>Edit: Structure</li>
+            <ul class="breadcrumb breadcrumb-clear">
+                <li class="breadcrumb-item">Courses</li>
+                <li class="breadcrumb-item"><router-link :to="{name: 'admin__course_edit', params: {id: courseId}}">{{ courseName }}</router-link></li>
+                <li class="breadcrumb-item active">Edit: Structure</li>
             </ul>
         </template>
 
@@ -15,7 +15,7 @@
                 v-else v-for="unit in units" :key="unit.id" :name="unit.name" :selected="selectedId === unit.id"
                 :unit="unit" @changed="unit.changed = $event" @newOrder="unit.order = $event" />
 
-            <div class="control">
+            <div class="form-group">
                 <input type="submit" value="Save">
             </div>
         </form>

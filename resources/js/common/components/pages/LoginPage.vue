@@ -5,8 +5,8 @@
             <input-text v-model="password" label="Password" type="password" />
             <div v-show="failed" class="notification notification--danger">Credentials doesn't match</div>
 
-            <div class="control">
-                <button class="btn btn--primary" :disabled="store.loggingIn">Log in</button>
+            <div class="form-group">
+                <button class="btn btn-primary" :disabled="store.loggingIn">Log in</button>
             </div>
 
         </form>

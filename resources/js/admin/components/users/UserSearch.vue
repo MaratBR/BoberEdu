@@ -1,6 +1,6 @@
 <template>
-    <data-presenter @requestPage="(page = $event) && load()"
-        searchable :selectable="selectable" :pagination="pagination" @search="query = $event">
+    <data-presenter @requestPage="(page = $event) && load()" searchable :selectable="selectable"
+                    :pagination="pagination" @search="query = $event" v-on="$listeners">
         <template v-slot:table-header>
             <th>#</th>
             <th>Username</th>
@@ -8,18 +8,20 @@
             <th>Joined at</th>
             <th>Display name</th>
             <th>Avatar</th>
+            <th></th>
         </template>
 
         <template v-slot="{id, name, email, joinedAt, displayName, avatar}">
             <td>{{id}}</td>
             <td>{{name}}</td>
             <td>{{email}}</td>
-            <td>{{joinedAt}}</td>
+            <td>{{new Date(joinedAt).toDateString()}}</td>
             <td>{{displayName}}</td>
             <td>
-                <div class="avatar s30">
-                    <img src="'/storage/' + avatar" alt="">
-                </div>
+                <img class="img-thumbnail rounded-circle s60" :src="avatar" alt="">
+            </td>
+            <td>
+                <router-link :to="{name: 'admin__users_edit', params: {id}}"></router-link>
             </td>
         </template>
     </data-presenter>

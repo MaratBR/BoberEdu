@@ -1,18 +1,16 @@
 <template>
     <admin-section :in-progress="inProgress" :not-found="notFound">
         <template v-slot:header>
-            <ul class="breadcrumb">
-                <li>Users</li>
-                <li v-if="isNew">New</li>
-                <li v-else>{{ name }} <small>(ID: {{ id }})</small></li>
+            <ul class="breadcrumb breadcrumb-clear">
+                <li class="breadcrumb-item">Users</li>
+                <li class="breadcrumb-item active" v-if="isNew">New</li>
+                <li class="breadcrumb-item active" v-else>{{ name }} <small>(ID: {{ id }})</small></li>
             </ul>
         </template>
 
         <form @submit.prevent="submit">
-            <div class="avatar">
-                <img :src="avatar" alt="">
-            </div>
-            <div class="control">
+            <img class="img-thumbnail rounded-circle s120" :src="avatar" alt="">
+            <div class="form-group">
                 <uploader accept="image/*" max="1000000" default-text="Upload avatar"
                           :uploading="avatarIsUploading" @upload="upload" v-model="avatarFile" />
                 <small v-if="uploadHint">{{ uploadHint }}</small>
@@ -39,7 +37,7 @@
 
             <error :error="error" v-if="error" />
 
-            <div class="control">
+            <div class="form-group">
                 <input type="submit" value="Save">
             </div>
         </form>

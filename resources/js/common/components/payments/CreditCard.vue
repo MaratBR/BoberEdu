@@ -107,25 +107,25 @@
             <div class="form__control">
                 <label for="CCFormInputCard">Card number</label><br>
                 <input @keyup="onCardChanged"
-                       id="CCFormInputCard" type="text" aria-autocomplete="cc-number" class="input"
+                       id="CCFormInputCard" type="text" aria-autocomplete="cc-number" class="form-control"
                        ref="ccNumber" @focusin="flipped = false" >
             </div>
 
             <div class="form__control">
                 <label for="CCFormInputHolder">Card holder</label><br>
-                <input type="text" class="input" id="CCFormInputHolder" v-model="holder"
+                <input type="text" class="form-control" id="CCFormInputHolder" v-model="holder"
                     @focusin="flipped = false" @keyup="validateAndEmit">
             </div>
 
             <div class="form__control">
                 <label for="CCFormInputExpiration">Card expiration date</label><br>
-                <input type="text" class="input" id="CCFormInputExpiration"
+                <input type="text" class="form-control" id="CCFormInputExpiration"
                        @keyup="onExpirationDateChanged" @focusin="flipped = false" ref="ccExpiration">
             </div>
 
             <div class="form__control">
                 <label for="CCFormInputExpiration">CVV</label><br>
-                <input type="text" class="input" id="CCFormInputCvv" autocomplete="cc-cvv"
+                <input type="text" class="form-control" id="CCFormInputCvv" autocomplete="cc-cvv"
                        @keyup="onCvvChanged" @focusin="flipped = true" ref="ccCvv">
             </div>
         </div>

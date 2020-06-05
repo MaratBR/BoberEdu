@@ -2,7 +2,7 @@
     <div class="unit-lessons" :class="{selected}">
         <div class="unit-lessons__title" @click.prevent="expanded = !expanded">
             <span>{{ unit.name }} <small>(ID: {{unit.id}})</small></span>
-            <i class="fa fa-chevron-down" :class="{r: expanded}"></i>
+            <i class="fas fa-chevron-down" :class="{r: expanded}"></i>
         </div>
 
         <div class="unit-lessons__lessons" v-show="expanded" >
@@ -13,7 +13,7 @@
                         <i></i><i></i><i></i>
                     </div>
                     <span>{{ l.l.title }} <small>(ID: {{l.l.id}})</small></span>
-                    <i class="changed-badge fa fa-circle" v-if="l.changed"></i>
+                    <i class="changed-badge fas fa-circle" v-if="l.changed"></i>
                 </div>
             </draggable>
             <p v-else>No lessons in this unit</p>

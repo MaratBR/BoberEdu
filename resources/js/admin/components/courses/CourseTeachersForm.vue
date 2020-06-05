@@ -4,14 +4,14 @@
             <div class="course-teachers__list" v-show="!searching">
                 <div class="teacher" v-for="teacher in teachers">
                     <div v-if="teacher.deleted" class="deleted">
-                        <i class="fa fa-info"></i>
+                        <i class="fas fa-info"></i>
                         Teacher has been removed
-                        <button @click.prevent="teacher.deleted = false">Revert</button>
+                        <button class="btn" @click.prevent="teacher.deleted = false">Revert</button>
                         <input-textarea required v-model="teacher.assignmentReason"
                                         placeholder="Please, provide reason for revoking teacher's permissions" />
                     </div>
                     <template v-else>
-                        <div class="avatar s60">
+                        <div class="rounded-circle img-thumbnail">
                             <img :src="teacher.avatar" alt="">
                         </div>
 
@@ -27,28 +27,28 @@
 
                         <div class="actions">
                             <a class="button" href="#" @click.prevent="teacher.deleted = true">
-                                <i class="fa fa-trash"></i>
+                                <i class="fas fa-trash"></i>
                                 delete
                             </a>
                             <router-link class="button" :to="{name: 'admin__teacher_edit', params: {id: teacher.id}}">
-                                <i class="fa fa-edit"></i>
+                                <i class="fas fa-edit"></i>
                                 edit
                             </router-link>
                         </div>
                     </template>
                 </div>
                 <br>
-                <button class="action" @click.prevent="searching = true">
-                    <i class="fa fa-plus"></i>
+                <button class="btn" @click.prevent="searching = true">
+                    <i class="fas fa-plus"></i>
                     Assign new teacher
                 </button>
-                <button class="action button-primary" type="submit">
-                    <i class="fa fa-save"></i>
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-save"></i>
                     Save
                 </button>
             </div>
             <template v-if="searching">
-                <button @click.prevent="searching = false"><i class="fa fa-arrow-left"></i> back</button>
+                <button class="btn" @click.prevent="searching = false"><i class="fas fa-arrow-left"></i> back</button>
                 <span>Chose a teacher you want to assign</span>
                 <teachers-search @selected="addNew($event)" selectable :filter="(t) => teachers.every(at => at.id !== t.id)" />
             </template>

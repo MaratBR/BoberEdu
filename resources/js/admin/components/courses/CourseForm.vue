@@ -2,56 +2,53 @@
     <sections>
         <admin-section :in-progress="submitting">
             <template v-slot:header>
-                <ul class="breadcrumb">
-                    <li><router-link :to="{name:'admin__courses'}">Courses</router-link></li>
-                    <li>{{ name || 'new' }}</li>
+                <ul class="breadcrumb breadcrumb-clear breadcrumb">
+                    <li class="breadcrumb-item"><router-link :to="{name:'admin__courses'}">Courses</router-link></li>
+                    <li class="breadcrumb-item active">{{ name || 'new' }}</li>
                 </ul>
             </template>
 
             <error :error="error" v-if="error" />
 
             <form class="form" @submit.prevent="onSubmit">
-                <div class="control" v-if="!persistent">
+                <div class="form-group" v-if="!persistent">
                     <category-select v-model="category" />
                 </div>
 
-                <div class="control">
-                    <div class="avatar">
-                        <img :src="image" alt="">
-                    </div>
+                <div class="form-group">
+                    <img :src="image" class="img-thumbnail rounded-circle s180">
                 </div>
 
-                <div class="control">
+                <div class="form-group">
                     <uploader :uploading="uploading" v-model="imageFile" accept="image/*" default-text="Upload image" @upload="uploadImage()" />
                     <small v-if="showUploadHint">Image will be uploaded on save</small>
                 </div>
 
-                <div class="control">
-                    <label>
-                        <input class="input" v-model="available" type="checkbox">
-                        Available for purchase
-                    </label>
+                <div class="form-check">
+                    <input class="form-check-input" v-model="available" type="checkbox">
+                    <label class="form-check-label">Available</label>
                 </div>
 
                 <input-text required label="Name" v-model="name" />
                 <input-textarea required label="Summary" v-model="summary" />
                 <input-text v-currency required label="Price" v-model="price" />
 
-                <div class="control">
-                    <label>
-                        <input
-                            type="checkbox"
-                            class="input"
-                            v-model="hasSignUpPeriod">
+                <div class="form-check">
+                    <input
+                        type="checkbox"
+                        class="form-check-input"
+                        v-model="hasSignUpPeriod">
+                    <label class="form-check-label">
                         Has sign up period
                     </label>
-                    <div v-if="hasSignUpPeriod">
-                        <input-text label="Stars at" type="date" v-model="signUpBeg" required />
-                        <input-text label="Ends at" type="date" v-model="signUpEnd" required />
-                    </div>
                 </div>
 
-                <div class="control">
+                <div v-if="hasSignUpPeriod">
+                    <input-text label="Stars at" type="date" v-model="signUpBeg" required />
+                    <input-text label="Ends at" type="date" v-model="signUpEnd" required />
+                </div>
+
+                <div class="form-group">
                     <label>Summary</label>
                     <markdown-editor v-model="about" />
                 </div>
@@ -70,7 +67,7 @@
 <script lang="ts">
     import {Component, dto, Prop, requests, Watch} from "@common";
     import {Page} from "@common/components/pages";
-    import {Loader, MarkdownEditor} from "@common/components/utils";
+    import {Loader} from "@common/components/utils";
     import UnitsEditor from "@admin/components/courses/UnitsEditor.vue";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import AdminSection from "@admin/components/layout/AdminSection.vue";
@@ -89,7 +86,7 @@
             InputTextarea,
             InputText,
             CategorySelect,
-            CourseTeachersForm, Error, Sections, AdminSection, MarkdownEditor, UnitsEditor, Loader, Page}
+            CourseTeachersForm, Error, Sections, AdminSection, UnitsEditor, Loader, Page}
     })
     export default class CourseForm extends AdminStoreComponent {
         @Prop({default: null}) id: number;

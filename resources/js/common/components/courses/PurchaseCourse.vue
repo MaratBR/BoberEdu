@@ -24,7 +24,7 @@
             <div class="payment__submit" v-show="ready">
                 <p class="error" v-if="error">{{ error }}</p>
                 <p>Your payment is ready to go!</p>
-                <button @click="proceed">Proceed with payment</button>
+                <button @click="proceed" class="btn btn-primary">Proceed with payment</button>
             </div>
         </div>
     </page>

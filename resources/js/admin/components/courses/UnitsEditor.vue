@@ -5,12 +5,12 @@
             <draggable v-model="units" handle=".handle" @end="onDragEnd">
                 <div class="unit-item" :class="{changed: u.changed}" v-for="(u, index) in units" :key="index">
                     <div class="unit" v-if="!u.deleted">
-                        <input required type="text" v-model="u.name" class="input unit__name"
+                        <input required type="text" v-model="u.name" class="form-control unit__name"
                                placeholder="Unit name" @input="updateChanged(u)" />
 
                         <div class="unit__act">
-                            <button @click.prevent="u.deleted = true"><i class="fa fa-trash"></i></button>
-                            <button @click.prevent="u.showLessons = !u.showLessons"><i class="fa fa-list"></i></button>
+                            <button class="btn" @click.prevent="u.deleted = true"><i class="fas fa-trash"></i></button>
+                            <button class="btn" @click.prevent="u.showLessons = !u.showLessons"><i class="fas fa-list"></i></button>
                         </div>
 
                         <div class="handle">
@@ -25,23 +25,23 @@
                                 </li>
                             </ul>
 
-                            <div class="control">
-                                <router-link class="button" v-if="u.lessons.length === 0" :to="{name: 'admin__courses_edit_units', params: {id: course.id}}"><i class="fa fa-edit"></i> order</router-link>
-                                <router-link class="button" :to="{name: 'admin__lessons_new', params: {id: u.id}}"><i class="fa fa-plus"></i> add</router-link>
+                            <div class="form-group">
+                                <router-link class="button" v-if="u.lessons.length === 0" :to="{name: 'admin__courses_edit_units', params: {id: course.id}}"><i class="fas fa-edit"></i> order</router-link>
+                                <router-link class="button" :to="{name: 'admin__lessons_new', params: {id: u.id}}"><i class="fas fa-plus"></i> add</router-link>
                             </div>
                         </div>
                     </div>
                     <div class="deleted" v-else>
-                        <i class="fa fa-info"></i>
+                        <i class="fas fa-info"></i>
                         <span>This unit has been deleted</span>
-                        <button @click.prevent="u.deleted = false">Restore</button>
+                        <button class="btn" @click.prevent="u.deleted = false">Restore</button>
                     </div>
                 </div>
             </draggable>
 
-            <div class="control">
-                <button @click.prevent="addUnit">
-                    <i class="fa fa-plus"></i>
+            <div class="form-group">
+                <button class="btn" @click.prevent="addUnit">
+                    <i class="fas fa-plus"></i>
                     add
                 </button>
             </div>

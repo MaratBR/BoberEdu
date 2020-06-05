@@ -5,23 +5,23 @@ import {Sex} from "../../api";
         <form class="form" @submit.prevent="onSubmit">
             <div class="form__control">
                 <label class="form__label" for="InputUsername">Name</label>
-                <input class="input" id="InputUsername" type="text" v-model="name">
+                <input class="form-control" id="InputUsername" type="text" v-model="name">
             </div>
 
             <div class="form__control">
                 <label class="form__label" for="InputEMail">E-Mail</label>
-                <input class="input" id="InputEMail" type="text" v-model="email">
+                <input class="form-control" id="InputEMail" type="text" v-model="email">
             </div>
 
             <div class="form__control">
                 <label class="form__label" for="InputPwd">Password</label>
-                <input class="input" id="InputPwd" type="password" v-model="password">
+                <input class="form-control" id="InputPwd" type="password" v-model="password">
             </div>
 
             <error v-if="errors" :error="errors" />
 
             <div class="form__control">
-                <button class="btn btn--primary">Register</button>
+                <button class="btn btn-primary">Register</button>
             </div>
 
         </form>

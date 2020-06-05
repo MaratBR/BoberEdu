@@ -12,9 +12,7 @@
         <template v-slot="{id, avatar, fullName}">
             <td>{{id}}</td>
             <td>
-                <div class="avatar s30">
-                    <img :src="avatar" alt="">
-                </div>
+                <img class="img-thumbnail rounded-circle s60" :src="avatar" alt="">
             </td>
             <td>{{ fullName }}</td>
             <td></td>

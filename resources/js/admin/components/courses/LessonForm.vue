@@ -1,18 +1,18 @@
 <template>
     <admin-section :in-progress="inProgress">
         <template v-slot:header>
-            <ul class="breadcrumb">
-                <li><router-link :to="{name: 'admin__courses'}">Courses</router-link></li>
-                <li>
+            <ul class="breadcrumb breadcrumb-clear">
+                <li class="breadcrumb-item"><router-link :to="{name: 'admin__courses'}">Courses</router-link></li>
+                <li class="breadcrumb-item">
                     <router-link :to="{name: 'admin__courses_edit', params: {id: courseId}}">
                         {{ courseName }}
                     </router-link>
                 </li>
-                <li>
+                <li class="breadcrumb-item">
                     {{ courseName }}
                     <small>(ID: {{ unitId }})</small>
                 </li>
-                <li>{{ isNew ? 'new' : title }} <small v-if="!isNew">(ID: {{ id }})</small></li>
+                <li class="breadcrumb-item active">{{ isNew ? 'new' : title }} <small v-if="!isNew">(ID: {{ id }})</small></li>
             </ul>
         </template>
 
@@ -23,7 +23,7 @@
             <markdown-editor required label="Lesson content" v-model="content" />
             <error :error="error" v-if="error" />
 
-            <div class="control">
+            <div class="form-group">
                 <input type="submit" value="Save">
             </div>
         </form>
@@ -35,13 +35,12 @@
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import AdminSection from "@admin/components/layout/AdminSection.vue";
     import {InputText, InputTextarea} from "@common/components/forms";
-    import MarkdownEditor from "@common/components/forms/MarkdownEditor.vue";
     import {getError} from "@common/utils";
     import Error from "@common/components/utils/Error.vue";
 
     @Component({
         name: "LessonsForm",
-        components: {Error, MarkdownEditor, InputTextarea, InputText, AdminSection}
+        components: {Error, InputTextarea, InputText, AdminSection}
     })
     export default class LessonForm extends AdminStoreComponent {
         @Prop() id: number;

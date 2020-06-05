@@ -1,11 +1,11 @@
 <template>
-    <div class="control">
-        <label :for="id">{{ label }}</label>
+    <div class="form-group" :class="{row: inline}">
+        <label :for="id" :class="{'col-sm-4': inline}">{{ label }}</label>
         <input :aria-invalid="invalid ? 'true' : 'false'" @input="$emit('input', $event.target.value)" :value="value"
                :type="type" :id="id" :required="required" :disabled="$attrs.disabled || (!unlocked && protected)"
-               @blur="validate" v-bind="$attrs" />
+               @blur="validate" v-bind="$attrs" class="form-control" :class="{'col-sm-8': inline}" />
         <small v-show="protected && !unlocked">
-            This control is temporarily disabled to avoid accident changes. <button @click.prevent="(unlocked = true) && $emit('unlocked')">Unlock?</button>
+            This control is temporarily disabled to avoid accident changes. <button class="btn" @click.prevent="(unlocked = true) && $emit('unlocked')">Unlock?</button>
         </small><br>
         <small v-if="hint">{{hint}}</small>
     </div>
@@ -20,6 +20,7 @@
     })
     export default class InputText extends Vue {
         @Prop() validator: (v: any) => boolean
+        @Prop({type: Boolean}) inline: boolean
 
         id = inputId()
         unlocked = false;

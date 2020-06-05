@@ -1,8 +1,8 @@
 <template>
-    <div class="control">
+    <div class="form-group">
         <label :for="id">{{ label }}</label>
         <textarea @input="$emit('input', $event.target.value)" :value="value" :id="id" :required="required"
-                  :aria-invalid="invalid ? 'true' : 'false'" v-bind="$attrs" @blur="validate" />
+                  :aria-invalid="invalid ? 'true' : 'false'" v-bind="$attrs" @blur="validate" class="form-control" />
         <small class="hint" v-if="hint">{{ hint }}</small>
     </div>
 </template>

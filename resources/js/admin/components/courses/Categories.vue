@@ -6,46 +6,30 @@
 
                 <label>
                     Select category
-                    <select v-model="category">
+                    <select v-model="category" class="custom-select">
                         <option :value="null" disabled>Chose name from the list</option>
                         <option :value="c" :key="c.id" v-for="c in categories">{{ c.name }}</option>
                     </select>
                 </label><br>
-                <button @click.prevent="addNew"><i class="fa fa-plus"></i> add new</button>
+                <button class="btn" @click.prevent="addNew"><i class="fas fa-plus"></i> add new</button>
 
 
                 <template v-if="category || isNew">
                     <hr>
                     <h3 v-if="category">Edit: {{ name }}</h3>
                     <h3 v-if="isNew">New category</h3>
-                    <div class="control">
-                        <label>
-                            Name
-                            <input required type="text" v-model="name" class="input" :disabled="!category && !isNew">
-                        </label>
-                    </div>
+
+                    <input-text label="Name" required v-model="name" />
+                    <input-textarea label="About" required v-model="about" />
+                    <input-text label="Color" type="color" required v-model="color" />
 
 
-                    <div class="control">
-                        <label>
-                            About
-                            <textarea type="text" v-model="about" class="input" :disabled="!category && !isNew" />
-                        </label>
-                    </div>
-
-                    <div class="control">
-                        <label>
-                            Color<br>
-                            <input required type="color" v-model="color" class="input" :disabled="!category && !isNew">
-                        </label>
-                    </div>
-
-                    <div class="control" v-if="!isNew && category">
+                    <div class="form-group" v-if="!isNew && category">
                         <label>Background image</label><br>
                         <uploader v-model="bgImage" @upload="uploadImage" :uploading="uploading" accept="image/*" />
                     </div>
 
-                    <input type="submit" value="Save">
+                    <input class="btn btn-primary" type="submit" value="Save">
                 </template>
             </form>
         </admin-section>
@@ -61,10 +45,12 @@
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import Uploader from "@common/components/utils/Uploader.vue";
     import {getError} from "@common/utils";
+    import InputTextarea from "@common/components/forms/InputTextarea.vue";
+    import InputText from "@common/components/forms/InputText.vue";
 
     @Component({
         name: "Categories",
-        components: {Uploader, Error, Loader, AdminSection, Sections}
+        components: {InputText, InputTextarea, Uploader, Error, Loader, AdminSection, Sections}
     })
     export default class Categories extends AdminStoreComponent {
         loading = true;

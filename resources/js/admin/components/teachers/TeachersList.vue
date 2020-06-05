@@ -1,7 +1,8 @@
 <template>
     <admin-section header="Teachers">
-        <router-link class="button big" :to="{name: 'admin__teachers_new'}"><i class="fa fa-plus"></i> new</router-link>
-
+        <div class="form-group">
+            <router-link class="btn btn-outline-secondary" :to="{name: 'admin__teachers_new'}"><i class="fas fa-plus"></i> new</router-link>
+        </div>
         <teachers-search />
     </admin-section>
 </template>

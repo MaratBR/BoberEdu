@@ -1,6 +1,6 @@
 <template>
     <router-link active-class="active" class="sb-link" :to="{name: 'admin__' + to}">
-        <i class="fa" :class="'fa-' + icon"></i>
+        <i class="fas" :class="'fa-' + icon"></i>
         {{ header }}
     </router-link>
 </template>

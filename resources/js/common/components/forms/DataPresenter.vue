@@ -4,7 +4,7 @@
 
         <pagination-control :pagination="pagination" @requestPage="$emit('requestPage', $event)">
             <template v-slot:body="{items}">
-                <table>
+                <table class="table">
                     <tr>
                         <slot name="table-header">
                             <template v-if="items.length !== 0">

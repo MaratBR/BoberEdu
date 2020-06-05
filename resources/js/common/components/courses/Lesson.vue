@@ -2,15 +2,15 @@
     <loader v-if="loading" />
     <not-found v-else-if="notFound" />
     <div class="lesson container" v-else>
-        <div class="hero--phead lesson__hero">
-            <ul class="breadcrumb">
-                <li>
+        <div class="lesson__hero">
+            <ul class="breadcrumb breadcrumb-clear">
+                <li class="breadcrumb-item">
                     <router-link :to="{name: 'category', params: {id: course.category.id}}">{{ course.category.name }}</router-link>
                 </li>
-                <li>
+                <li class="breadcrumb-item">
                     <router-link :to="{name: 'course', params: {id: course.id}}">{{ course.name }}</router-link>
                 </li>
-                <li v-if="unitName">{{ unitName }}</li>
+                <li class="breadcrumb-item" v-if="unitName">{{ unitName }}</li>
             </ul>
             <div class="lesson__summary">
                 <span class="lesson__title">{{ lessonName }}</span>

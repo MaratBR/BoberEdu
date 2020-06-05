@@ -1,12 +1,12 @@
 <template>
-    <section class="pagination">
-        <ul class="pagination__pages" v-if="pagination">
+    <section class="items">
+        <ul class="pagination" v-if="pagination">
             <li
                 v-for="i in size"
                 :key="i"
-                class="pagination-item"
+                class="page-item"
                 :class="{active: i + leftCorner - 1 === pagination.meta.page}">
-                <button class="btn" @click.prevent="page(i + leftCorner - 1)">{{i + leftCorner - 1}}</button>
+                <button class="page-link" @click.prevent="page(i + leftCorner - 1)">{{i + leftCorner - 1}}</button>
             </li>
         </ul>
 
@@ -25,7 +25,7 @@
             </slot>
         </div>
         <slot v-else name="body" :items="pagination.data">
-            <div class="pagination__items" v-if="pagination">
+            <div class="items__list" v-if="pagination">
                 <div class="page-item" v-for="(item, index) in pagination.data" :key="index">
                     <slot v-bind="item"></slot>
                 </div>
@@ -33,13 +33,13 @@
         </slot>
 
 
-        <ul class="pagination__pages" v-if="pagination">
+        <ul class="pagination" v-if="pagination">
             <li
                 v-for="i in size"
                 :key="i"
-                class="pagination-item"
+                class="page-item"
                 :class="{active: i + leftCorner - 1 === pagination.meta.page}">
-                <button class="btn" @click.prevent="page(i + leftCorner - 1)">{{i + leftCorner - 1}}</button>
+                <button class="page-link" @click.prevent="page(i + leftCorner - 1)">{{i + leftCorner - 1}}</button>
             </li>
         </ul>
     </section>

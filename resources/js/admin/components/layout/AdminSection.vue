@@ -3,13 +3,15 @@
         <div class="a-section__header" v-if="!notFound && ($slots.header || header)">
             <div class="a-section__header__body">
                 <slot name="header" v-if="!inProgress">
-                    <h3>{{ header }}</h3>
+                    <ul class="breadcrumb breadcrumb-clear">
+                        <li class="breadcrumb-item active">{{ header }}</li>
+                    </ul>
                 </slot>
                 <div class="pulse s1" v-else></div>
             </div>
 
             <div class="chevron" @click.prevent="hidden = !hidden">
-                <i class="fa fa-chevron-up"></i>
+                <i class="fas fa-chevron-up"></i>
             </div>
         </div>
 

@@ -18,7 +18,7 @@
                     <div class="course-view__about">
                         <div class="course-about">
                             <div class="course-about__cat">
-                                <router-link :to="{name: 'category', params: {id: course.category.id}}"><i class="fa fa-chevron-left"></i> {{ course.category.name }}</router-link>
+                                <router-link :to="{name: 'category', params: {id: course.category.id}}"><i class="fas fa-chevron-left"></i> {{ course.category.name }}</router-link>
                             </div>
                             <span class="course-about__name">{{ course.name }}</span><br>
                             <span class="course-about__cap">by TODO Team | {{ unitsCount }} units | {{ lessonsCount }} lessons</span><br>
@@ -30,14 +30,14 @@
                         </div>
 
                         <div class="course-view__actions">
-                            <button @click="enroll(true)" v-if="!enrolled" class="btn btn--primary" :disabled="joining">
+                            <button @click="enroll(true)" v-if="!enrolled" class="btn btn-primary" :disabled="joining">
                                 {{ joining ? '...' : 'Join' }}
                             </button>
-                            <button @click="enroll(false)" v-if="enrolled" class="btn btn--primary" :disabled="joining">
+                            <button @click="enroll(false)" v-if="enrolled" class="btn btn-primary" :disabled="joining">
                                 {{ joining ? '...' : 'Leave' }}
                             </button>
 
-                            <button @click="buy()" v-if="!hasAccess" class="btn btn--primary">Buy</button>
+                            <button @click="buy()" v-if="!hasAccess" class="btn btn-primary">Buy</button>
                         </div>
                     </div>
                 </div>
@@ -74,9 +74,7 @@
                         <div class="d--flex">
                             <router-link v-for="t in course.teachers" :key="t.id" :to="{name: 'teacher', params: {id: t.id}}">
                                 <div class="teacher">
-                                    <div class="avatar s90">
-                                        <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                                    </div>
+                                    <img class="img-thumbnail rounded-circle s120" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
                                     <span>{{ t.fullName }}</span>
                                 </div>
                             </router-link>

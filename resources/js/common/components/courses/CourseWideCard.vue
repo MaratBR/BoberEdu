@@ -2,9 +2,7 @@
     <router-link class="clear" :to="{name: 'course', params: {id: course.id}}">
         <div class="course-w">
             <div class="course-w__image" v-if="course.image">
-                <div class="avatar s60">
-                    <img :src="course.image" alt="">
-                </div>
+                <img class="img-thumbnail rounded-circle s90" :src="course.image" alt="">
             </div>
 
             <div class="course-w__about">
@@ -17,7 +15,7 @@
 
             <div class="course-w__about--right">
                 <star-rating :rating="course.rating" :round-start-rating="false" :star-size="15" :read-only="true" />
-                <span><i class="fa fa-usd"></i>{{ course.price }}</span>
+                <span><i class="fas fa-usd"></i>{{ course.price }}</span>
             </div>
         </div>
     </router-link>

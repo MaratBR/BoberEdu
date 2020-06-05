@@ -2,7 +2,7 @@
     <div :class="styleClass">
         <div :class="styleClass + '__headers'">
             <button @click="setTab(i)" :class="[styleClass + '__header', {active: selected === i}]"
-                    v-for="(tab, i) in tabs" :key="i">
+                    v-for="(tab, i) in tabs" :key="i" class="btn">
                 {{ tab.name }}
             </button>
         </div>

@@ -3,6 +3,7 @@ import {RawLocation} from "vue-router/types/router";
 
 import App from "@common/components/sections/App.vue";
 import {getCommonStore} from "@common/store";
+import NotFound from "@common/components/pages/NotFound.vue";
 
 type ValidationResult = {
     to: string,
@@ -183,6 +184,10 @@ let router = new VueRouter({
                         '@admin/components/users/UserForm.vue'),
                     props: ({params}) => ({id: +params.id})
                 },
+                {
+                    path: '*',
+                    component: NotFound
+                }
 
             ]
         },
@@ -304,6 +309,10 @@ let router = new VueRouter({
                     name: 'oops',
                     path: '/oops/:kind',
                     component: null
+                },
+                {
+                    path: '*',
+                    component: NotFound
                 }
             ]
         }

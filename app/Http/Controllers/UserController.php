@@ -91,6 +91,10 @@ class UserController extends Controller
 
         $fileInfo = $uploads->uploadAvatar($user, $file);
 
+        $user->update([
+            'avatar_id' => $fileInfo->id
+        ]);
+
         return new UploadedDto($fileInfo);
     }
 

@@ -1,5 +1,5 @@
 <template functional>
-    <i class="fa" :class="props.value ? 'fa-check-circle' : 'fa-times-circle'" aria-hidden="true"></i>
+    <i class="fas" :class="props.value ? 'fa-check-circle' : 'fa-times-circle'" aria-hidden="true"></i>
 </template>
 
 <script lang="ts">
