@@ -26,7 +26,7 @@ class UserDto extends DtoBase
 
     public function getAvatar()
     {
-        return $this->user->avatar_id !== null ? $this->user->avatar->sys_name : 'default';
+        return $this->user->avatar_id !== null ? $this->user->avatar->getRootUrl() : ('https://api.adorable.io/avatars/270/boberUser' . $this->getId() . '.png');
     }
 
     public function getAbout()
@@ -54,10 +54,8 @@ class UserDto extends DtoBase
         return $this->user->status;
     }
 
-    public function getRoles()
+    public function isAdmin()
     {
-        return collect($this->user->roles)->map(function (Role $r) {
-            return $r->name;
-        });
+        return $this->user->is_admin;
     }
 }

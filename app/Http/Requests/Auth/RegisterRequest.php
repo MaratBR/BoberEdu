@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\IPayloadRequest;
+use App\Utils\Convert;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest implements IPayloadRequest
@@ -27,12 +28,14 @@ class RegisterRequest extends FormRequest implements IPayloadRequest
         return [
             'name' => 'required|unique:users|max:255',
             'email' => 'required|unique:users|email',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
+            'displayName' => 'string',
+            'age' => 'numeric'
         ];
     }
 
     function getPayload(): array
     {
-        return $this->validated();
+        return Convert::toSnakeCase($this->validated());
     }
 }

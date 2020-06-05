@@ -3,10 +3,11 @@
 namespace App\Http\Requests\Courses;
 
 use App\Http\Requests\AdminRequest;
+use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\IPayloadRequest;
 use App\Utils\Convert;
 
-class UpdateCourseRequest extends AdminRequest implements IPayloadRequest
+class UpdateCourseRequest extends AuthenticatedRequest implements IPayloadRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -21,7 +22,8 @@ class UpdateCourseRequest extends AdminRequest implements IPayloadRequest
             'about' => 'string',
             'signUpBeg' => 'nullable|date_format:Y-m-d',
             'signUpEnd' => 'nullable|date_format:Y-m-d',
-            'available' => 'boolean'
+            'available' => 'boolean',
+            'summary' => 'string|nullable'
         ];
     }
 

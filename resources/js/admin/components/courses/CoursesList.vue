@@ -3,17 +3,21 @@
         <admin-section header="Courses">
             <category-select v-model="category" default-text="All" />
 
+
+            <courses-search :category-id="category ? category.id : null" />
             <pagination-control :pagination="pagination" @requestPage="(page = $event) && load()">
                 <template v-slot:body="{items}">
-                    <table>
-                        <tr class="hs">
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Summary</th>
-                            <th>Price</th>
-                            <th>Info</th>
-                            <th>Actions</th>
-                        </tr>
+                    <table class="table">
+                        <thead>
+                            <tr class="hs">
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Summary</th>
+                                <th>Price</th>
+                                <th>Info</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                         <tr v-for="c in items" :key="c.id">
                             <td>{{ c.id }}</td>
                             <td>{{ c.name }}</td>
@@ -25,8 +29,8 @@
                                 <b>Sign up</b>: {{ signUpPeriod(c) }}<br>
                             </td>
                             <td>
-                                <router-link :to="{name: 'admin__courses_edit', params: {id: c.id}}"><i class="fa fa-edit"></i></router-link>
-                                <router-link :to="{name: 'course', params: {id: c.id}}"><i class="fa fa-eye"></i></router-link>
+                                <router-link :to="{name: 'admin__courses_edit', params: {id: c.id}}"><i class="fas fa-edit"></i></router-link>
+                                <router-link :to="{name: 'course', params: {id: c.id}}"><i class="fas fa-eye"></i></router-link>
                             </td>
                         </tr>
                     </table>
@@ -43,10 +47,11 @@
     import CategorySelect from "@admin/components/courses/CategorySelect.vue";
     import PaginationControl from "@common/components/utils/PaginationControl.vue";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
+    import CoursesSearch from "@admin/components/courses/CoursesSearch.vue";
 
     @Component({
         name: "CoursesList",
-        components: {PaginationControl, CategorySelect, AdminSection, Sections}
+        components: {CoursesSearch, PaginationControl, CategorySelect, AdminSection, Sections}
     })
     export default class CoursesList extends AdminStoreComponent {
         category: dto.CategoryDto = null

@@ -1,5 +1,5 @@
 <template>
-    <div class="input input--upload" :aria-invalid="ariaInvalid">
+    <div class="form-group" :aria-invalid="ariaInvalid">
         <div class="uploader">
             <div>
                 <label :for="id">
@@ -7,12 +7,12 @@
                     <span class="filesize" v-if="value"> | {{ size }}</span>
                 </label>
                 <input :disabled="disabled" :accept="accept" type="file" :id="id" @change="onFileChanged" ref="input">
-                <span class="input__error" v-if="error">{{ error }}</span>
+                <span class="form-control__error" v-if="error">{{ error }}</span>
             </div>
 
             <button class="btn" :disabled="disabled || !!error || uploading || value === null" @click.prevent="upload">
-                <i class="fa fa-upload" v-if="!uploading"></i>
-                <i class="fa fa-spin fa-spinner" v-else></i>
+                <i class="fas fa-upload" v-if="!uploading"></i>
+                <i class="fas fa-spin fa-spinner" v-else></i>
             </button>
         </div>
     </div>

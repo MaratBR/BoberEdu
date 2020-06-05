@@ -1,8 +1,11 @@
 <template>
-    <select :required="required"  v-model="category" @change="$emit('input', category)">
-        <option :value="null" v-if="defaultText">{{ defaultText }}</option>
-        <option :value="cat" :key="cat.id" v-for="cat in categories">#{{ cat.id }} {{ cat.name }}</option>
-    </select>
+    <div class="form-group">
+        <select class="custom-select" :required="required"  v-model="category" @change="$emit('input', category)" v-if="categories.length">
+            <option :value="null" v-if="defaultText">{{ defaultText }}</option>
+            <option :value="cat" :key="cat.id" v-for="cat in categories">#{{ cat.id }} {{ cat.name }}</option>
+        </select>
+        <div class="pulse inline-block s1" v-else></div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -38,5 +41,7 @@
 </script>
 
 <style scoped lang="scss">
-
+    .pulse {
+        width: 230px;
+    }
 </style>

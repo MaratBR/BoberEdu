@@ -1,16 +1,14 @@
 import VueRouter from "vue-router";
-import {useStore} from "vuex-simple";
 import {RawLocation} from "vue-router/types/router";
 
 import App from "@common/components/sections/App.vue";
 import {getCommonStore} from "@common/store";
+import NotFound from "@common/components/pages/NotFound.vue";
 
 type ValidationResult = {
     to: string,
     params?: any
 }
-
-type RouteParamsValidator<T = object> = (v: T) => ValidationResult | null | undefined;
 
 //#region b64 utility functions
 
@@ -53,21 +51,21 @@ let router = new VueRouter({
                     path: 'courses/all',
                     name: 'admin__courses',
                     component: () => import(
-                        /* webpackChunkName: "admin-courses" */
+                        /* webpackChunkName: "a-courses" */
                         '@admin/components/courses/CoursesList.vue')
                 },
                 {
                     path: 'courses/new',
                     name: 'admin__courses_new',
                     component: () => import(
-                        /* webpackChunkName: "admin-course-form" */
+                        /* webpackChunkName: "a-course-form" */
                         '@admin/components/courses/CourseForm.vue')
                 },
                 {
                     path: 'courses/:id',
                     name: 'admin__courses_edit',
                     component: () => import(
-                        /* webpackChunkName: "admin-course-form" */
+                        /* webpackChunkName: "a-course-form" */
                         '@admin/components/courses/CourseForm.vue'),
                     props({params}) {
                         return {
@@ -79,7 +77,7 @@ let router = new VueRouter({
                     path: 'courses/:id/units',
                     name: 'admin__courses_edit_units',
                     component: () => import(
-                        /* webpackChunkName: "admin-course-units-form" */
+                        /* webpackChunkName: "a-course-units-form" */
                         '@admin/components/courses/LessonOrderForm.vue'),
                     props({params, query}) {
                         return {
@@ -92,7 +90,7 @@ let router = new VueRouter({
                     path: 'lessons/new/:id',
                     name: 'admin__lessons_new',
                     component: () => import(
-                        /* webpackChunkName: "admin-lesson-form" */
+                        /* webpackChunkName: "a-lesson-form" */
                         '@admin/components/courses/LessonForm.vue'),
                     props({params}) {
                         return {
@@ -104,7 +102,7 @@ let router = new VueRouter({
                     path: 'lessons/:id',
                     name: 'admin__lessons_edit',
                     component: () => import(
-                        /* webpackChunkName: "admin-lesson-form" */
+                        /* webpackChunkName: "a-lesson-form" */
                         '@admin/components/courses/LessonForm.vue'),
                     props({params}) {
                         return {
@@ -116,7 +114,7 @@ let router = new VueRouter({
                     path: 'categories',
                     name: 'admin__categories',
                     component: () => import(
-                        /* webpackChunkName: "admin-categories" */
+                        /* webpackChunkName: "a-categories" */
                         '@admin/components/courses/Categories.vue')
                 },
 
@@ -124,7 +122,7 @@ let router = new VueRouter({
                     path: 'teachers/all',
                     name: 'admin__teachers',
                     component: () => import(
-                        /* webpackChunkName: "admin-teachers" */
+                        /* webpackChunkName: "a-teachers" */
                         '@admin/components/teachers/TeachersList.vue'),
                     props({query}) {
                         return {
@@ -135,15 +133,22 @@ let router = new VueRouter({
 
                 {
                     path: 'teachers/new/:id',
-                    name: 'admin__teachers_new',
+                    name: 'admin__teachers_new_for_user',
                     component: () => import(
-                        /* webpackChunkName: "admin-teachers-form" */
+                        /* webpackChunkName: "a-teachers-form" */
                         '@admin/components/teachers/TeacherForm.vue'),
                     props({params}) {
                         return {
                             userId: +params.id
                         }
                     }
+                },
+                {
+                    path: 'teachers/new',
+                    name: 'admin__teachers_new',
+                    component: () => import(
+                        /* webpackChunkName: "a-teachers-form" */
+                        '@admin/components/teachers/TeacherForm.vue')
                 },
                 {
                     path: 'teachers/:id',
@@ -157,6 +162,33 @@ let router = new VueRouter({
                         }
                     }
                 },
+                {
+                    path: 'users/all',
+                    name: 'admin__users',
+                    component: () => import(
+                        /* webpackChunkName: "admin-users" */
+                        '@admin/components/users/UsersList.vue')
+                },
+                {
+                    path: 'users/new',
+                    name: 'admin__users_new',
+                    component: () => import(
+                        /* webpackChunkName: "admin-user-form" */
+                        '@admin/components/users/UserForm.vue')
+                },
+                {
+                    path: 'users/:id',
+                    name: 'admin__users_edit',
+                    component: () => import(
+                        /* webpackChunkName: "admin-user-form" */
+                        '@admin/components/users/UserForm.vue'),
+                    props: ({params}) => ({id: +params.id})
+                },
+                {
+                    path: '*',
+                    component: NotFound
+                }
+
             ]
         },
         {
@@ -186,6 +218,13 @@ let router = new VueRouter({
                         /* webpackChunkName: "login" */
                         "@common/components/pages/LoginPage.vue"),
                     name: 'login'
+                },
+                {
+                    path: '/logout',
+                    component: () => import(
+                        /* webpackChunkName: "logout" */
+                        "@common/components/pages/LogoutPage.vue"),
+                    name: 'logout'
                 },
                 {
                     path: '/register',
@@ -254,9 +293,26 @@ let router = new VueRouter({
                     }
                 },
                 {
+                    name: 'teacher',
+                    component: () => import(
+                        /* webpackChunkName: "teacher" */
+                        '@common/components/teacher/Teacher.vue'
+                        ),
+                    path: '/teacher/:id',
+                    props({params}) {
+                        return {
+                            id: +params.id
+                        }
+                    }
+                },
+                {
                     name: 'oops',
                     path: '/oops/:kind',
                     component: null
+                },
+                {
+                    path: '*',
+                    component: NotFound
                 }
             ]
         }
@@ -271,11 +327,12 @@ router.beforeEach((to, from, next: (to?: RawLocation | void) => void) => {
 
     for (let match of to.matched)
 
-    if (to.matched.some(r => r.meta.requiresAuth) && !storeProxy.auth.isAuthenticated) {
+
+    if (to.matched.some(r => r.meta.requiresAuth) && !storeProxy.isAuthenticated) {
         next({
             name: 'login'
         })
-    } else if (to.matched.some(r => r.meta.requiresAdmin) && !storeProxy.auth.isAdmin) {
+    } else if (to.matched.some(r => r.meta.requiresAdmin) && !storeProxy.isAdmin) {
         next({
             name: 'oops',
             params: {

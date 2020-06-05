@@ -1,26 +1,5 @@
 <template>
-    <div class="md-editor" :class="{'v': vertical}">
-        <div class="md-editor__text">
-            <label :for="id">{{ label }}</label>
-            <textarea class="input" name="md" id="md-editor" cols="30" rows="10"
-                      :value="value" :id="id"
-                      @input="onInput($event.target.value)" v-bind="$attrs"
-            ></textarea>
-        </div>
 
-        <div class="md-editor__separator">
-            <button @click="toggleMode()" class="btn btn--transparent md-editor__toggleBtn" :class="{'v': vertical}">
-                <svg width="9" height="9">
-                    <rect width="4" height="9"></rect>
-                    <rect x="5" width="4" height="9"></rect>
-                </svg>
-            </button>
-        </div>
-
-        <div class="md-editor__preview">
-            <div v-html="marked"></div>
-        </div>
-    </div>
 </template>
 
 <script lang="ts">

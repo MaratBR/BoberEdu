@@ -10,7 +10,7 @@ class AuthenticatedRequest extends FormRequest
 {
     public function authorize()
     {
-        return $this->user() != null;
+        return parent::user() != null;
     }
 
     public function rules()

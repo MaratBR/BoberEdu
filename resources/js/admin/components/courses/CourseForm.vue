@@ -2,90 +2,91 @@
     <sections>
         <admin-section :in-progress="submitting">
             <template v-slot:header>
-                <ul class="breadcrumb">
-                    <li>Courses</li>
-                    <li>{{ name || 'new' }}</li>
+                <ul class="breadcrumb breadcrumb-clear breadcrumb">
+                    <li class="breadcrumb-item"><router-link :to="{name:'admin__courses'}">Courses</router-link></li>
+                    <li class="breadcrumb-item active">{{ name || 'new' }}</li>
                 </ul>
             </template>
 
+            <error :error="error" v-if="error" />
+
             <form class="form" @submit.prevent="onSubmit">
-                <div class="form__control" v-if="!persistent">
-                    <select id="CategoryInput" v-model="categoryId" required>
-                        <option :value="null" disabled>Chose a category</option>
-                        <option :value="c.id" :key="c.id" v-for="c in categories">{{ c.name }}</option>
-                    </select>
+                <div class="form-group" v-if="!persistent">
+                    <category-select v-model="category" />
                 </div>
 
-                <div class="form__control">
-                    <label>
-                        <input class="input" v-model="available" type="checkbox">
-                        Available for purchase
-                    </label>
+                <div class="form-group">
+                    <img :src="image" class="img-thumbnail rounded-circle s180">
                 </div>
 
-                <div class="form__control">
-                    <label for="Name" class="form__label">Name</label>
-                    <input type="text" class="input" id="Name" v-model="name">
+                <div class="form-group">
+                    <uploader :uploading="uploading" v-model="imageFile" accept="image/*" default-text="Upload image" @upload="uploadImage()" />
+                    <small v-if="showUploadHint">Image will be uploaded on save</small>
                 </div>
 
-                <div class="form__control">
-                    <label for="Summary" class="form__label">Short summary</label>
-                    <small>In a few words: what is this about?</small><br>
-                    <textarea class="input" id="Summary" v-model="summary"></textarea>
+                <div class="form-check">
+                    <input class="form-check-input" v-model="available" type="checkbox">
+                    <label class="form-check-label">Available</label>
                 </div>
 
-                <div class="form__control">
-                    <label for="Price" class="form__label">Price</label>
-                    <input v-currency type="text" class="input" id="Price" v-model="price" />
-                </div>
+                <input-text required label="Name" v-model="name" />
+                <input-textarea required label="Summary" v-model="summary" />
+                <input-text v-currency required label="Price" v-model="price" />
 
-                <div class="form__control">
-
-
-                    <label>
-                        <input
-                            type="checkbox"
-                            class="input"
-                            v-model="hasSignUpPeriod">
+                <div class="form-check">
+                    <input
+                        type="checkbox"
+                        class="form-check-input"
+                        v-model="hasSignUpPeriod">
+                    <label class="form-check-label">
                         Has sign up period
                     </label>
-                    <div v-show="hasSignUpPeriod" class="d--flex">
-                        <div class="form__control mr--2">
-                            <label for="SignUpBeg" class="form__label">Starts at</label>
-                            <input id="SignUpBeg" type="date" v-model="signUpBeg" class="input" :aria-invalid="signUpInvalid" />
-                        </div>
-
-                        <div class="form__control">
-                            <label for="SignUpEnd" class="form__label">Ends at</label>
-                            <input id="SignUpEnd" type="date" v-model="signUpEnd" class="input" :aria-invalid="signUpInvalid" />
-                        </div>
-                    </div>
                 </div>
 
-                <div class="form__control">
+                <div v-if="hasSignUpPeriod">
+                    <input-text label="Stars at" type="date" v-model="signUpBeg" required />
+                    <input-text label="Ends at" type="date" v-model="signUpEnd" required />
+                </div>
+
+                <div class="form-group">
                     <label>Summary</label>
                     <markdown-editor v-model="about" />
                 </div>
 
                 <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
+                <p v-if="!persistent">
+                    You can edit units and assign teachers after you save the course
+                </p>
             </form>
         </admin-section>
         <units-editor :course="course" @saved="onIdChanged" v-if="persistent" />
+        <course-teachers-form :course="course" @updated="onIdChanged" v-if="persistent" />
     </sections>
 </template>
 
 <script lang="ts">
     import {Component, dto, Prop, requests, Watch} from "@common";
     import {Page} from "@common/components/pages";
-    import {Loader, MarkdownEditor} from "@common/components/utils";
+    import {Loader} from "@common/components/utils";
     import UnitsEditor from "@admin/components/courses/UnitsEditor.vue";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import AdminSection from "@admin/components/layout/AdminSection.vue";
     import Sections from "@admin/components/layout/Sections.vue";
     import {getError} from "@common/utils";
+    import Error from "@common/components/utils/Error.vue";
+    import CourseTeachersForm from "@admin/components/courses/CourseTeachersForm.vue";
+    import CategorySelect from "@admin/components/courses/CategorySelect.vue";
+    import InputText from "@common/components/forms/InputText.vue";
+    import InputTextarea from "@common/components/forms/InputTextarea.vue";
+    import Uploader from "@common/components/utils/Uploader.vue";
 
     @Component({
-        components: {Sections, AdminSection, MarkdownEditor, UnitsEditor, Loader, Page}
+        components: {
+            Uploader,
+            InputTextarea,
+            InputText,
+            CategorySelect,
+            CourseTeachersForm, Error, Sections, AdminSection, UnitsEditor, Loader, Page}
     })
     export default class CourseForm extends AdminStoreComponent {
         @Prop({default: null}) id: number;
@@ -104,13 +105,17 @@
         signUpBeg: string = null;
         signUpEnd: string = null;
         signUpInvalid: boolean = false;
-        categoryId: number = null;
+        category: dto.CategoryDto = null;
         price: string = null;
+        image: string = null
+        imageFile: File = null
         notFound: boolean = false;
+        showUploadHint: boolean = false
+        uploading = false
 
         hasSignUpPeriod = false;
         error = null;
-        submitting = false;
+        submitting = true;
 
 
         set priceAsNumber(v: number) {
@@ -119,6 +124,25 @@
 
         get priceAsNumber(): number {
             return +(this.price.charAt(0) === '$' ? this.price.substr(1) : this.price).replace(',', '')
+        }
+
+        async uploadImage(id?: number) {
+            if (typeof id === 'undefined') {
+                if (this.persistent) {
+                    id = this.id
+                } else {
+                    this.showUploadHint = true
+                    return
+                }
+            }
+
+            this.uploading = true
+
+            this.image = await this.admin.uploadCourseImage({
+                id, data: this.imageFile
+            })
+
+            this.uploading = false
         }
 
         @Watch('signUpBeg')
@@ -141,12 +165,14 @@
             try {
                 let c = await this.store.courses.get(this.id)
                 this.name = c.name
-                this.categoryId = c.category.id
+                this.category = c.category
                 this.summary = ''
                 this.about = c.about
                 this.available = c.available
                 this.signUpBeg = c.requirements.signUp.beg
                 this.signUpEnd = c.requirements.signUp.end
+                this.summary = c.summary
+                this.image = c.image
                 this.priceAsNumber = c.price
                 this.course = c
             } catch (e) {
@@ -173,7 +199,7 @@
                 summary: this.summary,
                 about: this.about,
                 available: this.available,
-                categoryId: this.categoryId
+                categoryId: this.category.id
             }
 
             if (this.hasSignUpPeriod) {
@@ -184,7 +210,7 @@
             this.submitting = true
 
             try {
-                this.course = await this.admin.courses.create(r)
+                this.course = await this.admin.createCourse(r)
                 await this.$router.replace({
                     name: 'admin__courses_edit',
                     params: {
@@ -218,7 +244,7 @@
             this.submitting = true
 
             try {
-                await this.admin.courses.update({
+                await this.admin.updateCourse({
                     id: this.id,
                     data: r
                 })
@@ -240,6 +266,8 @@
             await this.init()
             if (this.id !== null)
                 await this.onIdChanged()
+            else
+                this.submitting = false
         }
 
         mounted() {

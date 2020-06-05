@@ -8,8 +8,10 @@ use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Teachers\AdminTeacherDto;
 use App\Http\DTO\Teachers\TeacherAssignmentDto;
 use App\Http\DTO\Teachers\TeacherDto;
+use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\Requests\AdminRequest;
 use App\Http\Requests\AuthenticatedRequest;
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\Teachers\AssignTeacherRequest;
 use App\Http\Requests\Teachers\CreateTeacherRequest;
 use App\Http\Requests\Teachers\UpdateTeacherRequest;
@@ -46,10 +48,8 @@ class TeachersController extends Controller
         $payload = $request->getPayload();
         $teacher->update($payload);
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_UPDATED)
-            ->subject($teacher->id)
-            ->data(['f' => array_keys($payload)])
-            ->build();
+        AuditRecord::make($request->user(), $request, Audit::UPDATE)
+            ->subject($teacher)->build();
 
         return new AdminTeacherDto($teacher);
     }
@@ -67,7 +67,7 @@ class TeachersController extends Controller
 
         $this->repo->assign($teacher, $course);
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_ASSIGNED)
+        AuditRecord::make($request->user(), $request, Audit::ASSIGN_TEACHER)
             ->subject($teacher->id)->data(['c' => $course->id])->build();
     }
 
@@ -77,7 +77,7 @@ class TeachersController extends Controller
         $course = $this->courses->get($courseId);
         $this->repo->revoke($teacher, $course);
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_REVOKED)
+        AuditRecord::make($request->user(), $request, Audit::REVOKE_TEACHER)
             ->subject($teacher->id)->data([
                 'c' => $course->id
             ])
@@ -101,7 +101,7 @@ class TeachersController extends Controller
         $teacher = $this->repo->create($user, $request->getPayload());
 
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_NEW)
+        AuditRecord::make($request->user(), $request, Audit::CREATE)
             ->subject($teacher->id)
             ->data(['u' => $user->id])
             ->comment($request->getComment())
@@ -114,7 +114,7 @@ class TeachersController extends Controller
     {
         $teacher = $this->repo->get($teacherId);
 
-        AuditRecord::make($request->user(), $request, Audit::TEACHER_DELETED)
+        AuditRecord::make($request->user(), $request, Audit::DELETE)
             ->subject($teacher->id)
             ->build();
 
@@ -130,8 +130,15 @@ class TeachersController extends Controller
             'avatar_id' => $avatar->id
         ]);
 
-        return [
-            'id' => $avatar->sys_name
-        ];
+        return new UploadedDto($avatar);
+    }
+
+    public function search(SearchRequest $request)
+    {
+        if ($request->getQuery() === null) {
+            return $this->paginate();
+        }
+
+        return new PaginationDto($this->repo->search($request->getQuery()), TeacherDto::class);
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoles extends Migration
+class AlterCoursesAddImageIdColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateRoles extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->smallIncrements('id');
-            $table->string('name');
-            $table->unique('name');
-            $table->string('description');
+        Schema::table('courses', function (Blueprint $table) {
+            $table->foreignId('image_id')->nullable()->references('id')->on('file_infos');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::table('courses', function (Blueprint $table) {
+            $table->dropColumn('image_id');
+        });
     }
 }

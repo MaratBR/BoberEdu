@@ -14,15 +14,12 @@ use App\Services\Abs\ICourseUnitsUpdateResponse;
 use App\Unit;
 use App\User;
 use Exception;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use function Clue\StreamFilter\fun;
 
 
 class CourseService implements ICourseService
@@ -32,12 +29,37 @@ class CourseService implements ICourseService
     /**
      * @inheritDoc
      */
-    function get(int $id, bool $extra = false): Course
+    function get(int $id): Course
     {
         /** @var Course $course */
-        $course = $extra ? Course::with(['units' => function (HasMany $q) {
+        $course = Course::with(['units' => function (HasMany $q) {
             $q->orderBy('order_num');
-        }])->find($id) : Course::find($id);
+        }])->findOrFail($id);
+
+        return $course;
+    }
+
+    function search(string $query, ?int $categoryId = null): LengthAwarePaginator
+    {
+        /** @var LengthAwarePaginator $p */
+        $p = Course::search($query)->paginate();
+        return $p;
+    }
+
+    function getBy(array $params): Course
+    {
+        /** @var Course $c */
+        $c = Course::query()->where($params)->firstOrFail();
+        return $c;
+    }
+
+
+    function getAvailable(int $id, bool $extra = false): Course
+    {
+        /** @var Course $course */
+        $course = Course::with(['units' => function (HasMany $q) {
+            $q->orderBy('order_num');
+        }])->when('available', '=', true)->findOrFail($id);
 
         return $course;
     }
@@ -250,10 +272,8 @@ class CourseService implements ICourseService
     private function paginationModifier(Builder $builder, int $size)
     {
         return $builder
-            ->select('courses.*', DB::raw('COUNT(units.id) as units_count'), DB::raw('COUNT(lessons.id) as lessons_count'))
-            ->leftJoin('units', 'units.course_id', '=', 'courses.id')
-            ->leftJoin('lessons', 'lessons.unit_id', '=', 'units.id')
-            ->groupBy('courses.id')
+            ->select('courses.*')
+            ->with('units.lessons')
             ->paginate($size);
     }
 

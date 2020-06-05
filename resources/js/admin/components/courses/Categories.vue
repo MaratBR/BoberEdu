@@ -6,46 +6,30 @@
 
                 <label>
                     Select category
-                    <select v-model="category">
+                    <select v-model="category" class="custom-select">
                         <option :value="null" disabled>Chose name from the list</option>
                         <option :value="c" :key="c.id" v-for="c in categories">{{ c.name }}</option>
                     </select>
                 </label><br>
-                <button @click.prevent="addNew"><i class="fa fa-plus"></i> add new</button>
+                <button class="btn" @click.prevent="addNew"><i class="fas fa-plus"></i> add new</button>
 
 
                 <template v-if="category || isNew">
                     <hr>
                     <h3 v-if="category">Edit: {{ name }}</h3>
                     <h3 v-if="isNew">New category</h3>
-                    <div class="form__control">
-                        <label>
-                            Name
-                            <input required type="text" v-model="name" class="input" :disabled="!category && !isNew">
-                        </label>
-                    </div>
+
+                    <input-text label="Name" required v-model="name" />
+                    <input-textarea label="About" required v-model="about" />
+                    <input-text label="Color" type="color" required v-model="color" />
 
 
-                    <div class="form__control">
-                        <label>
-                            About
-                            <textarea type="text" v-model="about" class="input" :disabled="!category && !isNew" />
-                        </label>
-                    </div>
-
-                    <div class="form__control">
-                        <label>
-                            Color<br>
-                            <input required type="color" v-model="color" class="input" :disabled="!category && !isNew">
-                        </label>
-                    </div>
-
-                    <div class="form__control" v-if="!isNew && category">
+                    <div class="form-group" v-if="!isNew && category">
                         <label>Background image</label><br>
                         <uploader v-model="bgImage" @upload="uploadImage" :uploading="uploading" accept="image/*" />
                     </div>
 
-                    <input type="submit" value="Save">
+                    <input class="btn btn-primary" type="submit" value="Save">
                 </template>
             </form>
         </admin-section>
@@ -61,16 +45,18 @@
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import Uploader from "@common/components/utils/Uploader.vue";
     import {getError} from "@common/utils";
+    import InputTextarea from "@common/components/forms/InputTextarea.vue";
+    import InputText from "@common/components/forms/InputText.vue";
 
     @Component({
         name: "Categories",
-        components: {Uploader, Error, Loader, AdminSection, Sections}
+        components: {InputText, InputTextarea, Uploader, Error, Loader, AdminSection, Sections}
     })
     export default class Categories extends AdminStoreComponent {
         loading = true;
         categories: dto.CategoryDto[] = null
         error = null;
-        category: dto.CategoryDto = null;
+        category: dto.CategoryExDto = null;
         name = null;
         about = null;
         color = null;
@@ -118,13 +104,13 @@
             this.loading = true
             try {
                 if (this.isNew) {
-                    this.category = await this.admin.courses.createCategory({
+                    this.category = await this.admin.createCategory({
                         name: this.name,
                         about: this.name,
                         color: this.color.substr(1)
                     })
                 } else {
-                    await this.admin.courses.updateCategory({
+                    await this.admin.updateCategory({
                         id: this.category.id,
                         data: {
                             name: this.name,
@@ -147,6 +133,10 @@
         }
 
         uploadImage() {
+            this.admin.uploadCategoryImage({
+                id: this.category.id,
+                data: this.bgImage
+            })
         }
     }
 </script>

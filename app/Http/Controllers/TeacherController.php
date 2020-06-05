@@ -6,6 +6,7 @@ use App\AuditRecord;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Teachers\TeacherAssignmentDto;
 use App\Http\DTO\Teachers\TeacherDto;
+use App\Http\DTO\Teachers\TeacherProfileDto;
 use App\Http\Requests\AdminRequest;
 use App\Http\Requests\Teachers\AssignTeacherRequest;
 use App\Http\Requests\Teachers\CreateTeacherRequest;
@@ -32,6 +33,6 @@ class TeacherController extends Controller
     public function get(int $teacherId)
     {
         $teacher = $this->teachers->get($teacherId);
-        return new TeacherDto($teacher);
+        return new TeacherProfileDto($teacher);
     }
 }

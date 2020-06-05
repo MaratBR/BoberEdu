@@ -1,8 +1,10 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Categories;
 
+use App\Http\DTO\Categories\CategoryDto;
+use App\Http\DTO\DtoBase;
 
 class CategoriesDto extends DtoBase
 {
@@ -15,6 +17,6 @@ class CategoriesDto extends DtoBase
 
     public function getCategories()
     {
-        return collect($this->categories)->mapInto(CategoryDto::class);
+        return collect($this->categories)->mapInto(CategoryExDto::class);
     }
 }

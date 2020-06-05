@@ -21,7 +21,14 @@ interface ITeachersService
 
     function revoke(Teacher $teacher, Course $course);
 
-    function hasAssignment(Teacher $teacher, Course $course): bool;
+    /**
+     * @param $teacher Teacher|int
+     * @param $course Course|int
+     * @return bool
+     */
+    function hasAssignment($teacher, $course): bool;
 
     function paginate(): LengthAwarePaginator;
+
+    function search(string $query): LengthAwarePaginator;
 }

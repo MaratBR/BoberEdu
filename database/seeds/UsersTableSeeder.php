@@ -14,8 +14,8 @@ class UsersTableSeeder extends Seeder
             'normalized_name' => 'ADMIN',
             'normalized_email' => 'ADMIN@NOREPLY.COM',
             'email' => 'admin@noreply.com',
-            'password' => Hash::make('AdminAdmin')
+            'password' => Hash::make('AdminAdmin'),
+            'is_admin' => true
         ]);
-        $user->addRole('admin');
     }
 }

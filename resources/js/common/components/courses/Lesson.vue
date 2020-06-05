@@ -2,15 +2,15 @@
     <loader v-if="loading" />
     <not-found v-else-if="notFound" />
     <div class="lesson container" v-else>
-        <div class="hero--phead lesson__hero">
-            <ul class="breadcrumb">
-                <li>
+        <div class="lesson__hero">
+            <ul class="breadcrumb breadcrumb-clear">
+                <li class="breadcrumb-item">
                     <router-link :to="{name: 'category', params: {id: course.category.id}}">{{ course.category.name }}</router-link>
                 </li>
-                <li>
+                <li class="breadcrumb-item">
                     <router-link :to="{name: 'course', params: {id: course.id}}">{{ course.name }}</router-link>
                 </li>
-                <li v-if="unitName">{{ unitName }}</li>
+                <li class="breadcrumb-item" v-if="unitName">{{ unitName }}</li>
             </ul>
             <div class="lesson__summary">
                 <span class="lesson__title">{{ lessonName }}</span>
@@ -21,18 +21,19 @@
         </div>
 
         <div class="lesson__body">
-            <div v-if="showPurchase" class="notification purchase">
+            <div v-if="showPurchase" class="notification alert-warning alert">
                 <p v-if="showPurchase === 1">
                     It looks like your trial period has expired, please purchase course to have the access again
                 </p>
+                <p v-else-if="showPurchase === 3">
+                    We are sorry, but this lesson is not available in free trial period
+                </p>
                 <p v-else>
-                    We are terribly sorry but this lesson is not available when you purchased the course and not
-                    included in free preview
+                    Please join free trial period or purchase the course to have the access to the lesson
                 </p>
 
-                <router-link
-                    class="btn btn--primary"
-                    :to="{name: 'course', params: {id: courseId}}">{{ showPurchase === 1 ? 'Purchase' : 'Join' }} course</router-link>
+                <router-link class="btn btn-primary"
+                    :to="{name: 'course', params: {id: courseId}}">{{ showPurchase !== 2 ? 'Purchase' : 'Join' }} course</router-link>
             </div>
             <markdown-viewer v-else :value="content" />
         </div>
@@ -107,8 +108,10 @@
                 let lesson = unit.lessons.find(l => l.id == this.lessonId);
                 this.lessonName = lesson.title
 
-                if ((this.isTrial && !unit.preview) || this.isTrialExpired) {
+                if (this.isTrialExpired) {
                     this.showPurchase = 1;
+                } else if (this.isTrial && !unit.preview) {
+                    this.showPurchase = 3;
                 } else if (!this.enrolled) {
                     this.showPurchase = 2;
                 } else {
@@ -175,6 +178,20 @@
         &__menu {
             background: #f9f9f9;
             border-left: 1px solid #eee;
+
+            & > ul {
+                list-style: none;
+
+                & > li {
+                    font-size: 1.1em;
+
+                    & > span {
+                        font-weight: bold;
+                        color: #00a6f9;
+                        border-bottom: 2px solid;
+                    }
+                }
+            }
 
             a {
                 text-decoration: none;

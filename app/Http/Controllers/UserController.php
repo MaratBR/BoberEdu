@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ThrowUtils;
 use App\Http\DTO\PaginationDto;
+use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\DTO\Users\UserDto;
 use App\Http\DTO\UserProfileDto;
 use App\Http\DTO\UserSettingsDto;
@@ -36,22 +37,9 @@ class UserController extends Controller
      */
     public function get(Request $request, int $id)
     {
-        $user = $this->users->getWithRoles($id);
+        $user = $this->users->get($id);
 
         return new UserDto($user);
-    }
-
-    /**
-     * Updates a user
-     *
-     * @param EditUserRequest $request
-     * @param int $id
-     */
-    public function update(EditUserRequest $request, int $id)
-    {
-        $user = $this->users->get($id);
-        $this->throwForbiddenIfNotAllowed('edit', $user);
-        $this->users->update($user, $request->validated());
     }
 
     /**
@@ -101,11 +89,17 @@ class UserController extends Controller
         if (!$file)
             return response()->json(['message' => 'failed to open stream'], 500);
 
-        $size = $_SERVER['CONTENT_LENGTH'];
-        $id = $uploads->uploadAvatar($user, $file);
+        $fileInfo = $uploads->uploadAvatar($user, $file);
 
-        return [
-            'id' => $id
-        ];
+        $user->update([
+            'avatar_id' => $fileInfo->id
+        ]);
+
+        return new UploadedDto($fileInfo);
+    }
+
+    public function updateProfile(EditUserRequest $request) {
+        $request->user()->update($request->getPayload());
+        return $this->done();
     }
 }

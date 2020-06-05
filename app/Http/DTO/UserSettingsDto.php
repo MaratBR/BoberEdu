@@ -43,6 +43,6 @@ class UserSettingsDto extends DtoBase
 
     public function getAvatar()
     {
-        return $this->user->avatar_id !== null ? $this->user->avatar->sys_name : 'default';
+        return $this->user->avatar_id !== null ? $this->user->avatar->getRootUrl() : ('https://api.adorable.io/avatars/270/boberUser' . $this->getId() . '.png');
     }
 }

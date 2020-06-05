@@ -1,9 +1,7 @@
 <template>
     <div class="user-card">
-        <div class="avatar s90">
-            <img :src="'/storage/' + store.auth.user.avatar" alt="">
-        </div>
-        <span>{{ store.auth.user.name }}</span>
+        <img class="img-thumbnail rounded-circle s120" :src="store.user.avatar" alt="">
+        <span>{{ store.user.name }}</span>
     </div>
 </template>
 

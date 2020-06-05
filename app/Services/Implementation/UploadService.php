@@ -19,7 +19,8 @@ class UploadService implements IUploadService
         return $type . '/' . bin2hex(openssl_random_pseudo_bytes(3)) . '_' . time();
     }
 
-    function createTmpFile() {
+    function createTmpFile()
+    {
         $tmpFilename = tempnam(sys_get_temp_dir(), 'bts');
 
         if (!$tmpFilename)
@@ -28,7 +29,8 @@ class UploadService implements IUploadService
         return $tmpFilename;
     }
 
-    function putFile($file, $type = 'g', ?string $about = null, ?User $user = null) {
+    function putFile($file, $type = 'g', ?string $about = null, ?User $user = null)
+    {
         // Create tmp file
         $tmpFilename = $this->createTmpFile();
         $tmp = fopen($tmpFilename, 'r+');
@@ -72,6 +74,11 @@ class UploadService implements IUploadService
 
     function uploadAvatar(User $user, $file): FileInfo
     {
-        return  $this->putFile($file, 'a', null, $user);
+        return $this->putFile($file, 'a', null, $user);
+    }
+
+    function uploadImage(User $user, string $type, $file): FileInfo
+    {
+        return $this->putFile($file, 'img_' . $type, null, $user);
     }
 }

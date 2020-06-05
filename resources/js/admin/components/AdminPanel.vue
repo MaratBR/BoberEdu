@@ -6,6 +6,15 @@
                     <sidebar-link to="overview" header="Overview" icon="tachometer" />
                 </sidebar-group>
 
+                <sidebar-group header="Audit">
+                    <sidebar-link to="audit" header="View log" icon="history" />
+                </sidebar-group>
+
+                <sidebar-group header="Users">
+                    <sidebar-link to="users" header="All users" icon="list" />
+                    <sidebar-link to="users_new" header="Register new user" icon="plus" />
+                </sidebar-group>
+
                 <sidebar-group header="Courses">
                     <sidebar-link to="courses" header="Courses" icon="list" />
                     <sidebar-link to="courses_new" header="Add new course" icon="plus" />
@@ -16,14 +25,30 @@
                     <sidebar-link to="teachers" header="Teachers" icon="list" />
                     <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
                 </sidebar-group>
+                <sidebar-group header="Teachers">
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
+                </sidebar-group>
+                <sidebar-group header="Teachers">
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
+                </sidebar-group>
+                <sidebar-group header="Teachers">
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
+                </sidebar-group>
+                <sidebar-group header="Teachers">
+                    <sidebar-link to="teachers" header="Teachers" icon="list" />
+                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
+                </sidebar-group>
             </admin-sidebar>
         </div>
 
         <div class="admin-panel__nav"></div>
 
-        <div class="admin-panel__body">
+        <scrollbar class="admin-panel__body">
             <router-view></router-view>
-        </div>
+        </scrollbar>
     </div>
 </template>
 
@@ -48,10 +73,13 @@
 
         &__sidebar {
             grid-area: 1 / 1 / 3 / 2;
+            height: inherit;
         }
 
         &__body {
             background: #ededef;
+            overflow: hidden;
+            height: initial;
         }
     }
 </style>

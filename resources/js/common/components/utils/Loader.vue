@@ -1,7 +1,7 @@
 <template>
-    <div class="loader">
-        <div class="loader__spinner">
-            Loading...
+    <div class="d-flex justify-content-center align-items-center p-5">
+        <div class="spinner-grow m-1" role="status" v-for="_ in 5">
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
 </template>
@@ -17,9 +17,9 @@
 </script>
 
 <style scoped lang="scss">
-    .loading {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    @for $i from 1 to 6 {
+        .spinner-grow:nth-child(#{$i}) {
+            animation-delay: 0.16s * $i;
+        }
     }
 </style>

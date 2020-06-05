@@ -5,8 +5,10 @@ namespace App\Services\Implementation;
 
 
 use App\Exceptions\ThrowUtils;
+use App\Role;
 use App\Services\Abs\IUsersService;
 use App\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 
 class UsersService implements IUsersService
@@ -19,17 +21,20 @@ class UsersService implements IUsersService
         return User::findOrFail($id);
     }
 
-    function getWithRoles(int $id): User
+    function getBy(string $col, $val): User
     {
-        // It's fine, IDEA, calm down
         /** @var User $user */
-        $user = User::with('roles')->findOrFail($id);
+        $user = User::query()->where($col, '=', $val)->firstOrFail();
+
         return $user;
     }
 
-    function paginate(int $perPage = 15)
+    function paginate(int $perPage = 15, ?string $order = null)
     {
-        return User::query()->paginate();
+        $q = User::query();
+        if ($order != null)
+            $q = $q->orderBy($order);
+        return $q->paginate();
     }
 
     function create(array $data): User
@@ -59,9 +64,20 @@ class UsersService implements IUsersService
         return User::query()->where('normalized_name', '=', $username)->exists();
     }
 
-    function normalize(string $username)
+    function setAvatar(User $user, \App\FileInfo $avatar)
+    {
+        $user->update([
+            'avatar_id' => $avatar->id
+        ]);
+    }
+
+    function search(string $query): LengthAwarePaginator
+    {
+        return User::search($query)->paginate();
+    }
+
+    private function normalize(string $username)
     {
         return strtoupper($username);
     }
-
 }

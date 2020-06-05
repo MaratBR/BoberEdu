@@ -1,15 +1,17 @@
 <template>
-    <div class="not-found">
-        <div class="not-found__image" :style="{backgroundImage: 'url(\'' +image+ '\')'}" />
+    <section class="not-found card">
+        <div class="card-body d-flex align-items-center">
+            <div class="not-found__image" :style="{backgroundImage: 'url(\'' +image+ '\')'}" />
 
-        <div class="not-found__body">
-            <h2>This is beaver. {{ text }}. What else did you expect?</h2>
-            <slot>
-                <p>Page you were looking for is not found</p>
-                <p>Please check the URL and make sure that it's ok</p>
-            </slot>
+            <div class="not-found__body">
+                <h2>This is beaver. {{ text }}. What else did you expect?</h2>
+                <slot>
+                    <p>Page you were looking for is not found</p>
+                    <p>Please check the URL and make sure that it's ok</p>
+                </slot>
+            </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script lang="ts">

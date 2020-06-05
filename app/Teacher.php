@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 /**
  * @method static Teacher findOrFail(int $id)
@@ -14,9 +16,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null avatar_id
  * @property FileInfo|null avatar
  * @property User user
+ * @property string about
+ * @property string link_yt
+ * @property string link_vk
+ * @property string link_fb
+ * @property string link_web
+ * @property string link_twitter
+ * @property string link_linked_in
  */
 class Teacher extends Model
 {
+    use SoftDeletes, Searchable;
+
     protected $fillable = [
         'full_name', 'passport_num', 'user_id', 'avatar_id', 'about',
 
@@ -29,5 +40,10 @@ class Teacher extends Model
 
     function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'teaching_assignments');
     }
 }

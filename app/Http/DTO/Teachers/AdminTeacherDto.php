@@ -6,7 +6,7 @@ namespace App\Http\DTO\Teachers;
 
 use App\Http\DTO\Users\UserDto;
 
-class AdminTeacherDto extends TeacherDto
+class AdminTeacherDto extends TeacherExDto
 {
     public function getDocId()
     {

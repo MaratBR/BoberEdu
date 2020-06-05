@@ -9,5 +9,7 @@ use App\User;
 
 interface IUploadService
 {
-    function uploadAvatar(User $uploaded, $file): FileInfo;
+    function uploadAvatar(User $user, $file): FileInfo;
+
+    function uploadImage(User $user, string $type, $file): FileInfo;
 }

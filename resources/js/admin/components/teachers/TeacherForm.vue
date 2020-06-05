@@ -1,39 +1,31 @@
 <template>
     <admin-section :in-progress="inProgress">
         <template v-slot:header v-if="!notFound">
-            <ul class="breadcrumb">
-                <li><router-link :to="{name: 'admin__teachers'}">Teachers</router-link></li>
-                <li>{{ isNew ? 'new' : fullName }} <small v-if="!isNew">(ID: {{ id }})</small></li>
+            <ul class="breadcrumb breadcrumb-clear">
+                <li class="breadcrumb-item"><router-link :to="{name: 'admin__teachers'}">Teachers</router-link></li>
+                <li class="breadcrumb-item active">{{ isNew ? 'new' : fullName }} <small v-if="!isNew">(ID: {{ id }})</small></li>
             </ul>
         </template>
 
-        <not-found v-if="notFound">
-
-        </not-found>
+        <not-found v-if="notFound" />
         <template v-else>
-            <h3>User</h3>
-            <template v-if="username">
-                <div class="user-card">
-                    <div class="avatar s60">
-                        <img :src="'/storage/' + userAvatar" alt="" v-if="userAvatar">
-                    </div>
-                    <header>
-                        <b><router-link :to="{name: 'admin__users_edit', params: {id: actualUserId}}">{{ username }}</router-link></b>
-                        <small>(ID: {{ actualUserId }})</small>
-                    </header>
+            <div class="card mb-3" v-if="actualUserId">
+                <div class="card-body d-flex align-items-center">
+                    <img class="img-thumbnail rounded-circle s90 mr-3" :src="userAvatar" alt="">
+                    <h5 class="mt-0"><router-link :to="{name: 'admin__users_edit', params: {id: actualUserId}}">{{ username }}</router-link></h5>
                 </div>
-                <hr>
-            </template>
-            <error v-else error="User not found" />
+            </div>
+            <div v-else-if="!searching" class="p-5 d-flex justify-content-center card">
+                <button class="btn btn-primary" @click.prevent="searching = true">Select user</button>
+            </div>
+            <user-search selectable v-else @selected="userSelected" />
 
             <form @submit.prevent="submit" v-show="username">
-                <div class="control">
-                    <div class="avatar">
-                        <img :src="'/storage/' + avatar" alt="">
-                    </div>
+                <div class="form-group">
+                    <img class="img-thumbnail rounded-circle s180" :src="avatar" alt="">
                 </div>
 
-                <div class="control">
+                <div class="form-group">
                     <uploader
                         accept="image/*" default-text="Upload avatar" max="2000000" v-model="avatarFile"
                         @upload="onUpload" />
@@ -44,13 +36,25 @@
                 <input-text required label="Document (passport) ID" v-model="passNum" />
                 <input-textarea required label="About" v-model="about" />
 
+                <fieldset>
+                    <legend>Links</legend>
+
+
+                    <input-text inline label="LinkedIn link (optional)" v-model="linkLinkedIn" type="url" />
+                    <input-text inline label="YouTube link (optional)" v-model="linkYt" type="url" />
+                    <input-text inline label="Website link (optional)" v-model="linkWeb" type="url" />
+                    <input-text inline label="Facebook profile link (optional)" v-model="linkFb" type="url" />
+                    <input-text inline label="VK profile link (optional)" v-model="linkVk" type="url" />
+                    <input-text inline label="Twitter link (optional)" v-model="linkTwitter" type="url" />
+                </fieldset>
+
                 <template v-if="isNew">
                     <hr>
                     <input-textarea required label="Reason for creating new teacher" v-model="comment" />
                 </template>
 
-                <div class="control">
-                    <input type="submit" value="Save">
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary">
                 </div>
             </form>
         </template>
@@ -67,10 +71,11 @@
     import Uploader from "@common/components/utils/Uploader.vue";
     import Error from "@common/components/utils/Error.vue";
     import NotFound from "@common/components/pages/NotFound.vue";
+    import UserSearch from "@admin/components/users/UserSearch.vue";
 
     @Component({
         name: "TeacherForm",
-        components: {NotFound, Error, Uploader, InputTextarea, InputText, AdminSection}
+        components: {UserSearch, NotFound, Error, Uploader, InputTextarea, InputText, AdminSection}
     })
     export default class TeacherForm extends AdminStoreComponent {
         @Prop({ required: false }) id: number;
@@ -88,6 +93,14 @@
         uploadHint = null;
         oldId = null;
         notFound = false;
+        searching = false
+
+        linkYt = null
+        linkVk = null
+        linkFb = null
+        linkLinkedIn = null
+        linkTwitter = null
+        linkWeb = null
 
         username: string = null
         userAvatar: string = null
@@ -114,6 +127,14 @@
             this.inProgress = false
         }
 
+        userSelected(user: dto.UserDto) {
+            this.actualUserId = user.id
+            this.userAvatar = user.avatar
+            this.username = user.name
+            this.searching = false
+            console.log(user)
+        }
+
         update(teacher: dto.AdminTeacherDto) {
             this.passNum = teacher.docId
             this.fullName = teacher.fullName
@@ -123,6 +144,13 @@
             this.username = teacher.user.name
             this.userAvatar = teacher.user.avatar
             this.actualUserId = teacher.user.id
+
+            this.linkFb = teacher.links.fb
+            this.linkYt = teacher.links.yt
+            this.linkVk = teacher.links.vk
+            this.linkWeb = teacher.links.web
+            this.linkLinkedIn = teacher.links.linkedIn
+            this.linkTwitter = teacher.links.twitter
         }
 
         onUpload() {
@@ -204,7 +232,10 @@
                 this.load()
             } else {
                 this.isNew = true
-                this.loadUser()
+
+                if (typeof this.userId === 'number' && !isNaN(this.userId)) {
+                    this.loadUser()
+                }
             }
         }
     }

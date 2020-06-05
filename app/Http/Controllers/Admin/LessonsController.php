@@ -39,8 +39,8 @@ class LessonsController extends Controller
 
         AuditRecord::builder()
             ->request($request)
-            ->action(Audit::LESSON_UPDATE)
-            ->subject($lessonId)
+            ->action(Audit::UPDATE)
+            ->subject($lesson)
             ->build();
 
         return new LessonExDto($lesson);
@@ -52,8 +52,8 @@ class LessonsController extends Controller
 
         AuditRecord::builder()
             ->request($request)
-            ->action(Audit::LESSON_DELETE)
-            ->subject($lessonId)
+            ->action(Audit::DELETE)
+            ->subject($lesson)
             ->build();
 
         return $this->deleteShortcut($lesson->delete());

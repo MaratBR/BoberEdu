@@ -6,12 +6,14 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @method static User create(array $data)
  * @method static User findOrFail(int|null $id)
- * @property Role[] roles
+ *
+ * @property boolean is_admin
  * @property int id
  * @property Carbon created_at
  * @property string|null display_name
@@ -27,14 +29,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable, HasApiTokens, Searchable;
 
     protected $fillable = [
         'name', 'email', 'password', 'display_name', 'status','normalized_name', 'normalized_email', 'about',
-        'avatar_id'
-    ];
-    protected $appends = [
-        'roles_names'
+        'avatar_id', 'is_admin'
     ];
 
     /**
@@ -52,20 +51,17 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
+        'activated' => 'boolean'
     ];
 
-    public function getRolesNamesAttribute()
+    public function toSearchableArray()
     {
-        $names = [];
-        foreach ($this->roles as $role) {
-            $names[] = $role->name;
-        }
-        return $names;
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_roles');
+        return [
+            'name' => $this->name,
+            'display_name' => $this->display_name,
+            'email' => $this->email
+        ];
     }
 
     public function courses()
@@ -101,41 +97,19 @@ class User extends Authenticatable implements JWTSubject
 
     public function isAdmin()
     {
-        return $this->hasRole('admin');
+        return $this->is_admin;
     }
 
-    public function hasRole(string $name): bool
+    public static function boot()
     {
-        foreach ($this->roles as $role) {
-            if (!$role)
-                continue;
-            if ($role->name === $name) {
-                return true;
-            }
-        }
+        parent::boot();
 
-        return false;
-    }
+        $callback = function ($user) {
+            $user->normalized_email = strtoupper($user->email);
+            $user->normalized_name = strtoupper($user->name);
+        };
 
-    public function addRole($role)
-    {
-        if (is_string($role))
-            $role = Role::ensure($role);
-
-        if ($role)
-            $this->attachRole($role);
-    }
-
-    public function ensureRole($role)
-    {
-        if (is_string($role))
-            $role = Role::ensure($role);
-
-        $this->attachRole($role);
-    }
-
-    private function attachRole(Role $role)
-    {
-        $this->roles()->attach($role);
+        self::updating($callback);
+        self::creating($callback);
     }
 }

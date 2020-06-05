@@ -4,6 +4,7 @@ namespace App\Http\Requests\Users;
 
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\IPayloadRequest;
+use App\Utils\Convert;
 
 class EditUserRequest extends AuthenticatedRequest implements IPayloadRequest
 {
@@ -17,14 +18,15 @@ class EditUserRequest extends AuthenticatedRequest implements IPayloadRequest
     {
         return [
             'name' => 'string',
-            'about' => 'string',
-            'status' => 'string',
-            'sex' => 'in:u,m,f'
+            'about' => 'string|nullable',
+            'status' => 'string|nullable',
+            'email' => 'string',
+            'displayName' => 'string|nullable'
         ];
     }
 
     function getPayload(): array
     {
-        return $this->validated();
+        return Convert::toSnakeCase($this->validated());
     }
 }

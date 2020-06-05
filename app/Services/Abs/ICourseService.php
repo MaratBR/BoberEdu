@@ -9,9 +9,8 @@ use App\Course;
 use App\Services\Implementation\ICourseUnitsPayload;
 use App\Unit;
 use App\User;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Lanin\Laravel\ApiExceptions\ForbiddenApiException;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ICourseService
 {
@@ -23,7 +22,9 @@ interface ICourseService
      * @return Course
      * @throws ModelNotFoundException if course not found
      */
-    function get(int $id, bool $extra = false): Course;
+    function get(int $id): Course;
+
+    function getAvailable(int $id, bool $extra = false): Course;
 
     /**
      * Returns a pagination with given size. Page number will be determined based
@@ -94,4 +95,8 @@ interface ICourseService
     function getRate(User $user, int $courseId): ?float;
 
     function getUnit(int $unitId): Unit;
+
+    function search(string $query, ?int $categoryId): LengthAwarePaginator;
+
+    function getBy(array $params): Course;
 }

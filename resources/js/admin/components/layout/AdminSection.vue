@@ -1,13 +1,32 @@
 <template>
-    <section class="a-section" :class="{progress: inProgress}">
-        <div class="a-section__header" v-if="$slots.header">
-            <slot name="header">
-                <h3>{{ header }}</h3>
-            </slot>
+    <section class="a-section" :class="{hidden}">
+        <div class="a-section__header" v-if="!notFound && ($slots.header || header)">
+            <div class="a-section__header__body">
+                <slot name="header" v-if="!inProgress">
+                    <ul class="breadcrumb breadcrumb-clear">
+                        <li class="breadcrumb-item active">{{ header }}</li>
+                    </ul>
+                </slot>
+                <div class="pulse s1" v-else></div>
+            </div>
+
+            <div class="chevron" @click.prevent="hidden = !hidden">
+                <i class="fas fa-chevron-up"></i>
+            </div>
         </div>
 
-        <div class="a-section__body">
-            <slot></slot>
+        <div class="a-section__body-wrapper">
+            <div class="a-section__body">
+                <slot v-if="!inProgress"></slot>
+                <not-found v-else-if="notFound" />
+                <div v-else>
+                    <div class="pulse s1" v-for="_ in 6"></div>
+
+                    <br><br><br>
+
+                    <div class="pulse pulse--button"></div>
+                </div>
+            </div>
         </div>
     </section>
 </template>
@@ -15,12 +34,17 @@
 <script lang="ts">
     import {Component, Prop} from "vue-property-decorator";
     import {Vue} from "@common";
-
-    @Component
+    import NotFound from "@common/components/pages/NotFound.vue";
+    @Component({
+        components: {NotFound}
+    })
     export default class AdminSection extends Vue {
         @Prop({ default: '' }) header: string;
         @Prop({ default: false }) inProgress: boolean;
         @Prop({ default: false }) notFound: boolean;
+        @Prop({ default: true }) spoiler: boolean;
+
+        hidden = false;
     }
 </script>
 
@@ -32,30 +56,23 @@
         border-radius: 4px;
         position: relative;
 
-        &.progress::after {
-            content: '';
-            background: repeating-linear-gradient(135deg, rgba(white, 0.1) 0, rgba(white, 0.1) 19px, rgba(blue, 0.2) 20px, rgba(blue, 0.2) 40px) fixed;
-            display: block;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
+        &.hidden &__body-wrapper {
+            max-height: 0;
+        }
 
-            @keyframes bg {
-                0% {
-                    background-position-x: 0;
-                }
-                100% {
-                    background-position-x: 40px * 1.41421356;
-                }
-            }
-
-            animation: bg 1s infinite linear;
+        &.hidden .chevron {
+            max-height: 0;
+            transform: rotate(180deg);
         }
 
         &__body {
             padding: 15px;
+        }
+
+        &__body-wrapper {
+            max-height: 10000px;
+            transition: .3s;
+            overflow: hidden;
         }
 
         &__header {
@@ -63,6 +80,27 @@
             font-size: 1.2em;
             border-bottom: 1px solid #eee;
             padding: 10px;
+            display: flex;
+
+            &__body {
+                flex-grow: 1;
+            }
+
+            & > .chevron {
+                align-self: center;
+                margin-right: 15px;
+                height: 35px;
+                width: 35px;
+                border-radius: 1000px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+
+                &:hover {
+                    background: rgba(black, 0.05);
+                }
+            }
         }
     }
 </style>

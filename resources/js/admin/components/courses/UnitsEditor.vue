@@ -3,12 +3,48 @@
         <error v-if="error" :error="error" />
         <form @submit.prevent="onSubmit" class="units-editor">
             <draggable v-model="units" handle=".handle" @end="onDragEnd">
-                <transition-group>
-                    <unit-item :key="u.unit.id" :unit="u.unit" :deleted="u.deleted" v-for="u in units"
-                               @delete="u.deleted = true" @restore="u.deleted = false" :changed="u.changed"
-                               @change="updateChanged(u)" :course-id="course.id" />
-                </transition-group>
+                <div class="unit-item" :class="{changed: u.changed}" v-for="(u, index) in units" :key="index">
+                    <div class="unit" v-if="!u.deleted">
+                        <input required type="text" v-model="u.name" class="form-control unit__name"
+                               placeholder="Unit name" @input="updateChanged(u)" />
+
+                        <div class="unit__act">
+                            <button class="btn" @click.prevent="u.deleted = true"><i class="fas fa-trash"></i></button>
+                            <button class="btn" @click.prevent="u.showLessons = !u.showLessons"><i class="fas fa-list"></i></button>
+                        </div>
+
+                        <div class="handle">
+                            <i></i><i></i><i></i><i></i><i></i>
+                        </div>
+                        <textarea required @input="updateChanged(u)" class="unit__about input" v-model="u.about" />
+
+                        <div class="unit__lessons" v-if="u.showLessons">
+                            <ul>
+                                <li v-for="l in u.lessons" :key="l.id">
+                                    <router-link :to="{name: 'admin__lessons_edit', params: {id: l.id}}">{{ l.title }}</router-link>
+                                </li>
+                            </ul>
+
+                            <div class="form-group">
+                                <router-link class="button" v-if="u.lessons.length === 0" :to="{name: 'admin__courses_edit_units', params: {id: course.id}}"><i class="fas fa-edit"></i> order</router-link>
+                                <router-link class="button" :to="{name: 'admin__lessons_new', params: {id: u.id}}"><i class="fas fa-plus"></i> add</router-link>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="deleted" v-else>
+                        <i class="fas fa-info"></i>
+                        <span>This unit has been deleted</span>
+                        <button class="btn" @click.prevent="u.deleted = false">Restore</button>
+                    </div>
+                </div>
             </draggable>
+
+            <div class="form-group">
+                <button class="btn" @click.prevent="addUnit">
+                    <i class="fas fa-plus"></i>
+                    add
+                </button>
+            </div>
 
             <input type="submit" value="Update" :disabled="!changed">
         </form>
@@ -17,7 +53,6 @@
 
 <script lang="ts">
     import {Vue, Component, Prop, dto, Watch, requests} from "@common";
-    import UnitItem from "@admin/components/courses/UnitItem.vue";
     import draggable from 'vuedraggable'
     import AdminSection from "@admin/components/layout/AdminSection.vue";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
@@ -25,15 +60,20 @@
     import {getError} from "@common/utils";
 
     type Unit = {
-        unit: dto.UnitExDto,
+        id?: number
+        name: string,
+        about: string,
+        preview: boolean,
+        lessons: dto.LessonDto[]
         deleted: boolean,
         changed: boolean,
-        new: boolean
+        new: boolean,
+        showLessons: boolean
     }
 
     @Component({
         name: "UnitsEditor",
-        components: {Error, AdminSection, UnitItem, draggable}
+        components: {Error, AdminSection, draggable}
     })
     export default class UnitsEditor extends AdminStoreComponent {
         units: Unit[] = null
@@ -46,6 +86,19 @@
             return this.units.some(u => u.changed)
         }
 
+        addUnit() {
+            this.units.push({
+                new: true,
+                name: '',
+                about: '',
+                preview: false,
+                changed: true,
+                lessons: [],
+                deleted: false,
+                showLessons: false
+            })
+        }
+
         created() {
             this.onCourseChanged()
         }
@@ -53,16 +106,15 @@
         @Watch('course')
         onCourseChanged() {
             this.units = this.course.units.map(unit => ({
-                unit: {
-                    name: unit.name,
-                    id: unit.id,
-                    lessons: unit.lessons,
-                    about: unit.about,
-                    preview: unit.preview
-                },
+                name: unit.name,
+                id: unit.id,
+                lessons: unit.lessons,
+                about: unit.about,
+                preview: unit.preview,
                 deleted: false,
                 changed: false,
-                new: false
+                new: false,
+                showLessons: false
             }))
         }
 
@@ -74,12 +126,12 @@
             if (u.new)
                 return true
             let pos = this.units.indexOf(u)
-            let original = this.course.units.find(({id}) => id == u.unit.id)
+            let original = this.course.units.find(({id}) => id == u.id)
             let oldPos = this.course.units.indexOf(original)
             if (pos !== oldPos)
                 return true
-            return original.name !== u.unit.name || original.preview !== u.unit.preview
-                || original.about !== u.unit.about;
+            return original.name !== u.name || original.preview !== u.preview
+                || original.about !== u.about;
         }
 
         onDragEnd(e) {
@@ -95,22 +147,22 @@
         }
 
         getRequest(): requests.UpdateCourseUnits {
-            let updated = this.units.filter(u => u.changed && !u.new).map(({unit}) => ({
-                id: unit.id,
-                name: unit.name,
-                about: unit.about
+            let updated = this.units.filter(u => u.changed && !u.new).map(({id, name, about}) => ({
+                id,
+                name,
+                about
             }))
-            let created: requests.NewUnitPayload[] = this.units.filter(u => u.new).map(({unit}) => ({
-                name: unit.name,
-                about: unit.about,
-                preview: unit.preview
+            let created: requests.NewUnitPayload[] = this.units.filter(u => u.new).map(({preview, name, about}) => ({
+                name,
+                about,
+                preview
             }))
             let deleted: number[] = this.course.units.filter(
-                u => !this.units.find(o => !o.deleted && o.unit.id == u.id)
+                u => !this.units.find(o => !o.deleted && !o.new && o.id == u.id)
             ).map(u => u.id)
 
             let ii = 0;
-            let order: string[] = this.units.filter(u => !u.deleted).map(u => u.new ? `n${ii++}` : u.unit.id+'')
+            let order: string[] = this.units.filter(u => !u.deleted).map(u => u.new ? `n${ii++}` : u.id+'')
 
             return {
                 new: created,
@@ -122,11 +174,10 @@
 
         async onSubmit() {
             let r = this.getRequest()
-
             this.inProgress = true
             this.error = null
             try {
-                await this.admin.courses.updateUnits({
+                await this.admin.updateCourseUnits({
                     id: this.course.id,
                     data: r
                 })
@@ -141,5 +192,94 @@
 </script>
 
 <style scoped lang="scss">
+    .unit-item {
+        border-bottom: 1px solid #aaa;
+        border-left: 2px solid transparent;
+        margin-bottom: 10px;
+
+        &.sortable-chosen > .unit {
+            background: #ededef;
+        }
+
+        &.changed {
+            border-left-color: #00a6f9;
+        }
+    }
+
+    .unit {
+        display: grid;
+        grid-gap: 5px;
+        grid-template: auto auto 1fr / 25px 1fr 60px;
+        padding: 10px;
+
+        button {
+            border: none;
+            background: none;
+            color: #555;
+            outline: none;
+
+            &:disabled {
+                background: none;
+                opacity: 0.5;
+            }
+
+            &:hover {
+                background: rgba(black, 0.05);
+                color: black;
+            }
+        }
+
+        .deleted {
+            margin: 15px 30px;
+            & > i {
+                color: #00a6f9;
+            }
+        }
+
+
+        & > .handle {
+            grid-area: 1 / 1 / 3 / 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            & > i {
+                display: block;
+                height: 2px;
+                width: 20px;
+                background: gray;
+                &:not(:last-child) {
+                    margin-bottom: 5px;
+                }
+            }
+        }
+
+        &__act {
+            grid-area: 1 / 3 / 3 / 4;
+            display: flex;
+            flex-direction: column;
+            justify-content: stretch;
+
+            & > * {
+                flex-grow: 1;
+            }
+        }
+
+        &__about {
+            grid-area: 2 / 2 / 3 / 3;
+        }
+        &__name {
+            grid-area: 1 / 2 / 2 / 3;
+        }
+        &__lessons {
+            grid-area: 3 / 2 / 4 / 4;
+        }
+
+        .fa-trash {
+            color: red;
+        }
+    }
+
 
 </style>

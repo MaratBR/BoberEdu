@@ -26,12 +26,12 @@ Route::group([
 Route::group([
     'prefix' => 'users'
 ], function () {
+    Route::patch('profile', 'UserController@updateProfile');
     Route::put('profile/status', 'UserController@setStatus');
     Route::get('profile/settings', 'UserController@settings');
     Route::put('profile/avatar', 'UserController@uploadAvatar');
     Route::get('username-taken/{username}', 'UserController@checkUsername');
     Route::get('{id}', 'UserController@get');
-    Route::patch('{id}', 'UserController@update');
     Route::get('{id}/profile', 'UserController@profile');
 });
 
@@ -102,18 +102,40 @@ Route::group([
 ], function () {
 
     Route::group([
+        'prefix' => 'audit'
+    ], function () {
+        Route::get('all', 'Admin\AuditController@paginate');
+    });
+
+    Route::group([
         'prefix' => 'users'
     ], function () {
+        Route::get('', 'Admin\UsersController@paginate');
+        Route::get('search', 'Admin\UsersController@search');
         Route::get('{id}', 'Admin\UsersController@get');
+        Route::put('{id}', 'Admin\UsersController@update');
+        Route::put('{id}/avatar', 'Admin\UsersController@uploadAvatar');
+        Route::put('{id}/admin', 'Admin\UsersController@promote');
+        Route::post('', 'Admin\UsersController@create');
+    });
+
+    Route::group([
+        'prefix' => 'categories'
+    ], function () {
+        Route::put('{id}/image', 'Admin\CategoriesController@uploadImage');
+        Route::post('', 'Admin\CategoriesController@create');
+        Route::put('{id}', 'Admin\CategoriesController@update');
     });
 
     Route::group([
         'prefix' => 'courses'
     ], function () {
+        Route::get('search', 'Admin\CoursesController@search');
         Route::post('', 'Admin\CoursesController@create');
         Route::put('{id}', 'Admin\CoursesController@update');
+        Route::put('{id}/units', 'Admin\CoursesController@updateUnits');
+        Route::put('{id}/image', 'Admin\CoursesController@uploadImage');
         Route::delete('{id}', 'Admin\CoursesController@delete');
-
         Route::get('units/{id}', 'Admin\CoursesController@unit');
     });
 
@@ -131,6 +153,7 @@ Route::group([
         'prefix' => 'teachers'
     ], function () {
         Route::get('', 'Admin\TeachersController@paginate');
+        Route::get('search', 'Admin\TeachersController@search');
         Route::post('', 'Admin\TeachersController@create');
         Route::get('{id}', 'Admin\TeachersController@get');
         Route::put('{id}', 'Admin\TeachersController@update');
@@ -139,6 +162,17 @@ Route::group([
 
         Route::post('{id}/course/{courseId}', 'Admin\LessonsController@assign');
         Route::delete('{id}/course/{courseId}', 'Admin\LessonsController@revoke');
+
+
+    });
+
+    Route::group([
+        'prefix' => 'assignments'
+    ], function () {
+        Route::delete('{teacherId}/{courseId}/assignment', 'Admin\TeacherAssignmentController@revoke');
+        Route::put('{teacherId}/{courseId}/assignment', 'Admin\TeacherAssignmentController@assign');
+
+
     });
 });
 

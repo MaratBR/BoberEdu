@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Courses;
 
 
 use App\Course;
+use App\Http\DTO\DtoBase;
 use App\Http\DTO\Teachers\TeacherDto;
 
 class CourseDto extends DtoBase
@@ -57,6 +58,11 @@ class CourseDto extends DtoBase
         return $this->course->trial_length;
     }
 
+    public function getImage()
+    {
+        return $this->course->image_id === null ? null : $this->course->image->getRootUrl();
+    }
+
     public function getRequirements(): ?array
     {
         return [
@@ -68,8 +74,8 @@ class CourseDto extends DtoBase
         ];
     }
 
-    public function getTeachers()
+    public function getSummary()
     {
-        return collect($this->course->teachers)->mapInto(TeacherDto::class);
+        return $this->course->summary;
     }
 };

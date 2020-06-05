@@ -1,20 +1,27 @@
 
 export namespace dto {
+    //#region Categories
+
     export type CategoryDto = {
         id: number,
-        about: string,
-        name: string,
-        bgImage: string | null,
-        color: string
+        name: string
     };
 
     export type CategoryExDto = CategoryDto & {
-        popular: CourseDto[]
+        about: string,
+        bgImage: string | null,
+        color: string,
+        coursesCount: number,
+        studentsCount: number
     };
 
     export type CategoriesDto = {
         categories: CategoryDto[]
     };
+
+    //#endregion
+
+    //#region Courses
 
     type CourseRequirements = {
         signUp: {
@@ -33,16 +40,15 @@ export namespace dto {
         available: boolean,
         about: string,
         trialDays: number,
+        summary: string,
+        image: string,
         requirements: CourseRequirements,
-        teachers: TeacherDto[]
     };
 
     export type CourseExDto = CourseDto & {
         units: UnitExDto[],
-        category: {
-            id: number,
-            name: string
-        }
+        teachers: TeacherDto[],
+        category: dto.CategoryDto
     };
 
     export type CoursePageItemDto = CourseDto & {
@@ -51,6 +57,10 @@ export namespace dto {
             lc: number
         }
     };
+
+    //#endregion
+
+    //#region Enrollments
 
     export type EnrollmentDto = {
         courseId: number,
@@ -67,6 +77,10 @@ export namespace dto {
         trialEnd: string
     };
 
+    //#endregion
+
+    //#region Lessons
+
     export type LessonDto = {
         title: string
         id: number,
@@ -81,6 +95,10 @@ export namespace dto {
         unitName: string
     };
 
+    //#endregion
+
+    //#region Utils
+
     export type PaginationDto<T> = {
         data: T[],
         meta: {
@@ -92,6 +110,8 @@ export namespace dto {
             prev: string | null
         }
     };
+
+    //#endregion
 
     export type PaymentDto = {
         success: boolean,
@@ -106,12 +126,39 @@ export namespace dto {
         until: string | null
     };
 
+    //#region Teachers
+
     export type TeacherDto = {
         id: number,
         fullName: string,
         about: string,
         avatar: string | null
     };
+
+    export type TeacherExDto = TeacherDto & {
+        about: string,
+        links: {
+            yt: string | null,
+            vk: string | null,
+            fb: string | null,
+            twitter: string | null,
+            linkedIn: string | null,
+            web: string | null
+        }
+    }
+
+    export type TeacherProfileDto = TeacherExDto & {
+        courses: dto.CoursePageItemDto[]
+    }
+
+    export type AdminTeacherDto = TeacherExDto & {
+        docId: string,
+        user: UserDto
+    }
+
+    //#endregion
+
+    //#region Units
 
     export type UnitDto = {
         id: number,
@@ -129,16 +176,19 @@ export namespace dto {
         about: string
     };
 
+    //#endregion
+
+    //#region Users
 
     export type UserDto = {
         id: number,
         joinedAt: string,
         name: string,
-        roles: string[],
+        admin: boolean,
         status: string,
         about: string,
         avatar: string,
-        displayName?: string
+        displayName: string | null
     };
 
     export type UserProfileDto = {
@@ -158,10 +208,12 @@ export namespace dto {
         id: number,
         about: string,
         displayName: string,
-        email: string,
         name: string,
-        avatar: string
+        avatar: string,
+        email: string
     };
+
+    //#endregion
 
     export type CourseUnitsDto = {
         courseId: number,
@@ -169,13 +221,9 @@ export namespace dto {
         units: dto.UnitExDto[]
     }
 
-    export type AdminTeacherDto = TeacherDto & {
-        docId: string,
-        user: UserDto
-    }
-
     export type AdminUserDto = UserDto & {
-        teacher: AdminTeacherDto
+        teacher: AdminTeacherDto,
+        email: string,
     }
 }
 
@@ -284,6 +332,11 @@ export namespace requests {
         passNum?: string,
         fullName?: string,
         about?: string
+    }
+
+    export type PromoteRequest = {
+        admin: boolean,
+        reason: string
     }
 }
 
