@@ -23,6 +23,8 @@ class Audit
     public const ASSIGN_TEACHER = 20;
     public const REVOKE_TEACHER = 21;
 
+    public const UPDATE_COURSE_UNITS = 30;
+
     public static function subjectId($subject) {
         if ($subject instanceof Model) {
             return strval($subject->getKey());

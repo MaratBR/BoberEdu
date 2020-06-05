@@ -70,7 +70,7 @@
         loading = true;
         categories: dto.CategoryDto[] = null
         error = null;
-        category: dto.CategoryDto = null;
+        category: dto.CategoryExDto = null;
         name = null;
         about = null;
         color = null;

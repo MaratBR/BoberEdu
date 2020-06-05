@@ -35,6 +35,7 @@
     "marked": "^0.8.0",
     "secure-ls": "^1.2.6",
     "tui-editor": "^1.4.10",
+    "v-markdown-editor": "^1.2.5",
     "v-money": "^0.8.1",
     "vee-validate": "^3.2.5",
     "vue-currency-input": "^1.18.3",

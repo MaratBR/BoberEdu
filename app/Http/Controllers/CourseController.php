@@ -107,19 +107,6 @@ class CourseController extends Controller
         return $this->noContent();
     }
 
-    /**
-     * Updates course units
-     *
-     * @param UpdateCourseUnitsRequest $request
-     * @param int $courseId
-     * @return ICourseUnitsUpdateResponse
-     */
-    public function updateUnits(UpdateCourseUnitsRequest $request, int $courseId)
-    {
-        $course = $this->courses->get($courseId);
-        return $this->courses->updateCourseUnits($course, $request);
-    }
-
     public function updateLessonsOrder(OrdnungMussSeinRequest $request, int $courseId)
     {
         $this->courses->putLessonsOrder($courseId, $request->getPayload());

@@ -10,8 +10,7 @@
 
                         <div class="unit__act">
                             <button @click.prevent="u.deleted = true"><i class="fa fa-trash"></i></button>
-                            <button :disabled="u.lessons.length === 0"
-                                    @click.prevent="u.showLessons = !u.showLessons"><i class="fa fa-list"></i></button>
+                            <button @click.prevent="u.showLessons = !u.showLessons"><i class="fa fa-list"></i></button>
                         </div>
 
                         <div class="handle">
@@ -27,7 +26,7 @@
                             </ul>
 
                             <div class="control">
-                                <router-link class="button" :to="{name: 'admin__courses_edit_units', params: {id: course.id}}"><i class="fa fa-edit"></i> order</router-link>
+                                <router-link class="button" v-if="u.lessons.length === 0" :to="{name: 'admin__courses_edit_units', params: {id: course.id}}"><i class="fa fa-edit"></i> order</router-link>
                                 <router-link class="button" :to="{name: 'admin__lessons_new', params: {id: u.id}}"><i class="fa fa-plus"></i> add</router-link>
                             </div>
                         </div>
@@ -175,11 +174,9 @@
 
         async onSubmit() {
             let r = this.getRequest()
-            debugger
             this.inProgress = true
             this.error = null
             try {
-                debugger
                 await this.admin.updateCourseUnits({
                     id: this.course.id,
                     data: r

@@ -12,10 +12,13 @@ use App\Http\DTO\Units\UnitDto;
 use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
+use App\Http\Requests\Courses\UpdateCourseUnitsRequest;
 use App\Http\Requests\SearchRequest;
 use App\Services\Abs\ICourseService;
+use App\Services\Abs\ICourseUnitsUpdateResponse;
 use App\Services\Abs\IUploadService;
 use App\Utils\Audit\Audit;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CoursesController extends Controller
@@ -88,5 +91,23 @@ class CoursesController extends Controller
         $course->update([ 'image_id' => $fileInfo->id ]);
 
         return new UploadedDto($fileInfo);
+    }
+
+    /**
+     * Updates course units
+     *
+     * @param UpdateCourseUnitsRequest $request
+     * @param int $courseId
+     * @return JsonResponse
+     */
+    public function updateUnits(UpdateCourseUnitsRequest $request, int $courseId)
+    {
+        $course = $this->repo->get($courseId);
+        $this->repo->updateCourseUnits($course, $request);
+
+        AuditRecord::make($request->user(), $request, Audit::UPDATE_COURSE_UNITS)
+            ->subject($course)->build();
+
+        return $this->done();
     }
 }
