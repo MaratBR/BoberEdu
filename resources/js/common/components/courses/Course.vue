@@ -7,86 +7,128 @@
         </p>
 
         <template v-else>
-            <section class="course-view__hero-wrp">
-                <div class="course-view__hero container hero--phead">
-
-
-                    <div class="course-view__pic">
-                        <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
-                    </div>
-
-                    <div class="course-view__about">
-                        <div class="course-about">
-                            <div class="course-about__cat">
-                                <router-link :to="{name: 'category', params: {id: course.category.id}}"><i class="fas fa-chevron-left"></i> {{ course.category.name }}</router-link>
-                            </div>
-                            <span class="course-about__name">{{ course.name }}</span><br>
-                            <span class="course-about__cap">by TODO Team | {{ unitsCount }} units | {{ lessonsCount }} lessons</span><br>
-                            <star-rating :rating="course.rating || undefined" :star-size="hasAccess ? 45 : 25"
-                                         :read-only="!this.hasAccess" :fixed-points="1" :max-rating="5"
-                                         :round-start-rating="false" @rating-selected="rateCourse($event)" />
-                            <span v-if="!course.rating">No one rated this course yet, you can be first</span>
-                            <span v-else>{{ course.ratingVotes }} people voted</span>
+            <section class="container-fluid">
+                <div class="container">
+                    <div class="row course-view">
+                        <div class="col-lg-4 d-flex justify-content-center p-4">
+                            <img :src="course.image" class="img-thumbnail s270">
                         </div>
 
-                        <div class="course-view__actions">
-                            <button @click="enroll(true)" v-if="!enrolled" class="btn btn-primary" :disabled="joining">
-                                {{ joining ? '...' : 'Join' }}
-                            </button>
-                            <button @click="enroll(false)" v-if="enrolled" class="btn btn-primary" :disabled="joining">
-                                {{ joining ? '...' : 'Leave' }}
-                            </button>
+                        <div class="course-view__about col-lg-4">
+                            <div class="course-about m-3">
+                                <div class="course-about__cat">
+                                    <router-link :to="{name: 'category', params: {id: course.category.id}}"><i class="fas fa-chevron-left"></i> {{ course.category.name }}</router-link>
+                                </div>
+                                <span class="course-about__name">{{ course.name }}</span><br>
+                                <span class="course-about__cap">by TODO Team | {{ unitsCount }} units | {{ lessonsCount }} lessons</span><br>
+                                <star-rating :rating="course.rating || undefined" :star-size="hasAccess ? 45 : 25"
+                                             :read-only="!this.hasAccess" :fixed-points="1" :max-rating="5"
+                                             :round-start-rating="false" @rating-selected="rateCourse($event)" />
+                                <span v-if="!course.rating">No one rated this course yet, you can be first</span>
+                                <span v-else>{{ course.ratingVotes }} people voted</span>
+                            </div>
+                        </div>
 
-                            <button @click="buy()" v-if="!hasAccess" class="btn btn-primary">Buy</button>
+                        <div class="course-view__buy col-lg-4 d-flex justify-content-center align-items-center">
+                            <div class="course-buy">
+                                <template v-if="hasAccess">
+                                    <p>
+                                        You purchased this course. You're golden.<br>
+                                        Here's your winner dance:
+                                    </p>
+                                    <div class="d-flex justify-content-center">
+                                        <img src="https://media.giphy.com/media/XbVH2Ei6TGr2rTNmYx/giphy.gif" class="s180" alt="">
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="d-flex flex-column">
+                                        <p v-if="!enrolled">
+                                            Purchase this course and have full access to everything it has to offer!
+                                        </p>
+                                        <p v-else-if="course.trialDays > 0">
+                                            <template v-if="isTrialExpired">
+                                                Your free trial period has expired, please purchase the course
+                                            </template>
+                                            <template v-else>
+                                                You've joined free trial period
+                                            </template>
+                                        </p>
+                                        <p v-else>
+                                            You haven't completed the payment!
+                                        </p>
+
+
+
+                                        <template v-if="course.trialDays > 0 && !isTrialExpired">
+                                            <button @click="enroll(true)" v-if="!enrolled"
+                                                    class="btn btn-outline-secondary" :disabled="joining">
+                                                {{ joining ? '...' : 'Join free trial period' }}
+                                            </button>
+                                            <button @click="enroll(false)" v-if="enrolled"
+                                                    class="btn btn-outline-secondary btn-sm" :disabled="joining">
+                                                {{ joining ? '...' : 'Leave trial period' }}
+                                            </button>
+                                            <small class="text-muted m-1 align-self-center">or</small>
+                                        </template>
+
+                                        <button @click="buy()" v-if="!hasAccess" class="btn btn-outline-success">
+                                            {{course.trialDays === 0 && enrolled ? 'Complete the payment process' : 'Purchase the course'}}
+                                        </button>
+                                        <template v-if="isTrialExpired || course.trialDays === 0 && enrolled">
+                                            <small class="text-muted m-1 align-self-center">or</small>
+                                            <button @click="enroll(false)" class="btn btn-light text-muted btn-sm d-inline-block">Leave the course</button>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <div class="course-body container">
-                <div class="course-body__about">
-                    <div class="notification notification--danger" v-if="isTrialExpired && !hasAccess">
-                        Please note that your trial period is over, please purchase to have access to course again.
-                    </div>
-                    <markdown-viewer :value="course.about" />
+                <div class="row">
+                    <div class="col-lg-8 col-md-12">
+                        <markdown-viewer :value="course.about" />
 
-                    <section class="course-body__units">
-                        <div class="units-list">
-                            <div v-for="unit in course.units" :key="unit.id" class="unit-item" :class="{'active': isUnitOpen(unit.id)}">
-                                <div class="unit-item__header" @click="toggleUnit(unit.id)">
-                                    <span class="unit-item__name">{{ unit.name }}</span>
-                                    <span class="unit-item__about">{{ unit.lessons.length }} lessons</span>
-                                    <span class="unit-item__preview" v-if="unit.preview">FREE PREVIEW</span>
+                        <section class="course-body__units">
+                            <div class="units-list">
+                                <div v-for="unit in course.units" :key="unit.id" class="unit-item" :class="{'active': isUnitOpen(unit.id)}">
+                                    <div class="unit-item__header" @click="toggleUnit(unit.id)">
+                                        <span class="unit-item__name">{{ unit.name }}</span>
+                                        <span class="unit-item__about">{{ unit.lessons.length }} lessons</span>
+                                        <span class="unit-item__preview" v-if="unit.preview">FREE PREVIEW</span>
+                                    </div>
+
+                                    <ul class="unit-item__lessons">
+                                        <li class="lesson-item" v-for="lesson in unit.lessons" :key="lesson.id">
+                                            <router-link :to="{name: 'lesson', params: {v: course.id + '_' + lesson.id}}"
+                                                         class="lesson-item__name">{{ lesson.title }}</router-link>
+                                        </li>
+                                    </ul>
                                 </div>
-
-                                <ul class="unit-item__lessons">
-                                    <li class="lesson-item" v-for="lesson in unit.lessons" :key="lesson.id">
-                                        <router-link :to="{name: 'lesson', params: {v: course.id + '_' + lesson.id}}"
-                                                     class="lesson-item__name">{{ lesson.title }}</router-link>
-                                    </li>
-                                </ul>
                             </div>
-                        </div>
-                    </section>
+                        </section>
 
-                    <section class="course-body__teachers">
-                        <h2>Teachers</h2>
-                        <div class="d--flex">
-                            <router-link v-for="t in course.teachers" :key="t.id" :to="{name: 'teacher', params: {id: t.id}}">
-                                <div class="teacher">
-                                    <img class="img-thumbnail rounded-circle s120" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                                    <span>{{ t.fullName }}</span>
-                                </div>
-                            </router-link>
+                        <section class="course-body__teachers">
+                            <h2>Teachers</h2>
+                            <div class="d--flex">
+                                <router-link v-for="t in course.teachers" :key="t.id" :to="{name: 'teacher', params: {id: t.id}}">
+                                    <div class="teacher">
+                                        <img class="img-thumbnail rounded-circle s120" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
+                                        <span>{{ t.fullName }}</span>
+                                    </div>
+                                </router-link>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="opinion" v-for="i in 2" :key="i">
+                            <cite class="opinion__text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi dignissimos doloremque eveniet exercitationem iure iusto tenetur voluptas? Facere in labore natus, neque omnis optio possimus repellat reprehenderit tempora ullam.
+                            </cite>
+                            <div class="opinion__author">-- Lorem</div>
                         </div>
-                    </section>
-                </div>
-                <div class="course-body__opinions">
-                    <div class="opinion" v-for="i in 2" :key="i">
-                        <cite class="opinion__text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi dignissimos doloremque eveniet exercitationem iure iusto tenetur voluptas? Facere in labore natus, neque omnis optio possimus repellat reprehenderit tempora ullam.
-                        </cite>
-                        <div class="opinion__author">-- Lorem</div>
                     </div>
                 </div>
             </div>
@@ -112,6 +154,7 @@
         joining: boolean = false;
         err404: boolean = false;
         isTrialExpired: boolean = false;
+        inProgress: boolean = true
 
         get unitsCount() { return this.course.units.length }
 
@@ -130,6 +173,7 @@
         }
 
         async init() {
+            this.inProgress = true
             this.courseId = +this.$route.params.id || null;
             try {
                 this.course = await this.store.courses.get(this.courseId);
@@ -138,6 +182,8 @@
                 }
             } catch (e) {
                 this.err404 = true;
+            } finally {
+                this.inProgress = false
             }
         }
 
@@ -208,17 +254,6 @@
     @import "../../../../sass/config";
 
     .course-view {
-        &__hero {
-            @media ($ss-breakpoint-mobile) {
-                display: block;
-            }
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-
-            &-wrp {
-                padding-bottom: 20px    ;
-            }
-        }
 
         &__about {
             display: flex;
@@ -226,24 +261,27 @@
             justify-content: center;
         }
 
-        &__l {
-            display: flex;
-            align-items: flex-end;
-        }
-
-        &__r {
-
-        }
-
         &__actions {
             display: flex;
-            justify-content: stretch;
+            flex-direction: column;
+            align-items: stretch;
 
             & > button {
                 margin: 5px;
                 flex-grow: 1;
             }
         }
+
+        &__buy {
+            padding: 10px;
+        }
+    }
+
+    .course-buy {
+        background: #fafafa;
+        border: 1px solid #f7f7f7;
+        box-shadow: 0 4px 10px -2px #eee;
+        padding: 10px;
     }
 
     .course-about {
@@ -260,9 +298,6 @@
     }
 
     .course-body {
-        display: grid;
-        grid-template-columns: 3fr 1fr;
-
         &__teachers {
             a {
                 text-decoration: none;
