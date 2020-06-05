@@ -73,7 +73,7 @@
         newStatus: string = null;
 
         async init() {
-            this.profile = await this.store.users.profile(+this.$route.params.id)
+            this.profile = await this.store.userProfile(+this.$route.params.id)
         }
 
         created() {
@@ -94,7 +94,7 @@
             let status = this.newStatus.trim();
             if (status !== this.profile.user.status) {
                 this.profile.user.status = status;
-                await this.store.users.setStatus(status);
+                await this.store.setUserStatus(status);
                 await this.init()
             }
         }

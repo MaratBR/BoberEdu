@@ -8,6 +8,7 @@ use App\Http\DTO\Categories\CategoryDto;
 use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\CreateCategoryRequest;
+use App\Http\Requests\Courses\UpdateCategoryRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IUploadService;
@@ -33,7 +34,7 @@ class CategoriesController extends Controller
         return $this->created(new CategoryDto($category));
     }
 
-    public function update(UpdateCourseRequest $request, int $id)
+    public function update(UpdateCategoryRequest $request, int $id)
     {
         $category = $this->repo->getCategory($id);
         $category->update($request->getPayload());

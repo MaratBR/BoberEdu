@@ -99,4 +99,17 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->is_admin;
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        $callback = function ($user) {
+            $user->normalized_email = strtoupper($user->email);
+            $user->normalized_name = strtoupper($user->name);
+        };
+
+        self::updating($callback);
+        self::creating($callback);
+    }
 }

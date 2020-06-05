@@ -1,17 +1,11 @@
 <template>
     <page title="Login">
         <form class="form" @submit.prevent="onSubmit" v-if="!store.isAuthenticated">
-            <div class="form__control">
-                <label class="form__label" for="InputLogin">Login</label>
-                <input class="input" id="InputLogin" type="text" v-model="name">
-            </div>
-            <div class="form__control">
-                <label class="form__label" for="InputPwd">Password</label>
-                <input class="input" id="InputPwd" type="password" v-model="password">
-            </div>
+            <input-text v-model="name" label="Login" />
+            <input-text v-model="password" label="Password" type="password" />
             <div v-show="failed" class="notification notification--danger">Credentials doesn't match</div>
 
-            <div class="form__control">
+            <div class="control">
                 <button class="btn btn--primary" :disabled="store.loggingIn">Log in</button>
             </div>
 
@@ -27,9 +21,10 @@
     import Page from "./Page.vue";
     import {Component, Vue} from "vue-property-decorator";
     import {StoreComponent} from "@common/components/utils";
+    import InputText from "@common/components/forms/InputText.vue";
 
     @Component({
-        components: {Page}
+        components: {InputText, Page}
     })
     export default class LoginPage extends StoreComponent {
         name = localStorage['lastLoginAttempt'] || '';

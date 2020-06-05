@@ -209,7 +209,8 @@ export namespace dto {
         about: string,
         displayName: string,
         name: string,
-        avatar: string
+        avatar: string,
+        email: string
     };
 
     //#endregion

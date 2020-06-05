@@ -21,8 +21,7 @@ class EditUserRequest extends AuthenticatedRequest implements IPayloadRequest
             'about' => 'string|nullable',
             'status' => 'string|nullable',
             'email' => 'string',
-            'displayName' => 'string|nullable',
-            'password' => 'string'
+            'displayName' => 'string|nullable'
         ];
     }
 

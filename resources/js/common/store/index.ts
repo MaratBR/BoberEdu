@@ -2,14 +2,12 @@ import LessonsModule from "@common/store/LessonsModule";
 import CoursesModule from "@common/store/CoursesModule";
 import AuthModule from "@common/store/AuthModule";
 import PaymentsModule from "@common/store/PaymentsModule";
-import UsersModule from "@common/store/UsersModule";
 
 export {
     LessonsModule,
     CoursesModule,
     AuthModule,
-    PaymentsModule,
-    UsersModule
+    PaymentsModule
 }
 
 import CommonStore from "@common/store/CommonStore";

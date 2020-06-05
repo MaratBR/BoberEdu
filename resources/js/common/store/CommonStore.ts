@@ -1,14 +1,13 @@
 import {Action, Getter, Module, Mutation, State} from "vuex-simple";
 
 import client from "@common/axios";
-import {AuthModule, CoursesModule, LessonsModule, PaymentsModule, UsersModule} from "@common/store";
+import {AuthModule, CoursesModule, LessonsModule, PaymentsModule} from "@common/store";
 import {dto, requests} from "@common";
 import {randomId} from "@common/utils";
 
 export default class CommonStore {
     @Module() public courses = new CoursesModule(client);
     @Module() public payments = new PaymentsModule(client);
-    @Module() public users = new UsersModule(client);
     @Module() public lessons = new LessonsModule(client);
 
     //#region Auth
@@ -99,4 +98,34 @@ export default class CommonStore {
 
     //#endregion
 
+    //#region Users
+
+    userProfile(id: number): Promise<dto.UserProfileDto> {
+        return client.get('users/' + id + '/profile').then(r => r.data)
+    }
+
+    setUserStatus(status: string): Promise<void> {
+        return client.put('users/profile/status', {
+            status
+        }).then(r => r.data)
+    }
+
+    userSettings(): Promise<dto.UserSettingsDto> {
+        return client.get('users/profile/settings').then(r => r.data)
+    }
+
+    usernameIsTaken(username: string): Promise<boolean> {
+        return client.get('users/username-taken/' + username).then(r => r.data)
+    }
+
+    updateUser(d: requests.UpdateUser): Promise<void> {
+        return client.patch('users/profile', d).then(r => r.data)
+    }
+
+    uploadAvatar(file: File): Promise<string> {
+        return client.put('users/profile/avatar', file).then(r => r.data.id)
+    }
+
+    //#endregion
 }
+

@@ -93,4 +93,9 @@ class UserController extends Controller
 
         return new UploadedDto($fileInfo);
     }
+
+    public function updateProfile(EditUserRequest $request) {
+        $request->user()->update($request->getPayload());
+        return $this->done();
+    }
 }
