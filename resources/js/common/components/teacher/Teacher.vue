@@ -10,7 +10,7 @@
             <h3>Courses by {{ name }}</h3>
 
             <div class="courses">
-                <course-wide-card v-for="course in courses" :course="course" />
+                <course-wide-card v-for="course in courses" :course="course":key="course.id" />
             </div>
         </div>
 

@@ -115,7 +115,9 @@ class EnrollmentService implements IEnrollmentService
         return Enrollment::query()
             ->where('user_id', '=', $user->id)
             ->with(['course'])
+            ->orderBy('activated')
             ->orderBy('enrolled_at')
+            ->take(4)
             ->get();
     }
 

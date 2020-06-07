@@ -6,7 +6,7 @@ use App\Exceptions\ThrowUtils;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\DTO\Users\UserDto;
-use App\Http\DTO\UserProfileDto;
+use App\Http\DTO\Users\UserProfileDto;
 use App\Http\DTO\UserSettingsDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Users\EditUserRequest;

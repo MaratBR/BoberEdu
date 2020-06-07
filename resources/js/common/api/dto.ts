@@ -16,7 +16,7 @@ export namespace dto {
     };
 
     export type CategoriesDto = {
-        categories: CategoryDto[]
+        categories: CategoryExDto[]
     };
 
     //#endregion

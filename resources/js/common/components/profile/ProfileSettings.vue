@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <div class="hero--phead">
-            <ul class="breadcrumb breadcrumb-clear">
-                <li class="breadcrumb-item">Account</li>
-                <li class="breadcrumb-item active">Settings</li>
-            </ul>
-        </div>
+        <ul class="breadcrumb breadcrumb-clear">
+            <li class="breadcrumb-item">
+                <router-link :to="{name: 'profile', params: {id: store.user.id}}">Account</router-link>
+            </li>
+            <li class="breadcrumb-item active">Settings</li>
+        </ul>
         <tabs style-class="sidebar">
             <tab name="General">
                 <form class="form">
