@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @method static findOrFail(int $categoryId)
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Category extends Model
 {
-    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
+    use HasRelationships;
     public $timestamps = false;
 
     use SoftDeletes;

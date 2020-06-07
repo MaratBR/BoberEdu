@@ -5,6 +5,7 @@ namespace App\Services\Implementation;
 
 
 use App\Exceptions\ThrowUtils;
+use App\FileInfo;
 use App\Role;
 use App\Services\Abs\IUsersService;
 use App\User;
@@ -64,7 +65,7 @@ class UsersService implements IUsersService
         return User::query()->where('normalized_name', '=', $username)->exists();
     }
 
-    function setAvatar(User $user, \App\FileInfo $avatar)
+    function setAvatar(User $user, FileInfo $avatar)
     {
         $user->update([
             'avatar_id' => $avatar->id

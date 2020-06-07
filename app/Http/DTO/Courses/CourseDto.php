@@ -78,4 +78,4 @@ class CourseDto extends DtoBase
     {
         return $this->course->summary;
     }
-};
+}
