@@ -23,7 +23,6 @@ class TeachersTest extends TestWithAuthentication
         $token = $this->authenticate($admin->name, 'password');
 
         $response = $this->post('/api/teachers', [
-            'passNum' => $this->faker->numerify('#### ######'),
             'fullName' => "{$this->faker->firstName} {$this->faker->lastName}",
             'userId' => $user->id,
             'comment' => "Testing"

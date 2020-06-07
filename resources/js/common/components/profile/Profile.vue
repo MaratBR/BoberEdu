@@ -1,5 +1,6 @@
 <template>
-    <loader v-if="!profile" />
+    <not-found v-if="notFound" />
+    <loader v-else-if="!profile" />
     <div class="profile" v-else>
         <div class="container-fluid profile-header pt-3">
             <div class="container pt-3">
@@ -60,25 +61,29 @@
             </div>
         </div>
     </div>
-
-
 </template>
 
 <script lang="ts">
     import {Component, dto, Vue, Watch} from "@common";
     import {Loader, StoreComponent} from "@common/components/utils";
     import MarkdownViewer from "@common/components/utils/MarkdownViewer.vue";
+    import NotFound from "@common/components/pages/NotFound.vue";
 
     @Component({
-        components: {MarkdownViewer, Loader}
+        components: {NotFound, MarkdownViewer, Loader}
     })
     export default class Profile extends StoreComponent {
         profile: dto.UserProfileDto = null;
         setStatus: boolean = false;
         newStatus: string = null;
+        notFound = false
 
         async init() {
-            this.profile = await this.store.userProfile(+this.$route.params.id)
+            try {
+                this.profile = await this.store.userProfile(+this.$route.params.id)
+            } catch (e) {
+                this.notFound = true
+            }
         }
 
         created() {
@@ -102,11 +107,6 @@
                 await this.store.setUserStatus(status);
                 await this.init()
             }
-        }
-
-        resetStatus() {
-            this.setStatus = false;
-            this.newStatus = null;
         }
 
         @Watch('$route')

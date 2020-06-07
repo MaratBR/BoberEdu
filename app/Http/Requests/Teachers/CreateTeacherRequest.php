@@ -15,7 +15,6 @@ class CreateTeacherRequest extends AuthenticatedRequest implements IPayloadReque
     public function rules()
     {
         return [
-            'passNum' => 'required',
             'fullName' => 'required',
             'about' => 'required',
             'userId' => 'numeric|required',
@@ -32,7 +31,6 @@ class CreateTeacherRequest extends AuthenticatedRequest implements IPayloadReque
     {
         return [
             'full_name' => $this->validated()['fullName'],
-            'passport_num' => $this->validated()['passNum'],
             'about' => $this->validated()['about'],
         ];
     }

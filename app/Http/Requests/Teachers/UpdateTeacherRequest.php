@@ -20,7 +20,6 @@ class UpdateTeacherRequest extends AuthenticatedRequest implements IPayloadReque
         return [
             'fullName' => 'string',
             'about' => 'string',
-            'passNum' => 'string'
         ];
     }
 
@@ -28,7 +27,6 @@ class UpdateTeacherRequest extends AuthenticatedRequest implements IPayloadReque
     {
         $d = $this->validated();
         return [
-            'passport_num' => $d['passNum'],
             'about' => $d['about'],
             'full_name' => $d['fullName'],
         ];

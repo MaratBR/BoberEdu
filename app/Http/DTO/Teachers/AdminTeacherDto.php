@@ -8,11 +8,6 @@ use App\Http\DTO\Users\UserDto;
 
 class AdminTeacherDto extends TeacherExDto
 {
-    public function getDocId()
-    {
-        return $this->teacher->passport_num;
-    }
-
     public function getUser()
     {
         return new UserDto($this->teacher->user);
