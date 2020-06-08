@@ -95,6 +95,7 @@ Route::group([
     Route::post('', 'TeacherController@create');
     Route::post('assignment/{teacher}/{course}', 'TeacherController@assign');
     Route::delete('assignment/{teacher}/{course}', 'TeacherController@revoke');
+    Route::put('approval-form', 'TeacherController@sendApprovalForm');
 });
 
 Route::group([
@@ -164,6 +165,9 @@ Route::group([
         Route::post('{id}/course/{courseId}', 'Admin\LessonsController@assign');
         Route::delete('{id}/course/{courseId}', 'Admin\LessonsController@revoke');
 
+        Route::get('approval-form', 'Admin\TeachersController@approvalForms');
+        Route::put('approval-form/{id}/approve', 'Admin\TeachersController@approveForm');
+        Route::put('approval-form/{id}/disapprove', 'Admin\TeachersController@disapproveForm');
 
     });
 

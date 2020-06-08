@@ -54,10 +54,10 @@ trait ControllerUtils
         ]);
     }
 
-    protected function done()
+    protected function done($status = 200)
     {
         return response()->json([
             'done' => true
-        ]);
+        ], $status);
     }
 }

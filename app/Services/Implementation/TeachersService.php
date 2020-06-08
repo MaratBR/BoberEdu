@@ -7,9 +7,10 @@ namespace App\Services\Implementation;
 use App\Course;
 use App\Services\Abs\ITeachersService;
 use App\Teacher;
+use App\TeacherApprovalForm;
 use App\User;
 use App\Utils\Convert;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Builder;
 
@@ -54,6 +55,27 @@ class TeachersService implements ITeachersService
             ->where('teacher_id', '=', $teacher->id)
             ->where('course_id', '=', $course->id)
             ->delete();
+    }
+
+    function paginateApprovalForms(?bool $approved = null): LengthAwarePaginator
+    {
+        $q = TeacherApprovalForm::query();
+
+        if ($approved !== null) {
+            $q = $q->where('approved', '=', $approved);
+        }
+
+        return $q->paginate();
+    }
+
+    function getApprovalForm(int $id): TeacherApprovalForm
+    {
+        return TeacherApprovalForm::findOrFail($id);
+    }
+
+    function createApprovalForm(array $data): TeacherApprovalForm
+    {
+        return TeacherApprovalForm::create($data);
     }
 
     function paginate(): LengthAwarePaginator

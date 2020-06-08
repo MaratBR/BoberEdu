@@ -22,6 +22,9 @@ class Audit
 
     public const ASSIGN_TEACHER = 20;
     public const REVOKE_TEACHER = 21;
+    public const APPROVE_TEACHER = 22;
+    public const DISAPPROVE_TEACHER = 23;
+
 
     public const UPDATE_COURSE_UNITS = 30;
 

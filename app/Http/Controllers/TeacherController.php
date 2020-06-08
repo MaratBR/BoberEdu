@@ -8,6 +8,7 @@ use App\Http\DTO\Teachers\TeacherAssignmentDto;
 use App\Http\DTO\Teachers\TeacherDto;
 use App\Http\DTO\Teachers\TeacherProfileDto;
 use App\Http\Requests\AdminRequest;
+use App\Http\Requests\Teachers\ApprovalFormRequest;
 use App\Http\Requests\Teachers\AssignTeacherRequest;
 use App\Http\Requests\Teachers\CreateTeacherRequest;
 use App\Http\Requests\Teachers\UpdateTeacherRequest;
@@ -34,5 +35,12 @@ class TeacherController extends Controller
     {
         $teacher = $this->teachers->get($teacherId);
         return new TeacherProfileDto($teacher);
+    }
+
+    public function sendApprovalForm(ApprovalFormRequest $request)
+    {
+        $this->teachers->createApprovalForm($request->getPayload());
+
+        return $this->done(201);
     }
 }

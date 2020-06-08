@@ -19,6 +19,7 @@ use App\Services\Abs\ICourseService;
 use App\Services\Abs\ITeachersService;
 use App\Services\Abs\IUploadService;
 use App\Services\Abs\IUsersService;
+use App\User;
 use App\Utils\Audit\Audit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -140,5 +141,27 @@ class TeachersController extends Controller
         }
 
         return new PaginationDto($this->repo->search($request->getQuery())->paginate(), TeacherDto::class);
+    }
+
+    public function approveForm(AuthenticatedRequest $request, int $formId)
+    {
+        $this->setFormApproved($request, $formId, true, $request->input('comment'));
+    }
+
+    public function disapproveForm(AuthenticatedRequest $request, int $formId)
+    {
+        $this->setFormApproved($request, $formId, true, $request->input('comment'));
+    }
+
+    private function setFormApproved(AuthenticatedRequest $request, int $formId, bool $approval, ?string $comment = null)
+    {
+        $form = $this->repo->getApprovalForm($formId);
+        $form->update([
+            'approved' => $approval,
+            'user_id' => $request->user()->id
+        ]);
+
+        AuditRecord::make($request->user(), $request, $approval ? Audit::APPROVE_TEACHER : Audit::DISAPPROVE_TEACHER)
+            ->subject($form)->comment($comment)->build();
     }
 }

@@ -6,8 +6,9 @@ namespace App\Services\Abs;
 
 use App\Course;
 use App\Teacher;
+use App\TeacherApprovalForm;
 use App\User;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Laravel\Scout\Builder;
 
 interface ITeachersService
@@ -21,6 +22,12 @@ interface ITeachersService
     function assign(Teacher $teacher, Course $course);
 
     function revoke(Teacher $teacher, Course $course);
+
+    function paginateApprovalForms(?bool $approved = null): LengthAwarePaginator;
+
+    function getApprovalForm(int $id): TeacherApprovalForm;
+
+    function createApprovalForm(array $data): TeacherApprovalForm;
 
     /**
      * @param $teacher Teacher|int
