@@ -11,7 +11,6 @@ use Laravel\Scout\Searchable;
  * @method static Teacher create(array $data)
  * @property int id
  * @property string full_name
- * @property string passport_num
  * @property int user_id
  * @property int|null avatar_id
  * @property FileInfo|null avatar
@@ -29,7 +28,7 @@ class Teacher extends Model
     use SoftDeletes, Searchable;
 
     protected $fillable = [
-        'full_name', 'passport_num', 'user_id', 'avatar_id', 'about',
+        'full_name', 'user_id', 'avatar_id', 'about',
 
         'link_web', 'link_yt', 'link_linked_in', 'link_vk', 'link_fb', 'link_twitter'
     ];

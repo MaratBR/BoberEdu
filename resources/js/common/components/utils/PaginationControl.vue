@@ -1,6 +1,6 @@
 <template>
     <section class="items">
-        <ul class="pagination" v-if="pagination">
+        <ul class="pagination" v-if="pagination && pagination.data.length > 0">
             <li
                 v-for="i in size"
                 :key="i"
@@ -12,28 +12,33 @@
 
         <div v-if="!pagination">
             <slot name="pulse">
-                <div class="flex">
+                <div class="d-flex">
                     <div class="pulse inline-block s1" v-for="_ in 5"></div>
                 </div>
                 <div class="pulse s2" v-for="_ in 5"></div>
                 <br>
-                <div class="flex justify-center">
+                <div class="d-flex justify-center">
                     <div class="pulse s2 pulse--dot"></div>
                     <div class="pulse s2 pulse--dot"></div>
                     <div class="pulse s2 pulse--dot"></div>
                 </div>
             </slot>
         </div>
-        <slot v-else name="body" :items="pagination.data">
+        <slot v-else-if="pagination.data.length !== 0" name="body" :items="pagination.data">
             <div class="items__list" v-if="pagination">
                 <div class="page-item" v-for="(item, index) in pagination.data" :key="index">
                     <slot v-bind="item"></slot>
                 </div>
             </div>
         </slot>
+        <slot v-else name="not-found">
+            <not-found>
+                Nothing found
+            </not-found>
+        </slot>
 
 
-        <ul class="pagination" v-if="pagination">
+        <ul class="pagination" v-if="pagination && pagination.data.length > 0">
             <li
                 v-for="i in size"
                 :key="i"
@@ -48,9 +53,10 @@
 <script lang="ts">
     import {dto, Component, Prop, Vue} from "@common";
     import {Loader} from "@common/components/utils";
+    import NotFound from "@common/components/pages/NotFound.vue";
 
     @Component({
-        components: {Loader}
+        components: {NotFound, Loader}
     })
     export default class PaginationControl extends Vue {
         @Prop() pagination: dto.PaginationDto<any>;

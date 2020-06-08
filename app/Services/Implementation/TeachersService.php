@@ -8,8 +8,10 @@ use App\Course;
 use App\Services\Abs\ITeachersService;
 use App\Teacher;
 use App\User;
+use App\Utils\Convert;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Laravel\Scout\Builder;
 
 class TeachersService implements ITeachersService
 {
@@ -59,11 +61,8 @@ class TeachersService implements ITeachersService
         return Teacher::query()->paginate();
     }
 
-    function search(string $query): LengthAwarePaginator
+    function search(string $query): Builder
     {
-        /** @var LengthAwarePaginator $p */
-        $p = Teacher::search($query)->paginate();
-
-        return $p;
+        return Teacher::search(Convert::escapeElasticReservedChars($query));
     }
 }

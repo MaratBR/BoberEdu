@@ -16,7 +16,7 @@ export namespace dto {
     };
 
     export type CategoriesDto = {
-        categories: CategoryDto[]
+        categories: CategoryExDto[]
     };
 
     //#endregion
@@ -152,7 +152,6 @@ export namespace dto {
     }
 
     export type AdminTeacherDto = TeacherExDto & {
-        docId: string,
         user: UserDto
     }
 
@@ -321,7 +320,6 @@ export namespace requests {
     }
 
     export type CreateTeacher = {
-        passNum: string,
         fullName: string,
         userId: number,
         comment: string,
@@ -329,7 +327,6 @@ export namespace requests {
     }
 
     export type UpdateTeacher = {
-        passNum?: string,
         fullName?: string,
         about?: string
     }

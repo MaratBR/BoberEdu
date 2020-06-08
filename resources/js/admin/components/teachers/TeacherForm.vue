@@ -33,7 +33,6 @@
                 </div>
 
                 <input-text required label="Full name" v-model="fullName" />
-                <input-text required label="Document (passport) ID" v-model="passNum" />
                 <input-textarea required label="About" v-model="about" />
 
                 <fieldset>
@@ -84,7 +83,6 @@
         inProgress = false;
         isNew = false;
         fullName: string = null;
-        passNum: string = null;
         about: string = null;
         comment: string = null;
         error = null;
@@ -136,7 +134,6 @@
         }
 
         update(teacher: dto.AdminTeacherDto) {
-            this.passNum = teacher.docId
             this.fullName = teacher.fullName
             this.about = teacher.about
             this.avatar = teacher.avatar
@@ -175,7 +172,6 @@
                 if (this.isNew) {
                     let teacher = await this.admin.createTeacher({
                         fullName: this.fullName,
-                        passNum: this.passNum,
                         userId: this.userId,
                         about: this.about,
                         comment: this.comment
@@ -197,7 +193,6 @@
                         data: {
                             fullName: this.fullName,
                             about: this.about,
-                            passNum: this.passNum
                         }
                     })
                     this.update(teacher)

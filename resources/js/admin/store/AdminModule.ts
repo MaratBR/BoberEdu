@@ -161,7 +161,7 @@ export class AdminModule {
     //#region Categories
 
     @Action()
-    createCategory(d: requests.CreateCategory): Promise<dto.CategoryDto> {
+    createCategory(d: requests.CreateCategory): Promise<dto.CategoryExDto> {
         return client.post('admin/categories', d).then(this._get)
     }
 

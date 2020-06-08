@@ -4,6 +4,7 @@
 namespace App\Services\Abs;
 
 
+use App\FileInfo;
 use App\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -21,7 +22,7 @@ interface IUsersService
 
     function userNameTaken(string $username): bool;
 
-    function setAvatar(User $user, \App\FileInfo $avatar);
+    function setAvatar(User $user, FileInfo $avatar);
 
     function search(string $query): LengthAwarePaginator;
 }

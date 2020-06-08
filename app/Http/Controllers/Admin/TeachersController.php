@@ -139,6 +139,6 @@ class TeachersController extends Controller
             return $this->paginate();
         }
 
-        return new PaginationDto($this->repo->search($request->getQuery()), TeacherDto::class);
+        return new PaginationDto($this->repo->search($request->getQuery())->paginate(), TeacherDto::class);
     }
 }

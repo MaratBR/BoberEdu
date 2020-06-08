@@ -1,5 +1,5 @@
 <template>
-    <section class="not-found card">
+    <section class="not-found">
         <div class="card-body d-flex align-items-center">
             <div class="not-found__image" :style="{backgroundImage: 'url(\'' +image+ '\')'}" />
 

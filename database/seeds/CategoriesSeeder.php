@@ -1,5 +1,6 @@
 <?php
 
+use App\Category;
 use Illuminate\Database\Seeder;
 
 class CategoriesSeeder extends Seeder
@@ -20,7 +21,7 @@ class CategoriesSeeder extends Seeder
         ];
 
         foreach ($names as $name) {
-            \App\Category::create([
+            Category::create([
                 'name' => $name,
                 'about' => 'Yet another category'
             ]);

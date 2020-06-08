@@ -38,6 +38,7 @@ Route::group([
 Route::group([
     'prefix' => 'courses'
 ], function () {
+    Route::get('search', 'SearchController@search');
     Route::get('{course}/units', 'CourseController@getUnits');
     Route::put('{course}/units', 'CourseController@updateUnits');
     Route::put('{course}/ordnung-muss-sein', 'CourseController@updateLessonsOrder');

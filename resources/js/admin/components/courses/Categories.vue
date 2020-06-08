@@ -54,7 +54,7 @@
     })
     export default class Categories extends AdminStoreComponent {
         loading = true;
-        categories: dto.CategoryDto[] = null
+        categories: dto.CategoryExDto[] = null
         error = null;
         category: dto.CategoryExDto = null;
         name = null;

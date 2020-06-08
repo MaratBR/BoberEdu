@@ -250,7 +250,7 @@ let router = new VueRouter({
                     component: () => import(
                         /* webpackChunkName: "categories" */
                         '@common/components/courses/Categories.vue'),
-                    name: 'courses'
+                    name: 'categories'
                 },
                 {
                     path: '/course/:id',
@@ -302,6 +302,19 @@ let router = new VueRouter({
                     props({params}) {
                         return {
                             id: +params.id
+                        }
+                    }
+                },
+                {
+                    name: 'search',
+                    path: '/search',
+                    component: () => import(
+                        /* webpackChunkName: "search" */
+                        '@common/components/pages/SearchPage.vue'
+                        ),
+                    props({query}) {
+                        return {
+                            q: query.q
                         }
                     }
                 },

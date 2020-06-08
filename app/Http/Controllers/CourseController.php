@@ -86,8 +86,7 @@ class CourseController extends Controller
 
     public function getRate(AuthenticatedRequest $request, int $courseId)
     {
-        $user = $request->user();
-        $rate = $this->courses->getRate($user);
+        return \response()->json($this->courses->getRate($request->user(), $courseId));
     }
 
     public function setRate(SetRateRequest $request, int $courseId)

@@ -11,9 +11,7 @@
                                         placeholder="Please, provide reason for revoking teacher's permissions" />
                     </div>
                     <template v-else>
-                        <div class="rounded-circle img-thumbnail">
-                            <img :src="teacher.avatar" alt="">
-                        </div>
+                        <img :src="teacher.avatar"  class="s180 mr-1 rounded-circle img-thumbnail">
 
                         <div class="about">
 
@@ -87,6 +85,10 @@
         inProgress = false;
         searching = false
         error = null;
+
+        created() {
+            this.onCourseChanged()
+        }
 
         @Watch('course')
         onCourseChanged() {

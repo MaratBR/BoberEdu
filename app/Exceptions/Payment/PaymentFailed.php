@@ -3,10 +3,11 @@
 namespace App\Exceptions\Payment;
 
 use App\Exceptions\ServiceException;
+use Throwable;
 
 class PaymentFailed extends ServiceException
 {
-    public function __construct(string $message = null, \Throwable $previous = null, array $headers = [], ?int $code = 0)
+    public function __construct(string $message = null, Throwable $previous = null, array $headers = [], ?int $code = 0)
     {
         parent::__construct(400, $message, $previous, $headers, $code);
     }

@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Users;
 
 
 use App\Enrollment;
+use App\Http\DTO\DtoBase;
 use App\Http\DTO\Users\UserDto;
 use App\User;
 
