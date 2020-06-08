@@ -9,6 +9,7 @@ use App\FileInfo;
 use App\Role;
 use App\Services\Abs\IUsersService;
 use App\User;
+use App\Utils\Convert;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 
@@ -74,7 +75,7 @@ class UsersService implements IUsersService
 
     function search(string $query): LengthAwarePaginator
     {
-        return User::search($query)->paginate();
+        return User::search(Convert::escapeElasticReservedChars($query))->paginate();
     }
 
     private function normalize(string $username)

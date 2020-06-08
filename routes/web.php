@@ -13,10 +13,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('payments/testing/PayFake', 'PayFakeController@process');
-
 Route::fallback(function () {
-    return view('app');
+    return response()
+        ->view('app')
+        ->header('Link', 'css/app.css; rel=preload; as=style', false)
+        ->header('Link', 'js/app.js; rel=preload; as=script', false);
 });
 
 

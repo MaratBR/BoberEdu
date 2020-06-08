@@ -8,6 +8,7 @@ use App\Course;
 use App\Teacher;
 use App\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Laravel\Scout\Builder;
 
 interface ITeachersService
 {
@@ -30,5 +31,5 @@ interface ITeachersService
 
     function paginate(): LengthAwarePaginator;
 
-    function search(string $query): LengthAwarePaginator;
+    function search(string $query): Builder;
 }

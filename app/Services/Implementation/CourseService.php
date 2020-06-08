@@ -13,6 +13,7 @@ use App\Services\Abs\ICourseService;
 use App\Services\Abs\ICourseUnitsUpdateResponse;
 use App\Unit;
 use App\User;
+use App\Utils\Convert;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -42,7 +43,7 @@ class CourseService implements ICourseService
     function search(string $query, ?int $categoryId = null): LengthAwarePaginator
     {
         /** @var LengthAwarePaginator $p */
-        $p = Course::search($query)->paginate();
+        $p = Course::search(Convert::escapeElasticReservedChars($query))->paginate();
         return $p;
     }
 

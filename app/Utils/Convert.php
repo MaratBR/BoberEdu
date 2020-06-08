@@ -35,4 +35,12 @@ class Convert
             return in_array($key, $keys);
         }, ARRAY_FILTER_USE_KEY);
     }
+
+    public static  function escapeElasticReservedChars($query) {
+        return preg_replace(
+            '/[\\+\\-\\=\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\<\\>\\?\\:\\\\\\/]/',
+            addslashes('\\$0'),
+            $query
+        );
+    }
 }

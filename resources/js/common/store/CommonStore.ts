@@ -4,6 +4,7 @@ import client from "@common/axios";
 import {AuthModule, CoursesModule, LessonsModule, PaymentsModule} from "@common/store";
 import {dto, requests} from "@common";
 import {randomId} from "@common/utils";
+import {UpdatePayload} from "@common/store/utils";
 
 export default class CommonStore {
     @Module() public courses = new CoursesModule(client);
@@ -124,6 +125,84 @@ export default class CommonStore {
 
     uploadAvatar(file: File): Promise<string> {
         return client.put('users/profile/avatar', file).then(r => r.data.id)
+    }
+
+    //#endregion
+
+    //#region Courses
+
+    @Action()
+    searchCourses(q): Promise<dto.PaginationDto<dto.CoursePageItemDto>> {
+        return client.get('courses/search', {params: {q}}).then(r=>r.data)
+    }
+
+    @Action()
+    getCourse(id: number): Promise<dto.CourseExDto> {
+        return client.get('courses/' + id).then(r => r.data)
+    }
+
+    @Action()
+    getUnits(id: number): Promise<dto.CourseUnitsDto> {
+        return client.get('courses/' + id + '/units').then(r => r.data)
+    }
+
+    @Action()
+    paginateCourses(page: number): Promise<dto.PaginationDto<dto.CoursePageItemDto>> {
+        return client.get('courses', {params: {page}}).then(r => r.data)
+    }
+
+    @Action()
+    getCategory(id: number): Promise<dto.CategoryExDto> {
+        return client.get('courses/categories/' + id).then(r => r.data)
+    }
+
+    @Action()
+    getCoursesFromCategory({id, page}: {id: number, page?: number}): Promise<dto.PaginationDto<dto.CoursePageItemDto>>  {
+        return client.get('courses/categories/' + id + '/courses', {
+            params: {
+                page
+            }
+        }).then(r => r.data)
+    }
+
+    @Action()
+    getCategories(): Promise<dto.CategoriesDto> {
+        return client.get('courses/categories').then(r => r.data)
+    }
+
+    @Action()
+    removeRate(courseId: number): Promise<void> {
+        return client.delete('courses/' + courseId + '/rate').then(r => r.data)
+    }
+
+    @Action()
+    setCourseRate({courseId, value}: {courseId: number, value: number}): Promise<void> {
+        value = Math.round(value);
+        value = Math.min(Math.max(value, 1), 5);
+        return client.put('courses/' + courseId + '/rate', { value }).then(r => r.data)
+    }
+    //#endregion
+
+    //#region Enrollment
+
+    @Action()
+    enroll(id: number): Promise<void> {
+        return client.patch('enrollment/' + id + '/enroll').then(r => r.data)
+    }
+
+    @Action()
+    disenroll(id: number): Promise<void> {
+        return client.patch('enrollment/' + id + '/disenroll').then(r => r.data)
+    }
+
+    @Action()
+    enrollmentStatus(id: number): Promise<dto.EnrollmentStateDto> {
+        return client.get('enrollment/' + id + '/status').then(r => r.data)
+    }
+
+    @Action()
+    getEnrolls(): Promise<dto.EnrollmentsDto> {
+        return client.get('enrollment/yours').then(r => r.data)
     }
 
     //#endregion
