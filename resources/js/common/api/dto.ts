@@ -236,6 +236,7 @@ export namespace requests {
         signUpBeg?: string,
         signUpEnd?: string,
         available?: boolean,
+        trialLength?: number
     };
 
     export type UpdateCourse = {
@@ -245,7 +246,8 @@ export namespace requests {
         summary?: string,
         signUpBeg?: string,
         signUpEnd?: string,
-        available?: boolean
+        available?: boolean,
+        trialLength?: number
     };
 
     export type NewUnitPayload = {

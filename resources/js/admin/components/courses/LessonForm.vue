@@ -9,7 +9,7 @@
                     </router-link>
                 </li>
                 <li class="breadcrumb-item">
-                    {{ courseName }}
+                    {{ unitName }}
                     <small>(ID: {{ unitId }})</small>
                 </li>
                 <li class="breadcrumb-item active">{{ isNew ? 'new' : title }} <small v-if="!isNew">(ID: {{ id }})</small></li>
@@ -20,11 +20,11 @@
             <input-text required label="Name" v-model="title" />
             <input-textarea required hint="In a few words: what is this about" label="Summary" v-model="summary" />
 
-            <markdown-editor required label="Lesson content" v-model="content" />
+            <markdown-editor @input="content = $event" :value="content" />
             <error :error="error" v-if="error" />
 
-            <div class="form-group">
-                <input type="submit" value="Save">
+            <div class="mt-2">
+                <input type="submit" value="Save" class="btn btn-primary">
             </div>
         </form>
     </admin-section>
@@ -49,7 +49,7 @@
         unitName: string = null;
         courseName: string = null;
         courseId: number = null;
-        content: string = null;
+        content: string = '';
         title: string = null;
         summary: string = null;
         inProgress: boolean = false;
@@ -90,6 +90,7 @@
                     unitId: this.unitId
                 }
                 promise = this.admin.lessons.create(r)
+                this.isNew = false
             } else {
                 let r: requests.UpdateLesson = {
                     title: this.title,

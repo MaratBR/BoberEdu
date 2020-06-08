@@ -1,90 +1,91 @@
 <template>
-    <div class="course-view">
+    <div class="container">
         <loader v-if="!course && !err404" />
 
-        <p v-else-if="err404">
+        <not-found v-else-if="err404">
             Course not found
-        </p>
+        </not-found>
 
         <template v-else>
-            <section class="container-fluid">
-                <div class="container">
-                    <div class="row course-view">
-                        <div class="col-lg-4 d-flex justify-content-center p-4">
-                            <img :src="course.image" class="img-thumbnail s270">
+            <div class="row course-view">
+                <div class="col-lg-4 d-flex justify-content-center p-4">
+                    <img :src="course.image" class="img-thumbnail s270">
+                </div>
+
+                <div class="course-view__about col-lg-4">
+                    <div class="course-about m-3">
+                        <div class="course-about__cat">
+                            <router-link :to="{name: 'category', params: {id: course.category.id}}"><i class="fas fa-chevron-left"></i> {{ course.category.name }}</router-link>
                         </div>
-
-                        <div class="course-view__about col-lg-4">
-                            <div class="course-about m-3">
-                                <div class="course-about__cat">
-                                    <router-link :to="{name: 'category', params: {id: course.category.id}}"><i class="fas fa-chevron-left"></i> {{ course.category.name }}</router-link>
-                                </div>
-                                <span class="course-about__name">{{ course.name }}</span><br>
-                                <span class="course-about__cap">by TODO Team | {{ unitsCount }} units | {{ lessonsCount }} lessons</span><br>
-                                <star-rating :rating="course.rating || undefined" :star-size="hasAccess ? 45 : 25"
-                                             :read-only="!this.hasAccess" :fixed-points="1" :max-rating="5"
-                                             :round-start-rating="false" @rating-selected="rateCourse($event)" />
-                                <span v-if="!course.rating">No one rated this course yet, you can be first</span>
-                                <span v-else>{{ course.ratingVotes }} people voted</span>
-                            </div>
-                        </div>
-
-                        <div class="course-view__buy col-lg-4 d-flex justify-content-center align-items-center">
-                            <div class="course-buy">
-                                <template v-if="hasAccess">
-                                    <p>
-                                        You purchased this course. You're golden.<br>
-                                        Here's your winner dance:
-                                    </p>
-                                    <div class="d-flex justify-content-center">
-                                        <img src="https://media.giphy.com/media/XbVH2Ei6TGr2rTNmYx/giphy.gif" class="s180" alt="">
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="d-flex flex-column">
-                                        <p v-if="!enrolled">
-                                            Purchase this course and have full access to everything it has to offer!
-                                        </p>
-                                        <p v-else-if="course.trialDays > 0">
-                                            <template v-if="isTrialExpired">
-                                                Your free trial period has expired, please purchase the course
-                                            </template>
-                                            <template v-else>
-                                                You've joined free trial period
-                                            </template>
-                                        </p>
-                                        <p v-else>
-                                            You haven't completed the payment!
-                                        </p>
-
-
-
-                                        <template v-if="course.trialDays > 0 && !isTrialExpired">
-                                            <button @click="enroll(true)" v-if="!enrolled"
-                                                    class="btn btn-outline-secondary" :disabled="joining">
-                                                {{ joining ? '...' : 'Join free trial period' }}
-                                            </button>
-                                            <button @click="enroll(false)" v-if="enrolled"
-                                                    class="btn btn-outline-secondary btn-sm" :disabled="joining">
-                                                {{ joining ? '...' : 'Leave trial period' }}
-                                            </button>
-                                            <small class="text-muted m-1 align-self-center">or</small>
-                                        </template>
-
-                                        <button @click="buy()" v-if="!hasAccess" class="btn btn-outline-success">
-                                            {{course.trialDays === 0 && enrolled ? 'Complete the payment process' : 'Purchase the course'}}
-                                        </button>
-                                        <template v-if="isTrialExpired || course.trialDays === 0 && enrolled">
-                                            <small class="text-muted m-1 align-self-center">or</small>
-                                            <button @click="enroll(false)" class="btn btn-light text-muted btn-sm d-inline-block">Leave the course</button>
-                                        </template>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
+                        <span class="course-about__name">{{ course.name }}</span><br>
+                        <span class="course-about__cap">by TODO Team | {{ unitsCount }} units | {{ lessonsCount }} lessons</span><br>
+                        <star-rating :rating="course.rating || undefined" :star-size="hasAccess ? 45 : 25"
+                                     :read-only="!this.hasAccess" :fixed-points="1" :max-rating="5"
+                                     :round-start-rating="false" @rating-selected="rateCourse($event)" />
+                        <span v-if="!course.rating">No one rated this course yet, you can be first</span>
+                        <span v-else>{{ course.ratingVotes }} people voted</span>
                     </div>
                 </div>
-            </section>
+
+                <div class="course-view__buy col-lg-4 d-flex justify-content-center align-items-center">
+                    <div class="course-buy">
+                        <p v-if="!course.available">This course is not available for purchase</p>
+                        <template v-else-if="!course.requirements.signUp.purchasable">
+                            <p>This course can't be purchased right now</p>
+                            <p>Course registration will be open on {{ new Date(course.requirements.signUp.beg).toLocaleDateString() }}</p>
+                        </template>
+                        <template v-else-if="hasAccess">
+                            <p>
+                                You purchased this course. You're golden.<br>
+                                Here's your winner dance:
+                            </p>
+                            <div class="d-flex justify-content-center">
+                                <img src="https://media.giphy.com/media/XbVH2Ei6TGr2rTNmYx/giphy.gif" class="s180" alt="">
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div class="d-flex flex-column">
+                                <p v-if="!enrolled">
+                                    Purchase this course and have full access to everything it has to offer!
+                                </p>
+                                <p v-else-if="course.trialDays > 0">
+                                    <template v-if="isTrialExpired">
+                                        Your free trial period has expired, please purchase the course
+                                    </template>
+                                    <template v-else>
+                                        You've joined free trial period
+                                    </template>
+                                </p>
+                                <p v-else>
+                                    You haven't completed the payment!
+                                </p>
+
+
+
+                                <template v-if="course.trialDays > 0 && !isTrialExpired">
+                                    <button @click="enroll(true)" v-if="!enrolled"
+                                            class="btn btn-outline-secondary" :disabled="joining">
+                                        {{ joining ? '...' : 'Join free trial period' }}
+                                    </button>
+                                    <button @click="enroll(false)" v-if="enrolled"
+                                            class="btn btn-outline-secondary btn-sm" :disabled="joining">
+                                        {{ joining ? '...' : 'Leave trial period' }}
+                                    </button>
+                                    <small class="text-muted m-1 align-self-center">or</small>
+                                </template>
+
+                                <button @click="buy()" v-if="!hasAccess" class="btn btn-outline-success">
+                                    {{course.trialDays === 0 && enrolled ? 'Complete the payment process' : 'Purchase the course'}}
+                                </button>
+                                <template v-if="isTrialExpired || course.trialDays === 0 && enrolled">
+                                    <small class="text-muted m-1 align-self-center">or</small>
+                                    <button @click="enroll(false)" class="btn btn-light text-muted btn-sm d-inline-block">Leave the course</button>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
 
             <div class="course-body container">
                 <div class="row">
@@ -141,9 +142,10 @@
     import {Component, Watch} from "vue-property-decorator";
     import {dto} from "@common";
     import {Loader, StoreComponent, Error, MarkdownViewer} from "@common/components/utils";
+    import NotFound from "@common/components/pages/NotFound.vue";
 
     @Component({
-        components: {MarkdownViewer, Error, Loader}
+        components: {NotFound, MarkdownViewer, Error, Loader}
     })
     export default class CourseView extends StoreComponent {
         courseId: number | null = null;

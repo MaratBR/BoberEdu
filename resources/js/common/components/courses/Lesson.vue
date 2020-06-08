@@ -14,7 +14,7 @@
             </ul>
             <div class="lesson__summary">
                 <span class="lesson__title">{{ lessonName }}</span>
-                <p>TODO TODO TODO TODO</p>
+                <p>{{ summary }}</p>
             </div>
 
             <div class="lesson__loader" v-if="lessonLoading"></div>
@@ -35,23 +35,28 @@
                 <router-link class="btn btn-primary"
                     :to="{name: 'course', params: {id: courseId}}">{{ showPurchase !== 2 ? 'Purchase' : 'Join' }} course</router-link>
             </div>
-            <markdown-viewer v-else :value="content" />
+
+            <aside class="lesson__menu float-right">
+                <ul>
+                    <li v-for="u in course.units">
+                        <span>{{ u.name }}</span>
+
+                        <ul>
+                            <li v-for="l in u.lessons">
+                                <router-link :to="{name: 'lesson', params: {v: courseId + '_' + l.id}}">{{ l.title }}</router-link>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <markdown-viewer :value="content" v-if="!showPurchase" />
+            <div class="tease" v-else>
+                <p v-for="i in 7" :key="i">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid autem beatae consectetur eius molestiae natus placeat porro possimus provident, quisquam ratione sint, tempora vel, velit? Enim in perspiciatis possimus!</p>
+                <p>You didn't think it will actually work did you?</p>
+            </div>
+
         </div>
-
-
-        <aside class="lesson__menu">
-            <ul>
-                <li v-for="u in course.units">
-                    <span>{{ u.name }}</span>
-
-                    <ul>
-                        <li v-for="l in u.lessons">
-                            <router-link :to="{name: 'lesson', params: {v: courseId + '_' + l.id}}">{{ l.title }}</router-link>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
     </div>
 
 </template>
@@ -72,7 +77,7 @@
         unitName: string = null;
         lessonName: string = null;
         content: string = null;
-
+        summary: string = null
         course: dto.CourseExDto = null;
         notFound = false;
         loading = true;
@@ -102,7 +107,6 @@
             this.lessonLoading = true;
             let unit = this.course.units.find(u => u.lessons.some(l => l.id == this.lessonId))
 
-
             if (unit) {
                 this.unitName = unit.name;
                 let lesson = unit.lessons.find(l => l.id == this.lessonId);
@@ -117,7 +121,7 @@
                 } else {
                     this.showPurchase = 0;
                     let lesson = await this.store.lessons.get(this.lessonId)
-                    console.log(lesson)
+                    this.summary = lesson.summary
                     this.content = lesson.content;
                 }
             } else {
@@ -138,11 +142,21 @@
 </script>
 
 <style scoped lang="scss">
+    .tease {
+        background: rgba(black, 0.01);
+        user-select: none;
+        pointer-events: none;
+        padding: 10px;
+        -webkit-mask-image: -webkit-gradient(linear, left top, left bottom,
+            from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+
+        p {
+            filter: blur(10px);
+        }
+    }
+
     .lesson {
         padding-top: 20px;
-        display: grid;
-        grid-template-columns: 1fr 300px;
-        grid-gap: 20px;
 
         &__title {
             font-size: 2.3em;
@@ -178,6 +192,9 @@
         &__menu {
             background: #f9f9f9;
             border-left: 1px solid #eee;
+            padding: 20px 25px 30px 0;
+            margin: 0 10px 10px 20px;
+            min-width: 200px;
 
             & > ul {
                 list-style: none;

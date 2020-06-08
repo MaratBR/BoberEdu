@@ -72,7 +72,12 @@
             this.submitting = false;
 
             if (payment.success) {
-
+                await this.$router.push({
+                    name: 'course',
+                    params: {
+                        id: this.course.id+''
+                    }
+                })
             } else if (payment.redirect) {
                 window.open(payment.redirect);
             } else {

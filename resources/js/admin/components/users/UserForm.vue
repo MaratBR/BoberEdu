@@ -38,7 +38,7 @@
             <error :error="error" v-if="error" />
 
             <div class="form-group">
-                <input type="submit" value="Save">
+                <input type="submit" value="Save" class="btn btn-primary">
             </div>
         </form>
     </admin-section>

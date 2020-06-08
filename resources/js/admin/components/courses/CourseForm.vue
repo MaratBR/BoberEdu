@@ -31,6 +31,7 @@
 
                 <input-text required label="Name" v-model="name" />
                 <input-textarea required label="Summary" v-model="summary" />
+                <input-text type="number" label="Free trial days" v-model="trialDays" />
                 <input-text v-currency required label="Price" v-model="price" />
 
                 <div class="form-check">
@@ -53,7 +54,7 @@
                     <markdown-editor v-model="about" />
                 </div>
 
-                <input :disabled="submitting" type="submit" class="btn btn--primary" value="Save">
+                <input :disabled="submitting" type="submit" class="btn btn-primary" value="Save">
                 <p v-if="!persistent">
                     You can edit units and assign teachers after you save the course
                 </p>
@@ -79,6 +80,7 @@
     import InputText from "@common/components/forms/InputText.vue";
     import InputTextarea from "@common/components/forms/InputTextarea.vue";
     import Uploader from "@common/components/utils/Uploader.vue";
+    import { format } from 'date-fns'
 
     @Component({
         components: {
@@ -101,6 +103,7 @@
         name: string = null;
         summary: string = null;
         available: boolean = null;
+        trialDays: number = 0;
         about: string = null;
         signUpBeg: string = null;
         signUpEnd: string = null;
@@ -169,8 +172,10 @@
                 this.summary = ''
                 this.about = c.about
                 this.available = c.available
-                this.signUpBeg = c.requirements.signUp.beg
-                this.signUpEnd = c.requirements.signUp.end
+                this.trialDays = c.trialDays
+                this.hasSignUpPeriod = !!c.requirements.signUp.beg
+                this.signUpBeg = this.hasSignUpPeriod ? format(new Date(c.requirements.signUp.beg), 'yyyy-MM-dd') : ''
+                this.signUpEnd = this.hasSignUpPeriod ? format(new Date(c.requirements.signUp.end), 'yyyy-MM-dd') : ''
                 this.summary = c.summary
                 this.image = c.image
                 this.priceAsNumber = c.price
@@ -199,7 +204,10 @@
                 summary: this.summary,
                 about: this.about,
                 available: this.available,
-                categoryId: this.category.id
+                categoryId: this.category.id,
+                signUpEnd: this.hasSignUpPeriod ? format(new Date(this.signUpEnd), 'yyyy-MM-dd') : null,
+                signUpBeg: this.hasSignUpPeriod ? format(new Date(this.signUpBeg), 'yyyy-MM-dd') : null,
+                trialLength: this.trialDays
             }
 
             if (this.hasSignUpPeriod) {
@@ -234,6 +242,9 @@
                 summary: this.summary,
                 about: this.about,
                 available: this.available,
+                signUpEnd: this.hasSignUpPeriod ? format(new Date(this.signUpEnd), 'yyyy-MM-dd') : null,
+                signUpBeg: this.hasSignUpPeriod ? format(new Date(this.signUpBeg), 'yyyy-MM-dd') : null,
+                trialLength: this.trialDays
             }
 
             if (this.hasSignUpPeriod) {
