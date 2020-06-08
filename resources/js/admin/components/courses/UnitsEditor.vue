@@ -5,8 +5,18 @@
             <draggable v-model="units" handle=".handle" @end="onDragEnd">
                 <div class="unit-item" :class="{changed: u.changed}" v-for="(u, index) in units" :key="index">
                     <div class="unit" v-if="!u.deleted">
-                        <input required type="text" v-model="u.name" class="form-control unit__name"
-                               placeholder="Unit name" @input="updateChanged(u)" />
+                        <div class="input-group unit__name">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <label class="mb-0">
+                                        Preview
+                                        <input type="checkbox" v-model="u.preview" />
+                                    </label>
+                                </span>
+                            </div>
+                            <input required type="text" v-model="u.name" class="form-control"
+                                   placeholder="Unit name" @input="updateChanged(u)" />
+                        </div>
 
                         <div class="unit__act">
                             <button class="btn" @click.prevent="u.deleted = true"><i class="fas fa-trash"></i></button>
@@ -16,7 +26,7 @@
                         <div class="handle">
                             <i></i><i></i><i></i><i></i><i></i>
                         </div>
-                        <textarea required @input="updateChanged(u)" class="unit__about input" v-model="u.about" />
+                        <textarea required @input="updateChanged(u)" class="unit__about form-control" v-model="u.about" />
 
                         <div class="unit__lessons" v-if="u.showLessons">
                             <ul>
@@ -40,13 +50,13 @@
             </draggable>
 
             <div class="form-group">
-                <button class="btn" @click.prevent="addUnit">
+                <button class="btn btn-light" @click.prevent="addUnit">
                     <i class="fas fa-plus"></i>
                     add
                 </button>
             </div>
 
-            <input type="submit" value="Update" :disabled="!changed">
+            <input type="submit" value="Update" class="btn btn-primary" :disabled="!changed">
         </form>
     </admin-section>
 </template>
@@ -58,6 +68,7 @@
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import Error from "@common/components/utils/Error.vue";
     import {getError} from "@common/utils";
+    import InputCheckbox from "@common/components/forms/InputCheckbox.vue";
 
     type Unit = {
         id?: number
@@ -73,7 +84,7 @@
 
     @Component({
         name: "UnitsEditor",
-        components: {Error, AdminSection, draggable}
+        components: {InputCheckbox, Error, AdminSection, draggable}
     })
     export default class UnitsEditor extends AdminStoreComponent {
         units: Unit[] = null
