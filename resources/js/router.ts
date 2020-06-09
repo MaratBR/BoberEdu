@@ -46,7 +46,24 @@ let router = new VueRouter({
             meta: {
                 requiresAdmin: true
             },
+            beforeEnter({name}, _from, next) {
+                if (name === 'admin') {
+                    next({
+                        name: 'admin__overview'
+                    })
+                } else {
+                    next()
+                }
+
+            },
             children: [
+                {
+                    path: 'overview',
+                    name: 'admin__overview',
+                    component: () => import(
+                        /* webpackChunkName: "a-overview" */
+                        '@admin/components/overview/OverviewPage.vue')
+                },
                 {
                     path: 'courses/all',
                     name: 'admin__courses',

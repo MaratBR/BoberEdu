@@ -34,4 +34,9 @@ class TeacherApprovalForm extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public static function awaitingReview() { return self::query()->whereNull('approved'); }
+    public static function approved() { return self::query()->where('approved', '=', true); }
+    public static function rejected() { return self::query()->where('approved', '=', false); }
+
 }

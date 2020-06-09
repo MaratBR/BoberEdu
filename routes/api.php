@@ -105,6 +105,8 @@ Route::group([
     'prefix' => 'admin'
 ], function () {
 
+    Route::get('overview', 'Admin\OverviewController@get');
+
     Route::group([
         'prefix' => 'audit'
     ], function () {

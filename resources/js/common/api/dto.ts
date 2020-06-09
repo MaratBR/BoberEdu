@@ -238,6 +238,13 @@ export namespace dto {
     }
 
     //#endregion
+    export type AdminOverviewDto = {
+        teacherApplications: {
+            awaitingReview: number,
+            rejected: number,
+            approved: number,
+        }
+    }
 }
 
 export namespace requests {

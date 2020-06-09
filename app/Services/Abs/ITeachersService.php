@@ -25,12 +25,6 @@ interface ITeachersService
 
     function paginateApprovalForms(?bool $approved = null): LengthAwarePaginator;
 
-    function getApprovalForm(int $id): TeacherApprovalForm;
-
-    function getLastApprovalForm(User $user): TeacherApprovalForm;
-
-    function createApprovalForm(User $user, array $data): TeacherApprovalForm;
-
     /**
      * @param $teacher Teacher|int
      * @param $course Course|int
@@ -41,4 +35,10 @@ interface ITeachersService
     function paginate(): LengthAwarePaginator;
 
     function search(string $query): Builder;
+
+    function getApprovalForm(int $id): TeacherApprovalForm;
+
+    function getLastApprovalForm(User $user): TeacherApprovalForm;
+
+    function createApprovalForm(User $user, array $data): TeacherApprovalForm;
 }

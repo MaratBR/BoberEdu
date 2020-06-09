@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
  * @property int id
  * @property int action
  * @property int user_id
- * @property string extra
+ * @property array|null extra
  * @property string subject
  * @property string|null subject_type
  * @property string ip
@@ -30,6 +30,10 @@ class AuditRecord extends Model
         'extra' => 'json'
     ];
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public static function builder(): AuditRecordBuilder
     {
         return new AuditRecordBuilder();
@@ -47,5 +51,7 @@ class AuditRecord extends Model
     {
         return self::builder()->actor($user);
     }
+
+    public static function log() { return self::query()->orderBy('created_at', 'desc'); }
 
 }

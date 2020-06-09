@@ -5,6 +5,7 @@ namespace App\Http\DTO\Admin;
 
 
 use App\AuditRecord;
+use App\Utils\Audit\Audit;
 use Illuminate\Contracts\Support\Arrayable;
 
 class AuditDto implements Arrayable
@@ -18,20 +19,19 @@ class AuditDto implements Arrayable
 
     public function toArray()
     {
-        $extra = $this->record->extra;
-        $extraJson = json_decode($extra);
-        if ($extraJson !== null)
-            $extra = $extraJson;
-
         return [
-            $this->record->id,
-            $this->record->subject,
-            $this->record->subject_type,
-            $this->record->user_agent,
-            $this->record->comment,
-            $this->record->action,
-            $extra,
-            $this->record->ip,
+            'id' => $this->record->id,
+            'sub' => $this->record->subject,
+            'typ' => $this->record->subject_type,
+            'ua' => $this->record->user_agent,
+            'c' => $this->record->comment,
+            'a' => Audit::getTypeRepresentation($this->record->action),
+            'ex' => $this->record->extra,
+            'ip' => $this->record->ip,
+            'user' => [
+                $this->record->user->id,
+                $this->record->user->name,
+            ]
         ];
     }
 }

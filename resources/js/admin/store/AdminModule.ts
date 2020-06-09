@@ -15,6 +15,11 @@ export class AdminModule {
         return response.data
     }
 
+    @Action()
+    getOverview(): Promise<dto.AdminOverviewDto> {
+        return client.get('admin/overview').then(this._get)
+    }
+
     //#region Users
 
     @Action()
