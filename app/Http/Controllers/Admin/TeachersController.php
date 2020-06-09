@@ -127,7 +127,6 @@ class TeachersController extends Controller
 
     public function uploadAvatar(AuthenticatedRequest $request, int $id, IUploadService $uploadService) {
         $teacher = $this->repo->get($id);
-
         $avatar = $uploadService->uploadAvatar($request->user(), $this->openInput());
 
         $teacher->update([

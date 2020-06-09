@@ -109,8 +109,7 @@ export class AdminModule {
 
     @Action()
     async uploadTeacherAvatar({id, data}: UpdatePayload<File>): Promise<string> {
-        let d = (await data.stream().getReader().read()).value
-        return client.put('admin/teachers/' + id + '/avatar', d).then(r => r.data.id)
+        return client.put('admin/teachers/' + id + '/avatar', data).then(r => r.data.id)
     }
 
     @Action()
