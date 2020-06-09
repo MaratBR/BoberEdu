@@ -65,6 +65,13 @@ let router = new VueRouter({
                         '@admin/components/overview/OverviewPage.vue')
                 },
                 {
+                    path: 'audit',
+                    name: 'admin__audit',
+                    component: () => import(
+                        /* webpackChunkName: "a-audit" */
+                        '@admin/components/audit/AuditList.vue')
+                },
+                {
                     path: 'courses/all',
                     name: 'admin__courses',
                     component: () => import(

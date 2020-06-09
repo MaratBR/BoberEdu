@@ -172,7 +172,7 @@
                 if (this.isNew) {
                     let teacher = await this.admin.createTeacher({
                         fullName: this.fullName,
-                        userId: this.userId,
+                        userId: this.actualUserId,
                         about: this.about,
                         comment: this.comment
                     })
@@ -206,6 +206,7 @@
 
         async loadUser() {
             let user = await this.admin.getUser(this.userId)
+            this.actualUserId = this.userId
             this.username = user.name
             this.userAvatar = user.avatar
             if (user.teacher) {

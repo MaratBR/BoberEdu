@@ -181,6 +181,11 @@ export class AdminModule {
     }
 
     //#endregion
+
+    @Action()
+    getAuditLog(): Promise<dto.PaginationDto<dto.AuditDto>> {
+        return client.get('admin/audit/all').then(this._get)
+    }
 }
 
 registerModule(vuexStore, ['dyn_admin'], new AdminModule());

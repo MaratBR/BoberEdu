@@ -245,6 +245,24 @@ export namespace dto {
             approved: number,
         }
     }
+
+    export type AuditDto = {
+        id: number,
+        sub: {
+            type: string,
+            id: number,
+            display: string
+        },
+        ua: string,
+        c: string | null,
+        a: string,
+        ex: any,
+        ip: string,
+        user: {
+            id: number,
+            name: string
+        }
+    }
 }
 
 export namespace requests {
