@@ -65,6 +65,18 @@ let router = new VueRouter({
                         '@admin/components/overview/OverviewPage.vue')
                 },
                 {
+                    path: 'teachers/applications',
+                    name: 'admin__teachers_applications',
+                    component: () => import(
+                        /* webpackChunkName: "a-applications" */
+                        '@admin/components/teachers/TeacherApplications.vue'),
+                    props({query}) {
+                        return {
+                            approvedFilter: query.f || null
+                        }
+                    }
+                },
+                {
                     path: 'audit',
                     name: 'admin__audit',
                     component: () => import(

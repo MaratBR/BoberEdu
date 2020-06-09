@@ -158,6 +158,11 @@ Route::group([
     Route::group([
         'prefix' => 'teachers'
     ], function () {
+
+        Route::get('approval-form', 'Admin\TeachersController@approvalForms');
+        Route::put('approval-form/{id}/approve', 'Admin\TeachersController@approveForm');
+        Route::put('approval-form/{id}/disapprove', 'Admin\TeachersController@disapproveForm');
+
         Route::get('', 'Admin\TeachersController@paginate');
         Route::get('search', 'Admin\TeachersController@search');
         Route::post('', 'Admin\TeachersController@create');
@@ -168,10 +173,6 @@ Route::group([
 
         Route::post('{id}/course/{courseId}', 'Admin\LessonsController@assign');
         Route::delete('{id}/course/{courseId}', 'Admin\LessonsController@revoke');
-
-        Route::get('approval-form', 'Admin\TeachersController@approvalForms');
-        Route::put('approval-form/{id}/approve', 'Admin\TeachersController@approveForm');
-        Route::put('approval-form/{id}/disapprove', 'Admin\TeachersController@disapproveForm');
 
     });
 

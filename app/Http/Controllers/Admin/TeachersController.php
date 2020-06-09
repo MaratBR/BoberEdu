@@ -6,6 +6,7 @@ use App\AuditRecord;
 use App\Http\Controllers\Controller;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Teachers\AdminTeacherDto;
+use App\Http\DTO\Teachers\TeacherApplicationDto;
 use App\Http\DTO\Teachers\TeacherAssignmentDto;
 use App\Http\DTO\Teachers\TeacherDto;
 use App\Http\DTO\Uploads\UploadedDto;
@@ -151,6 +152,21 @@ class TeachersController extends Controller
     public function disapproveForm(AuthenticatedRequest $request, int $formId)
     {
         $this->setFormApproved($request, $formId, true, $request->input('comment'));
+    }
+
+    public function approvalForms(Request $request)
+    {
+        $filter = $request->input('f');
+        $q = $this->repo->approvalForms($filter);
+        if ($filter) {
+            $filter = [
+                'a' => true,
+                'w' => null,
+                'r' => false
+            ][$filter] ?? null;
+            $q = $q->where('approved', '=', $filter);
+        }
+        return new PaginationDto($q->paginate(), TeacherApplicationDto::class);
     }
 
     private function setFormApproved(AuthenticatedRequest $request, int $formId, bool $approval, ?string $comment = null)

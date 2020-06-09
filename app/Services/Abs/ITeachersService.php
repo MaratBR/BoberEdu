@@ -41,4 +41,6 @@ interface ITeachersService
     function getLastApprovalForm(User $user): TeacherApprovalForm;
 
     function createApprovalForm(User $user, array $data): TeacherApprovalForm;
+
+    function approvalForms(): \Illuminate\Database\Eloquent\Builder;
 }

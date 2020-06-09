@@ -113,6 +113,11 @@ export class AdminModule {
         return client.put('admin/teachers/' + id + '/avatar', d).then(r => r.data.id)
     }
 
+    @Action()
+    getTeacherApplications({page, f}: {page: number, f?: string}): Promise<dto.PaginationDto<dto.TeacherApprovalForm>> {
+        return client.get('admin/teachers/approval-form', {params: {page, f}}).then(this._get);
+    }
+
     //#endregion
 
     //#region Courses
@@ -183,8 +188,8 @@ export class AdminModule {
     //#endregion
 
     @Action()
-    getAuditLog(): Promise<dto.PaginationDto<dto.AuditDto>> {
-        return client.get('admin/audit/all').then(this._get)
+    getAuditLog(page: number): Promise<dto.PaginationDto<dto.AuditDto>> {
+        return client.get('admin/audit/all', {params: {page}}).then(this._get)
     }
 }
 

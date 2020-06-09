@@ -84,6 +84,11 @@ class TeachersService implements ITeachersService
         return TeacherApprovalForm::create($data);
     }
 
+    function approvalForms(): \Illuminate\Database\Eloquent\Builder
+    {
+        return TeacherApprovalForm::query();
+    }
+
     function paginate(): LengthAwarePaginator
     {
         return Teacher::query()->paginate();

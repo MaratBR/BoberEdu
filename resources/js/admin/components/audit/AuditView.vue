@@ -1,5 +1,5 @@
 <template>
-    <data-presenter :pagination="pagination">
+    <data-presenter :pagination="pagination" v-on="$listeners">
         <template v-slot:table-header>
             <th>#</th>
             <th>User</th>

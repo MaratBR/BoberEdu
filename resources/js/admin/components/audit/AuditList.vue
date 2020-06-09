@@ -1,6 +1,6 @@
 <template>
     <admin-section header="Audit log">
-        <audit-view :pagination="pagination" />
+        <audit-view :pagination="pagination" @requestPage="(page = $event) && load()" />
     </admin-section>
 </template>
 
@@ -17,10 +17,11 @@
     })
     export default class AuditList extends AdminStoreComponent {
         pagination: dto.PaginationDto<dto.AuditDto> = null
+        page = 1
 
         async load() {
             this.pagination = null
-            this.pagination = await this.admin.getAuditLog()
+            this.pagination = await this.admin.getAuditLog(this.page)
         }
 
         created() {

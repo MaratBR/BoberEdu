@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=5deb60e70bcda2a9f0e6",
+    "/js/app.js": "/js/app.js?id=8cf2bd768e09d91783e3",
     "/css/app.css": "/css/app.css?id=2074b219b74bd478ad6c",
     "/js/chunks/a-categories.js": "/js/chunks/a-categories.js?id=0fcb1d1a81e5a65390b7",
     "/js/chunks/a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-teachers~a-teachers-form~ad~41526961.js": "/js/chunks/a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-teachers~a-teachers-form~ad~41526961.js?id=dc7924c46eadd223cd55",
@@ -37,8 +37,12 @@
     "/js/chunks/a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~a-teach~e6973b03.js": "/js/chunks/a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~a-teach~e6973b03.js?id=1d912fca8a502a6c9830",
     "/js/chunks/a-overview.js": "/js/chunks/a-overview.js?id=2f846a66b66508c3dc9e",
     "/js/chunks/a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~a-teach~557fff5c.js": "/js/chunks/a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~a-teach~557fff5c.js?id=0d7fc51062321e3c7054",
-    "/js/chunks/a-audit.js": "/js/chunks/a-audit.js?id=8ed4e081bfa6e7117d61",
-    "/js/chunks/a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~724d9912.js": "/js/chunks/a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~724d9912.js?id=9298f070b528e9c32437",
+    "/js/chunks/a-audit.js": "/js/chunks/a-audit.js?id=b9b11dc7d8a8c812d394",
+    "/js/chunks/a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~724d9912.js": "/js/chunks/a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~724d9912.js?id=5e38456a30f81e4b7316",
     "/js/chunks/a-audit~a-course-form~a-courses~a-teachers~a-teachers-form~admin-users.js": "/js/chunks/a-audit~a-course-form~a-courses~a-teachers~a-teachers-form~admin-users.js?id=f66ea4cc4c2987ad7758",
-    "/js/chunks/a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~3cfe1012.js": "/js/chunks/a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~3cfe1012.js?id=639cf03df8ab0ca145a2"
+    "/js/chunks/a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~3cfe1012.js": "/js/chunks/a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-overview~a-teachers~3cfe1012.js?id=639cf03df8ab0ca145a2",
+    "/js/chunks/a-applications.js": "/js/chunks/a-applications.js?id=353fbaaac308bd2a3c4a",
+    "/js/chunks/a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-over~33d22083.js": "/js/chunks/a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-over~33d22083.js?id=ab2fa1b6aed09b4ef4c9",
+    "/js/chunks/a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-over~55818d18.js": "/js/chunks/a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-over~55818d18.js?id=c996ea600e2cf9269587",
+    "/js/chunks/a-applications~a-audit~a-course-form~a-courses~a-teachers~a-teachers-form~admin-users.js": "/js/chunks/a-applications~a-audit~a-course-form~a-courses~a-teachers~a-teachers-form~admin-users.js?id=4c57844943f8ce80791c"
 }
