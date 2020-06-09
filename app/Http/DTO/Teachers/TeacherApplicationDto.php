@@ -22,11 +22,6 @@ class TeacherApplicationDto extends DtoBase
         return $this->r->id;
     }
 
-    public function getFullName()
-    {
-        return $this->r->full_name;
-    }
-
     public function getApprovedBy()
     {
         return $this->r->admin_id === null ? null : new UserDto($this->r->admin);

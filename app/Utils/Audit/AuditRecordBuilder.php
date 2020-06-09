@@ -38,7 +38,7 @@ class AuditRecordBuilder
         return $this;
     }
 
-    public function comment(string $comment): self
+    public function comment(?string $comment): self
     {
         $this->comment = $comment;
         return $this;

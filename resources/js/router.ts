@@ -65,7 +65,7 @@ let router = new VueRouter({
                         '@admin/components/overview/OverviewPage.vue')
                 },
                 {
-                    path: 'teachers/applications',
+                    path: 'teachers/applications/all',
                     name: 'admin__teachers_applications',
                     component: () => import(
                         /* webpackChunkName: "a-applications" */
@@ -73,6 +73,18 @@ let router = new VueRouter({
                     props({query}) {
                         return {
                             approvedFilter: query.f || null
+                        }
+                    }
+                },
+                {
+                    path: 'teachers/applications/:id',
+                    name: 'admin__teachers_application',
+                    component: () => import(
+                        /* webpackChunkName: "a-application" */
+                        '@admin/components/teachers/TeacherApplication.vue'),
+                    props({params}) {
+                        return {
+                            id: +params.id
                         }
                     }
                 },

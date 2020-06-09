@@ -56,7 +56,7 @@ class TeacherController extends Controller
                 $form === null ?
                     null :
                     (
-                        $form->approved == null ?
+                        $form->approved === null ?
                             'awaiting' :
                             (
                                 $form->approved ?

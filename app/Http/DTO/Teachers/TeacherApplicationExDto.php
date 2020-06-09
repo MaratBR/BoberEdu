@@ -6,6 +6,11 @@ namespace App\Http\DTO\Teachers;
 
 class TeacherApplicationExDto extends TeacherApplicationDto
 {
+    public function getFullName()
+    {
+        return $this->r->full_name;
+    }
+
     public function getEducation()
     {
         return $this->r->education;

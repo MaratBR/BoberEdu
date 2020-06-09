@@ -160,8 +160,9 @@ Route::group([
     ], function () {
 
         Route::get('approval-form', 'Admin\TeachersController@approvalForms');
+        Route::get('approval-form/{id}', 'Admin\TeachersController@getTeacherApplication');
         Route::put('approval-form/{id}/approve', 'Admin\TeachersController@approveForm');
-        Route::put('approval-form/{id}/disapprove', 'Admin\TeachersController@disapproveForm');
+        Route::put('approval-form/{id}/reject', 'Admin\TeachersController@disapproveForm');
 
         Route::get('', 'Admin\TeachersController@paginate');
         Route::get('search', 'Admin\TeachersController@search');

@@ -131,12 +131,18 @@ export namespace dto {
 
     //#region Teachers
 
-    export type TeacherApprovalForm = {
-        education: string,
-        fullName: string,
+    export type TeacherApplicationDto = {
+        user: dto.UserDto,
+        id: number,
+        approved: boolean | null,
+        approvedBy: dto.UserDto | null
+    }
+
+    export type TeacherApplicationExDto = TeacherApplicationDto & {
         degree: string,
         extra: string,
-        id: number,
+        fullName: string,
+        education: string,
         location: string,
     }
 

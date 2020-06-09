@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Teachers\AdminTeacherDto;
 use App\Http\DTO\Teachers\TeacherApplicationDto;
+use App\Http\DTO\Teachers\TeacherApplicationExDto;
 use App\Http\DTO\Teachers\TeacherAssignmentDto;
 use App\Http\DTO\Teachers\TeacherDto;
 use App\Http\DTO\Uploads\UploadedDto;
@@ -20,6 +21,7 @@ use App\Services\Abs\ICourseService;
 use App\Services\Abs\ITeachersService;
 use App\Services\Abs\IUploadService;
 use App\Services\Abs\IUsersService;
+use App\TeacherApprovalForm;
 use App\User;
 use App\Utils\Audit\Audit;
 use Illuminate\Http\Request;
@@ -146,18 +148,21 @@ class TeachersController extends Controller
 
     public function approveForm(AuthenticatedRequest $request, int $formId)
     {
-        $this->setFormApproved($request, $formId, true, $request->input('comment'));
+        $form = $this->setFormApproved($request, $formId, true, $request->input('comment'));
+        $this->repo->create($form->user, $form->getTeacherPayload());
+        return $this->done();
     }
 
     public function disapproveForm(AuthenticatedRequest $request, int $formId)
     {
-        $this->setFormApproved($request, $formId, true, $request->input('comment'));
+        $this->setFormApproved($request, $formId, false, $request->input('comment'));
+        return $this->done();
     }
 
     public function approvalForms(Request $request)
     {
         $filter = $request->input('f');
-        $q = $this->repo->approvalForms($filter);
+        $q = $this->repo->approvalForms();
         if ($filter) {
             $filter = [
                 'a' => true,
@@ -169,7 +174,12 @@ class TeachersController extends Controller
         return new PaginationDto($q->paginate(), TeacherApplicationDto::class);
     }
 
-    private function setFormApproved(AuthenticatedRequest $request, int $formId, bool $approval, ?string $comment = null)
+    public function getTeacherApplication(int $id)
+    {
+        return new TeacherApplicationExDto($this->repo->getApprovalForm($id));
+    }
+
+    private function setFormApproved(AuthenticatedRequest $request, int $formId, bool $approval, ?string $comment = null): TeacherApprovalForm
     {
         $form = $this->repo->getApprovalForm($formId);
         $form->update([
@@ -179,5 +189,7 @@ class TeachersController extends Controller
 
         AuditRecord::make($request->user(), $request, $approval ? Audit::APPROVE_TEACHER : Audit::DISAPPROVE_TEACHER)
             ->subject($form)->comment($comment)->build();
+
+        return $form;
     }
 }

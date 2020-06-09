@@ -31,7 +31,8 @@
                     <span class="text-secondary" v-if="approved === false">Rejected</span>
                 </td>
                 <td>
-                    <router-link class="btn" :class="approved === null ? 'btn-primary' : 'btn-outlined-secondary'" :to="{name: 'teachers_application', params: {id}}">{{ approved === null ? 'Review' : 'View' }}</router-link>
+                    <router-link class="btn" :class="approved === null ? 'btn-primary' : 'btn-outlined-secondary'"
+                                 :to="{name: 'admin__teachers_application', params: {id}}">{{ approved === null ? 'Review' : 'View' }}</router-link>
                 </td>
             </template>
         </data-presenter>
@@ -49,7 +50,7 @@
         components: {DataPresenter, AdminSection}
     })
     export default class TeacherApplications extends AdminStoreComponent {
-        pagination: dto.PaginationDto<dto.TeacherApprovalForm> = null
+        pagination: dto.PaginationDto<dto.TeacherApplicationDto> = null
         page = 1
         @Prop({type: String, default: null}) approvedFilter;
 

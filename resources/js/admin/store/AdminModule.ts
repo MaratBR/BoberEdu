@@ -114,8 +114,23 @@ export class AdminModule {
     }
 
     @Action()
-    getTeacherApplications({page, f}: {page: number, f?: string}): Promise<dto.PaginationDto<dto.TeacherApprovalForm>> {
+    getTeacherApplications({page, f}: {page: number, f?: string}): Promise<dto.PaginationDto<dto.TeacherApplicationDto>> {
         return client.get('admin/teachers/approval-form', {params: {page, f}}).then(this._get);
+    }
+
+    @Action()
+    getTeacherApplication(id: number): Promise<dto.TeacherApplicationExDto> {
+        return client.get('admin/teachers/approval-form/' + id).then(this._get);
+    }
+
+    @Action()
+    approveTeacherApplication(id: number): Promise<dto.Done> {
+        return client.put('admin/teachers/approval-form/' + id + '/approve').then(this._get);
+    }
+
+    @Action()
+    rejectTeacherApplication(id: number): Promise<dto.Done> {
+        return client.put('admin/teachers/approval-form/' + id + '/reject').then(this._get);
     }
 
     //#endregion

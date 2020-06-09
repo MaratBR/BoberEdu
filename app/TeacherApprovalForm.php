@@ -26,6 +26,10 @@ class TeacherApprovalForm extends Model
         'full_name', 'education', 'degree', 'location', 'extra', 'approved', 'user_id', 'admin_id'
     ];
 
+    protected $casts = [
+        'approved' => 'bool'
+    ];
+
     public function admin() {
         return $this->belongsTo(User::class, 'admin_id');
     }
@@ -38,5 +42,15 @@ class TeacherApprovalForm extends Model
     public static function awaitingReview() { return self::query()->whereNull('approved'); }
     public static function approved() { return self::query()->where('approved', '=', true); }
     public static function rejected() { return self::query()->where('approved', '=', false); }
+
+    function getTeacherPayload()
+    {
+        return [
+            'full_name' => $this->full_name,
+            'education' => $this->education,
+            'location' => $this->location,
+            'about' => 'I am your teacher!'
+        ];
+    }
 
 }
