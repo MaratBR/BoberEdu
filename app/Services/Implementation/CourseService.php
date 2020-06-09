@@ -54,6 +54,11 @@ class CourseService implements ICourseService
         return $c;
     }
 
+    function query(): Builder
+    {
+        return Course::query();
+    }
+
 
     function getAvailable(int $id, bool $extra = false): Course
     {

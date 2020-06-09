@@ -57,6 +57,7 @@ class Course extends Model implements IDisplayName
     {
         return [
             'name' => $this->name,
+            'name_exact' => $this->name,
             'about' => $this->about,
             'summary' => $this->summary,
             'tags' => '' // TODO

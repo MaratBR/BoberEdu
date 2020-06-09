@@ -14,7 +14,25 @@ final class CreateCoursesIndex implements MigrationInterface
     public function up(): void
     {
         Index::create('courses', function (Mapping $mapping, Settings $settings) {
-            $mapping->text('name');
+            $settings->analysis([
+                "analyzer" => [
+                    "nameNgram" => [
+                        "type" => "custom",
+                        "filter" => "lowercase",
+                        "tokenizer" => "customNgram"
+                    ]
+                ],
+                "tokenizer" => [
+                    "customNgram" => [
+                        "type" => "nGram",
+                        "min_gram" => "1",
+                        "max_gram" => "2"
+                    ]
+                ]
+            ]);
+
+            $mapping->text('name', ['analyzer' => 'nameNgram']);
+            $mapping->text('name_exact', ['analyzer' => 'simple']);
             $mapping->text('about');
             $mapping->text('summary');
             $mapping->text('tags');

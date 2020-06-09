@@ -13,8 +13,25 @@ final class CreateTeachersIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('teachers', function (Mapping $mapping) {
-            $mapping->text('full_name');
+        Index::create('teachers', function (Mapping $mapping, Settings $settings) {
+            $settings->analysis([
+                "analyzer" => [
+                    "nameNgram" => [
+                        "type" => "custom",
+                        "filter" => "lowercase",
+                        "tokenizer" => "customNgram"
+                    ]
+                ],
+                "tokenizer" => [
+                    "customNgram" => [
+                        "type" => "nGram",
+                        "min_gram" => "1",
+                        "max_gram" => "2"
+                    ]
+                ]
+            ]);
+
+            $mapping->text('full_name', ['analyzer' => 'nameNgram']);
         });
     }
 

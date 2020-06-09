@@ -15,7 +15,7 @@ class SearchController extends Controller
         $q = $request->getQuery();
 
         if (!$q || trim($q) === '')
-            return new PaginationDto([]);
+            return new PaginationDto($courseService->query()->paginate(), CoursePageItemDto::class);
 
         $q = trim($q);
         return new PaginationDto($courseService->search($q, null), CoursePageItemDto::class);

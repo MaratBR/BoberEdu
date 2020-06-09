@@ -117,6 +117,6 @@ class User extends Authenticatable implements JWTSubject, IDisplayName
 
     function getDisplayName(): string
     {
-        return $this->name . ' (' . $this->display_name . ')';
+        return $this->name . ($this->display_name ? ' (' . $this->display_name . ')' : '');
     }
 }

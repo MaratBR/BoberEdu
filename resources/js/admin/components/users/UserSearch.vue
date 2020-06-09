@@ -13,7 +13,12 @@
 
         <template v-slot="{id, name, email, joinedAt, displayName, avatar}">
             <td>{{id}}</td>
-            <td>{{name}}</td>
+            <td>
+                <router-link :to="{name: 'admin__users_edit', params: {id}}">
+                    {{name}}
+                    <i class="fas fa-edit"></i>
+                </router-link>
+            </td>
             <td>{{email}}</td>
             <td>{{new Date(joinedAt).toDateString()}}</td>
             <td>{{displayName}}</td>
