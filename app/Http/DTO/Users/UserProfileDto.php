@@ -6,7 +6,6 @@ namespace App\Http\DTO\Users;
 
 use App\Enrollment;
 use App\Http\DTO\DtoBase;
-use App\Http\DTO\Users\UserDto;
 use App\User;
 
 class UserProfileDto extends DtoBase
@@ -20,7 +19,8 @@ class UserProfileDto extends DtoBase
         $this->enrollments = $enrollments;
     }
 
-    function getCourses() {
+    function getCourses()
+    {
         return collect($this->enrollments)->map(function (Enrollment $enrollment) {
             return [
                 'since' => $enrollment->enrolled_at,
@@ -34,7 +34,8 @@ class UserProfileDto extends DtoBase
         });
     }
 
-    function getUser() {
+    function getUser()
+    {
         return (new UserDto($this->user))->toArray();
     }
 }

@@ -32,19 +32,6 @@ class AuditRecord extends Model
         'extra' => 'json'
     ];
 
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
-
-    public function subject() {
-        return $this->morphTo();
-    }
-
-    public static function builder(): AuditRecordBuilder
-    {
-        return new AuditRecordBuilder();
-    }
-
     public static function make(User $actor, Request $request, string $action): AuditRecordBuilder
     {
         return self::builder()
@@ -53,6 +40,24 @@ class AuditRecord extends Model
             ->action($action);
     }
 
-    public static function log() { return self::query()->orderBy('created_at', 'desc'); }
+    public static function builder(): AuditRecordBuilder
+    {
+        return new AuditRecordBuilder();
+    }
+
+    public static function log()
+    {
+        return self::query()->orderBy('created_at', 'desc');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function subject()
+    {
+        return $this->morphTo();
+    }
 
 }

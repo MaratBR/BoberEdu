@@ -7,7 +7,6 @@ use App\Http\DTO\PaginationDto;
 use App\Http\Requests\SearchRequest;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\ITeachersService;
-use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {

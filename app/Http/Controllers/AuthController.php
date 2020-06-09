@@ -35,7 +35,8 @@ class AuthController extends Controller
         return new UserDto($request->user());
     }
 
-    public function logout(AuthenticatedRequest $request) {
+    public function logout(AuthenticatedRequest $request)
+    {
         Auth::logout();
     }
 }

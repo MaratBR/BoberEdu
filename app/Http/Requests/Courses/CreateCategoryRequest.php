@@ -2,10 +2,6 @@
 
 namespace App\Http\Requests\Courses;
 
-use App\Http\Requests\AdminRequest;
-use App\Http\Requests\IPayloadRequest;
-use Illuminate\Foundation\Http\FormRequest;
-
 class CreateCategoryRequest extends UpdateCategoryRequest
 {
 

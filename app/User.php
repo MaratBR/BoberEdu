@@ -33,7 +33,7 @@ class User extends Authenticatable implements JWTSubject, IDisplayName
     use Notifiable, HasApiTokens, Searchable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'display_name', 'status','normalized_name', 'normalized_email', 'about',
+        'name', 'email', 'password', 'display_name', 'status', 'normalized_name', 'normalized_email', 'about',
         'avatar_id', 'is_admin'
     ];
 
@@ -56,6 +56,19 @@ class User extends Authenticatable implements JWTSubject, IDisplayName
         'activated' => 'boolean'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        $callback = function ($user) {
+            $user->normalized_email = strtoupper($user->email);
+            $user->normalized_name = strtoupper($user->name);
+        };
+
+        self::updating($callback);
+        self::creating($callback);
+    }
+
     public function toSearchableArray()
     {
         return [
@@ -71,7 +84,8 @@ class User extends Authenticatable implements JWTSubject, IDisplayName
             ->wherePivot('deleted_at', '!=', null);
     }
 
-    public function avatar() {
+    public function avatar()
+    {
         return $this->belongsTo(FileInfo::class, 'avatar_id');
     }
 
@@ -99,19 +113,6 @@ class User extends Authenticatable implements JWTSubject, IDisplayName
     public function isAdmin()
     {
         return $this->is_admin;
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-
-        $callback = function ($user) {
-            $user->normalized_email = strtoupper($user->email);
-            $user->normalized_name = strtoupper($user->name);
-        };
-
-        self::updating($callback);
-        self::creating($callback);
     }
 
     function getDisplayName(): string

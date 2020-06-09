@@ -19,7 +19,6 @@ class AuditDto implements Arrayable
     }
 
 
-
     public function toArray()
     {
         $subject = $this->record->subject;

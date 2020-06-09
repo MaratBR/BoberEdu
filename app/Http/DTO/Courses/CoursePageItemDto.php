@@ -4,8 +4,6 @@
 namespace App\Http\DTO\Courses;
 
 
-use App\Http\DTO\Courses\CourseDto;
-
 class CoursePageItemDto extends CourseDto
 {
     public function getInfo()

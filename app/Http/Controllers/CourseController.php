@@ -12,18 +12,13 @@ use App\Http\DTO\Courses\CourseUnitsDto;
 use App\Http\DTO\PaginationDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\CreateCategoryRequest;
-use App\Http\Requests\Courses\CreateNewCourseRequest;
 use App\Http\Requests\Courses\OrdnungMussSeinRequest;
 use App\Http\Requests\Courses\SetRateRequest;
 use App\Http\Requests\Courses\UpdateCategoryRequest;
-use App\Http\Requests\Courses\UpdateCourseRequest;
-use App\Http\Requests\Courses\UpdateCourseUnitsRequest;
 use App\Services\Abs\ICourseService;
-use App\Services\Abs\ICourseUnitsUpdateResponse;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Lanin\Laravel\ApiExceptions\InternalServerErrorApiException;
+use function response;
 
 class CourseController extends Controller
 {
@@ -86,7 +81,7 @@ class CourseController extends Controller
 
     public function getRate(AuthenticatedRequest $request, int $courseId)
     {
-        return \response()->json($this->courses->getRate($request->user(), $courseId));
+        return response()->json($this->courses->getRate($request->user(), $courseId));
     }
 
     public function setRate(SetRateRequest $request, int $courseId)
@@ -98,7 +93,8 @@ class CourseController extends Controller
         return $this->noContent();
     }
 
-    public function removeRate(AuthenticatedRequest $request, int $courseId) {
+    public function removeRate(AuthenticatedRequest $request, int $courseId)
+    {
         $course = $this->courses->get($courseId);
 
         $this->courses->removeRate($course, $request->user());
@@ -111,13 +107,15 @@ class CourseController extends Controller
         $this->courses->putLessonsOrder($courseId, $request->getPayload());
     }
 
-    public function updateCategory(UpdateCategoryRequest $request, int $categoryId) {
+    public function updateCategory(UpdateCategoryRequest $request, int $categoryId)
+    {
         $category = $this->courses->getCategory($categoryId);
         $d = $request->getPayload();
         $category->update($d);
     }
 
-    public function createCategory(CreateCategoryRequest $request) {
+    public function createCategory(CreateCategoryRequest $request)
+    {
         $d = $request->getPayload();
         $category = $this->courses->createCategory($d);
 

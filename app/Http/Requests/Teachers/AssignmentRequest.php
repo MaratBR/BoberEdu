@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Teachers;
 
 use App\Http\Requests\AuthenticatedRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
 class AssignmentRequest extends AuthenticatedRequest
 {

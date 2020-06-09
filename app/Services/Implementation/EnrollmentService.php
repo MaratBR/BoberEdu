@@ -16,6 +16,7 @@ use Lanin\Laravel\ApiExceptions\NotFoundApiException;
 class EnrollmentService implements IEnrollmentService
 {
     use ThrowUtils;
+
     private $courses;
 
     public function __construct(ICourseService $courses)
@@ -23,35 +24,18 @@ class EnrollmentService implements IEnrollmentService
         $this->courses = $courses;
     }
 
-    private function builder(int $courseId, User $user)
-    {
-        return Enrollment::query()
-            ->where('user_id', '=', $user->id)
-            ->where('course_id', '=', $courseId);
-    }
-
-    function getEnrollmentRecord(int $courseId, User $user): Enrollment
-    {
-        /** @var Enrollment $record */
-        $record = $this->getEnrollmentRecordOrNull($courseId, $user);
-
-        $this->throwNotFoundIfNull($record, "You are not enrolled in this course");
-
-        return $record;
-    }
-
-    function getEnrollmentRecordOrNull(int $courseId, User $user): ?Enrollment
-    {
-        /** @var Enrollment|null $record */
-        $record = $this->builder($courseId, $user)->first();
-        return $record;
-    }
-
     public function getEnrollmentRecordWithPaymentOrNull(int $courseId, User $user): ?Enrollment
     {
         /** @var Enrollment|null $record */
         $record = $this->builder($courseId, $user)->with('payment')->first();
         return $record;
+    }
+
+    private function builder(int $courseId, User $user)
+    {
+        return Enrollment::query()
+            ->where('user_id', '=', $user->id)
+            ->where('course_id', '=', $courseId);
     }
 
     function hasEnrollment(int $courseId, User $user): bool
@@ -102,6 +86,22 @@ class EnrollmentService implements IEnrollmentService
         return $this->getEnrollmentRecord($courseId, $user);
     }
 
+    function getEnrollmentRecord(int $courseId, User $user): Enrollment
+    {
+        /** @var Enrollment $record */
+        $record = $this->getEnrollmentRecordOrNull($courseId, $user);
+
+        $this->throwNotFoundIfNull($record, "You are not enrolled in this course");
+
+        return $record;
+    }
+
+    function getEnrollmentRecordOrNull(int $courseId, User $user): ?Enrollment
+    {
+        /** @var Enrollment|null $record */
+        $record = $this->builder($courseId, $user)->first();
+        return $record;
+    }
 
     function getUserEnrolls(User $user)
     {
@@ -126,16 +126,16 @@ class EnrollmentService implements IEnrollmentService
         $this->setActivated($record, true);
     }
 
-    function deactivate(Enrollment $record): void
-    {
-        $this->setActivated($record, false);
-    }
-
     private function setActivated(Enrollment $enrollment, bool $value)
     {
         $enrollment->update([
             'activated' => $value
         ]);
+    }
+
+    function deactivate(Enrollment $record): void
+    {
+        $this->setActivated($record, false);
     }
 
     function delete(int $courseId, User $user)

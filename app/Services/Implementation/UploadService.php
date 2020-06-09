@@ -10,23 +10,12 @@ use App\User;
 use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use function GuzzleHttp\Psr7\copy_to_stream;
 
 class UploadService implements IUploadService
 {
-    function generateIdForType(string $type): string
+    function uploadAvatar(User $user, $file): FileInfo
     {
-        return $type . '/' . bin2hex(openssl_random_pseudo_bytes(3)) . '_' . time();
-    }
-
-    function createTmpFile()
-    {
-        $tmpFilename = tempnam(sys_get_temp_dir(), 'bts');
-
-        if (!$tmpFilename)
-            throw new HttpException(500);
-
-        return $tmpFilename;
+        return $this->putFile($file, 'a', null, $user);
     }
 
     function putFile($file, $type = 'g', ?string $about = null, ?User $user = null)
@@ -72,9 +61,19 @@ class UploadService implements IUploadService
         return $fileInfo;
     }
 
-    function uploadAvatar(User $user, $file): FileInfo
+    function createTmpFile()
     {
-        return $this->putFile($file, 'a', null, $user);
+        $tmpFilename = tempnam(sys_get_temp_dir(), 'bts');
+
+        if (!$tmpFilename)
+            throw new HttpException(500);
+
+        return $tmpFilename;
+    }
+
+    function generateIdForType(string $type): string
+    {
+        return $type . '/' . bin2hex(openssl_random_pseudo_bytes(3)) . '_' . time();
     }
 
     function uploadImage(User $user, string $type, $file): FileInfo

@@ -8,13 +8,10 @@ use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Teachers\AdminTeacherDto;
 use App\Http\DTO\Teachers\TeacherApplicationDto;
 use App\Http\DTO\Teachers\TeacherApplicationExDto;
-use App\Http\DTO\Teachers\TeacherAssignmentDto;
 use App\Http\DTO\Teachers\TeacherDto;
 use App\Http\DTO\Uploads\UploadedDto;
-use App\Http\Requests\AdminRequest;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\SearchRequest;
-use App\Http\Requests\Teachers\AssignTeacherRequest;
 use App\Http\Requests\Teachers\CreateTeacherRequest;
 use App\Http\Requests\Teachers\UpdateTeacherRequest;
 use App\Services\Abs\ICourseService;
@@ -22,10 +19,8 @@ use App\Services\Abs\ITeachersService;
 use App\Services\Abs\IUploadService;
 use App\Services\Abs\IUsersService;
 use App\TeacherApprovalForm;
-use App\User;
 use App\Utils\Audit\Audit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TeachersController extends Controller
 {
@@ -64,8 +59,7 @@ class TeachersController extends Controller
         $course = $this->courses->get($courseId);
 
 
-        if ($this->repo->hasAssignment($teacher, $course))
-        {
+        if ($this->repo->hasAssignment($teacher, $course)) {
             $this->throwError(409, "This teacher already has assignment for this course");
         }
 
@@ -86,12 +80,6 @@ class TeachersController extends Controller
                 'c' => $course->id
             ])
             ->build();
-    }
-
-    public function paginate() {
-        $paginator = $this->repo->paginate();
-
-        return new PaginationDto($paginator, TeacherDto::class);
     }
 
     public function create(CreateTeacherRequest $request, IUsersService $users)
@@ -125,7 +113,8 @@ class TeachersController extends Controller
         return $this->deleteShortcut($teacher->delete());
     }
 
-    public function uploadAvatar(AuthenticatedRequest $request, int $id, IUploadService $uploadService) {
+    public function uploadAvatar(AuthenticatedRequest $request, int $id, IUploadService $uploadService)
+    {
         $teacher = $this->repo->get($id);
         $avatar = $uploadService->uploadAvatar($request->user(), $this->openInput());
 
@@ -145,37 +134,18 @@ class TeachersController extends Controller
         return new PaginationDto($this->repo->search($request->getQuery())->paginate(), TeacherDto::class);
     }
 
+    public function paginate()
+    {
+        $paginator = $this->repo->paginate();
+
+        return new PaginationDto($paginator, TeacherDto::class);
+    }
+
     public function approveForm(AuthenticatedRequest $request, int $formId)
     {
         $form = $this->setFormApproved($request, $formId, true, $request->input('comment'));
         $this->repo->create($form->user, $form->getTeacherPayload());
         return $this->done();
-    }
-
-    public function disapproveForm(AuthenticatedRequest $request, int $formId)
-    {
-        $this->setFormApproved($request, $formId, false, $request->input('comment'));
-        return $this->done();
-    }
-
-    public function approvalForms(Request $request)
-    {
-        $filter = $request->input('f');
-        $q = $this->repo->approvalForms();
-        if ($filter) {
-            $filter = [
-                'a' => true,
-                'w' => null,
-                'r' => false
-            ][$filter] ?? null;
-            $q = $q->where('approved', '=', $filter);
-        }
-        return new PaginationDto($q->paginate(), TeacherApplicationDto::class);
-    }
-
-    public function getTeacherApplication(int $id)
-    {
-        return new TeacherApplicationExDto($this->repo->getApprovalForm($id));
     }
 
     private function setFormApproved(AuthenticatedRequest $request, int $formId, bool $approval, ?string $comment = null): TeacherApprovalForm
@@ -190,5 +160,31 @@ class TeachersController extends Controller
             ->subject($form)->comment($comment)->build();
 
         return $form;
+    }
+
+    public function disapproveForm(AuthenticatedRequest $request, int $formId)
+    {
+        $this->setFormApproved($request, $formId, false, $request->input('comment'));
+        return $this->done();
+    }
+
+    public function approvalForms(Request $request)
+    {
+        $filter = $request->input('f');
+        $q = $this->repo->approvalForms();
+        if ($filter) {
+            $filter = [
+                    'a' => true,
+                    'w' => null,
+                    'r' => false
+                ][$filter] ?? null;
+            $q = $q->where('approved', '=', $filter);
+        }
+        return new PaginationDto($q->paginate(), TeacherApplicationDto::class);
+    }
+
+    public function getTeacherApplication(int $id)
+    {
+        return new TeacherApplicationExDto($this->repo->getApprovalForm($id));
     }
 }

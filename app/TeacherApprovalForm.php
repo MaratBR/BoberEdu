@@ -30,18 +30,30 @@ class TeacherApprovalForm extends Model
         'approved' => 'bool'
     ];
 
-    public function admin() {
+    public static function awaitingReview()
+    {
+        return self::query()->whereNull('approved');
+    }
+
+    public static function approved()
+    {
+        return self::query()->where('approved', '=', true);
+    }
+
+    public static function rejected()
+    {
+        return self::query()->where('approved', '=', false);
+    }
+
+    public function admin()
+    {
         return $this->belongsTo(User::class, 'admin_id');
     }
 
-
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-
-    public static function awaitingReview() { return self::query()->whereNull('approved'); }
-    public static function approved() { return self::query()->where('approved', '=', true); }
-    public static function rejected() { return self::query()->where('approved', '=', false); }
 
     function getTeacherPayload()
     {

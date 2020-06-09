@@ -35,7 +35,8 @@ class PaymentDto extends DtoBase
         return $this->payment->normalized_gateaway_name;
     }
 
-    public function getTS(): int {
-        return  $this->payment->created_at->timestamp;
+    public function getTS(): int
+    {
+        return $this->payment->created_at->timestamp;
     }
 }

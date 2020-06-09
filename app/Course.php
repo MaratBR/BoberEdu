@@ -68,32 +68,38 @@ class Course extends Model implements IDisplayName
         return $this->units()->count();
     }
 
+    public function units()
+    {
+        return $this->hasMany(Unit::class);
+    }
+
     public function getLessonsCountAttribute()
     {
         return $this->lessons()->count();
     }
 
-    public function units() {
-        return $this->hasMany(Unit::class);
-    }
-
-    public function lessons() {
+    public function lessons()
+    {
         return $this->hasManyThrough(Lesson::class, Unit::class);
     }
 
-    public function teachers() {
+    public function teachers()
+    {
         return $this->belongsToMany(Teacher::class, 'teaching_assignments');
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function rating() {
+    public function rating()
+    {
         return $this->hasMany(Rate::class);
     }
 
-    public function image() {
+    public function image()
+    {
         return $this->belongsTo(FileInfo::class, 'image_id');
     }
 

@@ -16,14 +16,14 @@ class AuditService implements IAuditService
     function all(): LengthAwarePaginator
     {
         /** @var LengthAwarePaginator $paginator */
-        $paginator =  AuditRecord::query()->orderBy('created_at', 'desc')->paginate(100);
+        $paginator = AuditRecord::query()->orderBy('created_at', 'desc')->paginate(100);
         return $paginator;
     }
 
     function byUser(User $user): LengthAwarePaginator
     {
         /** @var LengthAwarePaginator $paginator */
-        $paginator =  AuditRecord::query()->where('user_id', '=', $user->id)->paginate();
+        $paginator = AuditRecord::query()->where('user_id', '=', $user->id)->paginate();
         return $paginator;
     }
 

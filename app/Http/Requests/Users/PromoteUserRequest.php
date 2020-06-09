@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Users;
 
 use App\Http\Requests\AuthenticatedRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
 class PromoteUserRequest extends AuthenticatedRequest
 {

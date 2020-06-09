@@ -5,6 +5,7 @@ namespace App\Utils\Audit;
 
 
 use Illuminate\Database\Eloquent\Model;
+use ReflectionClass;
 
 class Audit
 {
@@ -18,7 +19,7 @@ class Audit
     public const PROMOTE = 10;
     public const DEMOTE = 11;
     public const BLOCK = 12;
-    public const UPLOAD_AVATAR= 13;
+    public const UPLOAD_AVATAR = 13;
 
     public const ASSIGN_TEACHER = 20;
     public const REVOKE_TEACHER = 21;
@@ -28,11 +29,17 @@ class Audit
 
     private static $assoc = null;
 
-    private static function getValuesAssociationTable(): array {
+    public static function getTypeRepresentation(int $value)
+    {
+        return self::getValuesAssociationTable()[$value] ?? "custom" . $value;
+    }
+
+    private static function getValuesAssociationTable(): array
+    {
         if (self::$assoc == null) {
             self::$assoc = [];
 
-            $reflect = new \ReflectionClass(self::class);
+            $reflect = new ReflectionClass(self::class);
             $constants = $reflect->getConstants();
 
             foreach ($constants as $name => $constantValue) {
@@ -43,12 +50,8 @@ class Audit
         return self::$assoc;
     }
 
-    public static function getTypeRepresentation(int $value)
+    public static function subjectId($subject)
     {
-        return self::getValuesAssociationTable()[$value] ?? "custom" . $value;
-    }
-
-    public static function subjectId($subject) {
         if ($subject instanceof Model) {
             return strval($subject->getKey());
         } else {
@@ -56,7 +59,8 @@ class Audit
         }
     }
 
-    public static function subjectType($subject) {
+    public static function subjectType($subject)
+    {
         if ($subject instanceof Model) {
             return $subject->getTable();
         } else {

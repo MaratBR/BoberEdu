@@ -12,19 +12,15 @@ class Convert
     {
         if (is_string($value))
             return Str::snake($value);
-        elseif (is_array($value))
-        {
+        elseif (is_array($value)) {
             $newValue = [];
 
-            foreach ($value as $key => $v)
-            {
+            foreach ($value as $key => $v) {
                 $newValue[self::toSnakeCase($key)] = is_array($v) ? self::toSnakeCase($v) : $v;
             }
 
             return $newValue;
-        }
-        else
-        {
+        } else {
             return $value;
         }
     }
@@ -36,7 +32,8 @@ class Convert
         }, ARRAY_FILTER_USE_KEY);
     }
 
-    public static  function escapeElasticReservedChars($query) {
+    public static function escapeElasticReservedChars($query)
+    {
         return preg_replace(
             '/[\\+\\-\\=\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\<\\>\\?\\:\\\\\\/]/',
             addslashes('\\$0'),

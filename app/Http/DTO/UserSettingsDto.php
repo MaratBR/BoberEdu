@@ -15,16 +15,6 @@ class UserSettingsDto extends DtoBase
         $this->user = $user;
     }
 
-    function getId()
-    {
-        return $this->user->id;
-    }
-
-    function getName()
-    {
-        return $this->user->name;
-    }
-
     function getEmail()
     {
         return $this->user->email;
@@ -40,9 +30,18 @@ class UserSettingsDto extends DtoBase
         return $this->user->display_name ? $this->user->display_name : $this->getName();
     }
 
+    function getName()
+    {
+        return $this->user->name;
+    }
 
     public function getAvatar()
     {
         return $this->user->avatar_id !== null ? $this->user->avatar->getRootUrl() : ('https://api.adorable.io/avatars/270/boberUser' . $this->getId() . '.png');
+    }
+
+    function getId()
+    {
+        return $this->user->id;
     }
 }

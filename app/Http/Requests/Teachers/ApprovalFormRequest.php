@@ -5,7 +5,6 @@ namespace App\Http\Requests\Teachers;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\IPayloadRequest;
 use App\Utils\Convert;
-use Illuminate\Foundation\Http\FormRequest;
 
 class ApprovalFormRequest extends AuthenticatedRequest implements IPayloadRequest
 {

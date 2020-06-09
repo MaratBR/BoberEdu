@@ -43,7 +43,8 @@ trait ControllerUtils
         );
     }
 
-    protected function openInput() {
+    protected function openInput()
+    {
         return fopen('php://input', 'r');
     }
 
