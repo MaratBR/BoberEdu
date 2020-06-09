@@ -16,16 +16,13 @@ class CreateAuditRecordsTable extends Migration
         Schema::create('audit_records', function (Blueprint $table) {
             $table->id();
             $table->timestamp('created_at')->useCurrent();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->references('id')->on('users');
             $table->ipAddress('ip');
             $table->unsignedInteger('action');
             $table->string('user_agent');
-            $table->string('subject')->nullable();
-            $table->string('subject_type')->nullable();
             $table->json('extra')->nullable();
             $table->string('comment')->nullable();
-
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->nullableMorphs('subject');
         });
     }
 

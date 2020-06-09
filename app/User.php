@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Utils\Audit\IDisplayName;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,7 +28,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property FileInfo|null avatar
  * @property Teacher|null teacher
  */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, IDisplayName
 {
     use Notifiable, HasApiTokens, Searchable;
 
@@ -111,5 +112,10 @@ class User extends Authenticatable implements JWTSubject
 
         self::updating($callback);
         self::creating($callback);
+    }
+
+    function getDisplayName(): string
+    {
+        return $this->name . ' (' . $this->display_name . ')';
     }
 }

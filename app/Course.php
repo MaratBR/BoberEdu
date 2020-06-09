@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Utils\Audit\IDisplayName;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,7 +32,7 @@ use Laravel\Scout\Searchable;
  * @property Carbon sign_up_end
  * @property FileInfo|null image
  */
-class Course extends Model
+class Course extends Model implements IDisplayName
 {
     use SoftDeletes, Searchable;
 
@@ -101,5 +102,10 @@ class Course extends Model
         $now = Carbon::now();
         return ($this->sign_up_beg == null && $this->sign_up_end == null) ||
             ($this->sign_up_beg < $now && $this->sign_up_end > $now);
+    }
+
+    function getDisplayName(): string
+    {
+        return $this->name;
     }
 }

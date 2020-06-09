@@ -53,11 +53,11 @@ class AuditRecordBuilder
     public function subject($subject): self
     {
         if ($subject instanceof Model) {
-            $this->subject = strval($subject->getKey());
-            $this->subjectType = class_basename($subject);
-        }else if (!is_string($subject)) {
+            $this->subject = $subject->getKey();
+            $this->subjectType = get_class($subject);
+        } elseif (!is_string($subject)) {
             $this->subjectType = null;
-            $this->subject = strval($subject);
+            $this->subject = null;
         }
         return $this;
     }
@@ -93,7 +93,7 @@ class AuditRecordBuilder
             throw new InvalidAuditRecord("Audit record must have action name set");
 
         return AuditRecord::create([
-            'subject' => $this->subject,
+            'subject_id' => $this->subject,
             'subject_type' => $this->subjectType,
             'user_id' => $this->actorId,
             'ip' => $this->ip,
