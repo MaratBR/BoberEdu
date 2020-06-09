@@ -31,12 +31,7 @@ function b64Decode(str) {
 
 let router = new VueRouter({
     routes: [
-        {
-            path: '/playground',
-            component: () => import(
-                /* webpackChunkName: "playground" */
-                '@app/dev/Playground.vue'),
-        },
+
         {
             path: "/admin",
             name: "admin",
@@ -243,6 +238,13 @@ let router = new VueRouter({
             path: '',
             component: App,
             children: [
+                {
+                    path: '/',
+                    name: 'home',
+                    component: () => import(
+                        /* webpackChunkName: "mainpage" */
+                        '@app/common/components/pages/MainPage.vue'),
+                },
                 {
                     path: '/u/:id',
                     name: 'profile',

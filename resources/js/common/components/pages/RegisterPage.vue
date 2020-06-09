@@ -2,25 +2,31 @@ import {Sex} from "../../api";
 import {Sex} from "../../api";
 <template>
     <page title="Register">
-        <form class="form" @submit.prevent="onSubmit">
-            <div class="form__control">
-                <label class="form__label" for="InputUsername">Name</label>
+        <form @submit.prevent="onSubmit">
+            <div class="form-group">
+                <label for="InputUsername">Name</label>
                 <input class="form-control" id="InputUsername" type="text" v-model="name">
             </div>
 
-            <div class="form__control">
-                <label class="form__label" for="InputEMail">E-Mail</label>
+            <div class="form-group">
+                <label for="InputEMail">E-Mail</label>
                 <input class="form-control" id="InputEMail" type="text" v-model="email">
             </div>
 
-            <div class="form__control">
-                <label class="form__label" for="InputPwd">Password</label>
+            <div class="form-group">
+                <label for="InputPwd">Password</label>
                 <input class="form-control" id="InputPwd" type="password" v-model="password">
             </div>
 
+            <div class="form-group">
+                <label for="InputPwd">Repeat password please</label>
+                <input class="form-control" id="InputPwd" type="password" v-model="repeatPassword">
+            </div>
+            <span class="text-danger" v-if="dontMatch">Password don't match</span>
+
             <error v-if="errors" :error="errors" />
 
-            <div class="form__control">
+            <div class="form-group">
                 <button class="btn btn-primary">Register</button>
             </div>
 
@@ -44,11 +50,15 @@ import {Sex} from "../../api";
     export default class RegisterPage extends StoreComponent {
         email = '';
         password = '';
+        repeatPassword = '';
         name = '';
         displayName = null
         errors = null;
         submitting = false;
 
+        get dontMatch() {
+            return this.password !== '' && this.password !== this.repeatPassword
+        }
 
         async onSubmit() {
             try {

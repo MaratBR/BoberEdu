@@ -29,7 +29,7 @@ class RegisterRequest extends FormRequest implements IPayloadRequest
             'name' => 'required|unique:users|max:255',
             'email' => 'required|unique:users|email',
             'password' => 'required|min:8',
-            'displayName' => 'string',
+            'displayName' => 'string|nullable',
             'age' => 'numeric'
         ];
     }
