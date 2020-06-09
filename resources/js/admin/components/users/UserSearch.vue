@@ -1,6 +1,6 @@
 <template>
     <data-presenter @requestPage="(page = $event) && load()" searchable :selectable="selectable"
-                    :pagination="pagination" @search="query = $event" v-on="$listeners">
+                    :pagination="pagination" @search="query = $event" :filter="filter" v-on="$listeners">
         <template v-slot:table-header>
             <th>#</th>
             <th>Username</th>
@@ -38,6 +38,7 @@
     })
     export default class UserSearch extends AdminStoreComponent {
         @Prop({type: Boolean, default: false}) selectable: boolean;
+        @Prop() filter: (u: dto.AdminUserDto) => boolean;
 
         pagination: dto.PaginationDto<dto.UserDto> = null
         page = 1;

@@ -18,7 +18,7 @@
             <div v-else-if="!searching" class="p-5 d-flex justify-content-center card">
                 <button class="btn btn-primary" @click.prevent="searching = true">Select user</button>
             </div>
-            <user-search selectable v-else @selected="userSelected" />
+            <user-search selectable v-else @selected="userSelected" :filter="u => u.teacher === null" />
 
             <form @submit.prevent="submit" v-show="username">
                 <div class="form-group">

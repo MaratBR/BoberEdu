@@ -103,7 +103,7 @@ class TeachersController extends Controller
 
 
         AuditRecord::make($request->user(), $request, Audit::CREATE)
-            ->subject($teacher->id)
+            ->subject($teacher)
             ->data(['u' => $user->id])
             ->comment($request->getComment())
             ->build();

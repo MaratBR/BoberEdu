@@ -16,7 +16,7 @@ class AuditService implements IAuditService
     function all(): LengthAwarePaginator
     {
         /** @var LengthAwarePaginator $paginator */
-        $paginator =  AuditRecord::query()->paginate(100);
+        $paginator =  AuditRecord::query()->orderBy('created_at', 'desc')->paginate(100);
         return $paginator;
     }
 
