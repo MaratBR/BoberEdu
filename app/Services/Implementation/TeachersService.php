@@ -73,8 +73,14 @@ class TeachersService implements ITeachersService
         return TeacherApprovalForm::findOrFail($id);
     }
 
-    function createApprovalForm(array $data): TeacherApprovalForm
+    function getLastApprovalForm(User $user): TeacherApprovalForm
     {
+        return TeacherApprovalForm::query()->orderBy('created_at', 'desc')->first();
+    }
+
+    function createApprovalForm(User $user, array $data): TeacherApprovalForm
+    {
+        $data['user_id'] = $user->id;
         return TeacherApprovalForm::create($data);
     }
 

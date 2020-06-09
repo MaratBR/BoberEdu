@@ -27,7 +27,9 @@ interface ITeachersService
 
     function getApprovalForm(int $id): TeacherApprovalForm;
 
-    function createApprovalForm(array $data): TeacherApprovalForm;
+    function getLastApprovalForm(User $user): TeacherApprovalForm;
+
+    function createApprovalForm(User $user, array $data): TeacherApprovalForm;
 
     /**
      * @param $teacher Teacher|int

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int user_id
  * @property User user
  * @property User|null admin
+ * @property bool approved
  * @method static findOrFail(int $id)
  * @method static create(array $data)
  */

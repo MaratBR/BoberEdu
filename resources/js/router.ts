@@ -319,6 +319,14 @@ let router = new VueRouter({
                     }
                 },
                 {
+                    name: 'become_teacher',
+                    path: '/me/become-teacher',
+                    component: () => import(
+                        /* webpackChunkName: "brains-giveaway" */
+                        '@common/components/teacher/TeacherApprovalForm.vue'
+                        )
+                },
+                {
                     name: 'oops',
                     path: '/oops/:kind',
                     component: null

@@ -91,11 +91,13 @@ Route::group([
 Route::group([
     'prefix' => 'teachers'
 ], function () {
-    Route::get('{teacher}', 'TeacherController@get');
-    Route::post('', 'TeacherController@create');
+    Route::put('approval-form', 'TeacherController@sendApprovalForm');
+    Route::get('approval-form', 'TeacherController@approvalStatus');
     Route::post('assignment/{teacher}/{course}', 'TeacherController@assign');
     Route::delete('assignment/{teacher}/{course}', 'TeacherController@revoke');
-    Route::put('approval-form', 'TeacherController@sendApprovalForm');
+
+    Route::get('{teacher}', 'TeacherController@get');
+    Route::post('', 'TeacherController@create');
 });
 
 Route::group([

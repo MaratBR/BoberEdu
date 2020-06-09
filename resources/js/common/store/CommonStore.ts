@@ -4,7 +4,6 @@ import client from "@common/axios";
 import {AuthModule, CoursesModule, LessonsModule, PaymentsModule} from "@common/store";
 import {dto, requests} from "@common";
 import {randomId} from "@common/utils";
-import {UpdatePayload} from "@common/store/utils";
 
 export default class CommonStore {
     @Module() public courses = new CoursesModule(client);
@@ -93,8 +92,19 @@ export default class CommonStore {
 
     //#region Teachers
 
+    @Action()
     getTeacher(id: number): Promise<dto.TeacherProfileDto> {
         return client.get('teachers/' + id).then(r => r.data)
+    }
+
+    @Action()
+    sendTeacherApprovalForm(data: requests.SubmitTeacherApprovalForm): Promise<dto.Done> {
+        return client.put('teachers/approval-form', data).then(r => r.data)
+    }
+
+    @Action()
+    getTeacherApprovalState(): Promise<dto.TeacherApprovalState> {
+        return client.get('teachers/approval-form').then(r => r.data.state)
     }
 
     //#endregion
@@ -181,6 +191,7 @@ export default class CommonStore {
         value = Math.min(Math.max(value, 1), 5);
         return client.put('courses/' + courseId + '/rate', { value }).then(r => r.data)
     }
+
     //#endregion
 
     //#region Enrollment

@@ -111,7 +111,13 @@ export namespace dto {
         }
     };
 
+    export type Done = {
+        done: true
+    }
+
     //#endregion
+
+    //#region Payments
 
     export type PaymentDto = {
         success: boolean,
@@ -121,12 +127,20 @@ export namespace dto {
         ts: number
     };
 
-    export type TeacherAssignmentDto = {
-        since: string | null,
-        until: string | null
-    };
+    //#endregion
 
     //#region Teachers
+
+    export type TeacherApprovalForm = {
+        education: string,
+        fullName: string,
+        degree: string,
+        extra: string,
+        id: number,
+        location: string,
+    }
+
+    export type TeacherApprovalState = 'approved' | 'rejected' | 'awaiting' | null
 
     export type TeacherDto = {
         id: number,
@@ -170,6 +184,12 @@ export namespace dto {
         courseId: number
     };
 
+    export type CourseUnitsDto = {
+        courseId: number,
+        courseName: string,
+        units: dto.UnitExDto[]
+    }
+
     export type UnitExDto = UnitDto & {
         lessons: LessonDto[],
         about: string
@@ -212,18 +232,12 @@ export namespace dto {
         email: string
     };
 
-    //#endregion
-
-    export type CourseUnitsDto = {
-        courseId: number,
-        courseName: string,
-        units: dto.UnitExDto[]
-    }
-
     export type AdminUserDto = UserDto & {
         teacher: AdminTeacherDto,
         email: string,
     }
+
+    //#endregion
 }
 
 export namespace requests {
@@ -336,6 +350,14 @@ export namespace requests {
     export type PromoteRequest = {
         admin: boolean,
         reason: string
+    }
+
+    export type SubmitTeacherApprovalForm = {
+        education: string,
+        fullName: string,
+        degree: string,
+        extra: string,
+        location: string
     }
 }
 

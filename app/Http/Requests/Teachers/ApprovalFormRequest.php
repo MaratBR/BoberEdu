@@ -20,6 +20,7 @@ class ApprovalFormRequest extends AuthenticatedRequest implements IPayloadReques
             'fullName' => 'string|required',
             'education' => 'string|required',
             'degree' => 'string|required',
+            'location' => 'string|required',
             'extra' => 'string|nullable'
         ];
     }
