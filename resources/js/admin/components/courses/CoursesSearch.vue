@@ -21,7 +21,9 @@
             <td>{{ trialLength || '–' }}</td>
             <td>{{ summary }}</td>
             <td>
-                <span v-if="requirements.signUp.beg">{{ new Date(requirements.signUp.beg).toDateString() }} / {{ new Date(requirements.signUp.end).toDateString() }}</span>
+                <span v-if="requirements.signUp.beg">
+                    <b>Sign up period:</b>
+                    {{ new Date(requirements.signUp.beg).toDateString() }} / {{ new Date(requirements.signUp.end).toDateString() }}</span>
             </td>
             <td>
                 <bool-presenter :value="available" />

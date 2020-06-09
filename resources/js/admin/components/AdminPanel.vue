@@ -25,22 +25,6 @@
                     <sidebar-link to="teachers" header="Teachers" icon="list" />
                     <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
                 </sidebar-group>
-                <sidebar-group header="Teachers">
-                    <sidebar-link to="teachers" header="Teachers" icon="list" />
-                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
-                </sidebar-group>
-                <sidebar-group header="Teachers">
-                    <sidebar-link to="teachers" header="Teachers" icon="list" />
-                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
-                </sidebar-group>
-                <sidebar-group header="Teachers">
-                    <sidebar-link to="teachers" header="Teachers" icon="list" />
-                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
-                </sidebar-group>
-                <sidebar-group header="Teachers">
-                    <sidebar-link to="teachers" header="Teachers" icon="list" />
-                    <sidebar-link to="teachers_new" header="Register new teacher" icon="plus" />
-                </sidebar-group>
             </admin-sidebar>
         </div>
 

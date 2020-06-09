@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests\Teachers;
 
-use App\Http\Requests\AdminRequest;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\IPayloadRequest;
-use App\Utils\Convert;
 
 class UpdateTeacherRequest extends AuthenticatedRequest implements IPayloadRequest
 {

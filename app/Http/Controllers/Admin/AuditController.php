@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\DTO\Admin\AuditDto;
 use App\Http\DTO\PaginationDto;
 use App\Services\Abs\IAuditService;
-use Illuminate\Http\Request;
 
 class AuditController extends Controller
 {

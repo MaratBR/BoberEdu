@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\DTO\Users\AdminUserDto;
-use App\Http\DTO\Users\UserDto;
-use App\Http\DTO\Utils\ItemsDto;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\Users\EditUserRequest;
@@ -20,6 +18,7 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
+    private const USER_SEARCH_PARAMS = ['id', 'email', 'name'];
     private $repo;
 
     public function __construct(IUsersService $users)
@@ -62,25 +61,11 @@ class UsersController extends Controller
         return new UploadedDto($avatar);
     }
 
-    public function paginate(Request $request)
-    {
-        $order = $request->query('order');
-        if (is_array($order))
-            $order = $order[0];
-        if ($order !== null) {
-            if (!in_array($order, ['id', 'age', 'email']))
-                $order = 'name';
-        }
-
-        return new PaginationDto($this->repo->paginate(50, $order), AdminUserDto::class);
-    }
-
     public function promote(PromoteUserRequest $request, int $userId)
     {
         $user = $this->repo->get($userId);
 
-        if ($user->is_admin != $request->isAdmin())
-        {
+        if ($user->is_admin != $request->isAdmin()) {
             AuditRecord::make($request->user(), $request, Audit::PROMOTE)
                 ->subject($user)->comment($request->getComment())->build();
 
@@ -92,7 +77,6 @@ class UsersController extends Controller
         return $this->noContent();
     }
 
-    private const USER_SEARCH_PARAMS = ['id', 'email', 'name'];
     public function search(SearchRequest $request)
     {
         if ($request->getQuery() === null)
@@ -107,5 +91,18 @@ class UsersController extends Controller
         }
 
         return new PaginationDto($results, AdminUserDto::class);
+    }
+
+    public function paginate(Request $request)
+    {
+        $order = $request->query('order');
+        if (is_array($order))
+            $order = $order[0];
+        if ($order !== null) {
+            if (!in_array($order, ['id', 'age', 'email']))
+                $order = 'name';
+        }
+
+        return new PaginationDto($this->repo->paginate(50, $order), AdminUserDto::class);
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <data-presenter @requestPage="(page = $event) && load()" searchable :selectable="selectable"
-                    :pagination="pagination" @search="query = $event" v-on="$listeners">
+                    :pagination="pagination" @search="query = $event" :filter="filter" v-on="$listeners">
         <template v-slot:table-header>
             <th>#</th>
             <th>Username</th>
@@ -13,7 +13,12 @@
 
         <template v-slot="{id, name, email, joinedAt, displayName, avatar}">
             <td>{{id}}</td>
-            <td>{{name}}</td>
+            <td>
+                <router-link :to="{name: 'admin__users_edit', params: {id}}">
+                    {{name}}
+                    <i class="fas fa-edit"></i>
+                </router-link>
+            </td>
             <td>{{email}}</td>
             <td>{{new Date(joinedAt).toDateString()}}</td>
             <td>{{displayName}}</td>
@@ -38,6 +43,7 @@
     })
     export default class UserSearch extends AdminStoreComponent {
         @Prop({type: Boolean, default: false}) selectable: boolean;
+        @Prop() filter: (u: dto.AdminUserDto) => boolean;
 
         pagination: dto.PaginationDto<dto.UserDto> = null
         page = 1;

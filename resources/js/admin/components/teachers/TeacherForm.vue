@@ -18,7 +18,7 @@
             <div v-else-if="!searching" class="p-5 d-flex justify-content-center card">
                 <button class="btn btn-primary" @click.prevent="searching = true">Select user</button>
             </div>
-            <user-search selectable v-else @selected="userSelected" />
+            <user-search selectable v-else @selected="userSelected" :filter="u => u.teacher === null" />
 
             <form @submit.prevent="submit" v-show="username">
                 <div class="form-group">
@@ -172,7 +172,7 @@
                 if (this.isNew) {
                     let teacher = await this.admin.createTeacher({
                         fullName: this.fullName,
-                        userId: this.userId,
+                        userId: this.actualUserId,
                         about: this.about,
                         comment: this.comment
                     })
@@ -206,6 +206,7 @@
 
         async loadUser() {
             let user = await this.admin.getUser(this.userId)
+            this.actualUserId = this.userId
             this.username = user.name
             this.userAvatar = user.avatar
             if (user.teacher) {

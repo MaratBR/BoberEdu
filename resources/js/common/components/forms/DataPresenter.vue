@@ -74,5 +74,6 @@
     .item.disabled {
         filter: grayscale(1) brightness(0.9);
         cursor: not-allowed !important;
+        opacity: 0.8;
     }
 </style>

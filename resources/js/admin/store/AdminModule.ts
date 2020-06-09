@@ -15,6 +15,11 @@ export class AdminModule {
         return response.data
     }
 
+    @Action()
+    getOverview(): Promise<dto.AdminOverviewDto> {
+        return client.get('admin/overview').then(this._get)
+    }
+
     //#region Users
 
     @Action()
@@ -104,8 +109,27 @@ export class AdminModule {
 
     @Action()
     async uploadTeacherAvatar({id, data}: UpdatePayload<File>): Promise<string> {
-        let d = (await data.stream().getReader().read()).value
-        return client.put('admin/teachers/' + id + '/avatar', d).then(r => r.data.id)
+        return client.put('admin/teachers/' + id + '/avatar', data).then(r => r.data.id)
+    }
+
+    @Action()
+    getTeacherApplications({page, f}: {page: number, f?: string}): Promise<dto.PaginationDto<dto.TeacherApplicationDto>> {
+        return client.get('admin/teachers/approval-form', {params: {page, f}}).then(this._get);
+    }
+
+    @Action()
+    getTeacherApplication(id: number): Promise<dto.TeacherApplicationExDto> {
+        return client.get('admin/teachers/approval-form/' + id).then(this._get);
+    }
+
+    @Action()
+    approveTeacherApplication(id: number): Promise<dto.Done> {
+        return client.put('admin/teachers/approval-form/' + id + '/approve').then(this._get);
+    }
+
+    @Action()
+    rejectTeacherApplication(id: number): Promise<dto.Done> {
+        return client.put('admin/teachers/approval-form/' + id + '/reject').then(this._get);
     }
 
     //#endregion
@@ -176,6 +200,11 @@ export class AdminModule {
     }
 
     //#endregion
+
+    @Action()
+    getAuditLog(page: number): Promise<dto.PaginationDto<dto.AuditDto>> {
+        return client.get('admin/audit/all', {params: {page}}).then(this._get)
+    }
 }
 
 registerModule(vuexStore, ['dyn_admin'], new AdminModule());

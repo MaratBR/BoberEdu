@@ -49,6 +49,11 @@ class UsersService implements IUsersService
         return $user;
     }
 
+    private function normalize(string $username)
+    {
+        return strtoupper($username);
+    }
+
     function update(User $user, array $data)
     {
         if (array_key_exists('name', $data)) {
@@ -76,10 +81,5 @@ class UsersService implements IUsersService
     function search(string $query): LengthAwarePaginator
     {
         return User::search(Convert::escapeElasticReservedChars($query))->paginate();
-    }
-
-    private function normalize(string $username)
-    {
-        return strtoupper($username);
     }
 }

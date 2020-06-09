@@ -23,7 +23,8 @@ class FileInfo extends Model
         'mime', 'about'
     ];
 
-    public function getRootUrl(): string {
+    public function getRootUrl(): string
+    {
         return Storage::url($this->sys_name);
     }
 }

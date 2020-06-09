@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Utils\Audit\IDisplayName;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,12 +28,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property FileInfo|null avatar
  * @property Teacher|null teacher
  */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, IDisplayName
 {
     use Notifiable, HasApiTokens, Searchable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'display_name', 'status','normalized_name', 'normalized_email', 'about',
+        'name', 'email', 'password', 'display_name', 'status', 'normalized_name', 'normalized_email', 'about',
         'avatar_id', 'is_admin'
     ];
 
@@ -55,6 +56,19 @@ class User extends Authenticatable implements JWTSubject
         'activated' => 'boolean'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        $callback = function ($user) {
+            $user->normalized_email = strtoupper($user->email);
+            $user->normalized_name = strtoupper($user->name);
+        };
+
+        self::updating($callback);
+        self::creating($callback);
+    }
+
     public function toSearchableArray()
     {
         return [
@@ -70,7 +84,8 @@ class User extends Authenticatable implements JWTSubject
             ->wherePivot('deleted_at', '!=', null);
     }
 
-    public function avatar() {
+    public function avatar()
+    {
         return $this->belongsTo(FileInfo::class, 'avatar_id');
     }
 
@@ -100,16 +115,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->is_admin;
     }
 
-    public static function boot()
+    function getDisplayName(): string
     {
-        parent::boot();
-
-        $callback = function ($user) {
-            $user->normalized_email = strtoupper($user->email);
-            $user->normalized_name = strtoupper($user->name);
-        };
-
-        self::updating($callback);
-        self::creating($callback);
+        return $this->name . ($this->display_name ? ' (' . $this->display_name . ')' : '');
     }
 }

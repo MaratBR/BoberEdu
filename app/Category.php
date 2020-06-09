@@ -19,6 +19,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 class Category extends Model
 {
     use HasRelationships;
+
     public $timestamps = false;
 
     use SoftDeletes;
@@ -27,25 +28,30 @@ class Category extends Model
         'name', 'about', 'uidata_image_id', 'uidata_color'
     ];
 
-    public function image() {
+    public function image()
+    {
         return $this->belongsTo(FileInfo::class, 'uidata_image_id');
     }
 
-    public function courses() {
-        return $this->hasMany(Course::class);
-    }
-
-    public function students() {
-        return $this->hasManyDeep(User::class, [Course::class, 'enrollments'])
-            ->where('enrollments.activated', '=', true)
-            ->whereNull('enrollments.deleted_at');
-    }
-
-    public function getCoursesCountAttribute() {
+    public function getCoursesCountAttribute()
+    {
         return $this->courses()->count();
     }
 
-    public function getStudentsCountAttribute() {
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    public function getStudentsCountAttribute()
+    {
         return $this->students()->count();
+    }
+
+    public function students()
+    {
+        return $this->hasManyDeep(User::class, [Course::class, 'enrollments'])
+            ->where('enrollments.activated', '=', true)
+            ->whereNull('enrollments.deleted_at');
     }
 }

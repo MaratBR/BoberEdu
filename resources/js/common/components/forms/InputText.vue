@@ -4,10 +4,12 @@
         <input :aria-invalid="invalid ? 'true' : 'false'" @input="$emit('input', $event.target.value)" :value="value"
                :type="type" :id="id" :required="required" :disabled="$attrs.disabled || (!unlocked && protected)"
                @blur="validate" v-bind="$attrs" class="form-control" :class="{'col-sm-8': inline}" />
-        <small v-show="protected && !unlocked">
-            This control is temporarily disabled to avoid accident changes. <button class="btn" @click.prevent="(unlocked = true) && $emit('unlocked')">Unlock?</button>
-        </small><br>
-        <small v-if="hint">{{hint}}</small>
+        <template v-if="protected && !unlocked">
+            <small class="form-text text-muted">
+                This control is temporarily disabled to avoid accident changes. <button class="btn" @click.prevent="(unlocked = true) && $emit('unlocked')">Unlock?</button>
+            </small><br>
+        </template>
+        <small v-if="hint" class="form-text text-muted">{{hint}}</small>
     </div>
 </template>
 

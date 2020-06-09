@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Utils\Audit\IDisplayName;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,7 +32,7 @@ use Laravel\Scout\Searchable;
  * @property Carbon sign_up_end
  * @property FileInfo|null image
  */
-class Course extends Model
+class Course extends Model implements IDisplayName
 {
     use SoftDeletes, Searchable;
 
@@ -56,6 +57,7 @@ class Course extends Model
     {
         return [
             'name' => $this->name,
+            'name_exact' => $this->name,
             'about' => $this->about,
             'summary' => $this->summary,
             'tags' => '' // TODO
@@ -67,32 +69,38 @@ class Course extends Model
         return $this->units()->count();
     }
 
+    public function units()
+    {
+        return $this->hasMany(Unit::class);
+    }
+
     public function getLessonsCountAttribute()
     {
         return $this->lessons()->count();
     }
 
-    public function units() {
-        return $this->hasMany(Unit::class);
-    }
-
-    public function lessons() {
+    public function lessons()
+    {
         return $this->hasManyThrough(Lesson::class, Unit::class);
     }
 
-    public function teachers() {
+    public function teachers()
+    {
         return $this->belongsToMany(Teacher::class, 'teaching_assignments');
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function rating() {
+    public function rating()
+    {
         return $this->hasMany(Rate::class);
     }
 
-    public function image() {
+    public function image()
+    {
         return $this->belongsTo(FileInfo::class, 'image_id');
     }
 
@@ -101,5 +109,10 @@ class Course extends Model
         $now = Carbon::now();
         return ($this->sign_up_beg == null && $this->sign_up_end == null) ||
             ($this->sign_up_beg < $now && $this->sign_up_end > $now);
+    }
+
+    function getDisplayName(): string
+    {
+        return $this->name;
     }
 }

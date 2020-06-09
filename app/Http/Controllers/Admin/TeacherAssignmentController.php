@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\AuditRecord;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Teachers\AssignmentRequest;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\ITeachersService;
 use App\Utils\Audit\Audit;
-use Illuminate\Http\Request;
 
 class TeacherAssignmentController extends Controller
 {
@@ -24,8 +22,7 @@ class TeacherAssignmentController extends Controller
 
     public function assign(AssignmentRequest $request, int $teacherId, int $courseId)
     {
-        if ($this->repo->hasAssignment($teacherId, $courseId))
-        {
+        if ($this->repo->hasAssignment($teacherId, $courseId)) {
             return $this->noChanges();
         }
 
@@ -41,8 +38,7 @@ class TeacherAssignmentController extends Controller
 
     public function revoke(AssignmentRequest $request, int $teacherId, int $courseId)
     {
-        if (!$this->repo->hasAssignment($teacherId, $courseId))
-        {
+        if (!$this->repo->hasAssignment($teacherId, $courseId)) {
             return $this->noChanges();
         }
 

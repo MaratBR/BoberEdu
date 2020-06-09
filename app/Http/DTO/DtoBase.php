@@ -23,17 +23,14 @@ class DtoBase implements Arrayable
 
         $data = [];
 
-        foreach ($props as $prop)
-        {
+        foreach ($props as $prop) {
             $data[$prop->name] = $prop->getValue($this);
             if ($data[$prop->name] instanceof Arrayable)
                 $data[$prop->name] = $data[$prop->name]->toArray();
         }
 
-        foreach ($methods as $method)
-        {
-            if ($method->getNumberOfParameters() == 0)
-            {
+        foreach ($methods as $method) {
+            if ($method->getNumberOfParameters() == 0) {
                 if (substr($method->name, 0, 3) === 'get')
                     $prop = substr($method->name, 3);
                 elseif (substr($method->name, 0, 2) === 'is')

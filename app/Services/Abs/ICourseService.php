@@ -9,6 +9,7 @@ use App\Course;
 use App\Services\Implementation\ICourseUnitsPayload;
 use App\Unit;
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -99,4 +100,6 @@ interface ICourseService
     function search(string $query, ?int $categoryId): LengthAwarePaginator;
 
     function getBy(array $params): Course;
+
+    function query(): Builder;
 }

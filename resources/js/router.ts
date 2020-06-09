@@ -31,12 +31,7 @@ function b64Decode(str) {
 
 let router = new VueRouter({
     routes: [
-        {
-            path: '/playground',
-            component: () => import(
-                /* webpackChunkName: "playground" */
-                '@app/dev/Playground.vue'),
-        },
+
         {
             path: "/admin",
             name: "admin",
@@ -46,7 +41,55 @@ let router = new VueRouter({
             meta: {
                 requiresAdmin: true
             },
+            beforeEnter({name}, _from, next) {
+                if (name === 'admin') {
+                    next({
+                        name: 'admin__overview'
+                    })
+                } else {
+                    next()
+                }
+
+            },
             children: [
+                {
+                    path: 'overview',
+                    name: 'admin__overview',
+                    component: () => import(
+                        /* webpackChunkName: "a-overview" */
+                        '@admin/components/overview/OverviewPage.vue')
+                },
+                {
+                    path: 'teachers/applications/all',
+                    name: 'admin__teachers_applications',
+                    component: () => import(
+                        /* webpackChunkName: "a-applications" */
+                        '@admin/components/teachers/TeacherApplications.vue'),
+                    props({query}) {
+                        return {
+                            approvedFilter: query.f || null
+                        }
+                    }
+                },
+                {
+                    path: 'teachers/applications/:id',
+                    name: 'admin__teachers_application',
+                    component: () => import(
+                        /* webpackChunkName: "a-application" */
+                        '@admin/components/teachers/TeacherApplication.vue'),
+                    props({params}) {
+                        return {
+                            id: +params.id
+                        }
+                    }
+                },
+                {
+                    path: 'audit',
+                    name: 'admin__audit',
+                    component: () => import(
+                        /* webpackChunkName: "a-audit" */
+                        '@admin/components/audit/AuditList.vue')
+                },
                 {
                     path: 'courses/all',
                     name: 'admin__courses',
@@ -196,6 +239,13 @@ let router = new VueRouter({
             component: App,
             children: [
                 {
+                    path: '/',
+                    name: 'home',
+                    component: () => import(
+                        /* webpackChunkName: "mainpage" */
+                        '@app/common/components/pages/MainPage.vue'),
+                },
+                {
                     path: '/u/:id',
                     name: 'profile',
                     component: () => import(
@@ -317,6 +367,14 @@ let router = new VueRouter({
                             q: query.q
                         }
                     }
+                },
+                {
+                    name: 'become_teacher',
+                    path: '/me/become-teacher',
+                    component: () => import(
+                        /* webpackChunkName: "brains-giveaway" */
+                        '@common/components/teacher/TeacherApprovalForm.vue'
+                        )
                 },
                 {
                     name: 'oops',

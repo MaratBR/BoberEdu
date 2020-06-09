@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use App\User;
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminsOnly
 {

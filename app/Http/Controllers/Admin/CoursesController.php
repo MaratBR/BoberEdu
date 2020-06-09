@@ -8,21 +8,19 @@ use App\Http\DTO\Courses\CourseExDto;
 use App\Http\DTO\Courses\CoursePageItemDto;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Units\StandaloneUnitDto;
-use App\Http\DTO\Units\UnitDto;
 use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Http\Requests\Courses\UpdateCourseUnitsRequest;
 use App\Http\Requests\SearchRequest;
 use App\Services\Abs\ICourseService;
-use App\Services\Abs\ICourseUnitsUpdateResponse;
 use App\Services\Abs\IUploadService;
 use App\Utils\Audit\Audit;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CoursesController extends Controller
 {
+    private const COURSE_SEARCH_FIELDS = ['id', 'name'];
     private $repo;
 
     public function __construct(ICourseService $courses)
@@ -51,7 +49,6 @@ class CoursesController extends Controller
         return new CourseExDto($course);
     }
 
-    private const COURSE_SEARCH_FIELDS = ['id', 'name'];
     public function search(SearchRequest $request)
     {
         $categoryId = $request->input('c');
@@ -88,7 +85,7 @@ class CoursesController extends Controller
         $file = $this->openInput();
 
         $fileInfo = $uploadService->uploadImage($request->user(), 'course_image', $file);
-        $course->update([ 'image_id' => $fileInfo->id ]);
+        $course->update(['image_id' => $fileInfo->id]);
 
         return new UploadedDto($fileInfo);
     }

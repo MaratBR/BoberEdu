@@ -5,8 +5,6 @@ namespace App\Http\DTO\Teachers;
 
 
 use App\Http\DTO\Courses\CoursePageItemDto;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use function Clue\StreamFilter\fun;
 
 class TeacherProfileDto extends TeacherExDto
 {

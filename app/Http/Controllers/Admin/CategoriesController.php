@@ -9,11 +9,9 @@ use App\Http\DTO\Uploads\UploadedDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\CreateCategoryRequest;
 use App\Http\Requests\Courses\UpdateCategoryRequest;
-use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IUploadService;
 use App\Utils\Audit\Audit;
-use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {

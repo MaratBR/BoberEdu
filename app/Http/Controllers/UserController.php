@@ -74,16 +74,19 @@ class UserController extends Controller
         return $this->noContent();
     }
 
-    public function settings(AuthenticatedRequest $request) {
+    public function settings(AuthenticatedRequest $request)
+    {
         $user = $request->user();
         return new UserSettingsDto($user);
     }
 
-    public function checkUsername(string $username) {
+    public function checkUsername(string $username)
+    {
         return response()->json($this->users->userNameTaken($username));
     }
 
-    public function uploadAvatar(AuthenticatedRequest $request, IUploadService $uploads) {
+    public function uploadAvatar(AuthenticatedRequest $request, IUploadService $uploads)
+    {
         $user = $request->user();
         $file = fopen('php://input', 'r');
         if (!$file)
@@ -98,7 +101,8 @@ class UserController extends Controller
         return new UploadedDto($fileInfo);
     }
 
-    public function updateProfile(EditUserRequest $request) {
+    public function updateProfile(EditUserRequest $request)
+    {
         $request->user()->update($request->getPayload());
         return $this->done();
     }

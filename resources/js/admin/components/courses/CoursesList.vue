@@ -5,37 +5,6 @@
 
 
             <courses-search :category-id="category ? category.id : null" />
-            <pagination-control :pagination="pagination" @requestPage="(page = $event) && load()">
-                <template v-slot:body="{items}">
-                    <table class="table">
-                        <thead>
-                            <tr class="hs">
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Summary</th>
-                                <th>Price</th>
-                                <th>Info</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tr v-for="c in items" :key="c.id">
-                            <td>{{ c.id }}</td>
-                            <td>{{ c.name }}</td>
-                            <td>{{ c.summary }}</td>
-                            <td>{{ c.price }}</td>
-                            <td>
-                                <b>Lessons</b>: {{ c.info.lc }}<br>
-                                <b>Units</b>: {{ c.info.uc }}<br>
-                                <b>Sign up</b>: {{ signUpPeriod(c) }}<br>
-                            </td>
-                            <td>
-                                <router-link :to="{name: 'admin__courses_edit', params: {id: c.id}}"><i class="fas fa-edit"></i></router-link>
-                                <router-link :to="{name: 'course', params: {id: c.id}}"><i class="fas fa-eye"></i></router-link>
-                            </td>
-                        </tr>
-                    </table>
-                </template>
-            </pagination-control>
         </admin-section>
     </sections>
 </template>

@@ -111,7 +111,13 @@ export namespace dto {
         }
     };
 
+    export type Done = {
+        done: true
+    }
+
     //#endregion
+
+    //#region Payments
 
     export type PaymentDto = {
         success: boolean,
@@ -121,12 +127,26 @@ export namespace dto {
         ts: number
     };
 
-    export type TeacherAssignmentDto = {
-        since: string | null,
-        until: string | null
-    };
+    //#endregion
 
     //#region Teachers
+
+    export type TeacherApplicationDto = {
+        user: dto.UserDto,
+        id: number,
+        approved: boolean | null,
+        approvedBy: dto.UserDto | null
+    }
+
+    export type TeacherApplicationExDto = TeacherApplicationDto & {
+        degree: string,
+        extra: string,
+        fullName: string,
+        education: string,
+        location: string,
+    }
+
+    export type TeacherApprovalState = 'approved' | 'rejected' | 'awaiting' | null
 
     export type TeacherDto = {
         id: number,
@@ -170,6 +190,12 @@ export namespace dto {
         courseId: number
     };
 
+    export type CourseUnitsDto = {
+        courseId: number,
+        courseName: string,
+        units: dto.UnitExDto[]
+    }
+
     export type UnitExDto = UnitDto & {
         lessons: LessonDto[],
         about: string
@@ -212,17 +238,36 @@ export namespace dto {
         email: string
     };
 
-    //#endregion
-
-    export type CourseUnitsDto = {
-        courseId: number,
-        courseName: string,
-        units: dto.UnitExDto[]
-    }
-
     export type AdminUserDto = UserDto & {
         teacher: AdminTeacherDto,
         email: string,
+    }
+
+    //#endregion
+    export type AdminOverviewDto = {
+        teacherApplications: {
+            awaitingReview: number,
+            rejected: number,
+            approved: number,
+        }
+    }
+
+    export type AuditDto = {
+        id: number,
+        sub: {
+            type: string,
+            id: number,
+            display: string
+        },
+        ua: string,
+        c: string | null,
+        a: string,
+        ex: any,
+        ip: string,
+        user: {
+            id: number,
+            name: string
+        }
     }
 }
 
@@ -336,6 +381,14 @@ export namespace requests {
     export type PromoteRequest = {
         admin: boolean,
         reason: string
+    }
+
+    export type SubmitTeacherApprovalForm = {
+        education: string,
+        fullName: string,
+        degree: string,
+        extra: string,
+        location: string
     }
 }
 

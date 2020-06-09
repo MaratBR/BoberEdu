@@ -33,8 +33,7 @@ class PaginationDto extends DtoBase
             $data = collect($this->paginator);
         }
 
-        if ($this->innerDto != null)
-        {
+        if ($this->innerDto != null) {
             $data = $data->mapInto($this->innerDto);
         }
 

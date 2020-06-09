@@ -54,6 +54,11 @@ class CourseService implements ICourseService
         return $c;
     }
 
+    function query(): Builder
+    {
+        return Course::query();
+    }
+
 
     function getAvailable(int $id, bool $extra = false): Course
     {
@@ -71,6 +76,14 @@ class CourseService implements ICourseService
     function paginateWithExtra($size = 15)
     {
         return $this->paginationModifier(Course::query(), $size);
+    }
+
+    private function paginationModifier(Builder $builder, int $size)
+    {
+        return $builder
+            ->select('courses.*')
+            ->with('units.lessons')
+            ->paginate($size);
     }
 
     /**
@@ -215,15 +228,19 @@ class CourseService implements ICourseService
             if ($order === null)
                 continue;
 
-            $lessonsIds = collect($unit->lessons)->map(function (Lesson $l) { return $l->id; });
+            $lessonsIds = collect($unit->lessons)->map(function (Lesson $l) {
+                return $l->id;
+            });
             $order = $units[$unit->id];
-            $order = array_filter($order, function (int $id) use ($lessonsIds) { return $lessonsIds->contains($id); });
+            $order = array_filter($order, function (int $id) use ($lessonsIds) {
+                return $lessonsIds->contains($id);
+            });
             if (count($order) !== count($lessonsIds)) {
                 DB::rollBack();
                 $this->throwError(422, "Inconsistent count of lessons in request");
             }
 
-            foreach($lessonsIds as $lessonId) {
+            foreach ($lessonsIds as $lessonId) {
                 if (array_search($lessonId, $order) === false)
                     $order[] = $lessonId;
             }
@@ -266,16 +283,6 @@ class CourseService implements ICourseService
         $course = Course::query()->select(['trial_length'])->findOrFail($id);
 
         return $course->trial_length;
-    }
-
-
-
-    private function paginationModifier(Builder $builder, int $size)
-    {
-        return $builder
-            ->select('courses.*')
-            ->with('units.lessons')
-            ->paginate($size);
     }
 
     //#region Categories

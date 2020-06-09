@@ -5,8 +5,6 @@ namespace App\Http\DTO\Categories;
 
 
 use App\Category;
-use App\Http\DTO\Categories\CategoryDto;
-use App\Http\DTO\Courses\CourseDto;
 
 class CategoryExDto extends CategoryDto
 {
@@ -25,7 +23,8 @@ class CategoryExDto extends CategoryDto
         return $this->category->uidata_color;
     }
 
-    public function getBgImage() {
+    public function getBgImage()
+    {
         return $this->category->uidata_image_id === null ? null : $this->category->image->sys_name;
     }
 }

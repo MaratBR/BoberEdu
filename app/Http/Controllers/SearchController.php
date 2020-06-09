@@ -7,7 +7,6 @@ use App\Http\DTO\PaginationDto;
 use App\Http\Requests\SearchRequest;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\ITeachersService;
-use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
@@ -16,7 +15,7 @@ class SearchController extends Controller
         $q = $request->getQuery();
 
         if (!$q || trim($q) === '')
-            return new PaginationDto([]);
+            return new PaginationDto($courseService->query()->paginate(), CoursePageItemDto::class);
 
         $q = trim($q);
         return new PaginationDto($courseService->search($q, null), CoursePageItemDto::class);

@@ -18,12 +18,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Enrollment extends CompositeModel
 {
-    protected $primaryKey = ['user_id', 'course_id'];
     public $timestamps = false;
     public $incrementing = false;
+    protected $primaryKey = ['user_id', 'course_id'];
 
     use SoftDeletes;
-
     protected $fillable = [
         'user_id', 'course_id', 'activated', 'trial_ends_at', 'payment_id'
     ];

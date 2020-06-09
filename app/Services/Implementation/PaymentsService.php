@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 class PaymentsService implements IPaymentsService
 {
     use ThrowUtils;
+
     private $enrollments;
 
     private $gatewayAliases = [
@@ -61,21 +62,14 @@ class PaymentsService implements IPaymentsService
         $paymentExpiration = null;
         $redirect = null;
 
-        if ($response->isRedirect())
-        {
+        if ($response->isRedirect()) {
             $status = Payment::STATUS_PENDING;
             $redirect = $response->getRedirectUrl();
-        }
-        elseif ($response->isCancelled())
-        {
+        } elseif ($response->isCancelled()) {
             $status = Payment::STATUS_CANCELLED;
-        }
-        elseif ($response->isSuccessful())
-        {
+        } elseif ($response->isSuccessful()) {
             $status = Payment::STATUS_SUCCESSFUL;
-        }
-        else
-        {
+        } else {
             throw new PaymentFailed("Payment failed to process: {$response->getMessage()}");
         }
 
@@ -101,8 +95,7 @@ class PaymentsService implements IPaymentsService
 
     function getGatewayName(string $name): string
     {
-        if (array_key_exists($name, $this->gatewayAliases))
-        {
+        if (array_key_exists($name, $this->gatewayAliases)) {
             $name = $this->gatewayAliases[$name];
         }
 
@@ -111,8 +104,7 @@ class PaymentsService implements IPaymentsService
 
     function hasGateaway(string $gateaway)
     {
-        if (array_key_exists($gateaway, $this->gatewayAliases))
-        {
+        if (array_key_exists($gateaway, $this->gatewayAliases)) {
             $gateaway = $this->gatewayAliases[$gateaway];
         }
 

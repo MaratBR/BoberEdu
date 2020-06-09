@@ -91,16 +91,21 @@ Route::group([
 Route::group([
     'prefix' => 'teachers'
 ], function () {
-    Route::get('{teacher}', 'TeacherController@get');
-    Route::post('', 'TeacherController@create');
+    Route::put('approval-form', 'TeacherController@sendApprovalForm');
+    Route::get('approval-form', 'TeacherController@approvalStatus');
     Route::post('assignment/{teacher}/{course}', 'TeacherController@assign');
     Route::delete('assignment/{teacher}/{course}', 'TeacherController@revoke');
+
+    Route::get('{teacher}', 'TeacherController@get');
+    Route::post('', 'TeacherController@create');
 });
 
 Route::group([
     'middleware' => 'admin',
     'prefix' => 'admin'
 ], function () {
+
+    Route::get('overview', 'Admin\OverviewController@get');
 
     Route::group([
         'prefix' => 'audit'
@@ -153,6 +158,12 @@ Route::group([
     Route::group([
         'prefix' => 'teachers'
     ], function () {
+
+        Route::get('approval-form', 'Admin\TeachersController@approvalForms');
+        Route::get('approval-form/{id}', 'Admin\TeachersController@getTeacherApplication');
+        Route::put('approval-form/{id}/approve', 'Admin\TeachersController@approveForm');
+        Route::put('approval-form/{id}/reject', 'Admin\TeachersController@disapproveForm');
+
         Route::get('', 'Admin\TeachersController@paginate');
         Route::get('search', 'Admin\TeachersController@search');
         Route::post('', 'Admin\TeachersController@create');
@@ -163,7 +174,6 @@ Route::group([
 
         Route::post('{id}/course/{courseId}', 'Admin\LessonsController@assign');
         Route::delete('{id}/course/{courseId}', 'Admin\LessonsController@revoke');
-
 
     });
 

@@ -16,11 +16,6 @@ class TeacherDto extends DtoBase
         $this->teacher = $teacher;
     }
 
-    function getId(): int
-    {
-        return $this->teacher->id;
-    }
-
     function getFullName(): string
     {
         return $this->teacher->full_name;
@@ -29,5 +24,10 @@ class TeacherDto extends DtoBase
     function getAvatar(): ?string
     {
         return $this->teacher->avatar_id === null ? ('https://api.adorable.io/avatars/270/boberTeacher' . $this->getId() . '.png') : $this->teacher->avatar->getRootUrl();
+    }
+
+    function getId(): int
+    {
+        return $this->teacher->id;
     }
 }

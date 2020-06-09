@@ -5,7 +5,6 @@ namespace App\Http\DTO\Units;
 
 
 use App\Http\DTO\Lessons\LessonDto;
-use App\Http\DTO\Units\UnitDto;
 
 class UnitExDto extends UnitDto
 {

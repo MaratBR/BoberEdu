@@ -29,35 +29,37 @@ class Payment extends Model
     public const STATUS_SUCCESSFUL = 'successful';
     public const STATUS_PENDING = 'pending';
     public const STATUS_CANCELLED = 'cancelled';
-
-    protected $keyType = 'string';
     public $incrementing = false;
-
+    protected $keyType = 'string';
     protected $fillable = [
         'id', 'completed_at', 'status',
         'uid', 'gateaway_name', 'title', 'user_agent', 'ip_address',
         'redirect_url', 'user_id', 'completed_at', 'expires_at', 'amount'
     ];
+    protected $dates = ['completed_at', 'expires_at'];
 
-    public function getIsSuccessfulAttribute(): bool {
+    public function getIsSuccessfulAttribute(): bool
+    {
         return $this->status == self::STATUS_SUCCESSFUL;
     }
 
-    public function getIsPendingAttribute(): bool {
+    public function getIsPendingAttribute(): bool
+    {
         return $this->status == self::STATUS_PENDING;
     }
 
-    public function getIsCancelledAttribute(): bool {
+    public function getIsCancelledAttribute(): bool
+    {
         return $this->status == self::STATUS_CANCELLED;
     }
 
-    public function getIsFailedAttribute(): bool {
+    public function getIsFailedAttribute(): bool
+    {
         return !$this->is_successful && !$this->is_pending;
     }
 
-    public function getNormalizedGateawayNameAttribute(): string {
+    public function getNormalizedGateawayNameAttribute(): string
+    {
         return strtoupper(str_replace('_', ' ', $this->gateaway_name));
     }
-
-    protected $dates = ['completed_at', 'expires_at'];
 }

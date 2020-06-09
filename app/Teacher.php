@@ -33,11 +33,13 @@ class Teacher extends Model
         'link_web', 'link_yt', 'link_linked_in', 'link_vk', 'link_fb', 'link_twitter'
     ];
 
-    function avatar() {
+    function avatar()
+    {
         return $this->belongsTo(FileInfo::class);
     }
 
-    function user() {
+    function user()
+    {
         return $this->belongsTo(User::class);
     }
 

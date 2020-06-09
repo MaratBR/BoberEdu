@@ -33,15 +33,11 @@ class EnrollmentController extends Controller
 
         if ($exists) {
             $record = $this->enrollment->getEnrollmentRecord($courseId, $user);
-        }
-        else {
-            if ($this->enrollment->isEnrollmentTrashed($courseId, $user))
-            {
+        } else {
+            if ($this->enrollment->isEnrollmentTrashed($courseId, $user)) {
                 $this->enrollment->restore($courseId, $user);
                 $record = $this->enrollment->getEnrollmentRecord($courseId, $user);
-            }
-            else
-            {
+            } else {
                 $record = $this->enrollment->createEnrollRecord($courseId, $user);
             }
         }
@@ -52,8 +48,7 @@ class EnrollmentController extends Controller
     public function disenroll(AuthenticatedRequest $request, int $courseId)
     {
         $user = $request->user();
-        if ($this->enrollment->hasEnrollment($courseId, $user))
-        {
+        if ($this->enrollment->hasEnrollment($courseId, $user)) {
             $this->enrollment->delete($courseId, $user);
         }
 

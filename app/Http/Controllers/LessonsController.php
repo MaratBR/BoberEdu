@@ -3,12 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\DTO\Lessons\LessonExDto;
-use App\Http\Requests\AdminRequest;
 use App\Http\Requests\AuthenticatedRequest;
-use App\Http\Requests\Lessons\CreateNewLessonRequest;
 use App\Http\Requests\Lessons\DeleteLessonRequest;
-use App\Http\Requests\Lessons\UpdateLessonRequest;
-use App\Lesson;
 use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\ILessonsService;
 use Symfony\Component\HttpKernel\Exception\HttpException;

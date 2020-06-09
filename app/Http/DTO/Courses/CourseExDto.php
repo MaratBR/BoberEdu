@@ -4,7 +4,6 @@
 namespace App\Http\DTO\Courses;
 
 
-use App\Http\DTO\Courses\CourseDto;
 use App\Http\DTO\Teachers\TeacherDto;
 use App\Http\DTO\Units\UnitExDto;
 

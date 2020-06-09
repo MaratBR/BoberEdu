@@ -43,21 +43,22 @@ trait ControllerUtils
         );
     }
 
-    protected function openInput() {
+    protected function openInput()
+    {
         return fopen('php://input', 'r');
     }
 
-    protected function noChanges()
+    protected function noChanges(int $status = 200)
     {
         return response()->json([
             'done' => false
-        ]);
+        ], $status);
     }
 
-    protected function done()
+    protected function done($status = 200)
     {
         return response()->json([
             'done' => true
-        ]);
+        ], $status);
     }
 }

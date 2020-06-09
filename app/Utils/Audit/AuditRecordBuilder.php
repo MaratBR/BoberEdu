@@ -32,32 +32,20 @@ class AuditRecordBuilder
         return $this;
     }
 
-    public function actor(User $actor): self
-    {
-        $this->actorId = $actor->id;
-        return $this;
-    }
-
-    public function comment(string $comment): self
+    public function comment(?string $comment): self
     {
         $this->comment = $comment;
-        return $this;
-    }
-
-    public function ip(string $ip): self
-    {
-        $this->ip = $ip;
         return $this;
     }
 
     public function subject($subject): self
     {
         if ($subject instanceof Model) {
-            $this->subject = strval($subject->getKey());
-            $this->subjectType = class_basename($subject);
-        }else if (!is_string($subject)) {
+            $this->subject = $subject->getKey();
+            $this->subjectType = get_class($subject);
+        } elseif (!is_string($subject)) {
             $this->subjectType = null;
-            $this->subject = strval($subject);
+            $this->subject = null;
         }
         return $this;
     }
@@ -68,15 +56,27 @@ class AuditRecordBuilder
         return $this;
     }
 
+    public function request(Request $request): self
+    {
+        return $this->userAgent($request->userAgent())->ip($request->ip())->actor($request->user());
+    }
+
+    public function actor(User $actor): self
+    {
+        $this->actorId = $actor->id;
+        return $this;
+    }
+
+    public function ip(string $ip): self
+    {
+        $this->ip = $ip;
+        return $this;
+    }
+
     public function userAgent(string $userAgent): self
     {
         $this->userAgent = $userAgent;
         return $this;
-    }
-
-    public function request(Request $request): self
-    {
-        return $this->userAgent($request->userAgent())->ip($request->ip())->actor($request->user());
     }
 
     public function build(): AuditRecord
@@ -93,7 +93,7 @@ class AuditRecordBuilder
             throw new InvalidAuditRecord("Audit record must have action name set");
 
         return AuditRecord::create([
-            'subject' => $this->subject,
+            'subject_id' => $this->subject,
             'subject_type' => $this->subjectType,
             'user_id' => $this->actorId,
             'ip' => $this->ip,
