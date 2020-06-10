@@ -38,11 +38,6 @@ class UserDto extends DtoBase
         return $this->user->created_at;
     }
 
-    public function getDisplayName(): ?string
-    {
-        return $this->user->display_name;
-    }
-
     public function getName(): string
     {
         return $this->user->name;

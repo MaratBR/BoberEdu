@@ -213,7 +213,6 @@ export namespace dto {
         status: string,
         about: string,
         avatar: string,
-        displayName: string | null
     };
 
     export type UserProfileDto = {
@@ -232,7 +231,6 @@ export namespace dto {
     export type UserSettingsDto = {
         id: number,
         about: string,
-        displayName: string,
         name: string,
         avatar: string,
         email: string
@@ -323,7 +321,6 @@ export namespace requests {
         name?: string,
         status?: string,
         about?: string,
-        displayName?: string
     };
 
     export type Login = {
@@ -335,7 +332,6 @@ export namespace requests {
         name: string,
         password: string,
         email: string,
-        displayName?: string
     }
 
     export type CreateCategory = {

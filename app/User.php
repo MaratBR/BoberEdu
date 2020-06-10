@@ -17,7 +17,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property boolean is_admin
  * @property int id
  * @property Carbon created_at
- * @property string|null display_name
  * @property string name
  * @property string normalized_name
  * @property string normalized_email
@@ -33,7 +32,7 @@ class User extends Authenticatable implements JWTSubject, IDisplayName
     use Notifiable, HasApiTokens, Searchable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'display_name', 'status', 'normalized_name', 'normalized_email', 'about',
+        'name', 'email', 'password', 'status', 'normalized_name', 'normalized_email', 'about',
         'avatar_id', 'is_admin'
     ];
 
@@ -73,7 +72,6 @@ class User extends Authenticatable implements JWTSubject, IDisplayName
     {
         return [
             'name' => $this->name,
-            'display_name' => $this->display_name,
             'email' => $this->email
         ];
     }
@@ -122,6 +120,6 @@ class User extends Authenticatable implements JWTSubject, IDisplayName
 
     function getDisplayName(): string
     {
-        return $this->name . ($this->display_name ? ' (' . $this->display_name . ')' : '');
+        return $this->name . ($this->name ? ' (' . $this->name . ')' : '');
     }
 }

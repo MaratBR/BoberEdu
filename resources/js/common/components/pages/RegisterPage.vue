@@ -52,7 +52,6 @@ import {Sex} from "../../api";
         password = '';
         repeatPassword = '';
         name = '';
-        displayName = null
         errors = null;
         submitting = false;
 
@@ -65,7 +64,6 @@ import {Sex} from "../../api";
                 await this.store.register({
                     name: this.name,
                     email: this.email,
-                    displayName: this.displayName,
                     password: this.password
                 })
                 await this.$router.push({ name: 'login' })

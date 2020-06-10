@@ -17,7 +17,6 @@
             </div>
 
             <input-text v-model="name" label="Username" required />
-            <input-text v-model="displayName" label="Display name" hint="The way system address user" />
 
             <input-text ref="emailEditor"
                 @unlocked="email = actualEmail" v-model="email" label="Email" :protected="!isNew"
@@ -67,7 +66,6 @@
         status: string = null
         email: string = null
         actualEmail: string = null
-        displayName: string = null
         isAdmin: boolean = null
         isAdminOriginal: boolean = null
         promotionReason: string = null
@@ -97,7 +95,6 @@
             this.status = user.status
             this.actualEmail = user.email
             this.avatar = user.avatar
-            this.displayName = user.displayName
             this.isAdmin = this.isAdminOriginal = user.admin
 
 
@@ -141,7 +138,6 @@
                 if (this.isNew) {
                     let data: requests.Register = {
                         name: this.name,
-                        displayName: this.displayName,
                         password: this.password,
                         email: this.email
                     }
@@ -173,7 +169,6 @@
                     let data: requests.UpdateUser = {
                         name: this.name,
                         about: this.about,
-                        displayName: this.displayName,
                         status: this.status
                     }
                     if ((this.$refs.emailEditor as Vue).$data.unlocked) {

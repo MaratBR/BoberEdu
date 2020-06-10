@@ -33,12 +33,10 @@
                 </div>
 
                 <input-text required label="Full name" v-model="fullName" />
-                <input-textarea required label="About" v-model="about" />
+                <markdown-editor required label="About" v-model="about" />
 
                 <fieldset>
                     <legend>Links</legend>
-
-
                     <input-text inline label="LinkedIn link (optional)" v-model="linkLinkedIn" type="url" />
                     <input-text inline label="YouTube link (optional)" v-model="linkYt" type="url" />
                     <input-text inline label="Website link (optional)" v-model="linkWeb" type="url" />
@@ -126,11 +124,10 @@
         }
 
         userSelected(user: dto.UserDto) {
-            this.actualUserId = user.id
+            this.actualUserId = this.oldId = user.id
             this.userAvatar = user.avatar
             this.username = user.name
             this.searching = false
-            console.log(user)
         }
 
         update(teacher: dto.AdminTeacherDto) {

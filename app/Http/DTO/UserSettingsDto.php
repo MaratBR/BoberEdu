@@ -25,11 +25,6 @@ class UserSettingsDto extends DtoBase
         return $this->user->about;
     }
 
-    function getDisplayName()
-    {
-        return $this->user->display_name ? $this->user->display_name : $this->getName();
-    }
-
     function getName()
     {
         return $this->user->name;
