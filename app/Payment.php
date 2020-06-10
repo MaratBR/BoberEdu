@@ -3,12 +3,14 @@
 namespace App;
 
 use Carbon\Carbon;
+use Dyrynda\Database\Casts\EfficientUuid;
+use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 /**
  * @property Carbon expires_at
- * @property int id
+ * @property string id
  * @property int user_id
  * @property string uid
  * @property Carbon completed_at
@@ -33,15 +35,14 @@ class Payment extends Model
     public const STATUS_CANCELLED = 'cancelled';
     public const STATUS_PREPARED = 'prepared';
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
     protected $fillable = [
         'completed_at', 'status', 'id',
         'uid', 'gateaway_name', 'title', 'user_agent', 'ip_address',
         'redirect_url', 'user_id', 'completed_at', 'expires_at', 'amount'
     ];
     protected $dates = ['completed_at', 'expires_at'];
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     public function getIsSuccessfulAttribute(): bool
     {

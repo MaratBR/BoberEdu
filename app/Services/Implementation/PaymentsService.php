@@ -13,9 +13,11 @@ use App\Services\Abs\IPaymentsService;
 use App\Services\Abs\Payments\IPaymentGatewayHandler;
 use App\Services\Implementation\Payments\DummyGatewayHandler;
 use App\User;
+use Dyrynda\Database\Casts\EfficientUuid;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class PaymentsService implements IPaymentsService
 {
@@ -56,7 +58,7 @@ class PaymentsService implements IPaymentsService
 
         // Payment
 
-        $id = Str::uuid()->toString();
+        $id = Uuid::uuid4()->toString();;
         $response = $handler->request($title, $price, $id, $data);
         $this->throwErrorIf(400, "Payment cancelled: {$response->getMessage()}", $response->isCancelled());
         $redirect = null;
@@ -71,7 +73,6 @@ class PaymentsService implements IPaymentsService
         } else {
             throw new PaymentFailed("Payment failed to process: {$response->getMessage()}");
         }
-
 
         $payment = new Payment([
             'id' => $id,
@@ -88,6 +89,7 @@ class PaymentsService implements IPaymentsService
 
         $payment->save();
         $payment->refresh();
+
 
         return $payment;
     }
