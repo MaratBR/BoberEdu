@@ -23,14 +23,14 @@ class PaymentsService implements IPaymentsService
     private $enrollments;
 
     private $gatewayAliases = [
-        'dummy' => 'Dummy',
+        'test' => 'dummy',
     ];
 
     /**
      * @var string[]
      */
     private $gateawayHandlers = [
-        'Dummy' => DummyGatewayHandler::class
+        'dummy' => DummyGatewayHandler::class
     ];
 
     public function __construct(IEnrollmentService $enrollmentService)
@@ -44,8 +44,6 @@ class PaymentsService implements IPaymentsService
         // NOTE: Development dummy implementation
         // TODO integrated with Paypal or Sberbank if I have time
 
-
-        $id = Str::uuid()->toString();
         $title = "Course \"{$course->name}\" @ Bober.Edu";
         $price = $course->price;
         $gateawayName = $this->getGatewayName($gateawayName);
@@ -57,9 +55,22 @@ class PaymentsService implements IPaymentsService
 
         // Payment
 
-        $response = $handler->request($title, $price, $id, $data);
+        $payment = new Payment([
+            'user_id' => $user->id,
+            'title' => $title,
+            'user_agent' => $request->userAgent(),
+            'ip_address' => $request->ip(),
+            'gateaway_name' => $gateawayName,
+            'redirect_url' => null,
+            'uid' => null,
+            'amount' => $price,
+            'status' => Payment::STATUS_PREPARED
+        ]);
+        $payment->saveOrFail();
+        $payment->refresh();
+
+        $response = $handler->request($title, $price, $payment->id, $data);
         $this->throwErrorIf(400, "Payment cancelled: {$response->getMessage()}", $response->isCancelled());
-        $paymentExpiration = null;
         $redirect = null;
 
         if ($response->isRedirect()) {
@@ -73,17 +84,11 @@ class PaymentsService implements IPaymentsService
             throw new PaymentFailed("Payment failed to process: {$response->getMessage()}");
         }
 
-        $payment = new Payment([
-            'id' => $id,
-            'user_id' => $user->id,
-            'title' => $title,
-            'user_agent' => $request->userAgent(),
-            'ip_address' => $request->ip(),
-            'expires_at' => $paymentExpiration,
-            'gateaway_name' => $gateawayName,
+
+
+        $payment->update([
             'redirect_url' => $redirect,
             'uid' => $response->getTransactionReference(),
-            'amount' => $price,
             'status' => $status
         ]);
 
@@ -95,6 +100,7 @@ class PaymentsService implements IPaymentsService
 
     function getGatewayName(string $name): string
     {
+        $name = strtolower($name);
         if (array_key_exists($name, $this->gatewayAliases)) {
             $name = $this->gatewayAliases[$name];
         }
@@ -104,10 +110,15 @@ class PaymentsService implements IPaymentsService
 
     function hasGateaway(string $gateaway)
     {
-        if (array_key_exists($gateaway, $this->gatewayAliases)) {
-            $gateaway = $this->gatewayAliases[$gateaway];
-        }
-
+        $gateaway = $this->getGatewayName($gateaway);
         return array_key_exists($gateaway, $this->gateawayHandlers);
+    }
+
+    function externalPaymentStatus(Payment $payment): ?bool
+    {
+        $gateway = $this->getGatewayName($payment->gateaway_name);
+        /** @var IPaymentGatewayHandler $gateway */
+        $gateway = $this->gateawayHandlers[$gateway];
+        return $gateway->externalStatus($payment->uid);
     }
 }

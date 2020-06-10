@@ -8,7 +8,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @property Carbon expires_at
- * @property Uuid id
+ * @property int id
  * @property int user_id
  * @property string uid
  * @property Carbon completed_at
@@ -29,10 +29,10 @@ class Payment extends Model
     public const STATUS_SUCCESSFUL = 'successful';
     public const STATUS_PENDING = 'pending';
     public const STATUS_CANCELLED = 'cancelled';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    public const STATUS_PREPARED = 'prepared';
+
     protected $fillable = [
-        'id', 'completed_at', 'status',
+        'completed_at', 'status',
         'uid', 'gateaway_name', 'title', 'user_agent', 'ip_address',
         'redirect_url', 'user_id', 'completed_at', 'expires_at', 'amount'
     ];

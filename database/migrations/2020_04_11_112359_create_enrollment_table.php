@@ -15,7 +15,7 @@ class CreateEnrollmentTable extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
-            $table->uuid('payment_id')->nullable();
+            $table->foreignId('payment_id')->nullable();
             $table->unsignedInteger('course_id');
             $table->timestamp('enrolled_at')->useCurrent();
             $table->timestamp('trial_ends_at')->nullable();

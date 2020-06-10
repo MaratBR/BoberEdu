@@ -14,11 +14,10 @@ class CreatePaymentsTable extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->timestamps();
             $table->timestamp('completed_at')->nullable();
-            $table->timestamp('expires_at')->nullable();
-            $table->enum('status', ['pending', 'cancelled', 'successful'])->default('pending');
+            $table->enum('status', ['pending', 'cancelled', 'successful', 'prepared'])->default('pending');
             $table->string('uid')->nullable();
             $table->string('gateaway_name');
             $table->string('title');
@@ -26,10 +25,7 @@ class CreatePaymentsTable extends Migration
             $table->string('redirect_url')->nullable();
             $table->ipAddress('ip_address');
             $table->decimal('amount', 19, 2);
-
-            $table->unsignedBigInteger('user_id');
-
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->references('id')->on('users');
         });
     }
 
