@@ -5,6 +5,7 @@ namespace App\Http\DTO;
 
 
 use App\Payment;
+use WhichBrowser\Parser;
 
 class PaymentDto extends DtoBase
 {
@@ -51,7 +52,7 @@ class PaymentDto extends DtoBase
 
     public function getUserAgent()
     {
-        return $this->payment->user_agent;
+        return (new Parser($this->payment->user_agent))->toString();
     }
 
     public function getIp()
