@@ -216,6 +216,12 @@ export default class CommonStore {
         return client.get('enrollment/yours').then(r => r.data)
     }
 
+    @Action()
+    async getPayments(): Promise<dto.PaginationDto<dto.PaymentDto>> {
+        return client.get('payments').then(r => r.data)
+    }
+
     //#endregion
+
 }
 

@@ -85,6 +85,7 @@ Route::group([
     'prefix' => 'payments'
 ], function () {
     Route::patch('course/{course}/pay', 'PaymentsController@create');
+    Route::get('', 'PaymentsController@payments');
 });
 
 

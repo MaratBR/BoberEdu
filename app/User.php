@@ -94,6 +94,11 @@ class User extends Authenticatable implements JWTSubject, IDisplayName
         return $this->hasOne(Teacher::class, 'user_id');
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     /**
      * @inheritDoc
      */

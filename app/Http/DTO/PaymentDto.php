@@ -15,6 +15,10 @@ class PaymentDto extends DtoBase
         $this->payment = $payment;
     }
 
+    public function getUid() {
+        return $this->payment->uid;
+    }
+
     public function isSuccess(): bool
     {
         return $this->payment->is_successful;
@@ -30,13 +34,28 @@ class PaymentDto extends DtoBase
         return $this->payment->title;
     }
 
+    public function getAmount()
+    {
+        return $this->payment->amount;
+    }
+
     public function getGateaway(): string
     {
         return $this->payment->normalized_gateaway_name;
     }
 
-    public function getTS(): int
+    public function getTS(): ?int
     {
-        return $this->payment->created_at->timestamp;
+        return $this->payment->completed_at ? $this->payment->completed_at->timestamp : null;
+    }
+
+    public function getUserAgent()
+    {
+        return $this->payment->user_agent;
+    }
+
+    public function getIp()
+    {
+        return $this->payment->ip_address;
     }
 }

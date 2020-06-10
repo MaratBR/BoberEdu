@@ -23,6 +23,8 @@ use Ramsey\Uuid\Uuid;
  * @property bool is_cancelled
  * @property bool is_successful
  * @property bool is_failed
+ * @property string user_agent
+ * @property string ip_address
  */
 class Payment extends Model
 {
@@ -31,8 +33,11 @@ class Payment extends Model
     public const STATUS_CANCELLED = 'cancelled';
     public const STATUS_PREPARED = 'prepared';
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
-        'completed_at', 'status',
+        'completed_at', 'status', 'id',
         'uid', 'gateaway_name', 'title', 'user_agent', 'ip_address',
         'redirect_url', 'user_id', 'completed_at', 'expires_at', 'amount'
     ];
@@ -60,6 +65,6 @@ class Payment extends Model
 
     public function getNormalizedGateawayNameAttribute(): string
     {
-        return strtoupper(str_replace('_', ' ', $this->gateaway_name));
+        return strtolower(str_replace('_', ' ', $this->gateaway_name));
     }
 }

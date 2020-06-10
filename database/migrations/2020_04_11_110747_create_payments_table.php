@@ -14,7 +14,7 @@ class CreatePaymentsTable extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->timestamps();
             $table->timestamp('completed_at')->nullable();
             $table->enum('status', ['pending', 'cancelled', 'successful', 'prepared'])->default('pending');

@@ -263,6 +263,16 @@ let router = new VueRouter({
                     }
                 },
                 {
+                    path: '/me/payments',
+                    name: 'profile_payments',
+                    component: () => import(
+                        /* webpackChunkName: "profile-payments" */
+                        "@common/components/profile/ProfilePayments.vue"),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
                     path: '/login',
                     component: () => import(
                         /* webpackChunkName: "login" */

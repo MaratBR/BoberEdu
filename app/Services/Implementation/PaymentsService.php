@@ -13,6 +13,7 @@ use App\Services\Abs\IPaymentsService;
 use App\Services\Abs\Payments\IPaymentGatewayHandler;
 use App\Services\Implementation\Payments\DummyGatewayHandler;
 use App\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -55,21 +56,8 @@ class PaymentsService implements IPaymentsService
 
         // Payment
 
-        $payment = new Payment([
-            'user_id' => $user->id,
-            'title' => $title,
-            'user_agent' => $request->userAgent(),
-            'ip_address' => $request->ip(),
-            'gateaway_name' => $gateawayName,
-            'redirect_url' => null,
-            'uid' => null,
-            'amount' => $price,
-            'status' => Payment::STATUS_PREPARED
-        ]);
-        $payment->saveOrFail();
-        $payment->refresh();
-
-        $response = $handler->request($title, $price, $payment->id, $data);
+        $id = Str::uuid()->toString();
+        $response = $handler->request($title, $price, $id, $data);
         $this->throwErrorIf(400, "Payment cancelled: {$response->getMessage()}", $response->isCancelled());
         $redirect = null;
 
@@ -85,8 +73,14 @@ class PaymentsService implements IPaymentsService
         }
 
 
-
-        $payment->update([
+        $payment = new Payment([
+            'id' => $id,
+            'user_id' => $user->id,
+            'title' => $title,
+            'user_agent' => $request->userAgent(),
+            'ip_address' => $request->ip(),
+            'gateaway_name' => $gateawayName,
+            'amount' => $price,
             'redirect_url' => $redirect,
             'uid' => $response->getTransactionReference(),
             'status' => $status

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\DTO\PaginationDto;
 use App\Http\DTO\PaymentDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Payments\CreatePaymentRequest;
@@ -74,5 +75,10 @@ class PaymentsController extends Controller
         $this->throwNotFoundIfNull($payment, "Payment not found");
 
         return new PaymentDto($payment);
+    }
+
+    function payments(AuthenticatedRequest $request)
+    {
+        return new PaginationDto($request->user()->payments()->paginate(), PaymentDto::class);
     }
 }

@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=45e3e49f8558b4667c36",
+    "/js/app.js": "/js/app.js?id=753569be4b53148fc902",
     "/css/app.css": "/css/app.css?id=2074b219b74bd478ad6c",
     "/js/chunks/a-categories.js": "/js/chunks/a-categories.js?id=0fcb1d1a81e5a65390b7",
     "/js/chunks/a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-teachers~a-teachers-form~ad~41526961.js": "/js/chunks/a-categories~a-course-form~a-course-units-form~a-courses~a-lesson-form~a-teachers~a-teachers-form~ad~41526961.js?id=dc7924c46eadd223cd55",
@@ -49,5 +49,9 @@
     "/js/chunks/a-application~a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-less~7b79c5ba.js": "/js/chunks/a-application~a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-less~7b79c5ba.js?id=42df3e271ccb047f28d6",
     "/js/chunks/a-application~a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-less~cc5e72a5.js": "/js/chunks/a-application~a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-less~cc5e72a5.js?id=f53af773b85f0962d99d",
     "/js/chunks/mainpage.js": "/js/chunks/mainpage.js?id=09fc2fca1c5945e14061",
-    "/js/chunks/a-teachers-form~admin-users.js": "/js/chunks/a-teachers-form~admin-users.js?id=eb79c2569248bfff5d8a"
+    "/js/chunks/a-teachers-form~admin-users.js": "/js/chunks/a-teachers-form~admin-users.js?id=eb79c2569248bfff5d8a",
+    "/js/chunks/a-categories~a-course-form~a-lesson-form~a-teachers-form~admin-user-form~brains-giveaway~login~profi~c3b59b31.js": "/js/chunks/a-categories~a-course-form~a-lesson-form~a-teachers-form~admin-user-form~brains-giveaway~login~profi~c3b59b31.js?id=0f31215694f8d13a4f4e",
+    "/js/chunks/profile-payments.js": "/js/chunks/profile-payments.js?id=96dd6a10786aceb709d1",
+    "/js/chunks/a-applications~a-audit~a-course-form~a-courses~a-teachers~a-teachers-form~admin-users~profile-payments.js": "/js/chunks/a-applications~a-audit~a-course-form~a-courses~a-teachers~a-teachers-form~admin-users~profile-payments.js?id=72a81e7de46e050d9bbe",
+    "/js/chunks/a-application~a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-less~4df92de9.js": "/js/chunks/a-application~a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-less~4df92de9.js?id=70ca9cec7cdee607b5a3"
 }
