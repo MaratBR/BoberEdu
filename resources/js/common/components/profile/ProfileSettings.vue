@@ -12,7 +12,7 @@
 
                     <div class="form-group upload-avatar">
                         <img class="img-thumbnail rounded-circle s210" :src="avatar" alt="">
-                        <uploader max="10000000" accept="image/*" v-model="avatarFile" @upload="uploadAvatar" />
+                        <uploader max="10000000" accept="image/*" v-model="avatarFile" @upload="uploadAvatar" :uploading="uploading" />
                     </div>
 
                     <div class="form-group">
@@ -68,6 +68,7 @@
         checkUsernameThrottled = throttle(this.checkUsername, 500)
         usernameProgress: boolean = false;
         showUpdateAboutButton = false;
+        uploading = false
 
         async load() {
             let settings = await this.store.userSettings()
@@ -106,7 +107,10 @@
         }
 
         async uploadAvatar() {
+            this.uploading = true
             this.avatar = await this.store.uploadAvatar(this.avatarFile)
+            this.avatarFile = null
+            this.uploading = false
         }
 
         mounted() {

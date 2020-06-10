@@ -80,7 +80,7 @@
     import InputText from "@common/components/forms/InputText.vue";
     import InputTextarea from "@common/components/forms/InputTextarea.vue";
     import Uploader from "@common/components/utils/Uploader.vue";
-    import { format } from 'date-fns'
+    import format from 'date-fns/format'
 
     @Component({
         components: {
@@ -159,7 +159,8 @@
             this.submitting = true
 
             if (this.id === null) {
-                this.name = this.summary = this.about = this.signUpBeg = this.signUpEnd = this.course = null
+                this.name = this.summary = this.about = this.signUpBeg = this.signUpEnd = this.course = this.image
+                    = this.imageFile = null
                 this.available = false
                 this.submitting = false
                 return
