@@ -177,6 +177,8 @@
                         comment: this.comment
                     })
 
+                    this.isNew = false
+
                     if (this.avatarFile)
                         await this.uploadAvatar(teacher.id)
 
