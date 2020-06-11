@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Utils\Audit\IDisplayName;
 use Carbon\Carbon;
@@ -87,6 +87,11 @@ class Course extends Model implements IDisplayName
     public function teachers()
     {
         return $this->belongsToMany(Teacher::class, 'teaching_assignments');
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
     }
 
     public function category()

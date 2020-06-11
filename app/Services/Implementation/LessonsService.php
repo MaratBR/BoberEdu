@@ -4,7 +4,7 @@
 namespace App\Services\Implementation;
 
 
-use App\Lesson;
+use App\Models\Lesson;
 use App\Services\Abs\ILessonsService;
 use Exception;
 
@@ -24,6 +24,15 @@ class LessonsService implements ILessonsService
         /** @var Lesson $lesson */
         $lesson = Lesson::query()
             ->with('unit.course.category')
+            ->findOrFail($id);
+        return $lesson;
+    }
+
+    function getWithCoure(int $id): Lesson
+    {
+        /** @var Lesson $lesson */
+        $lesson = Lesson::query()
+            ->with('unit.course')
             ->findOrFail($id);
         return $lesson;
     }

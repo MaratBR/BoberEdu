@@ -4,11 +4,11 @@
 namespace App\Services\Implementation;
 
 
-use App\Course;
+use App\Models\Course;
 use App\Services\Abs\ITeachersService;
-use App\Teacher;
-use App\TeacherApprovalForm;
-use App\User;
+use App\Models\Teacher;
+use App\Models\TeacherApprovalForm;
+use App\Models\User;
 use App\Utils\Convert;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;

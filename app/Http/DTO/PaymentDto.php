@@ -4,7 +4,7 @@
 namespace App\Http\DTO;
 
 
-use App\Payment;
+use App\Models\Payment;
 use WhichBrowser\Parser;
 
 class PaymentDto extends DtoBase

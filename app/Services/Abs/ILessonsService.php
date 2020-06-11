@@ -4,7 +4,7 @@
 namespace App\Services\Abs;
 
 
-use App\Lesson;
+use App\Models\Lesson;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 interface ILessonsService
@@ -19,6 +19,8 @@ interface ILessonsService
     function get(int $id): Lesson;
 
     function getOverview(int $id): Lesson;
+
+    function getWithCoure(int $id): Lesson;
 
     /**
      *

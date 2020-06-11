@@ -4,9 +4,9 @@
 namespace App\Services\Implementation;
 
 
-use App\AuditRecord;
+use App\Models\AuditRecord;
 use App\Services\Abs\IAuditService;
-use App\User;
+use App\Models\User;
 use App\Utils\Audit\Audit;
 use Illuminate\Pagination\LengthAwarePaginator;
 

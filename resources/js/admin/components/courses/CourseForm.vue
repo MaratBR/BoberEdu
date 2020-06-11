@@ -76,7 +76,7 @@
     import {getError} from "@common/utils";
     import Error from "@common/components/utils/Error.vue";
     import CourseTeachersForm from "@admin/components/courses/CourseTeachersForm.vue";
-    import CategorySelect from "@admin/components/courses/CategorySelect.vue";
+    import CategorySelect from "@common/components/courses/CategorySelect.vue";
     import InputText from "@common/components/forms/InputText.vue";
     import InputTextarea from "@common/components/forms/InputTextarea.vue";
     import Uploader from "@common/components/utils/Uploader.vue";

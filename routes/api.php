@@ -184,7 +184,21 @@ Route::group([
         Route::delete('{teacherId}/{courseId}/assignment', 'Admin\TeacherAssignmentController@revoke');
         Route::put('{teacherId}/{courseId}/assignment', 'Admin\TeacherAssignmentController@assign');
 
-
     });
 });
 
+
+Route::group([
+    'prefix' => 'teacher-dashboard',
+    'middleware' => 'teachers-only'
+], function () {
+    Route::get('', 'Teacher\DashboardController@get');
+
+    Route::put('courses/{id}', 'Teacher\CourseController@updateCourse');
+    Route::post('courses', 'Teacher\CourseController@createCourse');
+    Route::put('courses/{id}/image', 'Teacher\CourseController@uploadCourseImage');
+    Route::put('courses/{id}/units', 'Teacher\CourseController@updateUnitsOrder');
+    Route::put('courses/{id}/lessons-order', 'Teacher\CourseController@updateLessonsOrder');
+    Route::put('lessons/{id}', 'Teacher\CourseController@updateLesson');
+    Route::post('lessons', 'Teacher\CourseController@createLesson');
+});

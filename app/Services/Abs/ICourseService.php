@@ -4,11 +4,11 @@
 namespace App\Services\Abs;
 
 
-use App\Category;
-use App\Course;
+use App\Models\Category;
+use App\Models\Course;
 use App\Services\Implementation\ICourseUnitsPayload;
-use App\Unit;
-use App\User;
+use App\Models\Unit;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -60,7 +60,7 @@ interface ICourseService
      * @param array $data
      * @return Course
      */
-    function create(array $data): Course;
+    function create(array $data, bool $approved = true): Course;
 
     /**
      * Updates course's units

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\AuditRecord;
+use App\Models\AuditRecord;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Teachers\AssignmentRequest;
 use App\Services\Abs\ICourseService;

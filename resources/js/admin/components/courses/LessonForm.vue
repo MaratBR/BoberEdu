@@ -65,7 +65,7 @@
                 this.courseId = unit.courseId
                 this.courseName = unit.courseName
             } else {
-                this.update(await this.admin.lessons.get(this.id))
+                this.update(await this.admin.getLesson(this.id))
             }
         }
 
@@ -89,7 +89,7 @@
                     content: this.content,
                     unitId: this.unitId
                 }
-                promise = this.admin.lessons.create(r)
+                promise = this.admin.createLesson(r)
                 this.isNew = false
             } else {
                 let r: requests.UpdateLesson = {
@@ -97,7 +97,7 @@
                     summary: this.summary,
                     content: this.content
                 }
-                promise = this.admin.lessons.update({id: this.id, data: r})
+                promise = this.admin.updateLesson({id: this.id, data: r})
             }
 
             this.inProgress = true

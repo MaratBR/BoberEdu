@@ -5,7 +5,7 @@ namespace App\Http\DTO\Units;
 
 
 use App\Http\DTO\DtoBase;
-use App\Unit;
+use App\Models\Unit;
 
 class UnitDto extends DtoBase
 {

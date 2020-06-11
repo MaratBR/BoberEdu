@@ -6,7 +6,7 @@ namespace App\Http\DTO\Users;
 
 use App\Http\DTO\DtoBase;
 use App\Role;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 
 class UserDto extends DtoBase

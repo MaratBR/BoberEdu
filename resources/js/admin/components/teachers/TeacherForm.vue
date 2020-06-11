@@ -111,7 +111,7 @@
 
             try
             {
-                teacher = await this.admin.teachers.get(this.id)
+                teacher = await this.admin.getTeacher(this.id)
             }
             catch (e) {
                 this.notFound = true

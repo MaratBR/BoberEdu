@@ -4,8 +4,8 @@
 namespace App\Services\Abs;
 
 
-use App\Enrollment;
-use App\User;
+use App\Models\Enrollment;
+use App\Models\User;
 
 interface IEnrollmentService
 {

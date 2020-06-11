@@ -4,7 +4,7 @@
 namespace App\Http\DTO;
 
 
-use App\User;
+use App\Models\User;
 
 class UserSettingsDto extends DtoBase
 {

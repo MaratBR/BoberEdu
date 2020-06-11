@@ -391,6 +391,29 @@ let router = new VueRouter({
                     path: '/oops/:kind',
                     component: null
                 },
+
+
+
+                {
+                    name: 'teacher_dashboard',
+                    path: 'me/teacher/dashboard',
+                    component: () => import(/* webpackChunkName: "t-dashboard" */ '@teacher/components/TeacherDashboard.vue')
+                },
+                {
+                    name: 'teacher_dashboard__edit',
+                    path: 'me/teacher/course/:id',
+                    component: () => import(/* webpackChunkName: "t-edit-course" */ '@teacher/components/CourseEditor.vue'),
+                    props({params}) {
+                        return {
+                            id: +params.id
+                        }
+                    }
+                },
+                {
+                    name: 'teacher_dashboard__new',
+                    path: 'me/teacher/course/new',
+                    component: () => import(/* webpackChunkName: "t-edit-course" */ '@teacher/components/CourseEditor.vue')
+                },
                 {
                     path: '*',
                     component: NotFound

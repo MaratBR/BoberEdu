@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Courses;
 
-use App\Course;
+use App\Models\Course;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\IPayloadRequest;
 use App\Utils\Convert;

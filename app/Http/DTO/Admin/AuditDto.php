@@ -4,7 +4,7 @@
 namespace App\Http\DTO\Admin;
 
 
-use App\AuditRecord;
+use App\Models\AuditRecord;
 use App\Utils\Audit\Audit;
 use App\Utils\Audit\IDisplayName;
 use Illuminate\Contracts\Support\Arrayable;

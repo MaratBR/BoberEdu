@@ -10,7 +10,7 @@
                                 <span class="input-group-text">
                                     <label class="mb-0">
                                         Preview
-                                        <input type="checkbox" v-model="u.preview" />
+                                        <input type="checkbox" v-model="u.preview" @change="updateChanged(u)" />
                                     </label>
                                 </span>
                             </div>
@@ -36,7 +36,7 @@
                             </ul>
 
                             <div class="form-group">
-                                <router-link class="button" v-if="u.lessons.length === 0" :to="{name: 'admin__courses_edit_units', params: {id: course.id}}"><i class="fas fa-edit"></i> order</router-link>
+                                <router-link class="button" v-if="u.lessons.length !== 0" :to="{name: 'admin__courses_edit_units', params: {id: course.id}}"><i class="fas fa-edit"></i> order</router-link>
                                 <router-link class="button" :to="{name: 'admin__lessons_new', params: {id: u.id}}"><i class="fas fa-plus"></i> add</router-link>
                             </div>
                         </div>
@@ -158,10 +158,11 @@
         }
 
         getRequest(): requests.UpdateCourseUnits {
-            let updated = this.units.filter(u => u.changed && !u.new).map(({id, name, about}) => ({
+            let updated = this.units.filter(u => u.changed && !u.new).map(({id, name, preview, about}) => ({
                 id,
                 name,
-                about
+                about,
+                preview
             }))
             let created: requests.NewUnitPayload[] = this.units.filter(u => u.new).map(({preview, name, about}) => ({
                 name,
