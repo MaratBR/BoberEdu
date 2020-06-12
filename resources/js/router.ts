@@ -5,6 +5,8 @@ import App from "@common/components/sections/App.vue";
 import {getCommonStore} from "@common/store";
 import NotFound from "@common/components/pages/NotFound.vue";
 
+const RouterView = { render: h => h('router-view') };
+
 let router = new VueRouter({
     routes: [
         {
@@ -361,6 +363,7 @@ let router = new VueRouter({
 
                 {
                     path: 'me',
+                    component: RouterView,
                     meta: {
                         requiresAuth: true
                     },
@@ -375,6 +378,7 @@ let router = new VueRouter({
                         },
                         {
                             path: 'teacher',
+                            component: RouterView,
                             children: [
                                 {
                                     name: 'teacher_dashboard',
