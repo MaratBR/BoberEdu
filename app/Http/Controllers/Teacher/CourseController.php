@@ -17,6 +17,7 @@ use App\Http\Requests\Teachers\TeacherRequest;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Services\Abs\ICourseService;
+use App\Services\Abs\ILessonsService;
 use App\Services\Abs\ITeachersService;
 use App\Services\Abs\IUploadService;
 use App\Services\Implementation\LessonsService;
@@ -72,7 +73,7 @@ class CourseController extends Controller
     }
 
     public function updateLesson(UpdateLessonRequest $request, LessonsService $service, int $id) {
-        $lesson = $service->getWithCoure($id);
+        $lesson = $service->getWithCourse($id);
         $this->checkPerms($request->user()->teacher, $lesson->unit->course->id);
         $lesson->update($request->getPayload());
         return new LessonExDto($lesson);
@@ -82,6 +83,18 @@ class CourseController extends Controller
         $unit = $this->repo->getUnit($request->getUnitId());
         $this->checkPerms($request->user()->teacher, $unit->course_id);
         $lesson = $service->create($request->getPayload());
+        return new LessonExDto($lesson);
+    }
+
+    public function getCourse(Teacher $teacher, int $id)
+    {
+        return new CourseExDto($teacher->courses()->findOrFail($id));
+    }
+
+    public function getLesson(Teacher $teacher, int $id, ILessonsService $lessonsService)
+    {
+        $lesson = $lessonsService->getWithCourse($id);
+        $this->checkPerms($teacher, $lesson->unit->course->id);
         return new LessonExDto($lesson);
     }
 

@@ -28,7 +28,7 @@ class LessonsService implements ILessonsService
         return $lesson;
     }
 
-    function getWithCoure(int $id): Lesson
+    function getWithCourse(int $id): Lesson
     {
         /** @var Lesson $lesson */
         $lesson = Lesson::query()

@@ -194,11 +194,14 @@ Route::group([
 ], function () {
     Route::get('', 'Teacher\DashboardController@get');
 
-    Route::put('courses/{id}', 'Teacher\CourseController@updateCourse');
     Route::post('courses', 'Teacher\CourseController@createCourse');
+    Route::put('courses/{id}', 'Teacher\CourseController@updateCourse');
+    Route::get('courses/{id}', 'Teacher\CourseController@getCourse');
     Route::put('courses/{id}/image', 'Teacher\CourseController@uploadCourseImage');
     Route::put('courses/{id}/units', 'Teacher\CourseController@updateUnitsOrder');
     Route::put('courses/{id}/lessons-order', 'Teacher\CourseController@updateLessonsOrder');
-    Route::put('lessons/{id}', 'Teacher\CourseController@updateLesson');
+
     Route::post('lessons', 'Teacher\CourseController@createLesson');
+    Route::put('lessons/{id}', 'Teacher\CourseController@updateLesson');
+    Route::get('lessons/{id}', 'Teacher\CourseController@getLesson');
 });

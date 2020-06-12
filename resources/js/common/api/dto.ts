@@ -215,6 +215,10 @@ export namespace dto {
         avatar: string,
     };
 
+    export type SelfUserDto = UserDto & {
+        isTeacher: boolean
+    };
+
     export type UserProfileDto = {
         user: UserDto,
         courses: {

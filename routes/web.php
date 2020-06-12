@@ -13,6 +13,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::redirect('/td', '/me/teacher/dashboard?_sFrom=1', 301);
+Route::redirect('/a', '/admin/overview?_sFrom=1', 301);
+
+
 Route::fallback(function () {
     return response()
         ->view('app')

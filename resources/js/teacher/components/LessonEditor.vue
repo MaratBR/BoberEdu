@@ -65,7 +65,7 @@
         saved = false
 
         async load() {
-            this.updateFrom(await this.store.lessons.get(this.id))
+            this.updateFrom(await this.teacher.getLesson(this.id))
         }
 
         updateFrom(lesson: LessonExDto) {

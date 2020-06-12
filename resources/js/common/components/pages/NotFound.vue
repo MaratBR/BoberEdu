@@ -1,9 +1,13 @@
 <template>
-    <section class="not-found">
-        <div class="card-body d-flex align-items-center">
+    <section class="not-found container">
+        <div class="card-body d-flex align-items-center flex-column flex-lg-row">
             <div class="not-found__image" :style="{backgroundImage: 'url(\'' +image+ '\')'}" />
 
             <div class="not-found__body">
+                <a href="#" class="lead" @click.prevent="$router.back()">
+                    <i class="fas fa-arrow-left"></i>
+                    go back
+                </a>
                 <h2>This is beaver. {{ text }}. What else did you expect?</h2>
                 <slot>
                     <p>Page you were looking for is not found</p>

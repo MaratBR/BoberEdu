@@ -44,6 +44,16 @@ export default class TeacherModule {
     createLesson(d: requests.CreateLesson): Promise<dto.LessonExDto> {
         return client.post('teacher-dashboard/lessons', d).then(r => r.data)
     }
+
+    @Action()
+    getLesson(id: number) {
+        return client.get('teacher-dashboard/lessons/' + id).then(r => r.data)
+    }
+
+    @Action()
+    getCourse(id: number) {
+        return client.get('teacher-dashboard/courses/' + id).then(r => r.data)
+    }
 }
 
 let adminModuleInitialized = false;

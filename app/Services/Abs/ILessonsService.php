@@ -20,7 +20,7 @@ interface ILessonsService
 
     function getOverview(int $id): Lesson;
 
-    function getWithCoure(int $id): Lesson;
+    function getWithCourse(int $id): Lesson;
 
     /**
      *

@@ -1,5 +1,8 @@
 <template>
-    <loader v-if="inProgressState === 1" />
+    <not-found v-if="notFound">
+        <p>Course you requested does not exist or you can't have access to it</p>
+    </not-found>
+    <loader v-else-if="inProgressState === 1" />
     <div class="container pt-4" v-else>
         <form action="#" @submit.prevent="submit">
             <category-select v-if="isNew" v-model="category" required />
@@ -113,6 +116,7 @@
     import draggable from 'vuedraggable'
     import CategorySelect from "@common/components/courses/CategorySelect.vue";
     import SaveButton from "@common/components/forms/SaveButton.vue";
+    import NotFound from "@common/components/pages/NotFound.vue";
 
     type LessonData = {
         id: number,
@@ -134,10 +138,10 @@
 
     @Component({
         name: "CourseEditor",
-        components: {SaveButton, CategorySelect, Error, Uploader, Loader, InputTextarea, InputText, draggable}
+        components: {NotFound, SaveButton, CategorySelect, Error, Uploader, Loader, InputTextarea, InputText, draggable}
     })
     export default class CourseEditor extends TeachersStoreComponent {
-        @Prop() id: number;
+        @Prop() id: number
 
         course: dto.CourseExDto = null
 
@@ -171,7 +175,12 @@
         }
 
         async load() {
-            this.updateFrom(await this.store.getCourse(this.id))
+            try {
+                this.updateFrom(await this.teacher.getCourse(this.id))
+            } catch (e) {
+                this.error = getError(e)
+                this.notFound = true
+            }
         }
 
         updateFrom(course: dto.CourseExDto) {

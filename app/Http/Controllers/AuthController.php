@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\DTO\Users\SelfUserDto;
 use App\Http\DTO\Users\UserDto;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
@@ -32,7 +33,7 @@ class AuthController extends Controller
 
     public function currentUser(AuthenticatedRequest $request)
     {
-        return new UserDto($request->user());
+        return new SelfUserDto($request->user());
     }
 
     public function logout(AuthenticatedRequest $request)
