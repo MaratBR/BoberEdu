@@ -152,8 +152,8 @@ export default class CommonStore {
     }
 
     @Action()
-    getUnits(id: number): Promise<dto.CourseUnitsDto> {
-        return client.get('courses/' + id + '/units').then(r => r.data)
+    getUnit(id: number): Promise<dto.StandaloneUnitDto> {
+        return client.get('courses/units/' + id).then(r => r.data)
     }
 
     @Action()

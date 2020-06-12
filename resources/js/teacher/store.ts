@@ -22,7 +22,7 @@ export default class TeacherModule {
 
     @Action()
     uploadCourseImage(d: UpdatePayload<File>): Promise<string> {
-        return client.post('teacher-dashboard/courses/' + d.id + '/image', d.data).then(r => r.data.id)
+        return client.put('teacher-dashboard/courses/' + d.id + '/image', d.data).then(r => r.data.id)
     }
 
     @Action()
@@ -36,12 +36,12 @@ export default class TeacherModule {
     }
 
     @Action()
-    updateLesson(d: UpdatePayload<requests.UpdateLesson>): Promise<dto.Done> {
+    updateLesson(d: UpdatePayload<requests.UpdateLesson>): Promise<dto.LessonExDto> {
         return client.put('teacher-dashboard/lessons/' + d.id, d.data).then(r => r.data)
     }
 
     @Action()
-    createLesson(d: requests.CreateLesson): Promise<dto.Done> {
+    createLesson(d: requests.CreateLesson): Promise<dto.LessonExDto> {
         return client.post('teacher-dashboard/lessons', d).then(r => r.data)
     }
 }

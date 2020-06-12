@@ -410,10 +410,31 @@ let router = new VueRouter({
                     }
                 },
                 {
+                    name: 'teacher_dashboard__lesson_edit',
+                    path: 'me/teacher/lessons/:id',
+                    component: () => import(/* webpackChunkName: "t-lesson" */ '@teacher/components/LessonEditor.vue'),
+                    props({params}) {
+                        return {
+                            id: +params.id
+                        }
+                    }
+                },
+                {
+                    name: 'teacher_dashboard__lesson_new',
+                    path: 'me/teacher/lessons/new/:id',
+                    component: () => import(/* webpackChunkName: "t-lesson" */ '@teacher/components/LessonEditor.vue'),
+                    props({params}) {
+                        return {
+                            unitId: +params.id
+                        }
+                    }
+                },
+                {
                     name: 'teacher_dashboard__new',
                     path: 'me/teacher/course/new',
                     component: () => import(/* webpackChunkName: "t-edit-course" */ '@teacher/components/CourseEditor.vue')
                 },
+
                 {
                     path: '*',
                     component: NotFound

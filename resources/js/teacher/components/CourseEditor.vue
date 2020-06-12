@@ -1,19 +1,21 @@
 <template>
-    <loader v-if="loading" />
-    <div class="container" v-else>
+    <loader v-if="inProgressState === 1" />
+    <div class="container pt-4" v-else>
         <form action="#" @submit.prevent="submit">
+            <category-select v-if="isNew" v-model="category" required />
+
             <div class="form-group">
                 <img :src="image" class="img-thumbnail rounded-circle s180">
             </div>
 
             <div class="form-group">
-                <uploader :uploading="uploading" v-model="imageFile" accept="image/*" default-text="Upload image" @upload="uploadImage()" />
+                <uploader :disabled="inProgressState" :uploading="uploading" v-model="imageFile" accept="image/*" default-text="Upload image" @upload="uploadImage()" />
                 <small v-if="showUploadHint">Image will be uploaded on save</small>
             </div>
 
-            <input-text label="Name" required v-model="name" />
-            <input-textarea label="Summary" required v-model="summary" />
-            <input-text v-currency label="Price" v-model="price" />
+            <input-text label="Name" required v-model="name" :disabled="inProgressState" />
+            <input-textarea label="Summary" required v-model="summary" :disabled="inProgressState" />
+            <input-text v-currency label="Price" v-model="price" :disabled="inProgressState" />
             <markdown-editor v-model="about" />
 
             <div class="form-check">
@@ -33,13 +35,11 @@
 
             <error :error="error" v-if="error" />
 
-            <div class="mt-3">
-                <input type="submit" class="btn btn-primary" value="Save">
-            </div>
+            <save-button :saving="inProgressState === 2" class="mt-1" />
         </form>
 
 
-        <form action="#" v-if="!isNew" @submit="saveUnits">
+        <form action="#" v-if="!isNew" @submit.prevent="saveUnits">
             <hr>
             <h4>Units and lesson order</h4>
             <div class="units">
@@ -59,7 +59,7 @@
                                 </div>
                             </span>
 
-                            <input class=" form-control" type="text" v-model="u.name">
+                            <input class=" form-control" type="text" v-model="u.name" @input="updateChanged(u)">
                         </div>
                         <textarea class="unit__about form-control" type="text" v-model="u.about" @input="updateChanged(u)" />
 
@@ -78,8 +78,10 @@
                             <ul>
                                 <draggable v-model="u.lessons" @end="onLessonDragEnd(u, $event)">
                                     <li class="lesson" v-for="l in u.lessons" :key="l.id"  :class="{changed: l.changed}">
-                                        {{ l.name }}
-                                        <small>(ID: {{l.id}})</small>
+                                        <router-link :to="{name: 'teacher_dashboard__lesson_edit', params: {id: l.id}}">
+                                            {{ l.name }}
+                                            <small>(ID: {{l.id}})</small>
+                                        </router-link>
                                     </li>
                                 </draggable>
                             </ul>
@@ -93,13 +95,13 @@
                 </button>
             </div>
 
-            <input type="submit" class="btn btn-primary mt-2" value="Save">
+            <save-button :saving="inProgressState === 3" class="mt-1" />
         </form>
     </div>
 </template>
 
 <script lang="ts">
-    import {Vue, Component, Prop, dto, requests} from "@common";
+    import {Vue, Component, Prop, dto, requests, Watch} from "@common";
     import TeachersStoreComponent from "@teacher/components/TeachersStoreComponent";
     import InputText from "@common/components/forms/InputText.vue";
     import InputTextarea from "@common/components/forms/InputTextarea.vue";
@@ -109,6 +111,8 @@
     import Uploader from "@common/components/utils/Uploader.vue";
     import Error from "@common/components/utils/Error.vue";
     import draggable from 'vuedraggable'
+    import CategorySelect from "@common/components/courses/CategorySelect.vue";
+    import SaveButton from "@common/components/forms/SaveButton.vue";
 
     type LessonData = {
         id: number,
@@ -130,7 +134,7 @@
 
     @Component({
         name: "CourseEditor",
-        components: {Error, Uploader, Loader, InputTextarea, InputText, draggable}
+        components: {SaveButton, CategorySelect, Error, Uploader, Loader, InputTextarea, InputText, draggable}
     })
     export default class CourseEditor extends TeachersStoreComponent {
         @Prop() id: number;
@@ -139,14 +143,14 @@
 
         isNew = false;
         notFound = false;
-        loading = true
+        inProgressState = 1
         hasSignUpPeriod = false
         uploading = false;
         imageFile: File = null;
         image: string = null;
         name = null;
         summary = null;
-        about = null;
+        about = '';
         price: string;
         available = null;
         signUpBeg: string = null
@@ -154,6 +158,7 @@
         signUpEnd: string = null
         category: dto.CategoryDto = null
         error = null
+        showUploadHint = false
 
         units: UnitData[] = []
 
@@ -171,7 +176,6 @@
 
         updateFrom(course: dto.CourseExDto) {
             this.course = course
-
             this.name = course.name
             this.summary = course.summary
             this.about = course.about
@@ -181,7 +185,6 @@
             this.hasSignUpPeriod = !!course.requirements.signUp.beg
             this.signUpBeg = this.hasSignUpPeriod ? format(new Date(course.requirements.signUp.beg), 'yyyy-MM-dd') : ''
             this.signUpEnd = this.hasSignUpPeriod ? format(new Date(course.requirements.signUp.end), 'yyyy-MM-dd') : ''
-
             this.units = course.units.map(u => ({
                 id: u.id,
                 name: u.name,
@@ -199,12 +202,14 @@
             }))
         }
 
+        @Watch('id')
         async init() {
-            this.loading = true
+            this.inProgressState = 1
             this.isNew = typeof this.id !== 'number' || isNaN(this.id)
 
             if (this.isNew) {
-                this.name = this.summary = this.about = this.image = null
+                this.about = ''
+                this.name = this.summary = this.image = null
                 this.notFound = this.hasSignUpPeriod = this.available = false
                 this.priceAsNumber = 0
                 this.signUpBeg = this.signUpEnd = ''
@@ -212,7 +217,7 @@
                 await this.load()
             }
 
-            this.loading = false
+            this.inProgressState = 0
         }
 
         addNew() {
@@ -231,7 +236,8 @@
 
         async submit() {
             this.error = null
-            this.loading = true
+            this.inProgressState = 2
+
             if (this.isNew) {
                 this.isNew = false
 
@@ -250,7 +256,7 @@
                     })
                     this.updateFrom(course)
                 } catch (e) {
-                    this.loading = false
+                    this.inProgressState = 0
                     this.error = getError(e)
                     return
                 }
@@ -263,7 +269,6 @@
                     }
                 }
 
-                this.loading = false
                 await this.$router.replace({
                     name: 'teacher_dashboard__edit',
                     params: {
@@ -285,8 +290,9 @@
                     }
                 })
                 this.updateFrom(course)
-                this.loading = false
             }
+
+            this.inProgressState = 0
         }
 
         created() {
@@ -296,6 +302,11 @@
         private uploadImage(id?: number) {
             if (this.imageFile === null)
                 return Promise.resolve()
+
+            if (this.isNew) {
+                this.showUploadHint = true
+                return
+            }
 
             id = id || this.id
             this.uploading = true
@@ -341,7 +352,7 @@
         }
 
         async saveUnits() {
-            this.loading = true
+            this.inProgressState = 3
             let r: requests.UpdateCourseUnits = {
                 upd: this.units.filter(u => !u.deleted && !u.new && u.changed).map(u => ({
                     id: u.id,
@@ -375,7 +386,7 @@
                 id: this.id, data: r
             })
 
-            await this.init()
+            this.inProgressState = 0
         }
     }
 </script>

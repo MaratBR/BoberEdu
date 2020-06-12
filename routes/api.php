@@ -39,7 +39,6 @@ Route::group([
     'prefix' => 'courses'
 ], function () {
     Route::get('search', 'SearchController@search');
-    Route::get('{course}/units', 'CourseController@getUnits');
     Route::put('{course}/units', 'CourseController@updateUnits');
     Route::put('{course}/ordnung-muss-sein', 'CourseController@updateLessonsOrder');
     Route::get('{course}/lessons', 'CourseController@lessons');
@@ -47,6 +46,7 @@ Route::group([
     Route::delete('{course}/rate', 'CourseController@removeRate');
     Route::put('{course}/rate', 'CourseController@setRate');
     Route::get('{course}/rate', 'CourseController@getRate');
+    Route::get('units/{id}', 'CourseController@getUnit');
 
     Route::group([
         'prefix' => 'categories'
