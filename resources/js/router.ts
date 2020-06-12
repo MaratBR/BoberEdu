@@ -5,33 +5,10 @@ import App from "@common/components/sections/App.vue";
 import {getCommonStore} from "@common/store";
 import NotFound from "@common/components/pages/NotFound.vue";
 
-type ValidationResult = {
-    to: string,
-    params?: any
-}
-
-//#region b64 utility functions
-
-// https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
-function b64Encode(str) {
-    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-        function toSolidBytes(match, p1) {
-            return String.fromCharCode(+p1);
-        }));
-}
-
-function b64Decode(str) {
-    return decodeURIComponent(atob(str).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-}
-
-//#endregion
-
+const RouterView = { render: h => h('router-view') };
 
 let router = new VueRouter({
     routes: [
-
         {
             path: "/admin",
             name: "admin",
@@ -379,18 +356,76 @@ let router = new VueRouter({
                     }
                 },
                 {
-                    name: 'become_teacher',
-                    path: '/me/become-teacher',
-                    component: () => import(
-                        /* webpackChunkName: "brains-giveaway" */
-                        '@common/components/teacher/TeacherApprovalForm.vue'
-                        )
-                },
-                {
                     name: 'oops',
                     path: '/oops/:kind',
                     component: null
                 },
+
+                {
+                    path: 'me',
+                    component: RouterView,
+                    meta: {
+                        requiresAuth: true
+                    },
+                    children: [
+                        {
+                            name: 'become_teacher',
+                            path: 'become-teacher',
+                            component: () => import(
+                                /* webpackChunkName: "brains-giveaway" */
+                                '@common/components/teacher/TeacherApprovalForm.vue'
+                                )
+                        },
+                        {
+                            path: 'teacher',
+                            component: RouterView,
+                            children: [
+                                {
+                                    name: 'teacher_dashboard',
+                                    path: 'dashboard',
+                                    component: () => import(/* webpackChunkName: "t-dashboard" */ '@teacher/components/TeacherDashboard.vue')
+                                },
+                                {
+                                    name: 'teacher_dashboard__edit',
+                                    path: 'course/:id',
+                                    component: () => import(/* webpackChunkName: "t-edit-course" */ '@teacher/components/CourseEditor.vue'),
+                                    props({params}) {
+                                        return {
+                                            id: +params.id
+                                        }
+                                    }
+                                },
+                                {
+                                    name: 'teacher_dashboard__lesson_edit',
+                                    path: 'lessons/:id',
+                                    component: () => import(/* webpackChunkName: "t-lesson" */ '@teacher/components/LessonEditor.vue'),
+                                    props({params}) {
+                                        return {
+                                            id: +params.id
+                                        }
+                                    }
+                                },
+                                {
+                                    name: 'teacher_dashboard__lesson_new',
+                                    path: 'lessons/new/:id',
+                                    component: () => import(/* webpackChunkName: "t-lesson" */ '@teacher/components/LessonEditor.vue'),
+                                    props({params}) {
+                                        return {
+                                            unitId: +params.id
+                                        }
+                                    }
+                                },
+                                {
+                                    name: 'teacher_dashboard__new',
+                                    path: 'course/new',
+                                    component: () => import(/* webpackChunkName: "t-edit-course" */ '@teacher/components/CourseEditor.vue')
+                                },
+                            ]
+                        }
+                    ]
+                },
+
+
                 {
                     path: '*',
                     component: NotFound
@@ -401,13 +436,28 @@ let router = new VueRouter({
     mode: 'history'
 })
 
+//#region b64 utility functions
+
+// https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
+function b64Encode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+            return String.fromCharCode(+p1);
+        }));
+}
+
+function b64Decode(str) {
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
+//#endregion
+
 
 router.beforeEach((to, from, next: (to?: RawLocation | void) => void) => {
 
     let storeProxy = getCommonStore();
-
-    for (let match of to.matched)
-
 
     if (to.matched.some(r => r.meta.requiresAuth) && !storeProxy.isAuthenticated) {
         next({
@@ -419,6 +469,10 @@ router.beforeEach((to, from, next: (to?: RawLocation | void) => void) => {
             params: {
                 kind: '403'
             }
+        })
+    } else if (to.matched.some(r => r.meta.requiresTeacher) && !storeProxy.isTeacher) {
+        next({
+            name: storeProxy.isAuthenticated ? 'become_teacher' : 'home'
         })
     } else {
         next()

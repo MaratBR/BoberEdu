@@ -14,7 +14,7 @@ use App\Http\Requests\Users\SetStatusRequest;
 use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IUploadService;
 use App\Services\Abs\IUsersService;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller

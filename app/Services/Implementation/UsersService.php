@@ -5,10 +5,10 @@ namespace App\Services\Implementation;
 
 
 use App\Exceptions\ThrowUtils;
-use App\FileInfo;
+use App\Models\FileInfo;
 use App\Role;
 use App\Services\Abs\IUsersService;
-use App\User;
+use App\Models\User;
 use App\Utils\Convert;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;

@@ -4,8 +4,8 @@
 namespace App\Services\Abs;
 
 
-use App\FileInfo;
-use App\User;
+use App\Models\FileInfo;
+use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface IUsersService

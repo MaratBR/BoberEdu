@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Utils\Audit\AuditRecordBuilder;
 use Illuminate\Database\Eloquent\Model;
@@ -57,7 +57,7 @@ class AuditRecord extends Model
 
     public function subject()
     {
-        return $this->morphTo();
+        return $this->morphTo('subject');
     }
 
 }

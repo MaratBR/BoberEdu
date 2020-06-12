@@ -41,7 +41,7 @@ export namespace dto {
         about: string,
         trialDays: number,
         summary: string,
-        image: string,
+        image: string | null,
         requirements: CourseRequirements,
     };
 
@@ -215,6 +215,10 @@ export namespace dto {
         avatar: string,
     };
 
+    export type SelfUserDto = UserDto & {
+        isTeacher: boolean
+    };
+
     export type UserProfileDto = {
         user: UserDto,
         courses: {
@@ -242,6 +246,9 @@ export namespace dto {
     }
 
     //#endregion
+
+    //#region Admin panel overview and audit
+
     export type AdminOverviewDto = {
         teacherApplications: {
             awaitingReview: number,
@@ -267,6 +274,17 @@ export namespace dto {
             name: string
         }
     }
+
+    //#endregion
+
+    //#region Teachers' dashboard
+
+    export type TeacherDashboardDto = {
+        courses: dto.CoursePageItemDto[],
+        income: number
+    }
+
+    //#endregion
 }
 
 export namespace requests {
@@ -302,6 +320,7 @@ export namespace requests {
     export type UpdateUnitPayload = {
         id: number,
         name?: string,
+        preview?: boolean,
         about?: string
     }
 

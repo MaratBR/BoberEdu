@@ -4,9 +4,9 @@
 namespace App\Http\DTO\Users;
 
 
-use App\Enrollment;
+use App\Models\Enrollment;
 use App\Http\DTO\DtoBase;
-use App\User;
+use App\Models\User;
 
 class UserProfileDto extends DtoBase
 {

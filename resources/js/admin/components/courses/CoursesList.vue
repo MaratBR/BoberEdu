@@ -13,7 +13,7 @@
     import {Vue, Component, dto, Watch} from "@common";
     import Sections from "@admin/components/layout/Sections.vue";
     import AdminSection from "@admin/components/layout/AdminSection.vue";
-    import CategorySelect from "@admin/components/courses/CategorySelect.vue";
+    import CategorySelect from "@common/components/courses/CategorySelect.vue";
     import PaginationControl from "@common/components/utils/PaginationControl.vue";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import CoursesSearch from "@admin/components/courses/CoursesSearch.vue";

@@ -4,7 +4,7 @@
 namespace App\Services\Abs;
 
 
-use App\User;
+use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface IAuditService

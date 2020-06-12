@@ -4,7 +4,7 @@
 namespace App\Http\DTO;
 
 
-use App\Enrollment;
+use App\Models\Enrollment;
 use Carbon\Carbon;
 
 class EnrollmentDto extends DtoBase

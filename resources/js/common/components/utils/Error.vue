@@ -1,5 +1,5 @@
 <template>
-    <div class="notification notification--danger error">
+    <div class="alert alert-danger error">
         <error-presenter :error="error">
             <slot></slot>
         </error-presenter>

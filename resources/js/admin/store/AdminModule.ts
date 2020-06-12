@@ -1,16 +1,11 @@
 import {Action, Module, registerModule, useModule} from "vuex-simple";
 import {vuexStore} from "@common/store";
 import client from "@common/axios";
-import LessonsAdminModule from "@admin/store/LessonsAdminModule";
-import TeachersAdminModule from "@admin/store/TeachersAdminModule";
 import {AxiosResponse} from "axios";
 import {dto, requests} from "@common";
 import {DeletePayload, UpdatePayload} from "@common/store/utils";
 
 export class AdminModule {
-    @Module() lessons = new LessonsAdminModule(client);
-    @Module() teachers = new TeachersAdminModule(client);
-
     protected _get<T>(response: AxiosResponse<T>): T {
         return response.data
     }
@@ -201,14 +196,42 @@ export class AdminModule {
 
     //#endregion
 
+    //#region Lessons
+
+    @Action()
+    getLesson(id: number): Promise<dto.LessonExDto> {
+        return client.get('admin/lessons/' + id).then(this._get)
+    }
+
+    @Action()
+    updateLesson({id, data}: UpdatePayload<requests.UpdateLesson>): Promise<dto.LessonExDto> {
+        return client.put('admin/lessons/' + id, data).then(this._get)
+    }
+
+    @Action()
+    createLesson(d: requests.CreateLesson): Promise<dto.LessonExDto> {
+        return client.post('admin/lessons', d).then(this._get)
+    }
+
+    @Action()
+    deleteLessons(id: number): Promise<void> {
+        return client.delete('admin/lessons/' + id).then(this._get)
+    }
+
+    //#endregion
+
     @Action()
     getAuditLog(page: number): Promise<dto.PaginationDto<dto.AuditDto>> {
         return client.get('admin/audit/all', {params: {page}}).then(this._get)
     }
 }
 
-registerModule(vuexStore, ['dyn_admin'], new AdminModule());
+let adminModuleInitialized = false;
 
 export function getAdminModule(): AdminModule {
+    if (!adminModuleInitialized) {
+        adminModuleInitialized = true;
+        registerModule(vuexStore, ['dyn_admin'], new AdminModule());
+    }
     return useModule(vuexStore, ['dyn_admin'])
 }

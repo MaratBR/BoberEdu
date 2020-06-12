@@ -4,15 +4,15 @@
 namespace App\Services\Implementation;
 
 
-use App\Course;
+use App\Models\Course;
 use App\Exceptions\Payment\PaymentFailed;
 use App\Exceptions\ThrowUtils;
-use App\Payment;
+use App\Models\Payment;
 use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IPaymentsService;
 use App\Services\Abs\Payments\IPaymentGatewayHandler;
 use App\Services\Implementation\Payments\DummyGatewayHandler;
-use App\User;
+use App\Models\User;
 use Dyrynda\Database\Casts\EfficientUuid;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;

@@ -5,7 +5,7 @@ namespace App\Http\DTO\Teachers;
 
 
 use App\Http\DTO\DtoBase;
-use App\Teacher;
+use App\Models\Teacher;
 
 class TeacherDto extends DtoBase
 {

@@ -39,7 +39,6 @@ Route::group([
     'prefix' => 'courses'
 ], function () {
     Route::get('search', 'SearchController@search');
-    Route::get('{course}/units', 'CourseController@getUnits');
     Route::put('{course}/units', 'CourseController@updateUnits');
     Route::put('{course}/ordnung-muss-sein', 'CourseController@updateLessonsOrder');
     Route::get('{course}/lessons', 'CourseController@lessons');
@@ -47,6 +46,7 @@ Route::group([
     Route::delete('{course}/rate', 'CourseController@removeRate');
     Route::put('{course}/rate', 'CourseController@setRate');
     Route::get('{course}/rate', 'CourseController@getRate');
+    Route::get('units/{id}', 'CourseController@getUnit');
 
     Route::group([
         'prefix' => 'categories'
@@ -184,7 +184,24 @@ Route::group([
         Route::delete('{teacherId}/{courseId}/assignment', 'Admin\TeacherAssignmentController@revoke');
         Route::put('{teacherId}/{courseId}/assignment', 'Admin\TeacherAssignmentController@assign');
 
-
     });
 });
 
+
+Route::group([
+    'prefix' => 'teacher-dashboard',
+    'middleware' => 'teachers-only'
+], function () {
+    Route::get('', 'Teacher\DashboardController@get');
+
+    Route::post('courses', 'Teacher\CourseController@createCourse');
+    Route::put('courses/{id}', 'Teacher\CourseController@updateCourse');
+    Route::get('courses/{id}', 'Teacher\CourseController@getCourse');
+    Route::put('courses/{id}/image', 'Teacher\CourseController@uploadCourseImage');
+    Route::put('courses/{id}/units', 'Teacher\CourseController@updateUnitsOrder');
+    Route::put('courses/{id}/lessons-order', 'Teacher\CourseController@updateLessonsOrder');
+
+    Route::post('lessons', 'Teacher\CourseController@createLesson');
+    Route::put('lessons/{id}', 'Teacher\CourseController@updateLesson');
+    Route::get('lessons/{id}', 'Teacher\CourseController@getLesson');
+});

@@ -5,7 +5,7 @@ namespace App\Http\DTO\Lessons;
 
 
 use App\Http\DTO\DtoBase;
-use App\Lesson;
+use App\Models\Lesson;
 
 class LessonDto extends DtoBase
 {

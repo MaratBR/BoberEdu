@@ -10,6 +10,8 @@ use App\Http\DTO\Courses\CourseExDto;
 use App\Http\DTO\Courses\CoursePageItemDto;
 use App\Http\DTO\Courses\CourseUnitsDto;
 use App\Http\DTO\PaginationDto;
+use App\Http\DTO\Units\StandaloneUnitDto;
+use App\Http\DTO\Units\UnitDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Courses\CreateCategoryRequest;
 use App\Http\Requests\Courses\OrdnungMussSeinRequest;
@@ -39,12 +41,6 @@ class CourseController extends Controller
     {
         $course = $this->courses->getWithOverview($courseId);
         return new CourseExDto($course);
-    }
-
-    public function getUnits(int $courseId)
-    {
-        $course = $this->courses->getWithOverview($courseId);
-        return new CourseUnitsDto($course);
     }
 
     /**
@@ -120,6 +116,13 @@ class CourseController extends Controller
         $category = $this->courses->createCategory($d);
 
         return $this->created(new CategoryDto($category));
+    }
+
+    public function getUnit(int $id)
+    {
+        return new StandaloneUnitDto(
+            $this->repo->getUnit($id)
+        );
     }
 }
 

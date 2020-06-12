@@ -27,4 +27,9 @@ class CreateNewLessonRequest extends AuthenticatedRequest implements IPayloadReq
     {
         return Convert::toSnakeCase($this->validated());
     }
+
+    public function getUnitId()
+    {
+        return $this->validated()['unitId'];
+    }
 }

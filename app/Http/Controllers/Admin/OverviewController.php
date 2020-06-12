@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\AuditRecord;
+use App\Models\AuditRecord;
 use App\Http\Controllers\Controller;
 use App\Http\DTO\Admin\AuditDto;
-use App\TeacherApprovalForm;
+use App\Models\TeacherApprovalForm;
 
 class OverviewController extends Controller
 {

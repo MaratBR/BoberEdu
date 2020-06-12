@@ -12,7 +12,7 @@ export default class CommonStore {
 
     //#region Auth
 
-    @State() user: dto.UserDto | null = null;
+    @State() user: dto.SelfUserDto | null = null;
     @State() logoutToken: string = null;
     @State() loggingIn: boolean = false;
 
@@ -20,7 +20,7 @@ export default class CommonStore {
         this.loggingIn = val;
     }
 
-    @Mutation() SET_USER(user: dto.UserDto | null) {
+    @Mutation() SET_USER(user: dto.SelfUserDto | null) {
         this.user = user;
         this.logoutToken = localStorage.getItem('logoutToken')
         if (user === null) {
@@ -37,6 +37,10 @@ export default class CommonStore {
         return !!this.user
     }
 
+    @Getter() get isTeacher(): boolean {
+        return this.isAuthenticated && this.user.isTeacher
+    }
+
     @Getter() get isAdmin(): boolean {
         return this.user && this.user.admin
     }
@@ -49,7 +53,7 @@ export default class CommonStore {
     @Action()
     async fetchCurrentUser(): Promise<void> {
         try {
-            let {data} = await client.get<dto.UserDto>('auth/user');
+            let {data} = await client.get<dto.SelfUserDto>('auth/user');
             this.SET_USER(data)
         } catch (e) {
             this.clearSession()
@@ -152,8 +156,8 @@ export default class CommonStore {
     }
 
     @Action()
-    getUnits(id: number): Promise<dto.CourseUnitsDto> {
-        return client.get('courses/' + id + '/units').then(r => r.data)
+    getUnit(id: number): Promise<dto.StandaloneUnitDto> {
+        return client.get('courses/units/' + id).then(r => r.data)
     }
 
     @Action()
