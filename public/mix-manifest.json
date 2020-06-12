@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=d45404a3aa8b0910e39a",
+    "/js/app.js": "/js/app.js?id=3196273499760e9de30e",
     "/css/app.css": "/css/app.css?id=2074b219b74bd478ad6c",
     "/js/chunks/a-application.js": "/js/chunks/a-application.js?id=e5f15192209f7c62fb79",
     "/js/chunks/a-applications.js": "/js/chunks/a-applications.js?id=cc8e6c9a5092cf84a03a",
@@ -39,5 +39,14 @@
     "/js/chunks/teacher.js": "/js/chunks/teacher.js?id=73468c81b83ef45d363b",
     "/js/chunks/vendors~a-course-form.js": "/js/chunks/vendors~a-course-form.js?id=12daf9e24c8247c0414b",
     "/js/chunks/vendors~a-course-form~a-course-units-form~admin-user-form.js": "/js/chunks/vendors~a-course-form~a-course-units-form~admin-user-form.js?id=e65ce664ac3e5bdd0dd3",
-    "/js/chunks/vendors~vme.js": "/js/chunks/vendors~vme.js?id=3a0ade31b40979f03936"
+    "/js/chunks/vendors~vme.js": "/js/chunks/vendors~vme.js?id=3a0ade31b40979f03936",
+    "/js/chunks/t-dashboard.js": "/js/chunks/t-dashboard.js?id=2676ddc261c8b8e36eca",
+    "/js/chunks/t-edit-course.js": "/js/chunks/t-edit-course.js?id=e6a1a9e6c7e2fe2211e8",
+    "/js/chunks/a-categories~a-course-form~a-lesson-form~a-teachers-form~admin-user-form~brains-giveaway~login~profi~10f7e827.js": "/js/chunks/a-categories~a-course-form~a-lesson-form~a-teachers-form~admin-user-form~brains-giveaway~login~profi~10f7e827.js?id=f8664a48edf4026fa5e6",
+    "/js/chunks/vendors~a-course-form~t-edit-course.js": "/js/chunks/vendors~a-course-form~t-edit-course.js?id=d4ff69b3c3a697ee875a",
+    "/js/chunks/vendors~a-course-form~a-course-units-form~admin-user-form~t-edit-course.js": "/js/chunks/vendors~a-course-form~a-course-units-form~admin-user-form~t-edit-course.js?id=348117b1c817d6b1c47e",
+    "/js/chunks/a-application~a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-less~7ed1086b.js": "/js/chunks/a-application~a-applications~a-audit~a-categories~a-course-form~a-course-units-form~a-courses~a-less~7ed1086b.js?id=216af1cb0f70310d608c",
+    "/js/chunks/a-course-form~a-courses~t-edit-course.js": "/js/chunks/a-course-form~a-courses~t-edit-course.js?id=f469c4bd64075da6d04c",
+    "/js/chunks/t-lesson.js": "/js/chunks/t-lesson.js?id=39718ea8277c7f825726",
+    "/js/chunks/a-categories~a-course-form~a-lesson-form~a-teachers-form~admin-user-form~brains-giveaway~login~profi~7dc6846f.js": "/js/chunks/a-categories~a-course-form~a-lesson-form~a-teachers-form~admin-user-form~brains-giveaway~login~profi~7dc6846f.js?id=d569bd6a776f9e923d99"
 }
