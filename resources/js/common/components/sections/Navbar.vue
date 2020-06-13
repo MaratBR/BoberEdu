@@ -67,7 +67,7 @@
                     </li>
                     <template v-else>
                         <li class="nav-item">
-                            <router-link :to="{name: 'login'}" class="btn btn-success">Sign up</router-link>
+                            <router-link :to="{name: 'register'}" class="btn btn-success">Sign up</router-link>
                         </li>
                         <small class="text-muted m-1">or</small>
                         <li class="nav-item">

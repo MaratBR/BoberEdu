@@ -25,6 +25,6 @@ class CategoryExDto extends CategoryDto
 
     public function getBgImage()
     {
-        return $this->category->uidata_image_id === null ? null : $this->category->image->sys_name;
+        return $this->category->uidata_image_id === null ? null : $this->category->image->getRootUrl();
     }
 }

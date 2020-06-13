@@ -56,6 +56,8 @@
                 <p>You didn't think it will actually work did you?</p>
             </div>
 
+            <div class="clearfix"></div>
+
         </div>
     </div>
 

@@ -16,9 +16,9 @@
                 <small v-if="showUploadHint">Image will be uploaded on save</small>
             </div>
 
-            <input-text label="Name" required v-model="name" :disabled="inProgressState" />
-            <input-textarea label="Summary" required v-model="summary" :disabled="inProgressState" />
-            <input-text v-currency label="Price" v-model="price" :disabled="inProgressState" />
+            <input-text label="Name" required v-model="name" :disabled="inProgressState === 2" />
+            <input-textarea label="Summary" required v-model="summary" :disabled="inProgressState === 2" />
+            <input-text v-currency label="Price" v-model="price" :disabled="inProgressState === 2" />
             <markdown-editor v-model="about" />
 
             <div class="form-check">
@@ -32,8 +32,8 @@
             </div>
 
             <div v-if="hasSignUpPeriod">
-                <input-text label="Stars at" type="date" v-model="signUpBeg" required />
-                <input-text label="Ends at" type="date" v-model="signUpEnd" required />
+                <input-text label="Stars at" type="date" v-model="signUpBeg" required :disabled="inProgressState === 2" />
+                <input-text label="Ends at" type="date" v-model="signUpEnd" required :disabled="inProgressState === 2" />
             </div>
 
             <error :error="error" v-if="error" />
@@ -57,21 +57,22 @@
                                 <div class="unit__preview input-group-text">
                                     <label class="mb-0">
                                         Preview
-                                        <input type="checkbox" v-model="u.preview" @input="updateChanged(u)" />
+                                        <input type="checkbox" v-model="u.preview" @input="updateChanged(u)"
+                                               :disabled="inProgressState === 3" />
                                     </label>
                                 </div>
                             </span>
 
-                            <input class=" form-control" type="text" v-model="u.name" @input="updateChanged(u)">
+                            <input class=" form-control" type="text" v-model="u.name" @input="updateChanged(u)" :disabled="inProgressState === 3">
                         </div>
-                        <textarea class="unit__about form-control" type="text" v-model="u.about" @input="updateChanged(u)" />
+                        <textarea class="unit__about form-control" type="text" v-model="u.about" @input="updateChanged(u)" :disabled="inProgressState === 3" />
 
                         <div class="unit__buttons d-flex flex-column justify-content-center">
-                            <button class="btn" @click.prevent="u.deleted = u.changed = true">
+                            <button class="btn" @click.prevent="u.deleted = u.changed = true" :disabled="inProgressState === 3">
                                 <i class="fas fa-times text-danger"></i>
                             </button>
 
-                            <button class="btn" @click.prevent="u.hidden = !u.hidden">
+                            <button class="btn" @click.prevent="u.hidden = !u.hidden" :disabled="inProgressState === 3">
                                 <i class="fas fa-chevron-up"></i>
                             </button>
                         </div>
@@ -92,7 +93,7 @@
                     </div>
                 </draggable>
 
-                <button class="btn" @click.prevent="addNew">
+                <button class="btn" @click.prevent="addNew" :disabled="inProgressState === 3">
                     <i class="fas fa-plus"></i>
                     add new
                 </button>
