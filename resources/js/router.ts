@@ -407,11 +407,11 @@ let router = new VueRouter({
                                 },
                                 {
                                     name: 'teacher_dashboard__lesson_new',
-                                    path: 'lessons/new/:id',
+                                    path: 'lessons/new/:unitId',
                                     component: () => import(/* webpackChunkName: "t-lesson" */ '@teacher/components/LessonEditor.vue'),
                                     props({params}) {
                                         return {
-                                            unitId: +params.id
+                                            unitId: +params.unitId
                                         }
                                     }
                                 },

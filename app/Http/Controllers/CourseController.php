@@ -121,7 +121,7 @@ class CourseController extends Controller
     public function getUnit(int $id)
     {
         return new StandaloneUnitDto(
-            $this->repo->getUnit($id)
+            $this->courses->getUnit($id)
         );
     }
 }

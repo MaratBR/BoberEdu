@@ -12,17 +12,24 @@
             </div>
 
             <div class="form-group">
-                <uploader :disabled="inProgressState" :uploading="uploading" v-model="imageFile" accept="image/*" default-text="Upload image" @upload="uploadImage()" />
+                <uploader :disabled="inProgressState === 2" :uploading="uploading" v-model="imageFile" accept="image/*" default-text="Upload image" @upload="uploadImage()" />
                 <small v-if="showUploadHint">Image will be uploaded on save</small>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" v-model="available" type="checkbox">
+                <label class="form-check-label">Available</label>
             </div>
 
             <input-text label="Name" required v-model="name" :disabled="inProgressState === 2" />
             <input-textarea label="Summary" required v-model="summary" :disabled="inProgressState === 2" />
             <input-text v-currency label="Price" v-model="price" :disabled="inProgressState === 2" />
+            <input-text label="Free trial days" type="number" v-model="trialDays" :disabled="inProgressState === 2" />
             <markdown-editor v-model="about" />
 
             <div class="form-check">
                 <input
+                    :disabled="inProgressState === 2"
                     type="checkbox"
                     class="form-check-input"
                     v-model="hasSignUpPeriod">
@@ -47,49 +54,62 @@
             <h4>Units and lesson order</h4>
             <div class="units">
                 <draggable v-model="units" handle=".handle" @end="onUnitDragEnd">
-                    <div class="unit" v-for="u in units" :key="u.id" :class="{changed: u.changed, hidden: u.hidden}">
-                        <div class="handle">
-                            <i></i><i></i><i></i><i></i><i></i>
-                        </div>
+                    <div class="unit" v-for="u in units" :key="u.id"
+                         :class="{changed: u.changed, hidden: u.hidden, deleted: u.deleted}">
+                        <template v-if="u.deleted">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info"></i>
+                                This course has been deleted. <button class="btn btn-primary" @click.prevent="u.deleted = false">Restore</button>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div class="handle">
+                                <i></i><i></i><i></i><i></i><i></i>
+                            </div>
 
-                        <div class="unit__name input-group">
+                            <div class="unit__name input-group">
                             <span class="input-group-prepend">
                                 <div class="unit__preview input-group-text">
                                     <label class="mb-0">
                                         Preview
-                                        <input type="checkbox" v-model="u.preview" @input="updateChanged(u)"
+                                        <input type="checkbox" v-model="u.preview" @change="updateChanged(u)"
                                                :disabled="inProgressState === 3" />
                                     </label>
                                 </div>
                             </span>
 
-                            <input class=" form-control" type="text" v-model="u.name" @input="updateChanged(u)" :disabled="inProgressState === 3">
-                        </div>
-                        <textarea class="unit__about form-control" type="text" v-model="u.about" @input="updateChanged(u)" :disabled="inProgressState === 3" />
+                                <input class=" form-control" type="text" v-model="u.name" @input="updateChanged(u)" :disabled="inProgressState === 3">
+                            </div>
+                            <textarea class="unit__about form-control" type="text" v-model="u.about" @input="updateChanged(u)" :disabled="inProgressState === 3" />
 
-                        <div class="unit__buttons d-flex flex-column justify-content-center">
-                            <button class="btn" @click.prevent="u.deleted = u.changed = true" :disabled="inProgressState === 3">
-                                <i class="fas fa-times text-danger"></i>
-                            </button>
+                            <div class="unit__buttons d-flex flex-column justify-content-center">
+                                <button class="btn" @click.prevent="u.deleted = u.changed = true" :disabled="inProgressState === 3">
+                                    <i class="fas fa-times text-danger"></i>
+                                </button>
 
-                            <button class="btn" @click.prevent="u.hidden = !u.hidden" :disabled="inProgressState === 3">
-                                <i class="fas fa-chevron-up"></i>
-                            </button>
-                        </div>
+                                <button class="btn" @click.prevent="u.hidden = !u.hidden" :disabled="inProgressState === 3">
+                                    <i class="fas fa-chevron-up"></i>
+                                </button>
+                            </div>
 
 
-                        <div class="unit__lessons">
-                            <ul>
-                                <draggable v-model="u.lessons" @end="onLessonDragEnd(u, $event)">
-                                    <li class="lesson" v-for="l in u.lessons" :key="l.id"  :class="{changed: l.changed}">
-                                        <router-link :to="{name: 'teacher_dashboard__lesson_edit', params: {id: l.id}}">
-                                            {{ l.name }}
-                                            <small>(ID: {{l.id}})</small>
-                                        </router-link>
-                                    </li>
-                                </draggable>
-                            </ul>
-                        </div>
+                            <div class="unit__lessons">
+                                <ul>
+                                    <draggable v-model="u.lessons" @end="onLessonDragEnd(u, $event)">
+                                        <li class="lesson" v-for="l in u.lessons" :key="l.id"  :class="{changed: l.changed}">
+                                            <router-link :to="{name: 'teacher_dashboard__lesson_edit', params: {id: l.id}}">
+                                                {{ l.name }}
+                                                <small>(ID: {{l.id}})</small>
+                                            </router-link>
+                                        </li>
+                                    </draggable>
+                                </ul>
+                                <router-link :to="{name: 'teacher_dashboard__lesson_new', params: {unitId: u.id}}">
+                                    <i class="fas fa-plus"></i>
+                                    add lesson
+                                </router-link>
+                            </div>
+                        </template>
                     </div>
                 </draggable>
 
@@ -186,6 +206,7 @@
 
         updateFrom(course: dto.CourseExDto) {
             this.course = course
+            this.trialDays = course.trialDays
             this.name = course.name
             this.summary = course.summary
             this.about = course.about
@@ -235,7 +256,7 @@
                 name: '',
                 about: '',
                 new: true,
-                deleted: true,
+                deleted: false,
                 hidden: true,
                 lessons: [],
                 preview: false,
@@ -261,7 +282,7 @@
                         price: this.priceAsNumber,
                         signUpEnd: this.hasSignUpPeriod ? format(new Date(this.signUpEnd), 'yyyy-MM-dd') : null,
                         signUpBeg: this.hasSignUpPeriod ? format(new Date(this.signUpBeg), 'yyyy-MM-dd') : null,
-                        trialLength: this.trialDays,
+                        trialLength: +this.trialDays || 0,
                         categoryId: this.category.id
                     })
                     this.updateFrom(course)
@@ -296,7 +317,7 @@
                         price: this.priceAsNumber,
                         signUpEnd: this.hasSignUpPeriod ? format(new Date(this.signUpEnd), 'yyyy-MM-dd') : null,
                         signUpBeg: this.hasSignUpPeriod ? format(new Date(this.signUpBeg), 'yyyy-MM-dd') : null,
-                        trialLength: this.trialDays
+                        trialLength: +this.trialDays || 0,
                     }
                 })
                 this.updateFrom(course)
@@ -369,12 +390,15 @@
                     name: u.name,
                     about: u.about,
                     preview: u.preview
-                })),
+                })).filter(r => {
+                    let u = this.course.units.find(u => u.id == r.id)
+                    return u && (u.name !== r.name || u.about !== r.about || u.preview !== r.preview)
+                }),
                 delete: this.units.filter(u => u.deleted && !u.new).map(u => u.id),
-                new: this.units.filter(u => u.new).map(u => ({name: u.name, about: u.about, preview: u.preview})),
+                new: this.units.filter(u => u.new && !u.deleted).map(u => ({name: u.name, about: u.about, preview: u.preview})),
                 order: (() => {
                     let i = 0;
-                    return this.units.map(u => u.new ? ('n' + i++) : u.id+'')
+                    return this.units.filter(u => !u.deleted).map(u => u.new ? ('n' + i++) : u.id+'')
                 })()
             }
 
@@ -396,6 +420,11 @@
                 id: this.id, data: r
             })
 
+            this.units.forEach(u => {
+                u.changed = false
+                u.lessons.forEach(l => l.changed = false)
+            })
+            this.units = this.units.filter(u => !u.deleted)
             this.inProgressState = 0
         }
     }
@@ -409,6 +438,13 @@
         padding: 10px 0;
         border-bottom: 1px solid #aaa;
         border-left: 4px solid transparent;
+        border-radius: 3px;
+        transition: .3s;
+
+        &.deleted {
+            display: block;
+            padding: 15px;
+        }
 
         &.sortable-chosen {
             background: #efefef;
@@ -463,6 +499,8 @@
         border-left: 4px solid transparent;
         background: white;
         margin: 5px;
+        border-radius: 2px;
+        transition: .3s;
 
         &.changed {
             border-left-color: #026aca;

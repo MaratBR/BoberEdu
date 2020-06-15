@@ -175,10 +175,12 @@ class CourseService implements ICourseService
             } else {
                 $updData = [];
             }
-            $updData['order_num'] = $orderInv[$unit['id']] ?? ($orderXCounter++);
+            $updData['order_num'] = $orderInv[strval($unit['id'])] ?? ($orderXCounter++);
             Unit::query()
                 ->where('id', '=', $unit->id)
                 ->update($updData);
+            var_dump($updData);
+            echo "<br>";
         }
 
         if ($toBeDeleted)
@@ -186,6 +188,7 @@ class CourseService implements ICourseService
 
         DB::commit();
 
+        die();
 
         return new UnitsUpdateResponse(
             array_map(function (Unit $unit) {

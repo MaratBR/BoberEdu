@@ -71,7 +71,7 @@ class Course extends Model implements IDisplayName
 
     public function units()
     {
-        return $this->hasMany(Unit::class);
+        return $this->hasMany(Unit::class)->orderBy('order_num');
     }
 
     public function getLessonsCountAttribute()

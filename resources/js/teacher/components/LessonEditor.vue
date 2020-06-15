@@ -18,20 +18,7 @@
 
             <markdown-editor v-model="content" theme="default" />
             <div class="mt-2">
-                <button :disabled="saving" :class="saved ? 'btn-success' : 'btn-primary'"
-                        class="btn save-btn d-flex align-items-center">
-                    <template v-if="saving">
-                        <i class="spinner-border spinner-border-sm mr-1"></i>
-                        Saving...
-                    </template>
-                    <template v-else-if="saved">
-                        <i class="fas fa-check mr-1"></i>
-                        Saved
-                    </template>
-                    <template v-else>
-                        Save
-                    </template>
-                </button>
+                <save-button :saving="saving" />
             </div>
         </form>
     </div>
@@ -43,10 +30,11 @@
     import InputText from "@common/components/forms/InputText.vue";
     import InputTextarea from "@common/components/forms/InputTextarea.vue";
     import LessonExDto = dto.LessonExDto;
+    import SaveButton from "@common/components/forms/SaveButton.vue";
 
     @Component({
         name: "LessonEditor",
-        components: {InputTextarea, InputText}
+        components: {SaveButton, InputTextarea, InputText}
     })
     export default class LessonEditor extends TeachersStoreComponent {
         @Prop() id: number;
@@ -59,10 +47,9 @@
         unitName: string = null
         courseName: string = null
         title: string = null
-        content: string = null
+        content: string = ''
         summary: string = null
         isNew = true;
-        saved = false
 
         async load() {
             this.updateFrom(await this.teacher.getLesson(this.id))
@@ -105,11 +92,9 @@
                     }
                 })
                 this.updateFrom(lesson)
-                this.saving = false
             }
 
-            this.saved = true
-            setTimeout(() => this.saved = false, 800)
+            this.saving = false
         }
 
         created() {
