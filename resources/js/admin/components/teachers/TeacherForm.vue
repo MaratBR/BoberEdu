@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-    import {Vue, Component, Prop, Watch, dto} from "@common";
+    import {Vue, Component, Prop, Watch, dto, requests} from "@common";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import AdminSection from "@admin/components/layout/AdminSection.vue";
     import InputText from "@common/components/forms/InputText.vue";
@@ -81,7 +81,7 @@
         inProgress = false;
         isNew = false;
         fullName: string = null;
-        about: string = null;
+        about: string = '';
         comment: string = null;
         error = null;
         avatar: string = null;
@@ -164,15 +164,23 @@
 
         async submit() {
             this.inProgress = true
+            let r: requests.CreateTeacher | requests.UpdateTeacher = {
+                linkFb: this.linkFb,
+                linkLinkedIn: this.linkLinkedIn,
+                linkTwitter: this.linkTwitter,
+                linkVk: this.linkVk,
+                linkYt: this.linkYt,
+                linkWeb: this.linkFb,
+                fullName: this.fullName,
+                about: this.about
+            }
 
             try {
                 if (this.isNew) {
-                    let teacher = await this.admin.createTeacher({
-                        fullName: this.fullName,
+                    let teacher = await this.admin.createTeacher(Object.assign(r, {
                         userId: this.actualUserId,
-                        about: this.about,
                         comment: this.comment
-                    })
+                    }))
 
                     this.isNew = false
 
@@ -189,10 +197,7 @@
                 } else {
                     let teacher = await this.admin.updateTeacher({
                         id: this.id,
-                        data: {
-                            fullName: this.fullName,
-                            about: this.about,
-                        }
+                        data: r
                     })
                     this.update(teacher)
                 }

@@ -6,7 +6,7 @@
             <th>#</th>
             <th>Avatar</th>
             <th>Full name</th>
-            <th>Other</th>
+            <th></th>
         </template>
 
         <template v-slot="{id, avatar, fullName}">
@@ -15,7 +15,12 @@
                 <img class="img-thumbnail rounded-circle s60" :src="avatar" alt="">
             </td>
             <td>{{ fullName }}</td>
-            <td></td>
+            <td>
+                <router-link :to="{name: 'admin__teachers_edit', params:{id: id}}" class="btn">
+                    <i class="fas fa-edit"></i>
+                    edit
+                </router-link>
+            </td>
         </template>
     </data-presenter>
 </template>

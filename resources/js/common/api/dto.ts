@@ -381,17 +381,26 @@ export namespace requests {
         content?: string
     }
 
+    type TeacherLinks = {
+        linkWeb?: string,
+        linkYt?: string,
+        linkLinkedIn?: string,
+        linkVk?: string,
+        linkFb?: string,
+        linkTwitter?: string
+    }
+
     export type CreateTeacher = {
         fullName: string,
         userId: number,
         comment: string,
         about: string
-    }
+    } & TeacherLinks
 
     export type UpdateTeacher = {
-        fullName?: string,
-        about?: string
-    }
+        fullName: string,
+        about: string
+    } & TeacherLinks
 
     export type PromoteRequest = {
         admin: boolean,
