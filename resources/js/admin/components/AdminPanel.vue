@@ -31,7 +31,9 @@
         <div class="admin-panel__nav"></div>
 
         <scrollbar class="admin-panel__body">
-            <router-view></router-view>
+            <keep-alive :max="5">
+                <router-view></router-view>
+            </keep-alive>
         </scrollbar>
     </div>
 </template>

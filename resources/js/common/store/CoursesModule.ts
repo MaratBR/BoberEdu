@@ -16,7 +16,7 @@ export default class CoursesModule extends StoreModuleBase {
 
     @Action()
     getUnits(id: number): Promise<dto.CourseUnitsDto> {
-        return this.client.get('courses/' + id + '/units').then(this._g)
+        return this.client.get('admin/courses/' + id + '/units').then(this._g)
     }
 
     @Action()

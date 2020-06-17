@@ -6,7 +6,7 @@ namespace App\Http\DTO\Users;
 
 use App\Http\DTO\DtoBase;
 use App\Role;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 
 class UserDto extends DtoBase
@@ -36,11 +36,6 @@ class UserDto extends DtoBase
     public function getJoinedAt(): Carbon
     {
         return $this->user->created_at;
-    }
-
-    public function getDisplayName(): ?string
-    {
-        return $this->user->display_name;
     }
 
     public function getName(): string

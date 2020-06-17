@@ -6,7 +6,7 @@ namespace App\Http\DTO\Teachers;
 
 use App\Http\DTO\DtoBase;
 use App\Http\DTO\Users\UserDto;
-use App\TeacherApprovalForm;
+use App\Models\TeacherApprovalForm;
 
 class TeacherApplicationDto extends DtoBase
 {

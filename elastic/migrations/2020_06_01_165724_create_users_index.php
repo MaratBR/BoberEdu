@@ -32,8 +32,7 @@ final class CreateUsersIndex implements MigrationInterface
             ]);
 
             $mapping->keyword('email');
-            $mapping->searchAsYouType('name', ['analyzer' => 'nameNgram']);
-            $mapping->searchAsYouType('display_name', ['analyzer' => 'nameNgram']);
+            $mapping->text('name', ['analyzer' => 'nameNgram']);
             $mapping->text('about');
         });
     }

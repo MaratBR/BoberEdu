@@ -16,7 +16,7 @@
                 :unit="unit" @changed="unit.changed = $event" @newOrder="unit.order = $event" />
 
             <div class="form-group">
-                <input type="submit" value="Save">
+                <input type="submit" class="btn btn-primary" value="Save">
             </div>
         </form>
     </admin-section>

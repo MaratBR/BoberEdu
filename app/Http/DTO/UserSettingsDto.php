@@ -4,7 +4,7 @@
 namespace App\Http\DTO;
 
 
-use App\User;
+use App\Models\User;
 
 class UserSettingsDto extends DtoBase
 {
@@ -23,11 +23,6 @@ class UserSettingsDto extends DtoBase
     function getAbout()
     {
         return $this->user->about;
-    }
-
-    function getDisplayName()
-    {
-        return $this->user->display_name ? $this->user->display_name : $this->getName();
     }
 
     function getName()

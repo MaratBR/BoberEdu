@@ -6,12 +6,11 @@
             <th>Username</th>
             <th>E-Mail</th>
             <th>Joined at</th>
-            <th>Display name</th>
             <th>Avatar</th>
-            <th></th>
+            <th>Admin</th>
         </template>
 
-        <template v-slot="{id, name, email, joinedAt, displayName, avatar}">
+        <template v-slot="{id, name, email, joinedAt, avatar, admin}">
             <td>{{id}}</td>
             <td>
                 <router-link :to="{name: 'admin__users_edit', params: {id}}">
@@ -21,12 +20,11 @@
             </td>
             <td>{{email}}</td>
             <td>{{new Date(joinedAt).toDateString()}}</td>
-            <td>{{displayName}}</td>
             <td>
                 <img class="img-thumbnail rounded-circle s60" :src="avatar" alt="">
             </td>
             <td>
-                <router-link :to="{name: 'admin__users_edit', params: {id}}"></router-link>
+                <bool-presenter :value="admin" />
             </td>
         </template>
     </data-presenter>
@@ -36,10 +34,11 @@
     import {Vue, Component, dto, Watch, Prop} from "@common";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import DataPresenter from "@common/components/forms/DataPresenter.vue";
+    import BoolPresenter from "@common/components/forms/BoolPresenter.vue";
 
     @Component({
         name: "UserSearch",
-        components: {DataPresenter}
+        components: {BoolPresenter, DataPresenter}
     })
     export default class UserSearch extends AdminStoreComponent {
         @Prop({type: Boolean, default: false}) selectable: boolean;

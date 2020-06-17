@@ -4,7 +4,7 @@
 namespace App\Http\DTO\Uploads;
 
 
-use App\FileInfo;
+use App\Models\FileInfo;
 use App\Http\DTO\DtoBase;
 
 class UploadedDto extends DtoBase

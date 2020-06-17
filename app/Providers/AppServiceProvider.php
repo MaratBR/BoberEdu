@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\Requests\AuthenticatedRequest;
+use App\Models\Teacher;
+use App\Models\User;
 use App\Services\Abs\IAuditService;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
@@ -18,6 +21,7 @@ use App\Services\Implementation\PaymentsService;
 use App\Services\Implementation\TeachersService;
 use App\Services\Implementation\UploadService;
 use App\Services\Implementation\UsersService;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -83,5 +87,14 @@ class AppServiceProvider extends ServiceProvider
             IAuditService::class,
             AuditService::class
         );
+
+        $this->app->bind(User::class, function (Application $app) {
+            return $app->make(AuthenticatedRequest::class)->user();
+        });
+
+
+        $this->app->bind(Teacher::class, function (Application $app) {
+            return $app->make(User::class)->teacher;
+        });
     }
 }

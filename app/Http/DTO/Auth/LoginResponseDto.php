@@ -5,7 +5,7 @@ namespace App\Http\DTO\Auth;
 
 
 use App\Http\DTO\DtoBase;
-use App\User;
+use App\Models\User;
 
 class LoginResponseDto extends DtoBase
 {

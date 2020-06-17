@@ -53,13 +53,21 @@
 
                         <div class="dropdown-menu dropdown-menu-right">
                             <router-link class="dropdown-item btn btn-light" :to="{name: 'profile', params: {id: store.user.id}}">Profile</router-link>
-                            <hr>
-                            <router-link class="dropdown-item btn btn-light text-danger" :to="{name: 'admin'}" v-if="store.isAdmin">Admin</router-link>
+                            <router-link class="dropdown-item btn btn-light" :to="{name: 'profile_settings'}">Settings</router-link>
+                            <router-link class="dropdown-item btn btn-light" :to="{name: 'profile_payments'}">Payments</router-link>
+                            <template v-if="store.isTeacher">
+                                <hr>
+                                <router-link class="dropdown-item btn btn-light" :to="{name: 'teacher_dashboard'}">Teacher dashboard</router-link>
+                            </template>
+                            <template v-if="store.isAdmin">
+                                <hr>
+                                <router-link class="dropdown-item btn btn-light text-danger" :to="{name: 'admin'}">Admin</router-link>
+                            </template>
                         </div>
                     </li>
                     <template v-else>
                         <li class="nav-item">
-                            <router-link :to="{name: 'login'}" class="btn btn-success">Sign up</router-link>
+                            <router-link :to="{name: 'register'}" class="btn btn-success">Sign up</router-link>
                         </li>
                         <small class="text-muted m-1">or</small>
                         <li class="nav-item">

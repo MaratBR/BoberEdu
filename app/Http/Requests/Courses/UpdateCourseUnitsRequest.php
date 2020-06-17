@@ -26,7 +26,7 @@ class UpdateCourseUnitsRequest extends UpdateCourseRequest implements ICourseUni
             'upd.*.id' => 'numeric|required',
             'upd.*.name' => 'string',
             'upd.*.about' => 'string',
-            'upd.*.ipreview' => 'boolean',
+            'upd.*.preview' => 'boolean',
         ];
     }
 

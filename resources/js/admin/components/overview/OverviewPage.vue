@@ -36,14 +36,23 @@
     export default class OverviewPage extends AdminStoreComponent {
         overview: dto.AdminOverviewDto = null
         inProgress = true
+        intervalId = null
 
         async init() {
             this.overview = await this.admin.getOverview()
             this.inProgress = false
         }
 
-        created() {
+        mounted() {
             this.init()
+            this.intervalId = setInterval(this.init.bind(this), 10*60*1000)
+        }
+
+        beforeDestroy() {
+            if (this.intervalId !== null) {
+                clearInterval(this.intervalId)
+                this.intervalId = null
+            }
         }
     }
 </script>

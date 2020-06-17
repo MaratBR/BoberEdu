@@ -4,7 +4,7 @@
 namespace App\Http\DTO\Categories;
 
 
-use App\Category;
+use App\Models\Category;
 use App\Http\DTO\DtoBase;
 
 class CategoryDto extends DtoBase

@@ -76,11 +76,11 @@
     import {getError} from "@common/utils";
     import Error from "@common/components/utils/Error.vue";
     import CourseTeachersForm from "@admin/components/courses/CourseTeachersForm.vue";
-    import CategorySelect from "@admin/components/courses/CategorySelect.vue";
+    import CategorySelect from "@common/components/courses/CategorySelect.vue";
     import InputText from "@common/components/forms/InputText.vue";
     import InputTextarea from "@common/components/forms/InputTextarea.vue";
     import Uploader from "@common/components/utils/Uploader.vue";
-    import { format } from 'date-fns'
+    import format from 'date-fns/format'
 
     @Component({
         components: {
@@ -104,7 +104,7 @@
         summary: string = null;
         available: boolean = null;
         trialDays: number = 0;
-        about: string = null;
+        about: string = '';
         signUpBeg: string = null;
         signUpEnd: string = null;
         signUpInvalid: boolean = false;
@@ -159,7 +159,8 @@
             this.submitting = true
 
             if (this.id === null) {
-                this.name = this.summary = this.about = this.signUpBeg = this.signUpEnd = this.course = null
+                this.name = this.summary = this.about = this.signUpBeg = this.signUpEnd = this.course = this.image
+                    = this.imageFile = null
                 this.available = false
                 this.submitting = false
                 return

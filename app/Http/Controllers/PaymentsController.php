@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\DTO\PaginationDto;
 use App\Http\DTO\PaymentDto;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Payments\CreatePaymentRequest;
+use App\Models\Payment;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IPaymentsService;
@@ -24,7 +26,6 @@ class PaymentsController extends Controller
 
     function create(CreatePaymentRequest $request, int $courseId)
     {
-
         $gateaway = $request->getGateaway();
         $this->throwErrorIf(422, "Invalid/unsupported gateaway", !$this->payments->hasGateaway($gateaway));
 
@@ -49,13 +50,21 @@ class PaymentsController extends Controller
 
         if ($payment->is_successful) {
             $this->enrollments->activate($enrollment);
+        } elseif ($payment->is_pending) {
+            $status = $this->payments->externalPaymentStatus($payment);
+
+            if ($status === true) {
+                $payment->update(['status' => Payment::STATUS_SUCCESSFUL]);
+            } elseif ($status === false) {
+                $payment->update(['status' => Payment::STATUS_CANCELLED]);
+            }
         }
 
         $dto = new PaymentDto($payment);
         $status = 200;
         if ($created)
             $status = 201;
-        if (!$payment->is_pending && !$payment->is_successful)
+        if ($payment->is_failed)
             $status = 400;
         return response()->json($dto, $status);
     }
@@ -66,5 +75,10 @@ class PaymentsController extends Controller
         $this->throwNotFoundIfNull($payment, "Payment not found");
 
         return new PaymentDto($payment);
+    }
+
+    function payments(AuthenticatedRequest $request)
+    {
+        return new PaginationDto($request->user()->payments()->paginate(), PaymentDto::class);
     }
 }

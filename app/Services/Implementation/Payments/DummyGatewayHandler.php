@@ -30,4 +30,9 @@ class DummyGatewayHandler implements IPaymentGatewayHandler
 
         return $gateway->purchase($data)->send();
     }
+
+    function externalStatus(string $uid): ?bool
+    {
+        return true;
+    }
 }

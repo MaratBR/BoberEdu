@@ -44,6 +44,10 @@
 <style scoped lang="scss">
     @import "../../../../sass/config";
 
+    .btn {
+        border-radius: 0 !important;
+    }
+
 
     .tabs {
         &__body {

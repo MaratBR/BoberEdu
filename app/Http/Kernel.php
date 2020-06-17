@@ -6,6 +6,7 @@ use App\Http\Middleware\AdminsOnly;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\TeachersOnly;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use Fruitcake\Cors\HandleCors;
@@ -78,6 +79,7 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
 
         'admin' => AdminsOnly::class,
+        'teachers-only' => TeachersOnly::class
     ];
 
     /**

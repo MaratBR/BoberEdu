@@ -22,6 +22,10 @@ class CreateTeachersTable extends Migration
             $table->foreign('user_id')->on('users')->references('id');
             $table->softDeletes();
 
+            $table->string('education')->nullable();
+            $table->string('location')->nullable();
+            $table->string('degree')->nullable();
+
             $table->string('link_web')->nullable();
             $table->string('link_yt')->nullable();
             $table->string('link_linked_in')->nullable();

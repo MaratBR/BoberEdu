@@ -41,7 +41,7 @@ export namespace dto {
         about: string,
         trialDays: number,
         summary: string,
-        image: string,
+        image: string | null,
         requirements: CourseRequirements,
     };
 
@@ -213,7 +213,10 @@ export namespace dto {
         status: string,
         about: string,
         avatar: string,
-        displayName: string | null
+    };
+
+    export type SelfUserDto = UserDto & {
+        isTeacher: boolean
     };
 
     export type UserProfileDto = {
@@ -232,7 +235,6 @@ export namespace dto {
     export type UserSettingsDto = {
         id: number,
         about: string,
-        displayName: string,
         name: string,
         avatar: string,
         email: string
@@ -244,6 +246,9 @@ export namespace dto {
     }
 
     //#endregion
+
+    //#region Admin panel overview and audit
+
     export type AdminOverviewDto = {
         teacherApplications: {
             awaitingReview: number,
@@ -269,6 +274,17 @@ export namespace dto {
             name: string
         }
     }
+
+    //#endregion
+
+    //#region Teachers' dashboard
+
+    export type TeacherDashboardDto = {
+        courses: dto.CoursePageItemDto[],
+        income: number
+    }
+
+    //#endregion
 }
 
 export namespace requests {
@@ -304,6 +320,7 @@ export namespace requests {
     export type UpdateUnitPayload = {
         id: number,
         name?: string,
+        preview?: boolean,
         about?: string
     }
 
@@ -323,19 +340,18 @@ export namespace requests {
         name?: string,
         status?: string,
         about?: string,
-        displayName?: string
     };
 
     export type Login = {
         name: string,
-        password: string
+        password: string,
+        rememberMe: boolean
     }
 
     export type Register = {
         name: string,
         password: string,
         email: string,
-        displayName?: string
     }
 
     export type CreateCategory = {
@@ -366,17 +382,26 @@ export namespace requests {
         content?: string
     }
 
+    type TeacherLinks = {
+        linkWeb?: string,
+        linkYt?: string,
+        linkLinkedIn?: string,
+        linkVk?: string,
+        linkFb?: string,
+        linkTwitter?: string
+    }
+
     export type CreateTeacher = {
         fullName: string,
         userId: number,
         comment: string,
         about: string
-    }
+    } & TeacherLinks
 
     export type UpdateTeacher = {
-        fullName?: string,
-        about?: string
-    }
+        fullName: string,
+        about: string
+    } & TeacherLinks
 
     export type PromoteRequest = {
         admin: boolean,

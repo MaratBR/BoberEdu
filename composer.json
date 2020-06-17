@@ -27,7 +27,8 @@
         "omnipay/dummy": "*",
         "omnipay/paypal": "*",
         "staudenmeir/eloquent-has-many-deep": "^1.12",
-        "tymon/jwt-auth": "*"
+        "tymon/jwt-auth": "*",
+        "whichbrowser/parser": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

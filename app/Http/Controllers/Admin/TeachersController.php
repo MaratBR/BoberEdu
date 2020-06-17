@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\AuditRecord;
+use App\Models\AuditRecord;
 use App\Http\Controllers\Controller;
 use App\Http\DTO\PaginationDto;
 use App\Http\DTO\Teachers\AdminTeacherDto;
@@ -18,7 +18,7 @@ use App\Services\Abs\ICourseService;
 use App\Services\Abs\ITeachersService;
 use App\Services\Abs\IUploadService;
 use App\Services\Abs\IUsersService;
-use App\TeacherApprovalForm;
+use App\Models\TeacherApprovalForm;
 use App\Utils\Audit\Audit;
 use Illuminate\Http\Request;
 
@@ -153,7 +153,7 @@ class TeachersController extends Controller
         $form = $this->repo->getApprovalForm($formId);
         $form->update([
             'approved' => $approval,
-            'user_id' => $request->user()->id
+            'admin_id' => $request->user()->id
         ]);
 
         AuditRecord::make($request->user(), $request, $approval ? Audit::APPROVE_TEACHER : Audit::DISAPPROVE_TEACHER)

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\User;
+use App\Models\User;
 use Tests\TestWithAuthentication;
 
 class AdminTest extends TestWithAuthentication

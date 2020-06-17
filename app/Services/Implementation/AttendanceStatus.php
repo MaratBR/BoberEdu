@@ -2,7 +2,7 @@
 
 namespace App\Services\Implementation;
 
-use App\Enrollment;
+use App\Models\Enrollment;
 use App\Purchase;
 use App\Services\Abs\IAttendanceStatus;
 use Carbon\Carbon;

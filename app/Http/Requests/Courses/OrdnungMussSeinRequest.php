@@ -15,6 +15,7 @@ class OrdnungMussSeinRequest extends AdminRequest implements IPayloadRequest
     public function rules()
     {
         return [
+            'units' => 'array|required|min:1',
             'units.*.id' => 'numeric|required',
             'units.*.order' => 'array|required|min:1',
             'units.*.order.*' => 'numeric|required'

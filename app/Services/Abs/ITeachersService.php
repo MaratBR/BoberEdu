@@ -4,10 +4,10 @@
 namespace App\Services\Abs;
 
 
-use App\Course;
-use App\Teacher;
-use App\TeacherApprovalForm;
-use App\User;
+use App\Models\Course;
+use App\Models\Teacher;
+use App\Models\TeacherApprovalForm;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Laravel\Scout\Builder;
 

@@ -4,15 +4,15 @@
 namespace App\Services\Implementation;
 
 
-use App\Category;
-use App\Course;
+use App\Models\Category;
+use App\Models\Course;
 use App\Exceptions\ThrowUtils;
-use App\Lesson;
-use App\Rate;
+use App\Models\Lesson;
+use App\Models\Rate;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\ICourseUnitsUpdateResponse;
-use App\Unit;
-use App\User;
+use App\Models\Unit;
+use App\Models\User;
 use App\Utils\Convert;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -109,8 +109,9 @@ class CourseService implements ICourseService
     /**
      * @inheritDoc
      */
-    function create($data): Course
+    function create($data, bool $approved = true): Course
     {
+        $data['approved'] = $approved;
         $course = Course::create($data);
         $course->refresh();
         return $course;
@@ -133,9 +134,9 @@ class CourseService implements ICourseService
         $new = $data->getNew();
         $order = $data->getOrder();
         $upd = $data->getUpdated();
-        $upd = array_filter($upd, function ($v) use ($toBeDeleted, $upd) {
+        $upd = array_filter($upd, function ($v) use ($units, $toBeDeleted, $upd) {
             return !in_array($v['id'], $toBeDeleted) &&
-                isset($units, $v['id']) &&
+                array_key_exists($v['id'], $units) &&
                 array_keys($v) !== ['id'];
         });
         $updById = [];
@@ -174,10 +175,12 @@ class CourseService implements ICourseService
             } else {
                 $updData = [];
             }
-            $updData['order_num'] = $orderInv[$unit['id']] ?? ($orderXCounter++);
+            $updData['order_num'] = $orderInv[strval($unit['id'])] ?? ($orderXCounter++);
             Unit::query()
                 ->where('id', '=', $unit->id)
                 ->update($updData);
+            var_dump($updData);
+            echo "<br>";
         }
 
         if ($toBeDeleted)
@@ -185,6 +188,7 @@ class CourseService implements ICourseService
 
         DB::commit();
 
+        die();
 
         return new UnitsUpdateResponse(
             array_map(function (Unit $unit) {

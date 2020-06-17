@@ -17,7 +17,6 @@ class CreatePaymentsTable extends Migration
             $table->uuid('id')->primary();
             $table->timestamps();
             $table->timestamp('completed_at')->nullable();
-            $table->timestamp('expires_at')->nullable();
             $table->enum('status', ['pending', 'cancelled', 'successful'])->default('pending');
             $table->string('uid')->nullable();
             $table->string('gateaway_name');
@@ -26,10 +25,7 @@ class CreatePaymentsTable extends Migration
             $table->string('redirect_url')->nullable();
             $table->ipAddress('ip_address');
             $table->decimal('amount', 19, 2);
-
-            $table->unsignedBigInteger('user_id');
-
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->references('id')->on('users');
         });
     }
 

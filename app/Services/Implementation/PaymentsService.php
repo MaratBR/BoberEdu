@@ -4,17 +4,20 @@
 namespace App\Services\Implementation;
 
 
-use App\Course;
+use App\Models\Course;
 use App\Exceptions\Payment\PaymentFailed;
 use App\Exceptions\ThrowUtils;
-use App\Payment;
+use App\Models\Payment;
 use App\Services\Abs\IEnrollmentService;
 use App\Services\Abs\IPaymentsService;
 use App\Services\Abs\Payments\IPaymentGatewayHandler;
 use App\Services\Implementation\Payments\DummyGatewayHandler;
-use App\User;
+use App\Models\User;
+use Dyrynda\Database\Casts\EfficientUuid;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class PaymentsService implements IPaymentsService
 {
@@ -23,14 +26,14 @@ class PaymentsService implements IPaymentsService
     private $enrollments;
 
     private $gatewayAliases = [
-        'dummy' => 'Dummy',
+        'test' => 'dummy',
     ];
 
     /**
      * @var string[]
      */
     private $gateawayHandlers = [
-        'Dummy' => DummyGatewayHandler::class
+        'dummy' => DummyGatewayHandler::class
     ];
 
     public function __construct(IEnrollmentService $enrollmentService)
@@ -44,8 +47,6 @@ class PaymentsService implements IPaymentsService
         // NOTE: Development dummy implementation
         // TODO integrated with Paypal or Sberbank if I have time
 
-
-        $id = Str::uuid()->toString();
         $title = "Course \"{$course->name}\" @ Bober.Edu";
         $price = $course->price;
         $gateawayName = $this->getGatewayName($gateawayName);
@@ -57,9 +58,9 @@ class PaymentsService implements IPaymentsService
 
         // Payment
 
+        $id = Uuid::uuid4()->toString();;
         $response = $handler->request($title, $price, $id, $data);
         $this->throwErrorIf(400, "Payment cancelled: {$response->getMessage()}", $response->isCancelled());
-        $paymentExpiration = null;
         $redirect = null;
 
         if ($response->isRedirect()) {
@@ -79,22 +80,23 @@ class PaymentsService implements IPaymentsService
             'title' => $title,
             'user_agent' => $request->userAgent(),
             'ip_address' => $request->ip(),
-            'expires_at' => $paymentExpiration,
             'gateaway_name' => $gateawayName,
+            'amount' => $price,
             'redirect_url' => $redirect,
             'uid' => $response->getTransactionReference(),
-            'amount' => $price,
             'status' => $status
         ]);
 
         $payment->save();
         $payment->refresh();
 
+
         return $payment;
     }
 
     function getGatewayName(string $name): string
     {
+        $name = strtolower($name);
         if (array_key_exists($name, $this->gatewayAliases)) {
             $name = $this->gatewayAliases[$name];
         }
@@ -104,10 +106,15 @@ class PaymentsService implements IPaymentsService
 
     function hasGateaway(string $gateaway)
     {
-        if (array_key_exists($gateaway, $this->gatewayAliases)) {
-            $gateaway = $this->gatewayAliases[$gateaway];
-        }
-
+        $gateaway = $this->getGatewayName($gateaway);
         return array_key_exists($gateaway, $this->gateawayHandlers);
+    }
+
+    function externalPaymentStatus(Payment $payment): ?bool
+    {
+        $gateway = $this->getGatewayName($payment->gateaway_name);
+        /** @var IPaymentGatewayHandler $gateway */
+        $gateway = $this->gateawayHandlers[$gateway];
+        return $gateway->externalStatus($payment->uid);
     }
 }

@@ -56,6 +56,8 @@
                 <p>You didn't think it will actually work did you?</p>
             </div>
 
+            <div class="clearfix"></div>
+
         </div>
     </div>
 
@@ -76,7 +78,7 @@
 
         unitName: string = null;
         lessonName: string = null;
-        content: string = null;
+        content: string = '';
         summary: string = null
         course: dto.CourseExDto = null;
         notFound = false;

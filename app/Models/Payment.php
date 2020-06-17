@@ -1,14 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
+use Dyrynda\Database\Casts\EfficientUuid;
+use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 /**
  * @property Carbon expires_at
- * @property Uuid id
+ * @property string id
  * @property int user_id
  * @property string uid
  * @property Carbon completed_at
@@ -23,20 +25,23 @@ use Ramsey\Uuid\Uuid;
  * @property bool is_cancelled
  * @property bool is_successful
  * @property bool is_failed
+ * @property string user_agent
+ * @property string ip_address
  */
 class Payment extends Model
 {
     public const STATUS_SUCCESSFUL = 'successful';
     public const STATUS_PENDING = 'pending';
     public const STATUS_CANCELLED = 'cancelled';
-    public $incrementing = false;
-    protected $keyType = 'string';
+
     protected $fillable = [
-        'id', 'completed_at', 'status',
+        'completed_at', 'status', 'id',
         'uid', 'gateaway_name', 'title', 'user_agent', 'ip_address',
         'redirect_url', 'user_id', 'completed_at', 'expires_at', 'amount'
     ];
     protected $dates = ['completed_at', 'expires_at'];
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     public function getIsSuccessfulAttribute(): bool
     {
@@ -60,6 +65,6 @@ class Payment extends Model
 
     public function getNormalizedGateawayNameAttribute(): string
     {
-        return strtoupper(str_replace('_', ' ', $this->gateaway_name));
+        return strtolower(str_replace('_', ' ', $this->gateaway_name));
     }
 }

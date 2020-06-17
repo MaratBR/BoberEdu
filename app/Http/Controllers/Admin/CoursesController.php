@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\AuditRecord;
+use App\Http\DTO\Courses\CourseUnitsDto;
+use App\Http\DTO\Units\UnitDto;
+use App\Models\AuditRecord;
 use App\Http\Controllers\Controller;
 use App\Http\DTO\Courses\CourseExDto;
 use App\Http\DTO\Courses\CoursePageItemDto;
@@ -84,8 +86,7 @@ class CoursesController extends Controller
         $course = $this->repo->get($courseId);
         $file = $this->openInput();
 
-        $fileInfo = $uploadService->uploadImage($request->user(), 'course_image', $file);
-        $course->update(['image_id' => $fileInfo->id]);
+        $fileInfo = $uploadService->uploadCourseImage($request->user(), $course, $file);
 
         return new UploadedDto($fileInfo);
     }
@@ -106,5 +107,10 @@ class CoursesController extends Controller
             ->subject($course)->build();
 
         return $this->done();
+    }
+
+    public function units(int $courseId)
+    {
+        return new CourseUnitsDto($this->repo->getWithUnits($courseId));
     }
 }

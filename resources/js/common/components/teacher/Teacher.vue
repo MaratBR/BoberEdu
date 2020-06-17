@@ -17,9 +17,9 @@
         <aside class="teacher__about">
             <img class="img-thumbnail rounded-circle s210" :src="avatar" alt="">
 
-            <div class="links">
+            <div class="links pt-2">
                 <social-link v-if="linkWeb" type="web" :href="linkWeb">Web-site</social-link>
-                <social-link v-if="linkVk" type="web" :href="linkVk">VK</social-link>
+                <social-link v-if="linkVk" type="vk" :href="linkVk">VK</social-link>
                 <social-link v-if="linkYt" type="yt" :href="linkYt">YouTube</social-link>
                 <social-link v-if="linkLinkedIn" type="linkedIn" :href="linkLinkedIn">LinkedIn</social-link>
                 <social-link v-if="linkFb" type="fb" :href="linkFb">Facebook</social-link>
@@ -45,7 +45,7 @@
 
         avatar = null;
         name = null;
-        about = null;
+        about = '';
         inProgress = true
         courses = []
 
@@ -64,6 +64,13 @@
             this.about = teacher.about
             this.courses = teacher.courses
             this.inProgress = false
+
+            this.linkFb = teacher.links.fb
+            this.linkYt = teacher.links.yt
+            this.linkVk = teacher.links.vk
+            this.linkLinkedIn = teacher.links.linkedIn
+            this.linkWeb = teacher.links.web
+            this.linkTwitter = teacher.links.twitter
         }
 
         created() {
@@ -81,5 +88,10 @@
         &__body {
             padding: 10px;
         }
+    }
+
+    .links {
+        display: flex;
+        flex-direction: column;
     }
 </style>

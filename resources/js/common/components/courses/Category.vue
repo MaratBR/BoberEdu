@@ -4,7 +4,7 @@
             :name="name" :about="about" :color="'#' + color" :image-id="bgImage" :students="studentsCount"
             :courses="coursesCount" :id="categoryId" />
 
-        <div class="container">
+        <div class="container pt-5">
 
             <section class="courses-list">
                 <div class="courses-list__opts">

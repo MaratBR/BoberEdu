@@ -33,12 +33,10 @@
                 </div>
 
                 <input-text required label="Full name" v-model="fullName" />
-                <input-textarea required label="About" v-model="about" />
+                <markdown-editor required label="About" v-model="about" />
 
                 <fieldset>
                     <legend>Links</legend>
-
-
                     <input-text inline label="LinkedIn link (optional)" v-model="linkLinkedIn" type="url" />
                     <input-text inline label="YouTube link (optional)" v-model="linkYt" type="url" />
                     <input-text inline label="Website link (optional)" v-model="linkWeb" type="url" />
@@ -61,7 +59,7 @@
 </template>
 
 <script lang="ts">
-    import {Vue, Component, Prop, Watch, dto} from "@common";
+    import {Vue, Component, Prop, Watch, dto, requests} from "@common";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
     import AdminSection from "@admin/components/layout/AdminSection.vue";
     import InputText from "@common/components/forms/InputText.vue";
@@ -83,7 +81,7 @@
         inProgress = false;
         isNew = false;
         fullName: string = null;
-        about: string = null;
+        about: string = '';
         comment: string = null;
         error = null;
         avatar: string = null;
@@ -113,7 +111,7 @@
 
             try
             {
-                teacher = await this.admin.teachers.get(this.id)
+                teacher = await this.admin.getTeacher(this.id)
             }
             catch (e) {
                 this.notFound = true
@@ -126,11 +124,10 @@
         }
 
         userSelected(user: dto.UserDto) {
-            this.actualUserId = user.id
+            this.actualUserId = this.oldId = user.id
             this.userAvatar = user.avatar
             this.username = user.name
             this.searching = false
-            console.log(user)
         }
 
         update(teacher: dto.AdminTeacherDto) {
@@ -167,15 +164,25 @@
 
         async submit() {
             this.inProgress = true
+            let r: requests.CreateTeacher | requests.UpdateTeacher = {
+                linkFb: this.linkFb,
+                linkLinkedIn: this.linkLinkedIn,
+                linkTwitter: this.linkTwitter,
+                linkVk: this.linkVk,
+                linkYt: this.linkYt,
+                linkWeb: this.linkFb,
+                fullName: this.fullName,
+                about: this.about
+            }
 
             try {
                 if (this.isNew) {
-                    let teacher = await this.admin.createTeacher({
-                        fullName: this.fullName,
+                    let teacher = await this.admin.createTeacher(Object.assign(r, {
                         userId: this.actualUserId,
-                        about: this.about,
                         comment: this.comment
-                    })
+                    }))
+
+                    this.isNew = false
 
                     if (this.avatarFile)
                         await this.uploadAvatar(teacher.id)
@@ -190,10 +197,7 @@
                 } else {
                     let teacher = await this.admin.updateTeacher({
                         id: this.id,
-                        data: {
-                            fullName: this.fullName,
-                            about: this.about,
-                        }
+                        data: r
                     })
                     this.update(teacher)
                 }

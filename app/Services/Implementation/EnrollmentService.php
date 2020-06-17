@@ -4,11 +4,11 @@
 namespace App\Services\Implementation;
 
 
-use App\Enrollment;
+use App\Models\Enrollment;
 use App\Exceptions\ThrowUtils;
 use App\Services\Abs\ICourseService;
 use App\Services\Abs\IEnrollmentService;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Lanin\Laravel\ApiExceptions\NotFoundApiException;

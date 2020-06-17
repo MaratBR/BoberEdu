@@ -4,9 +4,9 @@
 namespace App\Utils\Audit;
 
 
-use App\AuditRecord;
+use App\Models\AuditRecord;
 use App\Exceptions\Audit\InvalidAuditRecord;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 

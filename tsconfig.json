@@ -20,7 +20,8 @@
             "@app/*": ["js/*"],
             "@common/*": ["js/common/*"],
             "@common": ["js/common"],
-            "@admin/*": ["js/admin/*"]
+            "@admin/*": ["js/admin/*"],
+            "@teacher/*": ["js/teacher/*"]
         }
     },
     "include": [
