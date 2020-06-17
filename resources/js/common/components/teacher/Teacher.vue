@@ -45,7 +45,7 @@
 
         avatar = null;
         name = null;
-        about = null;
+        about = '';
         inProgress = true
         courses = []
 

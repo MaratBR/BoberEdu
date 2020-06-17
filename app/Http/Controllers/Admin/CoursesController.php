@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\DTO\Courses\CourseUnitsDto;
 use App\Http\DTO\Units\UnitDto;
 use App\Models\AuditRecord;
 use App\Http\Controllers\Controller;
@@ -106,5 +107,10 @@ class CoursesController extends Controller
             ->subject($course)->build();
 
         return $this->done();
+    }
+
+    public function units(int $courseId)
+    {
+        return new CourseUnitsDto($this->repo->getWithUnits($courseId));
     }
 }

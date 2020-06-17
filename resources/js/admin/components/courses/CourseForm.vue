@@ -104,7 +104,7 @@
         summary: string = null;
         available: boolean = null;
         trialDays: number = 0;
-        about: string = null;
+        about: string = '';
         signUpBeg: string = null;
         signUpEnd: string = null;
         signUpInvalid: boolean = false;

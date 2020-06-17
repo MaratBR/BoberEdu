@@ -78,7 +78,7 @@
 
         unitName: string = null;
         lessonName: string = null;
-        content: string = null;
+        content: string = '';
         summary: string = null
         course: dto.CourseExDto = null;
         notFound = false;

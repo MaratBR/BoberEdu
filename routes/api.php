@@ -142,6 +142,7 @@ Route::group([
         Route::put('{id}', 'Admin\CoursesController@update');
         Route::put('{id}/units', 'Admin\CoursesController@updateUnits');
         Route::put('{id}/image', 'Admin\CoursesController@uploadImage');
+        Route::get('{id}/units', 'Admin\CoursesController@units');
         Route::delete('{id}', 'Admin\CoursesController@delete');
         Route::get('units/{id}', 'Admin\CoursesController@unit');
     });

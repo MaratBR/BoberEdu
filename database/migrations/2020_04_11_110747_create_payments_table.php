@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->uuid('id')->primary();
             $table->timestamps();
             $table->timestamp('completed_at')->nullable();
-            $table->enum('status', ['pending', 'cancelled', 'successful', 'prepared'])->default('pending');
+            $table->enum('status', ['pending', 'cancelled', 'successful'])->default('pending');
             $table->string('uid')->nullable();
             $table->string('gateaway_name');
             $table->string('title');

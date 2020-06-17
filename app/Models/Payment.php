@@ -33,7 +33,6 @@ class Payment extends Model
     public const STATUS_SUCCESSFUL = 'successful';
     public const STATUS_PENDING = 'pending';
     public const STATUS_CANCELLED = 'cancelled';
-    public const STATUS_PREPARED = 'prepared';
 
     protected $fillable = [
         'completed_at', 'status', 'id',

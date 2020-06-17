@@ -26,7 +26,7 @@ class LoginRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'password' => 'required|max:255',
-            'remember' => 'boolean'
+            'rememberMe' => 'boolean'
         ];
     }
 
@@ -43,6 +43,6 @@ class LoginRequest extends FormRequest
 
     public function getRememberMe(): bool
     {
-        return $this->validated()['remember'] ?? false;
+        return $this->validated()['rememberMe'] ?? false;
     }
 }

@@ -153,7 +153,7 @@ class TeachersController extends Controller
         $form = $this->repo->getApprovalForm($formId);
         $form->update([
             'approved' => $approval,
-            'user_id' => $request->user()->id
+            'admin_id' => $request->user()->id
         ]);
 
         AuditRecord::make($request->user(), $request, $approval ? Audit::APPROVE_TEACHER : Audit::DISAPPROVE_TEACHER)

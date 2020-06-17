@@ -13,7 +13,9 @@
             </ul>
         </template>
 
-        <dl>
+        <not-found v-if="state === 2">Application not found</not-found>
+        <loader v-else-if="state === 1" />
+        <dl v-else>
 
             <dt>Application send by</dt>
             <dd>{{ application.user.name }}#{{ application.user.id }}</dd>
@@ -22,7 +24,7 @@
             <dd>{{application.fullName}}</dd>
 
             <dt>Location</dt>
-            <dd>{{application.fullName}}</dd>
+            <dd>{{application.location}}</dd>
 
             <dt>Education</dt>
             <dd>{{application.education}}</dd>
@@ -35,9 +37,17 @@
 
 
             <div class="form-group" v-if="application.approved === null">
-                <button class="btn btn-danger" @click="reject">Reject</button>
-                <button class="btn btn-outline-success" @click="approve">Accept</button>
+                <save-button inline type="danger" saved-text="Done" text="Reject" saving-text=""
+                             :saving="state === 3" :disabled="state === 4" @click="reject" />
+                <save-button inline type="secondary" saved-text="Done" text="Accept" saving-text=""
+                             :saving="state === 4" :disabled="state === 3" @click="approve" />
             </div>
+            <span class="font-weight-bold" v-else>
+                Application was {{ application.approved ? 'approved' : 'rejected' }} by
+                <router-link :to="{name: 'profile', params: {id: application.approvedBy.id}}">
+                    {{ application.approvedBy.name }}
+                </router-link>
+            </span>
         </dl>
     </admin-section>
 </template>
@@ -46,38 +56,44 @@
     import {Vue, Component, dto, Prop} from "@common";
     import AdminSection from "@admin/components/layout/AdminSection.vue";
     import AdminStoreComponent from "@admin/components/AdminStoreComponent";
+    import SaveButton from "@common/components/forms/SaveButton.vue";
+    import Loader from "@common/components/utils/Loader.vue";
+    import NotFound from "@common/components/pages/NotFound.vue";
 
     @Component({
         name: "TeacherApplication",
-        components: {AdminSection}
+        components: {NotFound, Loader, SaveButton, AdminSection}
     })
     export default class TeacherApplication extends AdminStoreComponent {
         application: dto.TeacherApplicationExDto = null
         @Prop({ required: true }) id: number;
-        notFound = false;
-        inProgress = false;
+        state = 1;
+
 
         async load() {
-            this.inProgress = true
+            this.state = 1
             try {
                 this.application = await this.admin.getTeacherApplication(this.id)
             } catch (e) {
-                this.notFound = true
+                this.state = 2
             } finally {
-                this.inProgress = false
+                this.state = 0
             }
         }
 
         async reject() {
-            this.inProgress = true
+            this.state = 3
             await this.admin.rejectTeacherApplication(this.id)
             await this.load()
+            this.state = 0
         }
 
         async approve() {
-            this.inProgress = true
+            debugger
+            this.state = 4
             await this.admin.approveTeacherApplication(this.id)
             await this.load()
+            this.state = 0
         }
 
         created() {

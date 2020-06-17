@@ -344,7 +344,8 @@ export namespace requests {
 
     export type Login = {
         name: string,
-        password: string
+        password: string,
+        rememberMe: boolean
     }
 
     export type Register = {
